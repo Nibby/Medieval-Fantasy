@@ -1,5 +1,6 @@
 package hidden.indev0r.core.texture;
 
+import hidden.indev0r.core.reference.References;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;

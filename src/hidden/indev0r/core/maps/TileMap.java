@@ -2,6 +2,8 @@ package hidden.indev0r.core.maps;
 
 import hidden.indev0r.core.Camera;
 import hidden.indev0r.core.MedievalLauncher;
+import hidden.indev0r.core.entity.Entity;
+import hidden.indev0r.core.entity.Player;
 import hidden.indev0r.core.reference.References;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -26,6 +28,9 @@ public class TileMap {
     private List<MapWarpPoint> warpPointList = new ArrayList<>();
 
     //
+    private List<Entity> entities = new ArrayList<>();
+    private Player player;
+
     private String name, identifierName;
     private int width, height, layers;
     private int[][][] tileData;
@@ -56,7 +61,9 @@ public class TileMap {
     }
 
     public void tick(GameContainer gc) {
-
+        for(Entity e : entities) {
+            e.tick(gc);
+        }
     }
 
     public void render(Graphics g, Camera camera) {
@@ -72,13 +79,27 @@ public class TileMap {
                 for(int layer = 0; layer < tileData.length; layer++) {
                     Tile tile = Tile.getTile(tileData[layer][x][y]);
                     if(tile != null) {
-                        tile.render(g, x * Tile.TILE_SIZE + camera.getOffsetX() / References.DRAW_SCALE, y * Tile.TILE_SIZE + camera.getOffsetY() / References.DRAW_SCALE);
+                        tile.render(g, x * Tile.TILE_SIZE + camera.getOffsetX(), y * Tile.TILE_SIZE + camera.getOffsetY());
                     }
                 }
             }
         }
+
+        for(Entity e : entities) {
+            //Depth sorting needed
+            e.render(g, camera);
+        }
     }
 
+    public void addEntity(Entity e) {
+        if(e == null) return;
+        entities.add(e);
+
+        if(e instanceof Player) {
+            this.player = (Player) e;
+            this.player.setCurrentMap(this);
+        }
+    }
 
     public boolean propertyExists(String propertyKey) {
         return properties.get(propertyKey) != null;
@@ -132,5 +153,17 @@ public class TileMap {
 
     public List<MapWarpPoint> getWarpPointList() {
         return warpPointList;
+    }
+
+    public boolean isBlocked(int x, int y) {
+        if(x < 0 || x > tileData[0].length - 1 || y < 0 || y > tileData[0][0].length - 1) return true;
+
+        for(int layer = tileData.length - 1; layer > -1; layer--) {
+            Tile tile = Tile.getTile(tileData[layer][x][y]);
+            if(tile != null && tile.propertyExists("solid")) return true;
+
+        }
+
+        return false;
     }
 }

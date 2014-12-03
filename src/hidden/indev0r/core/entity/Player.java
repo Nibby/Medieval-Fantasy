@@ -1,13 +1,12 @@
 package hidden.indev0r.core.entity;
 
 import hidden.indev0r.core.Camera;
-import hidden.indev0r.core.reference.References;
-import hidden.indev0r.core.texture.Textures;
-import hidden.indev0r.core.world.WorldDirection;
-import org.lwjgl.input.Keyboard;
+import hidden.indev0r.core.entity.animation.ActionID;
+import hidden.indev0r.core.entity.animation.WizardActionSet;
+import hidden.indev0r.core.maps.TileMap;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Vector2f;
+import org.newdawn.slick.Input;
 
 /*
     I hope you don't mind me testing some of my own code.
@@ -15,129 +14,71 @@ import org.newdawn.slick.geom.Vector2f;
  */
 public class Player extends Entity {
 
-    private static final int WALK_FORWARD = 0, WALK_BACKWARD = 1, WALK_LEFT = 2, WALK_RIGHT = 3;
-    private int walkDirection = WALK_BACKWARD;
+    private TileMap map;
 
-    private Image[] sprites;
+    public Player(int x, int y) {
+        super(x, y);
 
-//	private Image walkingForwards;
-//	private Image walkingBackwards;
-//	private Image walkingLeft;
-//	private Image walkingRight;
+        //Placeholder
+        setActionSet(new WizardActionSet());
+        setSize(8, 8);
+    }
 
-	private float          movementSpeed;
-	private boolean        isMovingUp;
-	private boolean        isMovingDown;
-	private boolean        isMovingLeft;
-	private boolean        isMovingRight;
-//	private WorldDirection lastDirection;
-
-
-	public Player() {
-		this(new Vector2f(0, 0));
-	}
-
-	public Player(Vector2f pos) {
-		super(pos);
-
-//		walkingForwards = Textures.SpriteSheets.PLAYER.getSprite(0, 1);
-//		walkingBackwards = Textures.SpriteSheets.PLAYER.getSprite(1, 0);
-//		walkingLeft = Textures.SpriteSheets.PLAYER.getSprite(1, 1);
-//		walkingRight = Textures.SpriteSheets.PLAYER.getSprite(0, 0);
-
-        sprites = new Image[] {
-                Textures.SpriteSheets.PLAYER.getSprite(0, 1),
-                Textures.SpriteSheets.PLAYER.getSprite(1, 0),
-                Textures.SpriteSheets.PLAYER.getSprite(1, 1),
-                Textures.SpriteSheets.PLAYER.getSprite(0, 0),
-        };
-
-		isMovingUp = false;
-		isMovingDown = false;
-		isMovingRight = false;
-		isMovingLeft = false;
-
-//		lastDirection = WorldDirection.LEFT;
+    @Override
+	public void render(Graphics g, Camera camera) {
+        super.render(g, camera);
 	}
 
 	@Override
-	public void draw(Graphics g, Camera camera) {
-		renderCharacter(g, camera);
-	}
+	public void tick(GameContainer gc) {
+        super.tick(gc);
 
-	@Override
-	public void tick(int delta) {
-		isMovingUp = Keyboard.isKeyDown(Keyboard.KEY_W);
-		isMovingDown = Keyboard.isKeyDown(Keyboard.KEY_S);
-		isMovingLeft = Keyboard.isKeyDown(Keyboard.KEY_A);
-		isMovingRight = Keyboard.isKeyDown(Keyboard.KEY_D);
-        movementSpeed = .6f * References.DRAW_SCALE;
-
-        if(isMovingUp) {
-            walkDirection = WALK_FORWARD;
-        } else if(isMovingDown) {
-            walkDirection = WALK_BACKWARD;
-        } else if(isMovingLeft) {
-            walkDirection = WALK_LEFT;
-        } else if(isMovingRight) {
-            walkDirection = WALK_RIGHT;
+        Input input = gc.getInput();
+        if(!moving) {
+            int x = (int) getX();
+            int y = (int) getY();
+            
+            if(input.isKeyDown(Input.KEY_W)) {
+                setMotion(ActionID.WALK_UP);
+                moving = true;
+                if(!map.isBlocked(x, y - 1)) {
+                    move(x, y - 1);
+                }
+            }
+            if(input.isKeyDown(Input.KEY_A)) {
+                facing = FACING_LEFT;
+                setMotion(ActionID.WALK_LEFT);
+                moving = true;
+                if(!map.isBlocked(x - 1, y)) {
+                    move(x - 1, y);
+                }
+            }
+            if(input.isKeyDown(Input.KEY_S)) {
+                setMotion(ActionID.WALK_DOWN);
+                moving = true;
+                if(!map.isBlocked(x, y + 1)) {
+                    move(x, y + 1);
+                }
+            }
+            if(input.isKeyDown(Input.KEY_D)) {
+                facing = FACING_RIGHT;
+                setMotion(ActionID.WALK_RIGHT);
+                moving = true;
+                if(!map.isBlocked(x + 1, y)) {
+                    move(x + 1, y);
+                }
+            }
         }
-
-		moveCharacter(delta);
 	}
 
-	private void renderCharacter(Graphics g, Camera camera) {
-        camera.tick();
-        sprites[walkDirection].draw(position.x + camera.getOffsetX(), position.y + camera.getOffsetY());
+    @Override
+    public void move(int x, int y) {
+        super.move(x, y);
+    }
 
-//        walkingForwards.draw(position.x + camera.getOffsetX(), position.y + camera.getOffsetY());
-//
-//		if (isMovingDown) {
-//			walkingBackwards.draw(position.x, position.y);
-//			lastDirection = WorldDirection.DOWN;
-//		} else if (isMovingUp) {
-//			walkingForwards.draw(position.x, position.y);
-//			lastDirection = WorldDirection.UP;
-//		} else if (isMovingRight) {
-//			walkingRight.draw(position.x, position.y);
-//			lastDirection = WorldDirection.RIGHT;
-//		} else if (isMovingLeft) {
-//			walkingLeft.draw(position.x, position.y);
-//			lastDirection = WorldDirection.LEFT;
-//		}
-//
-//		if (!isMovingUp && !isMovingDown && !isMovingRight && !isMovingLeft) {
-//			switch (lastDirection) {
-//				case UP:
-//					walkingForwards.draw(position.x, position.y);
-//					break;
-//
-//				case DOWN:
-//					walkingBackwards.draw(position.x, position.y);
-//					break;
-//
-//				case LEFT:
-//					walkingLeft.draw(position.x, position.y);
-//					break;
-//
-//				case RIGHT:
-//					walkingRight.draw(position.x, position.y);
-//					break;
-//				default:
-//					break;
-//			}
-//		}
-
-	}
-
-	private void moveCharacter(int delta) {
-		if (isMovingUp) position.y -= movementSpeed;
-		if (isMovingDown) position.y += movementSpeed;
-		if (isMovingLeft) position.x -= movementSpeed;
-		if (isMovingRight) position.x += movementSpeed;
-	}
-
-
+    public void setCurrentMap(TileMap map) {
+        this.map = map;
+    }
 }
 
 
