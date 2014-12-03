@@ -1,7 +1,7 @@
 package hidden.indev0r.core.states;
 
 
-import hidden.indev0r.core.character.CharacterNode;
+import hidden.indev0r.core.entity.Player;
 import hidden.indev0r.core.texture.Textures;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -12,9 +12,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class MainGameState implements GameState {
 
-	CharacterNode characterBody;
-	CharacterNode characterArms;
-	CharacterNode characterFeet;
+	Player player;
 
 	@Override
 	public int getID() {
@@ -23,19 +21,20 @@ public class MainGameState implements GameState {
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		characterBody = new CharacterNode(Textures.PLAYER_BODY);
-		characterArms = new CharacterNode(characterBody, Textures.PLAYER_ARMS);
-		characterFeet = new CharacterNode(characterBody, Textures.PLAYER_FEET);
+		player = new Player(Textures.SpriteSheets.PLAYER);
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-		characterBody.draw(g, 0,0);
+		g.pushTransform();
+		g.scale(4, 4);
+		player.draw(g);
+		g.popTransform();
 	}
 
 	@Override
 	public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
-
+		player.tick(delta);
 	}
 
 	@Override
@@ -115,7 +114,6 @@ public class MainGameState implements GameState {
 
 	@Override
 	public void mouseClicked(int i, int i2, int i3, int i4) {
-
 	}
 
 	@Override
