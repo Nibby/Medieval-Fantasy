@@ -2,11 +2,11 @@ package hidden.indev0r.core.states;
 
 
 import hidden.indev0r.core.entity.Player;
-import hidden.indev0r.core.texture.Textures;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -21,7 +21,7 @@ public class MainGameState implements GameState {
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		player = new Player(Textures.SpriteSheets.PLAYER);
+		player = new Player(new Vector2f(50, 50));
 	}
 
 	@Override
