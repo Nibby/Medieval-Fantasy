@@ -2,21 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e16d518d-4372-4704-9713-af2369eeffe8" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/hidden/indev0r/core/entity/animation/ActionID.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/hidden/indev0r/core/entity/animation/ActionMotion.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/hidden/indev0r/core/entity/animation/EntityActionSet.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/hidden/indev0r/core/entity/animation/WizardActionSet.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/res/textures/player.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/hidden/indev0r/core/world/WorldDirection.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/textures/player/player.png" afterPath="$PROJECT_DIR$/res/textures/player/player.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hidden/indev0r/core/Camera.java" afterPath="$PROJECT_DIR$/src/hidden/indev0r/core/Camera.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hidden/indev0r/core/entity/Entity.java" afterPath="$PROJECT_DIR$/src/hidden/indev0r/core/entity/Entity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hidden/indev0r/core/states/MainGameState.java" afterPath="$PROJECT_DIR$/src/hidden/indev0r/core/states/MainGameState.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hidden/indev0r/core/entity/Player.java" afterPath="$PROJECT_DIR$/src/hidden/indev0r/core/entity/Player.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hidden/indev0r/core/reference/References.java" afterPath="$PROJECT_DIR$/src/hidden/indev0r/core/reference/References.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hidden/indev0r/core/texture/ResourceLoader.java" afterPath="$PROJECT_DIR$/src/hidden/indev0r/core/texture/ResourceLoader.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hidden/indev0r/core/texture/Textures.java" afterPath="$PROJECT_DIR$/src/hidden/indev0r/core/texture/Textures.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hidden/indev0r/core/maps/TileMap.java" afterPath="$PROJECT_DIR$/src/hidden/indev0r/core/maps/TileMap.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/maps/_test.tm" afterPath="$PROJECT_DIR$/data/maps/_test.tm" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Medival Game.iws" />
@@ -50,8 +39,22 @@
           <file leaf-file-name="Player.java" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/hidden/indev0r/core/entity/Player.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="210" max-vertical-offset="1290">
-                  <caret line="35" column="36" selection-start-line="35" selection-start-column="36" selection-end-line="35" selection-end-column="36" />
+                <state vertical-scroll-proportion="0.0" vertical-offset="256" max-vertical-offset="1320">
+                  <caret line="28" column="32" selection-start-line="28" selection-start-column="32" selection-end-line="28" selection-end-column="32" />
+                  <folding>
+                    <element signature="imports" expanded="true" />
+                    <element signature="e#752#753#0" expanded="true" />
+                    <element signature="e#788#789#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="CipherEngine.java" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/hidden/indev0r/core/util/CipherEngine.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="435">
+                  <caret line="18" column="41" selection-start-line="18" selection-start-column="41" selection-end-line="18" selection-end-column="41" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -59,12 +62,34 @@
               </provider>
             </entry>
           </file>
+          <file leaf-file-name="References.java" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/hidden/indev0r/core/reference/References.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="420">
+                  <caret line="13" column="42" selection-start-line="13" selection-start-column="42" selection-end-line="13" selection-end-column="42" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
           <file leaf-file-name="TileMap.java" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/hidden/indev0r/core/maps/TileMap.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="1613" max-vertical-offset="2100">
-                  <caret line="164" column="9" selection-start-line="164" selection-start-column="9" selection-end-line="164" selection-end-column="9" />
+                <state vertical-scroll-proportion="0.0" vertical-offset="758" max-vertical-offset="2145">
+                  <caret line="93" column="62" selection-start-line="93" selection-start-column="62" selection-end-line="93" selection-end-column="62" />
                   <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Textures.java" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/hidden/indev0r/core/texture/Textures.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="345">
+                  <caret line="13" column="83" selection-start-line="13" selection-start-column="83" selection-end-line="13" selection-end-column="83" />
+                  <folding>
+                    <element signature="imports" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -72,7 +97,7 @@
           <file leaf-file-name="Entity.java" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/hidden/indev0r/core/entity/Entity.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="1448" max-vertical-offset="2790">
+                <state vertical-scroll-proportion="0.0" vertical-offset="1628" max-vertical-offset="2790">
                   <caret line="142" column="16" selection-start-line="142" selection-start-column="16" selection-end-line="142" selection-end-column="16" />
                   <folding>
                     <element signature="imports" expanded="true" />
@@ -98,8 +123,8 @@
           <file leaf-file-name="MainGameState.java" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/hidden/indev0r/core/states/MainGameState.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.63039017" vertical-offset="443" max-vertical-offset="945">
-                  <caret line="64" column="32" selection-start-line="64" selection-start-column="32" selection-end-line="64" selection-end-column="32" />
+                <state vertical-scroll-proportion="0.77484787" vertical-offset="323" max-vertical-offset="990">
+                  <caret line="61" column="125" selection-start-line="61" selection-start-column="125" selection-end-line="61" selection-end-column="125" />
                   <folding />
                 </state>
               </provider>
@@ -156,17 +181,17 @@
         <option value="$PROJECT_DIR$/src/hidden/indev0r/core/states/GameStateID.java" />
         <option value="$PROJECT_DIR$/src/hidden/indev0r/core/maps/Tile.java" />
         <option value="$PROJECT_DIR$/src/hidden/indev0r/core/texture/ResourceLoader.java" />
-        <option value="$PROJECT_DIR$/src/hidden/indev0r/core/texture/Textures.java" />
-        <option value="$PROJECT_DIR$/src/hidden/indev0r/core/reference/References.java" />
         <option value="$PROJECT_DIR$/src/hidden/indev0r/core/Camera.java" />
         <option value="$PROJECT_DIR$/src/hidden/indev0r/core/entity/animation/AnimationSet.java" />
         <option value="$PROJECT_DIR$/src/hidden/indev0r/core/entity/animation/ActionID.java" />
         <option value="$PROJECT_DIR$/src/hidden/indev0r/core/entity/animation/EntityActionSet.java" />
         <option value="$PROJECT_DIR$/src/hidden/indev0r/core/entity/animation/WizardActionSet.java" />
-        <option value="$PROJECT_DIR$/src/hidden/indev0r/core/maps/TileMap.java" />
         <option value="$PROJECT_DIR$/src/hidden/indev0r/core/entity/animation/ActionMotion.java" />
         <option value="$PROJECT_DIR$/src/hidden/indev0r/core/entity/Entity.java" />
+        <option value="$PROJECT_DIR$/src/hidden/indev0r/core/reference/References.java" />
+        <option value="$PROJECT_DIR$/src/hidden/indev0r/core/texture/Textures.java" />
         <option value="$PROJECT_DIR$/src/hidden/indev0r/core/entity/Player.java" />
+        <option value="$PROJECT_DIR$/src/hidden/indev0r/core/maps/TileMap.java" />
         <option value="$PROJECT_DIR$/src/hidden/indev0r/core/states/MainGameState.java" />
       </list>
     </option>
@@ -905,7 +930,7 @@
       <workItem from="1417414021343" duration="15000" />
       <workItem from="1417588684076" duration="4335000" />
       <workItem from="1417595832055" duration="10586000" />
-      <workItem from="1417607853667" duration="11291000" />
+      <workItem from="1417607853667" duration="12554000" />
     </task>
     <task id="LOCAL-00001" summary="Organized Code.">
       <created>1417587472638</created>
@@ -915,7 +940,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26766000" />
+    <option name="totallyTimeSpent" value="28029000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="873" extended-state="6" />
@@ -942,7 +967,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20529328" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32394367" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3162612" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -999,6 +1024,8 @@
           <caret line="93" column="2" selection-start-line="93" selection-start-column="2" selection-end-line="93" selection-end-column="2" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#752#753#0" expanded="true" />
+            <element signature="e#788#789#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1182,13 +1209,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/hidden/indev0r/core/util/CipherEngine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.54325956" vertical-offset="0" max-vertical-offset="497">
-          <caret line="18" column="41" selection-start-line="18" selection-start-column="41" selection-end-line="18" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/hidden/indev0r/core/maps/Tileset.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="435">
@@ -1204,6 +1224,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="135" max-vertical-offset="1065">
           <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1262,14 +1283,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/hidden/indev0r/core/reference/References.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="420">
-          <caret line="8" column="56" selection-start-line="8" selection-start-column="56" selection-end-line="8" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/hidden/indev0r/core/states/InitializationState.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="87" max-vertical-offset="840">
@@ -1319,16 +1332,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/hidden/indev0r/core/texture/Textures.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.22297297" vertical-offset="0" max-vertical-offset="740">
-          <caret line="11" column="84" selection-start-line="11" selection-start-column="84" selection-end-line="11" selection-end-column="84" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/hidden/indev0r/core/entity/animation/EntityActionSet.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="690">
@@ -1357,21 +1360,43 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/hidden/indev0r/core/entity/Player.java">
+    <entry file="file://$PROJECT_DIR$/src/hidden/indev0r/core/entity/animation/ActionMotion.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="135" max-vertical-offset="1290">
-          <caret line="35" column="36" selection-start-line="35" selection-start-column="36" selection-end-line="35" selection-end-column="36" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="83" max-vertical-offset="1020">
+          <caret line="43" column="30" selection-start-line="43" selection-start-column="30" selection-end-line="43" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1851#1852#0" expanded="true" />
+            <element signature="e#1895#1896#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/hidden/indev0r/core/reference/References.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="420">
+          <caret line="13" column="42" selection-start-line="13" selection-start-column="42" selection-end-line="13" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/hidden/indev0r/core/texture/Textures.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="345">
+          <caret line="13" column="83" selection-start-line="13" selection-start-column="83" selection-end-line="13" selection-end-column="83" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/hidden/indev0r/core/maps/TileMap.java">
+    <entry file="file://$PROJECT_DIR$/src/hidden/indev0r/core/util/CipherEngine.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1583" max-vertical-offset="2100">
-          <caret line="164" column="9" selection-start-line="164" selection-start-column="9" selection-end-line="164" selection-end-column="9" />
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="435">
+          <caret line="18" column="41" selection-start-line="18" selection-start-column="41" selection-end-line="18" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1385,22 +1410,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/hidden/indev0r/core/entity/animation/ActionMotion.java">
+    <entry file="file://$PROJECT_DIR$/src/hidden/indev0r/core/entity/Player.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="83" max-vertical-offset="1020">
-          <caret line="43" column="30" selection-start-line="43" selection-start-column="30" selection-end-line="43" selection-end-column="30" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="256" max-vertical-offset="1320">
+          <caret line="28" column="32" selection-start-line="28" selection-start-column="32" selection-end-line="28" selection-end-column="32" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1851#1852#0" expanded="true" />
-            <element signature="e#1895#1896#0" expanded="true" />
+            <element signature="e#752#753#0" expanded="true" />
+            <element signature="e#788#789#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/hidden/indev0r/core/maps/TileMap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="758" max-vertical-offset="2145">
+          <caret line="93" column="62" selection-start-line="93" selection-start-column="62" selection-end-line="93" selection-end-column="62" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/hidden/indev0r/core/states/MainGameState.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.63039017" vertical-offset="443" max-vertical-offset="945">
-          <caret line="64" column="32" selection-start-line="64" selection-start-column="32" selection-end-line="64" selection-end-column="32" />
+        <state vertical-scroll-proportion="0.77484787" vertical-offset="323" max-vertical-offset="990">
+          <caret line="61" column="125" selection-start-line="61" selection-start-column="125" selection-end-line="61" selection-end-column="125" />
           <folding />
         </state>
       </provider>

@@ -34,10 +34,10 @@ public class MainGameState extends BasicGameState {
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-        canvas = Textures.SpriteSheets.empty;
+        canvas = Textures.SpriteSheets.EMPTY;
 
         camera = new Camera(0, 0);
-        player = new Player(8, 8);
+        player = new Player(6, 2);
         camera.setTrackObject(player);
 
         map = TileMapDatabase.getTileMap("_test");
@@ -57,6 +57,9 @@ public class MainGameState extends BasicGameState {
         g.scale(References.DRAW_SCALE, References.DRAW_SCALE);
         g.drawImage(canvas, 0, 0);
         g.popTransform();
+
+        g.drawString(map.getIdentifierName(), 5, 5);
+        g.drawString(player.getX() + ", " + player.getY() + " / " + player.getCurrentX() + ", " + player.getCurrentY(), 5, 25);
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import hidden.indev0r.core.MedievalLauncher;
 import hidden.indev0r.core.entity.Entity;
 import hidden.indev0r.core.entity.Player;
 import hidden.indev0r.core.reference.References;
+import hidden.indev0r.core.texture.Textures;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
@@ -67,10 +68,10 @@ public class TileMap {
     }
 
     public void render(Graphics g, Camera camera) {
-        int mix = (int) -camera.getOffsetX() / (Tile.TILE_SIZE * References.DRAW_SCALE) - 1;
-        int miy = (int) -camera.getOffsetY() / (Tile.TILE_SIZE * References.DRAW_SCALE) - 1;
-        int max = mix + (References.GAME_WIDTH / (Tile.TILE_SIZE * References.DRAW_SCALE) + 3);
-        int may = miy + (References.GAME_HEIGHT / (Tile.TILE_SIZE * References.DRAW_SCALE) + 3);
+        int mix = (int) -camera.getOffsetX() / Tile.TILE_SIZE - 1;
+        int miy = (int) -camera.getOffsetY() / Tile.TILE_SIZE - 1;
+        int max = mix + (References.GAME_WIDTH / References.DRAW_SCALE / Tile.TILE_SIZE  + 3);
+        int may = miy + (References.GAME_HEIGHT/ References.DRAW_SCALE / Tile.TILE_SIZE + 3);
 
         for(int x = mix; x < max; x++) {
             for(int y = miy; y < may; y++) {
@@ -89,6 +90,9 @@ public class TileMap {
             //Depth sorting needed
             e.render(g, camera);
         }
+
+        g.drawImage(Textures.SpriteSheets.DUNGEON_MASK, 0, 0);
+
     }
 
     public void addEntity(Entity e) {

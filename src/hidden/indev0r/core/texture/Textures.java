@@ -9,7 +9,9 @@ public class Textures {
 
 	public static final class SpriteSheets {
 		public static final SpriteSheet PLAYER = ResourceLoader.loadSpriteSheet(ENTITY_IMAGE_PATH + "player/player.png");
-        public static final Image empty = ResourceLoader.loadImage("res/empty.png");
+
+        public static final Image EMPTY = ResourceLoader.loadImage("res/empty.png");
+        public static final Image DUNGEON_MASK = ResourceLoader.loadImage("res/mask.png");
 
 	}
 }
