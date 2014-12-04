@@ -15,22 +15,19 @@ import org.newdawn.slick.geom.Vector2f;
  */
 public class Player extends Entity {
 
-    private static final int WALK_FORWARD = 0, WALK_BACKWARD = 1, WALK_LEFT = 2, WALK_RIGHT = 3;
-    private int walkDirection = WALK_BACKWARD;
 
-    private Image[] sprites;
+	private Image walkingForwards;
+	private Image walkingBackwards;
+	private Image walkingLeft;
+	private Image walkingRight;
 
-//	private Image walkingForwards;
-//	private Image walkingBackwards;
-//	private Image walkingLeft;
-//	private Image walkingRight;
 
 	private float          movementSpeed;
 	private boolean        isMovingUp;
 	private boolean        isMovingDown;
 	private boolean        isMovingLeft;
 	private boolean        isMovingRight;
-//	private WorldDirection lastDirection;
+	private WorldDirection lastDirection;
 
 
 	public Player() {
@@ -40,24 +37,17 @@ public class Player extends Entity {
 	public Player(Vector2f pos) {
 		super(pos);
 
-//		walkingForwards = Textures.SpriteSheets.PLAYER.getSprite(0, 1);
-//		walkingBackwards = Textures.SpriteSheets.PLAYER.getSprite(1, 0);
-//		walkingLeft = Textures.SpriteSheets.PLAYER.getSprite(1, 1);
-//		walkingRight = Textures.SpriteSheets.PLAYER.getSprite(0, 0);
-
-        sprites = new Image[] {
-                Textures.SpriteSheets.PLAYER.getSprite(0, 1),
-                Textures.SpriteSheets.PLAYER.getSprite(1, 0),
-                Textures.SpriteSheets.PLAYER.getSprite(1, 1),
-                Textures.SpriteSheets.PLAYER.getSprite(0, 0),
-        };
+		walkingForwards = Textures.SpriteSheets.PLAYER.getSprite(0, 1);
+		walkingBackwards = Textures.SpriteSheets.PLAYER.getSprite(1, 0);
+		walkingLeft = Textures.SpriteSheets.PLAYER.getSprite(1, 1);
+		walkingRight = Textures.SpriteSheets.PLAYER.getSprite(0, 0);
 
 		isMovingUp = false;
 		isMovingDown = false;
 		isMovingRight = false;
 		isMovingLeft = false;
 
-//		lastDirection = WorldDirection.LEFT;
+		lastDirection = WorldDirection.LEFT;
 	}
 
 	@Override
@@ -73,68 +63,67 @@ public class Player extends Entity {
 		isMovingRight = Keyboard.isKeyDown(Keyboard.KEY_D);
         movementSpeed = .6f * References.DRAW_SCALE;
 
-        if(isMovingUp) {
-            walkDirection = WALK_FORWARD;
-        } else if(isMovingDown) {
-            walkDirection = WALK_BACKWARD;
-        } else if(isMovingLeft) {
-            walkDirection = WALK_LEFT;
-        } else if(isMovingRight) {
-            walkDirection = WALK_RIGHT;
-        }
-
 		moveCharacter(delta);
 	}
 
 	private void renderCharacter(Graphics g, Camera camera) {
         camera.tick();
-        sprites[walkDirection].draw(position.x + camera.getOffsetX(), position.y + camera.getOffsetY());
 
-//        walkingForwards.draw(position.x + camera.getOffsetX(), position.y + camera.getOffsetY());
-//
-//		if (isMovingDown) {
-//			walkingBackwards.draw(position.x, position.y);
-//			lastDirection = WorldDirection.DOWN;
-//		} else if (isMovingUp) {
-//			walkingForwards.draw(position.x, position.y);
-//			lastDirection = WorldDirection.UP;
-//		} else if (isMovingRight) {
-//			walkingRight.draw(position.x, position.y);
-//			lastDirection = WorldDirection.RIGHT;
-//		} else if (isMovingLeft) {
-//			walkingLeft.draw(position.x, position.y);
-//			lastDirection = WorldDirection.LEFT;
-//		}
-//
-//		if (!isMovingUp && !isMovingDown && !isMovingRight && !isMovingLeft) {
-//			switch (lastDirection) {
-//				case UP:
-//					walkingForwards.draw(position.x, position.y);
-//					break;
-//
-//				case DOWN:
-//					walkingBackwards.draw(position.x, position.y);
-//					break;
-//
-//				case LEFT:
-//					walkingLeft.draw(position.x, position.y);
-//					break;
-//
-//				case RIGHT:
-//					walkingRight.draw(position.x, position.y);
-//					break;
-//				default:
-//					break;
-//			}
-//		}
+		if (isMovingDown) {
+			walkingBackwards.draw(position.x + camera.getOffsetX(), position.y + camera.getOffsetY());
+
+		} else if (isMovingUp) {
+			walkingForwards.draw(position.x + camera.getOffsetX(), position.y + camera.getOffsetY());
+
+		} else if (isMovingRight) {
+			walkingRight.draw(position.x + camera.getOffsetX(), position.y + camera.getOffsetY());
+
+		} else if (isMovingLeft) {
+			walkingLeft.draw(position.x + camera.getOffsetX(), position.y + camera.getOffsetY());
+
+		}
+
+		if (!isMovingUp && !isMovingDown && !isMovingRight && !isMovingLeft) {
+			switch (lastDirection) {
+				case UP:
+					walkingForwards.draw(position.x + camera.getOffsetX(), position.y + camera.getOffsetY());
+					break;
+
+				case DOWN:
+					walkingBackwards.draw(position.x + camera.getOffsetX(), position.y + camera.getOffsetY());
+					break;
+
+				case LEFT:
+					walkingLeft.draw(position.x + camera.getOffsetX(), position.y + camera.getOffsetY());
+					break;
+
+				case RIGHT:
+					walkingRight.draw(position.x + camera.getOffsetX(), position.y + camera.getOffsetY());
+					break;
+				default:
+					break;
+			}
+		}
 
 	}
 
 	private void moveCharacter(int delta) {
-		if (isMovingUp) position.y -= movementSpeed;
-		if (isMovingDown) position.y += movementSpeed;
-		if (isMovingLeft) position.x -= movementSpeed;
-		if (isMovingRight) position.x += movementSpeed;
+		if (isMovingUp) {
+			lastDirection = WorldDirection.UP;
+			position.y -= movementSpeed;
+		}
+		if (isMovingDown){
+			lastDirection = WorldDirection.DOWN;
+			position.y += movementSpeed;
+		}
+		if (isMovingLeft) {
+			lastDirection = WorldDirection.LEFT;
+			position.x -= movementSpeed;
+		}
+		if (isMovingRight) {
+			lastDirection = WorldDirection.RIGHT;
+			position.x += movementSpeed;
+		}
 	}
 
 
