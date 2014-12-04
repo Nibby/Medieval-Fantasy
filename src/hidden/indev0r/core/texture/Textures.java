@@ -8,10 +8,11 @@ public class Textures {
 	private static final String ENTITY_IMAGE_PATH = "res/textures/";
 
 	public static final class SpriteSheets {
-		public static final SpriteSheet WIZARD = ResourceLoader.loadSpriteSheet(ENTITY_IMAGE_PATH + "player/player.png", 32);
+		public static final SpriteSheet WIZARD = ResourceLoader.loadSpriteSheet(ENTITY_IMAGE_PATH + "player/player.png", 32, 32);
 
         public static final Image EMPTY = ResourceLoader.loadImage("res/empty.png");
         public static final Image DUNGEON_MASK = ResourceLoader.loadImage("res/mask.png");
 
-	}
+        public static final SpriteSheet UI_FONT = ResourceLoader.loadSpriteSheet("res/font.png", 16, 20);
+    }
 }

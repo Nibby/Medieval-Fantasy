@@ -1,6 +1,7 @@
 package hidden.indev0r.core.states;
 
 
+import hidden.indev0r.core.BitFont;
 import hidden.indev0r.core.Camera;
 import hidden.indev0r.core.entity.Player;
 import hidden.indev0r.core.maps.TileMap;
@@ -48,14 +49,14 @@ public class MainGameState extends BasicGameState {
 
         map.render(g2, camera);
 
-
         g.pushTransform();
         g.scale(References.DRAW_SCALE, References.DRAW_SCALE);
         g.drawImage(canvas, 0, 0);
         g.popTransform();
 
-        g.drawString(map.getIdentifierName() + " [" + map.getName() + "]" , 5, 5);
-        g.drawString(player.getX() + ", " + player.getY() + " / " + player.getCurrentX() + ", " + player.getCurrentY(), 5, 25);
+
+        BitFont.render(g, map.getIdentifierName() + " [" + map.getName() + "]" , 5, 5);
+        BitFont.render(g, player.getX() + ", " + player.getY() + " / " + player.getCurrentX() + ", " + player.getCurrentY(), 5, 25);
 	}
 
 	@Override
