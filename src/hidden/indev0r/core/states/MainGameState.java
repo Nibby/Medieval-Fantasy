@@ -6,19 +6,16 @@ import hidden.indev0r.core.entity.Player;
 import hidden.indev0r.core.maps.TileMap;
 import hidden.indev0r.core.maps.TileMapDatabase;
 import hidden.indev0r.core.reference.References;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Vector2f;
+import hidden.indev0r.core.texture.Textures;
+import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
-import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class MainGameState extends BasicGameState {
 
     //Game objects
     private Camera camera;
+    private Image canvas;
 
     //Currently focused map
     private TileMap map;
@@ -33,28 +30,37 @@ public class MainGameState extends BasicGameState {
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+        canvas = Textures.SpriteSheets.EMPTY;
+
         camera = new Camera(0, 0);
-        player = new Player(new Vector2f(50, 50));
+        player = new Player(4, 3);
         camera.setTrackObject(player);
 
-        map = TileMapDatabase.getTileMap("_test");
+        map = TileMapDatabase.getTileMap("map00_test");
+        map.addEntity(player);
     }
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-		g.pushTransform();
-		g.scale(References.DRAW_SCALE, References.DRAW_SCALE);
+        Graphics g2 = canvas.getGraphics();
+        g2.setColor(Color.black);
+        g2.fillRect(0, 0, References.GAME_WIDTH, References.GAME_HEIGHT);
 
-        map.render(g, camera);
-		player.draw(g, camera);
+        map.render(g2, camera);
 
+
+        g.pushTransform();
+        g.scale(References.DRAW_SCALE, References.DRAW_SCALE);
+        g.drawImage(canvas, 0, 0);
         g.popTransform();
+
+        g.drawString(map.getIdentifierName() + " [" + map.getName() + "]" , 5, 5);
+        g.drawString(player.getX() + ", " + player.getY() + " / " + player.getCurrentX() + ", " + player.getCurrentY(), 5, 25);
 	}
 
 	@Override
 	public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
         camera.tick();
-        player.tick(delta);
         map.tick(gameContainer);
 	}
 
