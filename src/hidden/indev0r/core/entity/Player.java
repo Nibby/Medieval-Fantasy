@@ -3,6 +3,7 @@ package hidden.indev0r.core.entity;
 import hidden.indev0r.core.Camera;
 import hidden.indev0r.core.entity.animation.ActionID;
 import hidden.indev0r.core.entity.animation.WizardActionSet;
+import hidden.indev0r.core.maps.MapDirection;
 import hidden.indev0r.core.maps.TileMap;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -45,7 +46,7 @@ public class Player extends Entity {
                 }
             }
             if(input.isKeyDown(Input.KEY_A)) {
-                facing = FACING_LEFT;
+                currentDirection = MapDirection.LEFT;
                 setMotion(ActionID.WALK_LEFT);
                 moving = true;
                 if(!map.isBlocked(x - 1, y)) {
@@ -60,8 +61,8 @@ public class Player extends Entity {
                 }
             }
             if(input.isKeyDown(Input.KEY_D)) {
-                facing = FACING_RIGHT;
-                setMotion(ActionID.WALK_RIGHT);
+	            currentDirection = MapDirection.RIGHT;
+	            setMotion(ActionID.WALK_RIGHT);
                 moving = true;
                 if(!map.isBlocked(x + 1, y)) {
                     move(x + 1, y);
