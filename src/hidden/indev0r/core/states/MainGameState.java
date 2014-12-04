@@ -37,10 +37,10 @@ public class MainGameState extends BasicGameState {
         canvas = Textures.SpriteSheets.EMPTY;
 
         camera = new Camera(0, 0);
-        player = new Player(6, 2);
+        player = new Player(4, 3);
         camera.setTrackObject(player);
 
-        map = TileMapDatabase.getTileMap("_test");
+        map = TileMapDatabase.getTileMap("map00_test");
         map.addEntity(player);
     }
 
@@ -58,7 +58,7 @@ public class MainGameState extends BasicGameState {
         g.drawImage(canvas, 0, 0);
         g.popTransform();
 
-        g.drawString(map.getIdentifierName(), 5, 5);
+        g.drawString(map.getIdentifierName() + " [" + map.getName() + "]" , 5, 5);
         g.drawString(player.getX() + ", " + player.getY() + " / " + player.getCurrentX() + ", " + player.getCurrentY(), 5, 25);
 	}
 

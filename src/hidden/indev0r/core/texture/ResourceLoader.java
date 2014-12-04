@@ -18,10 +18,10 @@ public class ResourceLoader {
 		return res;
 	}
 
-	protected static SpriteSheet loadSpriteSheet(String location) {
+	protected static SpriteSheet loadSpriteSheet(String location, int gridSize) {
 		SpriteSheet res = null;
 		try {
-			res = new SpriteSheet(location, 8, 8);
+			res = new SpriteSheet(location, gridSize, gridSize);
 			res.setFilter(Image.FILTER_NEAREST);
 		} catch (SlickException e) {
 			e.printStackTrace();

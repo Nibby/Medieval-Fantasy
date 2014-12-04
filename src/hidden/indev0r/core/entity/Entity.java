@@ -5,6 +5,8 @@ import hidden.indev0r.core.entity.animation.ActionID;
 import hidden.indev0r.core.entity.animation.ActionMotion;
 import hidden.indev0r.core.entity.animation.EntityActionSet;
 import hidden.indev0r.core.maps.Tile;
+import hidden.indev0r.core.maps.TileMap;
+import hidden.indev0r.core.texture.Textures;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Graphics;
@@ -32,10 +34,14 @@ public abstract class Entity {
 	protected float currentX, currentY;
     protected float moveX, moveY;
     protected boolean moving = false;
-    protected float moveSpeed = 0.5f;
+    protected float moveSpeed = 2f;
+
+    protected TileMap map;
 
     protected Image sprite, spriteFlipped;
     protected int width, height; //In terms of pixels
+    protected boolean drawShadow = true;
+    protected static final org.newdawn.slick.Color shadowColor = new org.newdawn.slick.Color(0f, 0f, 0f, 0.6f);
 
 	public Entity(){
 		this(0, 0);
@@ -49,37 +55,50 @@ public abstract class Entity {
 	}
 
 	public void render(Graphics g, Camera camera) {
-
         //If entity is not using a motion map
         if(motionMap == null) {
             if(sprite != null) {
+                renderShadow(g, camera);
                 g.drawImage((facing == FACING_RIGHT) ? sprite : spriteFlipped,
-                        currentX + camera.getOffsetX(), currentY + camera.getOffsetY());
+                        getRenderX(camera), getRenderY(camera));
             }
         }
 
         //Otherwise
         else {
+            renderShadow(g, camera);
             if(forcedMotion) {
                 ActionMotion motion = motionMap.get(action);
                 if(motion != null) {
                     if(!motion.hasEnded())
-                        motion.renderForced(g, currentX, currentY);
+                        motion.renderForced(g, getRenderX(camera), getRenderY(camera));
                     } else {
                     forcedMotion = false;
                 }
             } else {
                 ActionMotion motion = motionMap.get(action);
                 if(motion == null)
-                    motionMap.get(ActionID.STATIC).render(g, currentX + camera.getOffsetX(), currentY + camera.getOffsetY(), false);
+                    motionMap.get(ActionID.STATIC).render(g, getRenderX(camera), getRenderY(camera), false);
                 else {
-                    motion.render(g, currentX + camera.getOffsetX(), currentY + camera.getOffsetY(), moving);
+                    motion.render(g, getRenderX(camera), getRenderY(camera), moving);
                 }
             }
         }
     }
 
-	public void tick(GameContainer gc) {
+    private float getRenderY(Camera camera) {
+        return currentY + camera.getOffsetY() - Tile.TILE_SIZE / 5;
+    }
+
+    private float getRenderX(Camera camera) {
+        return currentX + camera.getOffsetX();
+    }
+
+    private void renderShadow(Graphics g, Camera camera) {
+
+    }
+
+    public void tick(GameContainer gc) {
         if(currentX != moveX) {
            if(currentX > moveX) {
                if(currentX - moveSpeed < moveX)
@@ -122,9 +141,14 @@ public abstract class Entity {
     }
 
     public void move(int x, int y) {
+        int oldX = (int) (moveX / Tile.TILE_SIZE);
+        int oldY = (int) (moveY / Tile.TILE_SIZE);
+
         moving = true;
         moveX = x * Tile.TILE_SIZE;
         moveY = y * Tile.TILE_SIZE;
+
+        map.stepOn(this, x, y, oldX, oldY);
     }
 
     public void setMotion(ActionID action) {
@@ -161,6 +185,10 @@ public abstract class Entity {
         action = ActionID.STATIC;
     }
 
+    public void setCurrentMap(TileMap map) {
+        this.map = map;
+    }
+
     public float getX() {
         return moveX / Tile.TILE_SIZE;
     }
@@ -190,5 +218,9 @@ public abstract class Entity {
 
     public float getCurrentX() {
         return currentX;
+    }
+
+    public void setDrawShadow(boolean shadow) {
+        this.drawShadow = shadow;
     }
 }

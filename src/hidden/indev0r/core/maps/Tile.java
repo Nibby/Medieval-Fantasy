@@ -1,5 +1,6 @@
 package hidden.indev0r.core.maps;
 
+import hidden.indev0r.core.entity.Entity;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Graphics;
@@ -22,7 +23,7 @@ import java.util.Map;
  */
 public class Tile {
 
-    public static final int TILE_SIZE = 8; //actual tile size
+    public static final int TILE_SIZE = 32; //actual tile size
     //Tile database, contains all the registered, unique tiles
     private static final Map<Integer, Tile> tiles = new HashMap<>();
 
@@ -69,6 +70,10 @@ public class Tile {
 
     public void render(Graphics g, float x, float y) {
         g.drawAnimation(texture, x, y);
+    }
+
+    public void steppedOn(Entity entity) {
+
     }
 
     public boolean propertyExists(String propertyKey) {

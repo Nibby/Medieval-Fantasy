@@ -70,38 +70,66 @@ public class TileMap {
     public void render(Graphics g, Camera camera) {
         int mix = (int) -camera.getOffsetX() / Tile.TILE_SIZE - 1;
         int miy = (int) -camera.getOffsetY() / Tile.TILE_SIZE - 1;
-        int max = mix + (References.GAME_WIDTH / References.DRAW_SCALE / Tile.TILE_SIZE  + 3);
-        int may = miy + (References.GAME_HEIGHT/ References.DRAW_SCALE / Tile.TILE_SIZE + 3);
+        int max = mix + (References.GAME_WIDTH / References.DRAW_SCALE / Tile.TILE_SIZE + 3);
+        int may = miy + (References.GAME_HEIGHT / References.DRAW_SCALE / Tile.TILE_SIZE + 3);
 
-        for(int x = mix; x < max; x++) {
-            for(int y = miy; y < may; y++) {
-                if(x < 0 || x > tileData[0].length - 1 || y < 0 || y > tileData[0][0].length - 1) continue;
+        for (int layer = 0; layer < tileData.length; layer++) {
 
-                for(int layer = 0; layer < tileData.length; layer++) {
+            for (int x = mix; x < max; x++) {
+                for (int y = miy; y < may; y++) {
+                    if (x < 0 || x > tileData[0].length - 1 || y < 0 || y > tileData[0][0].length - 1) continue;
                     Tile tile = Tile.getTile(tileData[layer][x][y]);
-                    if(tile != null) {
-                        tile.render(g, x * Tile.TILE_SIZE + camera.getOffsetX(), y * Tile.TILE_SIZE + camera.getOffsetY());
+                    if (tile != null) {
+                        tile.render(g,
+                                x * Tile.TILE_SIZE + camera.getOffsetX(),
+                                (layer != 0) ? y * Tile.TILE_SIZE + camera.getOffsetY() - Tile.TILE_SIZE / 4 : y * Tile.TILE_SIZE + camera.getOffsetY());
                     }
                 }
             }
+
+            //Second layer are where entities are rendered
+            if (layer == 1) {
+                for (Entity e : entities) {
+                    //Depth sorting needed
+                    e.render(g, camera);
+                }
+            }
         }
-
-        for(Entity e : entities) {
-            //Depth sorting needed
-            e.render(g, camera);
-        }
-
-        g.drawImage(Textures.SpriteSheets.DUNGEON_MASK, 0, 0);
-
     }
 
     public void addEntity(Entity e) {
         if(e == null) return;
         entities.add(e);
+        e.setCurrentMap(this);
 
         if(e instanceof Player) {
             this.player = (Player) e;
-            this.player.setCurrentMap(this);
+        }
+    }
+
+    public boolean isBlocked(int x, int y) {
+        if(x < 0 || x > tileData[0].length - 1 || y < 0 || y > tileData[0][0].length - 1) return true;
+
+        for(int layer = tileData.length - 1; layer > -1; layer--) {
+            Tile tile = Tile.getTile(tileData[layer][x][y]);
+            if(tile != null && tile.propertyExists("solid")) return true;
+
+        }
+
+        return false;
+    }
+
+    /*
+        When entity steps on a given x, y tile
+     */
+    public void stepOn(Entity entity, int x1, int i, int x, int y) {
+        if(x < 0 || x > tileData[0].length - 1 || y < 0 || y > tileData[0][0].length - 1) return;
+
+        for(int layer = tileData.length - 1; layer > -1; layer--) {
+            Tile tile = Tile.getTile(tileData[layer][x][y]);
+            if(tile != null) {
+                tile.steppedOn(entity);
+            }
         }
     }
 
@@ -157,17 +185,5 @@ public class TileMap {
 
     public List<MapWarpPoint> getWarpPointList() {
         return warpPointList;
-    }
-
-    public boolean isBlocked(int x, int y) {
-        if(x < 0 || x > tileData[0].length - 1 || y < 0 || y > tileData[0][0].length - 1) return true;
-
-        for(int layer = tileData.length - 1; layer > -1; layer--) {
-            Tile tile = Tile.getTile(tileData[layer][x][y]);
-            if(tile != null && tile.propertyExists("solid")) return true;
-
-        }
-
-        return false;
     }
 }

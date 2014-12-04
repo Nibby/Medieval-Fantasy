@@ -14,14 +14,12 @@ import org.newdawn.slick.Input;
  */
 public class Player extends Entity {
 
-    private TileMap map;
-
     public Player(int x, int y) {
         super(x, y);
 
         //Placeholder
         setActionSet(new WizardActionSet());
-        setSize(8, 8);
+        setSize(32, 32);
     }
 
     @Override
@@ -68,16 +66,16 @@ public class Player extends Entity {
                     move(x + 1, y);
                 }
             }
+
+            if(input.isKeyPressed(Input.KEY_F)) {
+                action = ActionID.ATTACK_LEFT;
+            }
         }
 	}
 
     @Override
     public void move(int x, int y) {
         super.move(x, y);
-    }
-
-    public void setCurrentMap(TileMap map) {
-        this.map = map;
     }
 }
 

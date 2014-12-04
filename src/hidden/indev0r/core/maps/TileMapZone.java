@@ -1,5 +1,7 @@
 package hidden.indev0r.core.maps;
 
+import hidden.indev0r.core.entity.Entity;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +31,14 @@ public class TileMapZone {
 
             properties.put(kvPair[0], (kvPair.length > 1) ? kvPair[1] : "");
         }
+    }
+
+    public void steppedInto(Entity entity) {
+
+    }
+
+    public void steppedOut(Entity entity) {
+
     }
 
     public boolean propertyExists(String propertyKey) {
