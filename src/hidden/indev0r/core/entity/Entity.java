@@ -4,6 +4,7 @@ import hidden.indev0r.core.Camera;
 import hidden.indev0r.core.entity.animation.ActionID;
 import hidden.indev0r.core.entity.animation.ActionMotion;
 import hidden.indev0r.core.entity.animation.EntityActionSet;
+import hidden.indev0r.core.maps.MapDirection;
 import hidden.indev0r.core.maps.Tile;
 import hidden.indev0r.core.maps.TileMap;
 import hidden.indev0r.core.texture.Textures;
@@ -16,8 +17,7 @@ import java.util.Map;
 
 public abstract class Entity {
 
-    public static final int FACING_LEFT = 0, FACING_RIGHT = 1;
-    protected int facing = FACING_RIGHT;
+	protected MapDirection currentDirection = MapDirection.RIGHT;
 
     /**
      * Entity sprite is done in two ways:
@@ -59,7 +59,7 @@ public abstract class Entity {
         if(motionMap == null) {
             if(sprite != null) {
                 renderShadow(g, camera);
-                g.drawImage((facing == FACING_RIGHT) ? sprite : spriteFlipped,
+                g.drawImage((currentDirection == MapDirection.RIGHT) ? sprite : spriteFlipped,
                         getRenderX(camera), getRenderY(camera));
             }
         }
