@@ -1,17 +1,11 @@
 package hidden.indev0r.core.states;
 
 
-import hidden.indev0r.core.BitFont;
 import hidden.indev0r.core.Camera;
 import hidden.indev0r.core.entity.Player;
-import hidden.indev0r.core.gui.GElement;
-import hidden.indev0r.core.gui.GElement$Hotbar;
-import hidden.indev0r.core.gui.GElement$Stats;
 import hidden.indev0r.core.gui.GHUD;
 import hidden.indev0r.core.maps.TileMap;
 import hidden.indev0r.core.maps.TileMapDatabase;
-import hidden.indev0r.core.reference.References;
-import hidden.indev0r.core.texture.Textures;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;

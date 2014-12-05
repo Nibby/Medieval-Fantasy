@@ -35,7 +35,7 @@ public class InitializationState extends BasicGameState {
         }
 
         //When all is done, switch state
-        MedievalLauncher.getInstance().enterState(GameStateID.MAIN_GAME_STATE.getID());
+        //MedievalLauncher.getInstance().enterState(GameStateID.MAIN_GAME_STATE.getID());
     }
 
     @Override

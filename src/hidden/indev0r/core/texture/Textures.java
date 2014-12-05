@@ -25,6 +25,7 @@ public class Textures {
 	public static final class UI {
 		public static final Image HOTBAR = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "UI_HOTBAR.png");
 		public static final Image STATS = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "UI_STATS.png");
+		public static final Image BUTTON = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "UI_BUTTON.png");
 	}
 
 }

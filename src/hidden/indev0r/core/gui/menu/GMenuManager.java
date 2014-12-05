@@ -1,5 +1,8 @@
 package hidden.indev0r.core.gui.menu;
 
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+
 import java.util.Stack;
 
 public class GMenuManager {
@@ -21,14 +24,11 @@ public class GMenuManager {
 		menus.clear();
 	}
 
-	public void render(){
-		if(!menus.isEmpty())menus.peek().render();
+	public void render(Graphics g){
+		if(!menus.isEmpty())menus.peek().render(g);
 	}
 
-	public void tick(){
-		if(!menus.isEmpty())menus.peek().tick();
-
-	}
+	public void tick(GameContainer gc){if(!menus.isEmpty())menus.peek().tick(gc);}
 
 
 }
