@@ -1,0 +1,1 @@
+Snipplets of the world that is more specific than the lore. Legend says....? Dump ideas here!

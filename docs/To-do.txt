@@ -1,0 +1,25 @@
+TODO
+
+√ 1. Complete MAP Editor features: (Check)
+    a. Zone Mapping (Done)
+    b. Entry Point Editor (Done)
+
+√ 2. Start core game design
+    a. Character movement & UI(James) possibly begin sub-pixel anims. (Seems smarter to do earlier on.
+    b. Map loading (Kevin - You did write the editor)
+    (Combine above two after basic or intermediate systems established.
+
+3. Menu state
+    a. Custom Controls (Low priority)
+    b. Video Settings(low as priority)
+    c. (Might take priority early on if we want one game resolution to work with multiple window sizes.
+    d. Audio settings (Low priority)
+
+4. Entities
+    a. A skeletal animation framework/tool?
+    b. Create a test skeletal entity
+    c. Work on entity loading / rendering
+
+
+√ 5. Movement
+	a. Test in Git Branches. Gridlocked Movement vs. Free-Form movement

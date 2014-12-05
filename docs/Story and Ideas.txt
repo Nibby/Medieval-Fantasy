@@ -1,0 +1,154 @@
+Medieval Fantasy Game
+
+	#Preface
+
+A Kingdom (Elysia) situated Saya led by King Arthus faces the imminent division as his heirs (Prince Edward and Pegasus)
+fought to acquire their fathers position of King. The princes caused the Kingdom of Elysia to be split into two -- Glysia
+was ruled by Edward, and Naya was ruled by Pegasus.
+
+The undead legion is a new, uprising force underestimated by the arrogant new ‘kings. These marched from the south, and
+hits Glysian kingdom first.
+
+	#Glysia
+
+With low morales, Glaysian king Edward stabilized his control over his people through terror by creating a secret cult of
+necromancers dubbed ‘The Enlightened’ to research the undead in hopes of controlling them as a means of battle force against
+Nayans. The Glysians underestimated the power and number of the undead and ultimately the research failed. Soon the undeads
+plagued the land. Cities fell one after another, men were slaughtered and rotted away on the streets. In a desperate attempt
+to control the situation, Edward ordered the formation a group of warriors dubbed ‘The Crusaders’ to slay the undead legion.
+
+As the war rages on, Glysia’s population diminishes dramatically and the army is desperately seeking for soldiers. Our player is
+one of the few new recruits at the start.
+
+The players will do basic quests and eventually progressing into harder ones. At level 20, player starts main quest line which
+is to destroy the undead legion.
+
+Once player successfully destroys the undead legion… the questline splits
+
+1. To help Glysia win (bullet pointed are major quests):
+
+    a. The Enlightened became a group of mad necromancers driven crazy with power. Player must join ‘The Crusaders’ to kill this cult.
+        Once this is the chosen questline, player will not be able to do the other questline.
+
+
+    b. The king proceeds to praise the player upon the eradication of the cult, and gives orders directly to aid against the war against
+        Nayas. At this point player is given hints that Nayans have been assassinating officials (perhpas remove some government officials
+        as players do quest to show this).
+
+    c. Player is given a cloak that allows them to sneak into Nayan stronghold to retrieve sensitive and critical information from the enemy.
+       Player cannot assassinate king yet due to carefully setup magic barriers, which retrieving these information can be decoded from
+       kingdom wizards to negate them.
+
+
+    c. Assassinate King Pegasus (that involves breaking into Throne Room), this is essential because of the severely severed army after the
+       fight against the undead renders the kingdom incapable of a big-scale warfare. A few wizards will join the player but will eventually
+       stop at various points to negate barriers and hold off waves of soldiers (or be killed) etc.
+
+        > Hooray, without a chain of command Nayan forces soon plunge into chaos and surrenders into Glysian army. Glysia wins.
+
+
+2. To destroy Glysia (Naya win): (tweaking/change is needed)
+
+    a. Upon encountering the necromancers from The Enlightened, the player obeys their orders and commands instead of doing Glysian official
+       quests.
+
+        The player is required to assassinate a few alchemists and magicians and maybe other legendary creatures from Saya continent, and
+        collect gems / other ingredients to create an ‘evil altar’ for undead rituals.
+
+        Once player chooses this quest line, they are not able to do the other.
+
+
+    b. Player must go to specified locations and setup the summoning grounds.
+
+
+    c. Player must eradicate ‘The Crusaders’ secretly (steal the stealth cloak?)
+
+
+    d. Player must kill Micah, a great Magi, to retrieve an arcane gemstone artifact which is capable of powering the altars. At this
+       point undeads burst out of the spawning grounds and tear the kingdom inside-out.
+
+
+    e. Since there are spies working for Glysians in the Naya kingdom, the opposite is true too. A necromancer in The Enlightened is
+       actually a wizard spy from Naya, who noted your efforts and offers you to join Nayan forces. Player has no choice but to accept.
+
+    f. With undead infesting the land, the Nayan spy orders you to slay the other necromancers (their attention strayed away in excitement,
+       creepy people~).
+
+
+    g. The summoned undead (unlike the real undead of unknown origin) can be easily killed by destroying their altars which they are created
+       from, but is only able to by negating the dark aura it emits through the gemstone that shaped it. Player is on a journey to do so on
+       order of the spy necromancer in order to reduce the undead forces once Undeads have fully plagued the entire Glysian kingdom
+
+
+    > Undead armies march into kings room, defenseless the Glysian kingdom collapses.
+
+    # Naya
+
+Shielded from the majority of the undead army from the south, undead is not a big problem for Nayans in the north. Instead, Nayan king
+Pegasus ordered the formation of a secret assassin group known as ‘The Twilight Order’, it’s primary purpose is to assassinate important
+Glysian officials, as a method to weaken the Glysian rule. However, the organization was given too much power (unintentionally) due to king
+Pegasus becoming more and more dependant on them. As a result, the organization became known inside the Nayan officials to be group of
+sinister and mysterious assassins who slays all who opposed the King.
+
+Players who joined this side is a newly recruited soldier. The quests ranges from basic to intermediate, often involving assassination.
+At level 20, player receive ‘Twilight Order Quest’ from ‘X’, a mysterious assassin.
+
+Players are required to assassinate Glysian as well as Nayan officials, this is the main quest line at lv 20. Afterwards, the questline
+splits…
+
+
+
+    # Intro (to be shown upon starting new game as a cutscene animation):
+
+<ELYSIA> 970AD,
+Horrors from the royal chambers echoed in the hallway,
+The unexplained death of King Arthus led to a series of power struggles between his heirs, prince Edward and Pegasus.
+
+The fragile kingdom fractured under the rising tension between the two prince, Elysia was thus split into Glysia in the south and Naya
+in the north.
+
+Masked by greed and corrupted by power, humanity failed to recognize the rise of a third opponent: the undead legion...
+
+
+More here? Don’t want the players to read fading text for too long, even with a background music it still could be boring :P
+
+
+Several Important Names
+Peagsus = King of Naya
+Edward = King of Glysia
+
+Epsilon = Grand Necromancer of The Enlightened
+Eric = Spy necromancer who actually works for Naya
+Alexander = Leader of the ‘Crusaders’
+‘Z’ = Mysterious (codenamed) leader of The Twilight Order
+	Other members include
+	X, C, V, S, B
+if player joins they are able to pick their own codename that is not these.
+
+Lucifer = Archdemon of the Undead Legion (from the Dead Catacombs through the Dimension Gate)
+
+Undead race chain of command (superior to inferior):
+	Archdemon -> (3) Grand Demons -> Demons -> Lesser Demons ->
+	Liches	-> Zombies/Ghouls -> Skeletons
+
+
+
+
+
+	All these are merely my ideas and plans, feel free to comment, change / edit!
+
+Player Origins
+The player will be able to choose their desired kingdom to join (as a recruiter).
+Additionally the player will be given a few skill points to allocate into their character tree. This will play a role in terms of shaping what area of skill they’d like to master.
+
+Skill-tree System (AN IDEA)
+The skill tree system is split into 3 separate main masteries. With different skills being in each mastery. The 3 masteries are:
+Strength (Specializing in Melee, HP + armour)
+Dexterity (Specializing in a mixture of Range/Melee, stealth + speed)
+Intelligence (Specializing in ranged, arcane damage, mainly MP + spells)
+
+Since a lot of skills are in each mastery, each of these skills build towards that mastery. It’s not hard to notice that these masteries still reflect the traditional RPG classes: strength equates to warrior, dexterity equates to rogue and intelligence equates to a wizard. Investing all skill points in Strength category will mean that the player is purely built for a warrior melee, but the player could also spend half on strength and half on intelligence, which turns them into a warrior/mage hybrid. However, the sacrifice for this is that the player won’t be as powerful as unlocking higher level skills in a given mastery.
+
+So in a sense, players aren’t confined to a specific class and early game you may see warriors throwing fireballs should players find that to be helpful. However, it’s better to specialize in a specific mastery as you go on as the skills unlocked later will be more useful and powerful.
+
+This means that, players aren’t confined to a specific class and shouldn’t be strictly bound to a role initially.
