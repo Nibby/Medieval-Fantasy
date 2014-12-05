@@ -6,6 +6,8 @@ import hidden.indev0r.core.Camera;
 import hidden.indev0r.core.entity.Player;
 import hidden.indev0r.core.gui.GElement;
 import hidden.indev0r.core.gui.GElement$Hotbar;
+import hidden.indev0r.core.gui.GElement$Stats;
+import hidden.indev0r.core.gui.GHUD;
 import hidden.indev0r.core.maps.TileMap;
 import hidden.indev0r.core.maps.TileMapDatabase;
 import hidden.indev0r.core.reference.References;
@@ -18,7 +20,6 @@ public class MainGameState extends BasicGameState {
 
 	//Game objects
 	private Camera camera;
-	private Image  canvas;
 
 	//Currently focused map
 	private TileMap map;
@@ -27,7 +28,7 @@ public class MainGameState extends BasicGameState {
 	private Player player;
 
 	//GUI Elements
-	private GElement bar_left;
+	private GHUD hud;
 
 	@Override
 	public int getID() {
@@ -36,7 +37,6 @@ public class MainGameState extends BasicGameState {
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		canvas = Textures.Images.EMPTY;
 
 		camera = new Camera(0, 0);
 		player = new Player(11, 17);
@@ -45,33 +45,25 @@ public class MainGameState extends BasicGameState {
 		map = TileMapDatabase.getTileMap("map00_test");
 		map.addEntity(player);
 
-		bar_left = new GElement$Hotbar(6);
+		hud = new GHUD();
+
 
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-		Graphics g2 = canvas.getGraphics();
-		g2.setColor(Color.black);
-		g2.fillRect(0, 0, References.GAME_WIDTH, References.GAME_HEIGHT);
-
-		map.render(g2, camera);
-
-		g.pushTransform();
-		g.scale(References.DRAW_SCALE, References.DRAW_SCALE);
-		g.drawImage(canvas, 0, 0);
-		g.popTransform();
-
-		bar_left.render();
+		map.render(g, camera);
+		hud.render();
 
 
-		BitFont.render(g, map.getIdentifierName() + " [" + map.getName() + "]", 5, 5);
-		BitFont.render(g, player.getX() + ", " + player.getY() + " / " + player.getCurrentX() + ", " + player.getCurrentY(), 5, 25);
+		//BitFont.render(g, map.getIdentifierName() + " [" + map.getName() + "]", 5, 5);
+		//BitFont.render(g, player.getX() + ", " + player.getY() + " / " + player.getCurrentX() + ", " + player.getCurrentY(), 5, 25);
 	}
 
 	@Override
 	public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
 		camera.tick();
+		hud.tick();
 		map.tick(gameContainer);
 	}
 

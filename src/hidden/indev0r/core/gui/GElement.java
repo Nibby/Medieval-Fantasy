@@ -18,7 +18,8 @@ public abstract class GElement {
 		this.location = coords;
 	}
 
-
 	public abstract void render();
+
+	public abstract void tick();
 
 }
