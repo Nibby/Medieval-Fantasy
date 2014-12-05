@@ -69,5 +69,9 @@ public class MainGameState extends BasicGameState {
     public Camera getCamera() {
         return camera;
     }
+
+    public Player getPlayer() {
+        return player;
+    }
 }
 

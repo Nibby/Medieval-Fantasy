@@ -1,10 +1,9 @@
 package hidden.indev0r.core.entity;
 
 import hidden.indev0r.core.Camera;
-import hidden.indev0r.core.entity.animation.ActionID;
-import hidden.indev0r.core.entity.animation.WizardActionSet;
+import hidden.indev0r.core.entity.animation.ActionSetDatabase;
+import hidden.indev0r.core.entity.animation.ActionType;
 import hidden.indev0r.core.maps.MapDirection;
-import hidden.indev0r.core.maps.TileMap;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -19,14 +18,19 @@ public class Player extends Entity {
     public Player(int x, int y) {
         super(x, y);
 
-        //Placeholder
-        setActionSet(new WizardActionSet());
+
         setSize(32, 32);
     }
 
     @Override
 	public void render(Graphics g, Camera camera) {
         super.render(g, camera);
+
+
+        if(motionMap == null) {
+            //Placeholder
+            setActionSet(ActionSetDatabase.get(0));
+        }
 	}
 
 	@Override
@@ -39,7 +43,7 @@ public class Player extends Entity {
             int y = (int) getY();
             
             if(input.isKeyDown(Input.KEY_W)) {
-                setMotion(ActionID.WALK_UP);
+                setMotion(ActionType.WALK_UP);
                 moving = true;
                 if(!map.isBlocked(x, y - 1)) {
                     move(x, y - 1);
@@ -47,14 +51,14 @@ public class Player extends Entity {
             }
             if(input.isKeyDown(Input.KEY_A)) {
                 currentDirection = MapDirection.LEFT;
-                setMotion(ActionID.WALK_LEFT);
+                setMotion(ActionType.WALK_LEFT);
                 moving = true;
                 if(!map.isBlocked(x - 1, y)) {
                     move(x - 1, y);
                 }
             }
             if(input.isKeyDown(Input.KEY_S)) {
-                setMotion(ActionID.WALK_DOWN);
+                setMotion(ActionType.WALK_DOWN);
                 moving = true;
                 if(!map.isBlocked(x, y + 1)) {
                     move(x, y + 1);
@@ -62,7 +66,7 @@ public class Player extends Entity {
             }
             if(input.isKeyDown(Input.KEY_D)) {
 	            currentDirection = MapDirection.RIGHT;
-	            setMotion(ActionID.WALK_RIGHT);
+	            setMotion(ActionType.WALK_RIGHT);
                 moving = true;
                 if(!map.isBlocked(x + 1, y)) {
                     move(x + 1, y);
@@ -70,7 +74,7 @@ public class Player extends Entity {
             }
 
             if(input.isKeyPressed(Input.KEY_F)) {
-                action = ActionID.ATTACK_LEFT;
+                action = ActionType.ATTACK_LEFT;
             }
         }
 	}

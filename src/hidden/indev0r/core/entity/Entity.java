@@ -1,13 +1,12 @@
 package hidden.indev0r.core.entity;
 
 import hidden.indev0r.core.Camera;
-import hidden.indev0r.core.entity.animation.ActionID;
-import hidden.indev0r.core.entity.animation.ActionMotion;
-import hidden.indev0r.core.entity.animation.EntityActionSet;
+import hidden.indev0r.core.entity.animation.Action;
+import hidden.indev0r.core.entity.animation.ActionType;
+import hidden.indev0r.core.entity.animation.ActionSet;
 import hidden.indev0r.core.maps.MapDirection;
 import hidden.indev0r.core.maps.Tile;
 import hidden.indev0r.core.maps.TileMap;
-import hidden.indev0r.core.texture.Textures;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Graphics;
@@ -27,8 +26,8 @@ public abstract class Entity {
      * By default, the entity uses static sprites.
      * This map is null (i.e. not used) if entity has no motion map.
      */
-    private Map<ActionID, ActionMotion> motionMap = null;
-    protected ActionID action = null;
+    protected Map<ActionType, Action> motionMap = null;
+    protected ActionType action = null;
     protected boolean forcedMotion = false;
 
 	protected float currentX, currentY;
@@ -67,21 +66,11 @@ public abstract class Entity {
         //Otherwise
         else {
             renderShadow(g, camera);
-            if(forcedMotion) {
-                ActionMotion motion = motionMap.get(action);
-                if(motion != null) {
-                    if(!motion.hasEnded())
-                        motion.renderForced(g, getRenderX(camera), getRenderY(camera));
-                    } else {
-                    forcedMotion = false;
-                }
-            } else {
-                ActionMotion motion = motionMap.get(action);
-                if(motion == null)
-                    motionMap.get(ActionID.STATIC).render(g, getRenderX(camera), getRenderY(camera), false);
-                else {
-                    motion.render(g, getRenderX(camera), getRenderY(camera), moving);
-                }
+            Action motion = motionMap.get(action);
+            if(motion == null)
+                motionMap.get(ActionType.STATIC_RIGHT).render(g, getRenderX(camera), getRenderY(camera), false);
+            else {
+                motion.render(g, getRenderX(camera), getRenderY(camera), moving);
             }
         }
     }
@@ -105,14 +94,14 @@ public abstract class Entity {
                    currentX = moveX;
                else
                    currentX -= moveSpeed;
-               action = ActionID.WALK_LEFT;
+               action = ActionType.WALK_LEFT;
            }
             if(currentX < moveX) {
                 if(currentX + moveSpeed > moveX)
                     currentX = moveSpeed;
                 else
                     currentX += moveSpeed;
-                action = ActionID.WALK_RIGHT;
+                action = ActionType.WALK_RIGHT;
             }
         }
 
@@ -122,14 +111,14 @@ public abstract class Entity {
                     currentY = moveY;
                 else
                     currentY -= moveSpeed;
-                action = ActionID.WALK_UP;
+                action = ActionType.WALK_UP;
             }
             if(currentY < moveY) {
                 if(currentY + moveSpeed > moveY)
                     currentY = moveY;
                 else
                     currentY += moveSpeed;
-                action = ActionID.WALK_DOWN;
+                action = ActionType.WALK_DOWN;
             }
         }
 
@@ -151,7 +140,7 @@ public abstract class Entity {
         map.stepOn(this, x, y, oldX, oldY);
     }
 
-    public void setMotion(ActionID action) {
+    public void setMotion(ActionType action) {
         if(!forcedMotion)
             this.action = action;
     }
@@ -164,7 +153,7 @@ public abstract class Entity {
             sprite = sprite.getScaledCopy(width, height);
     }
 
-    public void forceActMotion(ActionID id) {
+    public void forceActMotion(ActionType id) {
         action = id;
         forcedMotion = true;
     }
@@ -176,13 +165,13 @@ public abstract class Entity {
      * Once used, all properties from the action set will be
      * cloned.
      *
-     * @see hidden.indev0r.core.entity.animation.EntityActionSet
+     * @see hidden.indev0r.core.entity.animation.ActionSetDatabase
      */
-    public void setActionSet(EntityActionSet set) {
+    public void setActionSet(ActionSet set) {
         motionMap = new HashMap<>();
         set.applyAll(motionMap);
 
-        action = ActionID.STATIC;
+        action = ActionType.STATIC_RIGHT;
     }
 
     public void setCurrentMap(TileMap map) {

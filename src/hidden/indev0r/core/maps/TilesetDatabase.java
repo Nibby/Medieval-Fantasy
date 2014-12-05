@@ -40,7 +40,7 @@ public class TilesetDatabase {
      */
     public void loadTilesets() throws Exception {
         Path tilesetPath = References.TILESET_DEFINITION_PATH;
-        Cipher cipher = CipherEngine.getCipher(Cipher.DECRYPT_MODE, "TTMSECKY");
+        Cipher cipher = CipherEngine.getCipher(Cipher.DECRYPT_MODE, References.CIPHER_KEY_1);
 
         //Read raw data & decrypt
         DataInputStream input = new DataInputStream(new CipherInputStream(Files.newInputStream(tilesetPath), cipher));

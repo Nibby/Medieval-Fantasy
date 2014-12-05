@@ -11,6 +11,9 @@ import org.newdawn.slick.SpriteSheet;
  */
 public class BitFont {
 
+    public static final int FONT_GLYPH_SIZE = 16;
+    private static final int FONT_GLYPH_ROW_WIDTH = 26;
+
     public static final String letters =
             "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
             "abcdefghijklmnopqrstuvwxyz" +
@@ -18,10 +21,10 @@ public class BitFont {
             "!@#$%^&*()-+_=~.,<>?/\\[]|:";
 
     private static final FontSpacing[] GLYPH_SPACING = {
-            new FontSpacing("ABCDEFGHJKLMNOPQRSTUVWXYZabcdeghkmnopquvwyz023456789@#$%&_~?", 14),
-            new FontSpacing("Ifrstx=\"", 12),
-            new FontSpacing("j1^*-+<>/\\", 10),
-            new FontSpacing("il()[],;'", 8),
+            new FontSpacing("@#$%&_~?", 14),
+            new FontSpacing("ABCDEFGHJKLMNOPQRSTUVWXYZfexabcdghkmnopquvwyz023456789=\"", 12),
+            new FontSpacing("Ijrst^*-+<>/\\", 10),
+            new FontSpacing("il1()[],;'", 8),
             new FontSpacing("!.|:", 6),
     };
 
@@ -30,7 +33,7 @@ public class BitFont {
     }
 
     public static void render(Graphics g, String text, int x, int y, Color color) {
-        render(g, text, x, y, color, 0);
+        render(g, text, x, y, color, 16);
     }
 
     public static void render(Graphics g, String text, int x, int y, Color color, int size) {
@@ -38,12 +41,12 @@ public class BitFont {
     }
 
     public static void render(Graphics g, String text, int x, int y, Color color, int size, float alpha) {
-        if(size > 2) size = 2;
-        if(size < 0) size = 0;
+        if(size < 1) size = 1;
         int drawX = x, drawY = y;
         SpriteSheet fontSheet = Textures.SpriteSheets.UI_FONT;
 
-        int fontWidth = 16 - 2, fontHeight = 20;
+        float fontWidth = ((size - 2) * (float) (size / FONT_GLYPH_SIZE)),
+            fontHeight = (20 * (float) (size / FONT_GLYPH_SIZE));
         for(int i = 0; i < text.length(); i++) {
             int index = letters.indexOf(text.charAt(i));
             if(text.charAt(i) == ' ') {
@@ -57,15 +60,15 @@ public class BitFont {
             }
             for(FontSpacing spacing : GLYPH_SPACING) {
                 if(spacing.affectedGlyphs.contains("" + text.charAt(i))) {
-                    fontWidth = spacing.glyphWidth;
+                    fontWidth = (spacing.glyphWidth * (float) (size / FONT_GLYPH_SIZE));
                 }
             }
             if(index < 0) continue;
-            Image glyph = fontSheet.getSprite(index % 26, index / 26);
+            Image glyph = fontSheet.getSprite(index % FONT_GLYPH_ROW_WIDTH, index / FONT_GLYPH_ROW_WIDTH);
             glyph.setAlpha(alpha);
             if(color == Color.white)
-                g.drawImage(glyph, drawX + size + 1, drawY + size + 1, Color.black);
-            g.drawImage(glyph, drawX, drawY, color);
+                g.drawImage((size != FONT_GLYPH_SIZE) ? glyph.getScaledCopy((int) fontWidth + 2, (int) fontHeight) : glyph, drawX + 1, drawY + 1, Color.black);
+            g.drawImage((size != FONT_GLYPH_SIZE) ? glyph.getScaledCopy((int) fontWidth + 2, (int)fontHeight) : glyph, drawX, drawY, color);
             drawX += fontWidth;
         }
     }
@@ -80,7 +83,7 @@ public class BitFont {
                     continue outer;
                 }
             }
-            width += 16;
+            width += size;
         }
         return width;
     }
