@@ -41,11 +41,6 @@ public class InitializationState extends BasicGameState {
 
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
-
-    }
-
-    @Override
-    public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
         if(!loadedActionSets) {
             /*
                 THIS MAY BE A TEMPORARY PLACE
@@ -70,5 +65,9 @@ public class InitializationState extends BasicGameState {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
     }
 }

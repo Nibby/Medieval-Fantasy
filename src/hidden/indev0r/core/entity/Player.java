@@ -4,9 +4,11 @@ import hidden.indev0r.core.Camera;
 import hidden.indev0r.core.entity.animation.ActionSetDatabase;
 import hidden.indev0r.core.entity.animation.ActionType;
 import hidden.indev0r.core.maps.MapDirection;
+import hidden.indev0r.core.texture.Textures;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.SpriteSheet;
 
 /*
     I hope you don't mind me testing some of my own code.
@@ -18,6 +20,7 @@ public class Player extends Entity {
     public Player(int x, int y) {
         super(x, y);
 
+        SpriteSheet spriteSheet = Textures.SpriteSheets.ANIM_MAGE_0;
 
         setSize(32, 32);
     }

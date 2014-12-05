@@ -57,12 +57,12 @@ public  class ActionSetDatabase {
                 resource = (SpriteSheet) Textures.get(setResource);
 
                 if(resource == null) {
-                    JOptionPane.showMessageDialog(null, "Unable to locate resource:\n'" + setResource +"'", "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Unable to locate resource:\n'" + setResource +"' (null resource)", "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
                     continue;
                 }
             }  catch(Exception e) {
                 e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Unable to locate resource:\n'" + setResource +"'", "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Unable to locate resource:\n'" + setResource +"' (error)", "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
                 continue;
             }
 
