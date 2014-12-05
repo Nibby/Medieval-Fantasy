@@ -31,7 +31,7 @@ public class MainGameState extends BasicGameState {
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-        canvas = Textures.SpriteSheets.EMPTY;
+        canvas = Textures.Images.EMPTY;
 
         camera = new Camera(0, 0);
         player = new Player(4, 3);

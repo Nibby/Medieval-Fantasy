@@ -16,6 +16,14 @@ public class Textures {
     private static final String ENTITY_ANIM_IMAGE_PATH = ENTITY_IMAGE_PATH  + "animated/";
     private static final String ENTITY_STATIC_IMAGE_PATH = ENTITY_IMAGE_PATH  + "static/";
 
+	public static final class Images {
+		//Map
+		public static final Image EMPTY = loadImage("res/empty.png");
+
+		//View Elements
+		public static final Image DUNGEON_MASK = loadImage("res/mask.png");
+	}
+
 	public static final class SpriteSheets {
 
         public static final SpriteSheet ANIM_MAGE_0 = loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "mage0.png", 32, 32);
