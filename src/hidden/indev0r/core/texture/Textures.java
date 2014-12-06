@@ -25,19 +25,31 @@ public class Textures {
 		public static final Image BUTTON         = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "minimap/BUTTON.png");
 		public static final Image BUTTON_PRESSED = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "minimap/BUTTON_PRESSED.png");
 
-		public static final Image FRAME_TOP_RIGHT     = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "frame/TOP_RIGHT.png");
-		public static final Image FRAME_TOP_MIDDLE    = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "frame/TOP_MIDDLE.png");
-		public static final Image FRAME_TOP_LEFT      = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "frame/TOP_LEFT.png");
-		public static final Image FRAME_MIDDLE_RIGHT  = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "frame/MIDDLE_RIGHT.png");
-		public static final Image FRAME_MIDDLE        = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "frame/MIDDLE.png");
-		public static final Image FRAME_MIDDLE_LEFT   = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "frame/MIDDLE_LEFT.png");
-		public static final Image FRAME_BOTTOM_RIGHT  = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "frame/BOTTOM_RIGHT.png");
-		public static final Image FRAME_BOTTOM_MIDDLE = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "frame/BOTTOM_MIDDLE.png");
-		public static final Image FRAME_BOTTOM_LEFT   = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "frame/BOTTOM_LEFT.png");
-
+		public static final Image FRAME_TOP_RIGHT         = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "frame/TOP_RIGHT.png");
+		public static final Image FRAME_TOP_MIDDLE        = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "frame/TOP_MIDDLE.png");
+		public static final Image FRAME_TOP_LEFT          = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "frame/TOP_LEFT.png");
+		public static final Image FRAME_MIDDLE_RIGHT      = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "frame/MIDDLE_RIGHT.png");
+		public static final Image FRAME_MIDDLE            = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "frame/MIDDLE.png");
+		public static final Image FRAME_MIDDLE_LEFT       = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "frame/MIDDLE_LEFT.png");
+		public static final Image FRAME_BOTTOM_RIGHT      = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "frame/BOTTOM_RIGHT.png");
+		public static final Image FRAME_BOTTOM_MIDDLE     = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "frame/BOTTOM_MIDDLE.png");
+		public static final Image FRAME_BOTTOM_LEFT       = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "frame/BOTTOM_LEFT.png");
 		public static final Image FRAME_TOP_RIGHT_DIALOG  = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "frame/TOP_RIGHT_DIALOG.png");
 		public static final Image FRAME_TOP_MIDDLE_DIALOG = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "frame/TOP_MIDDLE_DIALOG.png");
 		public static final Image FRAME_TOP_LEFT_DIALOG   = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "frame/TOP_LEFT_DIALOG.png");
+
+		public static final Image BUTTON_ROUND_GREEN_NORMAL  = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "buttons/GREEN_ROUND_NORMAL.png");
+		public static final Image BUTTON_ROUND_GREEN_HOVERED = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "buttons/GREEN_ROUND_HOVERED.png");
+		public static final Image BUTTON_ROUND_GREEN_PRESSED = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "buttons/GREEN_ROUND_PRESSED.png");
+		public static final Image BUTTON_ROUND_RED_NORMAL    = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "buttons/RED_ROUND_NORMAL.png");
+		public static final Image BUTTON_ROUND_RED_HOVERED   = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "buttons/RED_ROUND_HOVERED.png");
+		public static final Image BUTTON_ROUND_RED_PRESSED   = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "buttons/RED_ROUND_PRESSED.png");
+		public static final Image BUTTON_ROUND_BLUE_NORMAL   = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "buttons/BLUE_ROUND_NORMAL.png");
+		public static final Image BUTTON_ROUND_BLUE_HOVERED  = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "buttons/BLUE_ROUND_HOVERED.png");
+		public static final Image BUTTON_ROUND_BLUE_PRESSED  = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "buttons/BLUE_ROUND_PRESSED.png");
+		public static final Image BUTTON_ROUND_GREY_NORMAL   = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "buttons/GREY_ROUND_NORMAL.png");
+		public static final Image BUTTON_ROUND_GREY_HOVERED  = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "buttons/GREY_ROUND_HOVERED.png");
+		public static final Image BUTTON_ROUND_GREY_PRESSED  = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "buttons/GREY_ROUND_PRESSED.png");
 
 	}
 
