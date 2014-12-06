@@ -34,6 +34,11 @@ public class Textures {
 		public static final Image FRAME_BOTTOM_RIGHT  = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "frame/BOTTOM_RIGHT.png");
 		public static final Image FRAME_BOTTOM_MIDDLE = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "frame/BOTTOM_MIDDLE.png");
 		public static final Image FRAME_BOTTOM_LEFT   = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "frame/BOTTOM_LEFT.png");
+
+		public static final Image FRAME_TOP_RIGHT_DIALOG  = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "frame/TOP_RIGHT_DIALOG.png");
+		public static final Image FRAME_TOP_MIDDLE_DIALOG = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "frame/TOP_MIDDLE_DIALOG.png");
+		public static final Image FRAME_TOP_LEFT_DIALOG   = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "frame/TOP_LEFT_DIALOG.png");
+
 	}
 
 

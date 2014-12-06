@@ -47,7 +47,6 @@ public abstract class GComponent {
 		this.position = pos;
 		firedHoverEvent = false;
 		wasClicked = false;
-
 		componentListeners = new ArrayList<>();
 	}
 

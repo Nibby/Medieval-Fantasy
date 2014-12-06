@@ -1,9 +1,6 @@
 package hidden.indev0r.core.gui.menu;
 
-import hidden.indev0r.core.gui.component.GComponent;
-import hidden.indev0r.core.gui.component.GComponent$Button;
-import hidden.indev0r.core.gui.component.GComponent$Frame;
-import hidden.indev0r.core.gui.component.GComponent$Label;
+import hidden.indev0r.core.gui.component.*;
 import hidden.indev0r.core.texture.Textures;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.GameContainer;
@@ -11,9 +8,10 @@ import org.newdawn.slick.Graphics;
 
 public class GTestMenu extends GMenu {
 
-	private GComponent$Label label;
+	private GComponent$Label  label;
 	private GComponent$Button button;
-	private GComponent$Frame frame;
+	private GComponent$Frame  dialog;
+	private GComponent$Frame  frame;
 
 	//TODO: GDialogue box system. How are you going to get these to close?
 	//TODO: Cursors
@@ -24,13 +22,16 @@ public class GTestMenu extends GMenu {
 		button = new GComponent$Button(new Vector2f(20, 20), Textures.UI.BUTTON, Textures.UI.BUTTON_PRESSED);
 		button.addListener(this);
 
-		frame = new GComponent$Frame(new Vector2f(80, 10), 8, 2);
+		dialog = new GComponent$Dialog(new Vector2f(80, 10), 8, 5);
+		dialog.addListener(this);
+
+		frame = new GComponent$Frame(new Vector2f(340, 10), 10, 5);
 		frame.addListener(this);
 
 		addComponent(label);
 		addComponent(button);
+		addComponent(dialog);
 		addComponent(frame);
-
 	}
 
 
@@ -46,12 +47,12 @@ public class GTestMenu extends GMenu {
 
 	@Override
 	public void componentClicked(GComponent c) {
-
+		System.out.println("Component clicked");
 	}
 
 	@Override
 	public void componentHovered(GComponent c) {
-
+		System.out.println("Component hovered");
 	}
 
 
