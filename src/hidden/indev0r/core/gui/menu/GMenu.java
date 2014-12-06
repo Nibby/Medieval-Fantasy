@@ -11,11 +11,9 @@ import java.util.List;
 public abstract class GMenu implements GComponentListener {
 
 	protected List<GComponent> componenets;
-	protected List<GMenu>      menus;
 
 	public GMenu() {
 		componenets = new ArrayList<>(0);
-		menus = new ArrayList<>(0);
 	}
 
 	public void render(Graphics g) {

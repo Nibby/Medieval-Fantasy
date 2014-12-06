@@ -11,9 +11,6 @@ public class GComponent$Button extends GComponent {
 	private Image   button;
 	private Image   buttonPressed;
 	private Image   buttonHovered;
-	private int     width;
-	private int     height;
-	private GStates currentState;
 
 	public GComponent$Button(Vector2f pos, Image button) {
 		this(pos, button, null);
@@ -28,8 +25,8 @@ public class GComponent$Button extends GComponent {
 		this.button = button;
 		this.buttonPressed = buttonPressed;
 		this.buttonHovered = buttonHovered;
-		width = button.getWidth();
-		height = button.getHeight();
+		this.width = button.getWidth();
+		this.height = button.getHeight();
 		currentState = GStates.NORMAL;
 	}
 

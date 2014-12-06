@@ -21,6 +21,7 @@ public class GComponent$Label extends GComponent {
 		super(pos);
 		this.text = text;
 		this.color = color;
+		this.width = BitFont.widthOf(text, 16);
 	}
 
 	@Override
