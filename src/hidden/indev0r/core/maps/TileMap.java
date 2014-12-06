@@ -91,7 +91,7 @@ public class TileMap {
             if (layer == 1) {
                 for (Entity e : entities) {
                     //Depth sorting needed
-                    e.render(g, camera);
+                    e.render(g);
                 }
             }
         }

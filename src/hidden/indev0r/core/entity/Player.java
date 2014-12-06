@@ -10,6 +10,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SpriteSheet;
 
+import javax.swing.*;
+
 /*
     I hope you don't mind me testing some of my own code.
     Although we might be branching soon by the looks of the progress ^_^
@@ -26,13 +28,13 @@ public class Player extends Entity {
     }
 
     @Override
-	public void render(Graphics g, Camera camera) {
-        super.render(g, camera);
+	public void render(Graphics g) {
+        super.render(g);
 
 
-        if(motionMap == null) {
+        if(actionMap == null) {
             //Placeholder
-            setActionSet(ActionSetDatabase.get(0));
+            setActionSet(ActionSetDatabase.get(1));
         }
 	}
 
@@ -76,8 +78,14 @@ public class Player extends Entity {
                 }
             }
 
-            if(input.isKeyPressed(Input.KEY_F)) {
-                action = ActionType.ATTACK_LEFT;
+            if(input.isKeyPressed(Input.KEY_F1)) {
+                //Debug
+                ActionType ani = (ActionType) JOptionPane.showInputDialog(null, "Select animation: ", "ActionSet Debug", JOptionPane.QUESTION_MESSAGE,
+                        null, ActionType.values(), ActionType.STATIC_RIGHT);
+
+                if(ani != null) {
+                    forceActAction(ani);
+                }
             }
         }
 	}

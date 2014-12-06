@@ -5,32 +5,28 @@ package hidden.indev0r.core.entity.animation;
  */
 public enum ActionType {
 
-    STATIC_LEFT("anim_static_left"),
-    STATIC_RIGHT("anim_static_right"),
-    STATIC_UP("anim_static_up"),
-    STATIC_DOWN("anim_static_down"),
+    STATIC_LEFT,
+    STATIC_RIGHT,
+    STATIC_UP,
+    STATIC_DOWN,
 
-    WALK_LEFT("anim_walk_left"),
-    WALK_RIGHT("anim_walk_right"),
-    WALK_UP("anim_walk_up"),
-    WALK_DOWN("anim_walk_down"),
+    WALK_LEFT,
+    WALK_RIGHT,
+    WALK_UP,
+    WALK_DOWN,
 
-    ATTACK_LEFT("anim_attack_left"),
-    ATTACK_RIGHT("anim_attack_right"),
-    ATTACK_UP("anim_attack_up"),
-    ATTACK_DOWN("anim_attack_down"),
+    ATTACK_LEFT,
+    ATTACK_RIGHT,
+    ATTACK_UP,
+    ATTACK_DOWN,
 
-    CAST_LEFT("anim_cast_left"),
-    CAST_RIGHT("anim_cast_right"),
-    CAST_UP("anim_cast_up"),
-    CAST_DOWN("anim_cast-down"),
+    CAST_LEFT,
+    CAST_RIGHT,
+    CAST_UP,
+    CAST_DOWN,
 
-    USE_SPECIAL("anim_use_special"),
-    DEATH("anim_death")
+    USE_SPECIAL,
+    DEATH
+
     ;
-
-    String id;
-    private ActionType(String id) {
-        this.id = id;
-    }
 }

@@ -40,6 +40,34 @@
             <frame sprite="2,2" time="350" />
         </action>
 
+        <action type="ATTACK_RIGHT">
+            <frame subImage="64,0,44,32" time="200" />
+            <frame sprite="0,0" time="200" />
+        </action>
+
+        <action type="ATTACK_DOWN">
+            <frame subImage="96,32,32,36" time="200" />
+            <frame sprite="0,1" time="200" />
+        </action>
+
+        <action type="ATTACK_UP">
+            <frame sprite="4,2" time="200" />
+            <frame sprite="0,2" time="200" />
+        </action>
+
+        <action type="ATTACK_LEFT">
+            <frame subImage="84,96,44,32" time="200" shiftX="-12"/>
+            <frame sprite="0,3" time="200" />
+        </action>
+
+        <action type="USE_SPECIAL">
+            <frame sprite="4,0" time="1000" />
+            <frame sprite="0,0" time="200" />
+        </action>
+
+        <action type="DEATH">
+            <frame sprite="4,1" time="9999999" />
+        </action>
     </actionSet>
 
     <!-- warrior0 -->

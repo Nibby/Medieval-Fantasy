@@ -4,6 +4,7 @@ import hidden.indev0r.core.reference.References;
 import hidden.indev0r.core.texture.ResourceManager;
 import hidden.indev0r.core.util.CipherEngine;
 import hidden.indev0r.core.util.XMLParser;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -101,17 +102,56 @@ public  class ActionSetDatabase {
                 for(int k = 0; k < frameList.getLength(); k++) {
                     Element eFrame = (Element) frameList.item(k);
 
-                    //Read sprite information, in co-ord pairs (e.g. 2,3)
-                    String frameData = eFrame.getAttribute("sprite");
-                    String[] frameXY = frameData.split(",");
-                    int frameX, frameY, frameTime;
+                    Image frameSprite = null;
+                    int frameTime;
                     int frameXShift, frameYShift;
+
+
+                    //If done via. sprites
+                    if(eFrame.hasAttribute("sprite")) {
+                        //Read sprite information, in co-ord pairs (e.g. 2,3)
+                        try {
+                            int frameX = -1, frameY = -1;
+
+                            String frameData = eFrame.getAttribute("sprite");
+                            String[] frameXY = frameData.split(",");
+                            frameX = Integer.parseInt(frameXY[0]);
+                            frameY = Integer.parseInt(frameXY[1]);
+                            frameSprite = resource.getSprite(frameX, frameY);
+
+                        } catch(Exception e) {
+                            JOptionPane.showMessageDialog(null, "Error occurred while loading frame data (sprite)!\n" + e, "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
+                            continue;
+                        }
+                    }
+
+                    //If done via subimage
+                    else if(eFrame.hasAttribute("subImage")) {
+                        try {
+                            int startX, startY, width, height;
+
+
+                            String frameData = eFrame.getAttribute("subImage");
+                            String[] frameSub = frameData.split(",");
+                            startX = Integer.parseInt(frameSub[0]);
+                            startY = Integer.parseInt(frameSub[1]);
+                            width = Integer.parseInt(frameSub[2]);
+                            height = Integer.parseInt(frameSub[3]);
+                            frameSprite = resource.getSubImage(startX, startY, width, height);
+
+                        } catch(Exception e) {
+                            JOptionPane.showMessageDialog(null, "Error occurred while loading frame data (subImage)!\n" + e, "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
+                            continue;
+                        }
+                    }
+
+                    //Load data
                     try {
-                        frameX = Integer.parseInt(frameXY[0]);
-                        frameY = Integer.parseInt(frameXY[1]);
+
                         frameTime = Integer.parseInt(eFrame.getAttribute("time"));
                         frameXShift = (eFrame.hasAttribute("shiftX") ? Integer.parseInt(eFrame.getAttribute("shiftX")) : 0);
                         frameYShift = (eFrame.hasAttribute("shiftY") ? Integer.parseInt(eFrame.getAttribute("shiftY")) : 0);
+
                     } catch(Exception e) {
                         JOptionPane.showMessageDialog(null, "Error occurred while loading frame data!\n" + e, "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
                         continue;
@@ -119,7 +159,7 @@ public  class ActionSetDatabase {
 
                     //Create and add frame to set, from given information
                     try {
-                        action.addFrame(resource.getSprite(frameX, frameY), frameTime, frameXShift, frameYShift);
+                        action.addFrame(frameSprite, frameTime, frameXShift, frameYShift);
                     } catch(Exception e) {
                         e.printStackTrace();
                         JOptionPane.showMessageDialog(null, "Error occurred upon creating frame for action '" + actionTypeString + "'!", "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);

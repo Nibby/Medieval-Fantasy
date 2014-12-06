@@ -1,6 +1,7 @@
 package hidden.indev0r.core.entity;
 
 import hidden.indev0r.core.Camera;
+import hidden.indev0r.core.MedievalLauncher;
 import hidden.indev0r.core.entity.animation.Action;
 import hidden.indev0r.core.entity.animation.ActionType;
 import hidden.indev0r.core.entity.animation.ActionSet;
@@ -13,6 +14,7 @@ import org.newdawn.slick.Graphics;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 public abstract class Entity {
 
@@ -26,10 +28,9 @@ public abstract class Entity {
      * By default, the entity uses static sprites.
      * This map is null (i.e. not used) if entity has no motion map.
      */
-    protected Map<ActionType, Action> motionMap = null;
+    protected Map<ActionType, Action> actionMap = null; //The map of all entity actions
+    protected Stack<ActionType> actionPlayStack = new Stack<>();        //A stack of animation which the entity is forced to act out
     protected ActionType action = null;
-    protected boolean forcedMotion = false;
-
 	protected float currentX, currentY;
     protected float moveX, moveY;
     protected boolean moving = false;
@@ -53,37 +54,48 @@ public abstract class Entity {
         this.moveY = y * Tile.TILE_SIZE;
 	}
 
-	public void render(Graphics g, Camera camera) {
+	public void render(Graphics g) {
         //If entity is not using a motion map
-        if(motionMap == null) {
+        if(actionMap == null) {
             if(sprite != null) {
-                renderShadow(g, camera);
+                renderShadow(g);
                 g.drawImage((currentDirection == MapDirection.RIGHT) ? sprite : spriteFlipped,
-                        getRenderX(camera), getRenderY(camera));
+                        getRenderX(), getRenderY());
             }
         }
 
         //Otherwise
         else {
-            renderShadow(g, camera);
-            Action motion = motionMap.get(action);
-            if(motion == null)
-                motionMap.get(ActionType.STATIC_RIGHT).render(g, getRenderX(camera), getRenderY(camera), false);
-            else {
-                motion.render(g, getRenderX(camera), getRenderY(camera), moving);
+            renderShadow(g);
+
+            Action motion = null;
+            //If entity is forced to act out an animation, do so
+            if(!actionPlayStack.isEmpty()) {
+                motion = actionMap.get(actionPlayStack.peek());
+                if(motion != null) {
+                    if(!motion.hasEnded()) motion.renderForced(g, getRenderX(), getRenderY());
+                    else                   actionPlayStack.pop();
+                } else actionPlayStack.pop();
+
+            } else {
+                motion = actionMap.get(action);
+                if(motion == null)  actionMap.get(ActionType.STATIC_RIGHT).render(g, getRenderX(), getRenderY(), false);
+                else                motion.render(g, getRenderX(), getRenderY(), moving);
             }
         }
     }
 
-    private float getRenderY(Camera camera) {
+    private float getRenderY() {
+        Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
         return currentY + camera.getOffsetY() - Tile.TILE_SIZE / 5;
     }
 
-    private float getRenderX(Camera camera) {
+    private float getRenderX() {
+        Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
         return currentX + camera.getOffsetX();
     }
 
-    private void renderShadow(Graphics g, Camera camera) {
+    private void renderShadow(Graphics g) {
 
     }
 
@@ -141,8 +153,7 @@ public abstract class Entity {
     }
 
     public void setMotion(ActionType action) {
-        if(!forcedMotion)
-            this.action = action;
+        this.action = action;
     }
 
     public void setSize(int width, int height) {
@@ -153,9 +164,11 @@ public abstract class Entity {
             sprite = sprite.getScaledCopy(width, height);
     }
 
-    public void forceActMotion(ActionType id) {
-        action = id;
-        forcedMotion = true;
+    public void forceActAction(ActionType id) {
+        Action action = actionMap.get(id);
+        if(action == null) return;
+        action.restart();
+        actionPlayStack.add(0, id);
     }
 
     /**
@@ -168,8 +181,8 @@ public abstract class Entity {
      * @see hidden.indev0r.core.entity.animation.ActionSetDatabase
      */
     public void setActionSet(ActionSet set) {
-        motionMap = new HashMap<>();
-        set.applyAll(motionMap);
+        actionMap = new HashMap<>();
+        set.applyAll(actionMap);
 
         action = ActionType.STATIC_RIGHT;
     }

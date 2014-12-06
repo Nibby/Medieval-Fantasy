@@ -51,12 +51,30 @@ public class Action {
         }
     }
 
+    public void renderForced(Graphics g, float x, float y) {
+        animation.setLooping(false);
+
+        int frame = animation.getFrame();
+        Point shift = frameShifts.get(frame);
+
+        drawOutline(animation.getCurrentFrame(), x, y, 1);
+        g.drawAnimation(animation, x + xShift + shift.x, y + yShift + shift.y);
+    }
+
     private void drawOutline(Image img, float x, float y, int weight) {
 
-        img.getScaledCopy(img.getWidth() + weight * 2, img.getHeight() + weight * 2).draw(x - weight, y - weight, org.newdawn.slick.Color.black);
+//        img.getScaledCopy(img.getWidth() + weight * 2, img.getHeight() + weight * 2).draw(x - weight, y - weight, org.newdawn.slick.Color.black);
     }
 
     public ActionType getActionType() {
         return actionType;
+    }
+
+    public boolean hasEnded() {
+        return animation.isStopped();
+    }
+
+    public void restart() {
+        animation.restart();
     }
 }
