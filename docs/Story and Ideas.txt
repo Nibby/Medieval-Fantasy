@@ -113,7 +113,8 @@ Masked by greed and corrupted by power, humanity failed to recognize the rise of
 More here? Don’t want the players to read fading text for too long, even with a background music it still could be boring :P
 
 
-Several Important Names
+    #Several Important Names:
+
 Peagsus = King of Naya
 Edward = King of Glysia
 
@@ -122,7 +123,13 @@ Eric = Spy necromancer who actually works for Naya
 Alexander = Leader of the ‘Crusaders’
 ‘Z’ = Mysterious (codenamed) leader of The Twilight Order
 	Other members include
-	X, C, V, S, B
+	X
+	C
+	V
+	S (former)          - See 'Johnny Luca'
+	B (former)
+	I (former, betray)
+
 if player joins they are able to pick their own codename that is not these.
 
 Lucifer = Archdemon of the Undead Legion (from the Dead Catacombs through the Dimension Gate)

@@ -1,0 +1,17 @@
+Forsaken Shortclaw is a quest weapon, obtained by finding Johnathan Luca and completing his weapon crafting quest.
+
+    "A sinister, sharp dagger mounted on a highly decorated magical hilt in the form of an eagle's claw.
+    The dark blade pulsates with an uncomfortable aura. It is said that those who dare to wield this sword are destined to
+    bring bad luck."
+
+Legend says that the land of Saya had a pair of legendary daggers: Forsaken Claw and Ravenous Claw. Those who are able to wield
+both are granted enormous power.
+
+Not so much of a newly crafted weapon, it used to be known as the dreaded 'Forsaken Claw' obtained by Luca after killing a
+famouse warlord. It was used by Luca during his earlier life as a notorious assassin.
+
+After the battle between Luca ('S') and Yao ('Z'), Yao's dark-magic infused Ravenous Claw shattered Luca's dagger, only a tiny
+portion of the blade still remained afterwards. The new crafting ingredietns player brought to Luca broke down the remaining
+blade body and turned into a weaker, but still very strong material.
+
+Although the blade is no longer legendary, users should be freed from the 'bad luck curse', right?
