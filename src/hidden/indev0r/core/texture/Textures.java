@@ -7,6 +7,7 @@ public class Textures {
 
 	private static final String ENTITY_IMAGE_PATH    = "res/textures/entity/";
 	private static final String UI_GAME_ELEMENT_PATH = "res/textures/ui_elements/game/";
+	private static final String CURSOR_IMAGE_PATH    = "res/textures/cursors/";
 
 
 	public static final class Images {
@@ -33,6 +34,18 @@ public class Textures {
 		public static final Image FRAME_BOTTOM_RIGHT  = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "frame/BOTTOM_RIGHT.png");
 		public static final Image FRAME_BOTTOM_MIDDLE = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "frame/BOTTOM_MIDDLE.png");
 		public static final Image FRAME_BOTTOM_LEFT   = ResourceLoader.loadImage(UI_GAME_ELEMENT_PATH + "frame/BOTTOM_LEFT.png");
+	}
+
+
+	public static final class Cursors {
+		public static final Image FINGER              = ResourceLoader.loadImage(CURSOR_IMAGE_PATH + "FINGER_NORMAL.png");
+		public static final Image FINGER_PRESSED      = ResourceLoader.loadImage(CURSOR_IMAGE_PATH + "FINGER_PRESSED.png");
+		public static final Image POINTER_RED         = ResourceLoader.loadImage(CURSOR_IMAGE_PATH + "POINTER_RED.png");
+		public static final Image POINTER_BLACK       = ResourceLoader.loadImage(CURSOR_IMAGE_PATH + "POINTER_BLACK.png");
+		public static final Image POINTER_WHITE       = ResourceLoader.loadImage(CURSOR_IMAGE_PATH + "POINTER_WHITE.png");
+		public static final Image POINTER_YELLOW      = ResourceLoader.loadImage(CURSOR_IMAGE_PATH + "POINTER_YELLOW.png");
+		public static final Image POINTER_DARK_YELLOW = ResourceLoader.loadImage(CURSOR_IMAGE_PATH + "POINTER_DARK_YELLOW.png");
+
 	}
 
 }
