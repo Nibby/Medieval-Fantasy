@@ -14,7 +14,7 @@ public abstract class GComponent {
 
 		HOVERED(1),
 
-		CLICKED(2);
+		PRESSED(2);
 
 		private int id;
 
@@ -27,6 +27,7 @@ public abstract class GComponent {
 		}
 
 	}
+
 
 	//Location and Size
 	protected Vector2f position;

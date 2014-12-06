@@ -13,7 +13,7 @@ public class GTestMenu extends GMenu {
 	public GTestMenu() {
 		super();
 		addComponent(new GComponent$Label("Hello", new Vector2f(40, 40)));
-		addComponent(new GComponent$Button(new Vector2f(50,50), Textures.UI.BUTTON));
+		addComponent(new GComponent$Button(new Vector2f(50,50), Textures.UI.BUTTON, Textures.UI.BUTTON_PRESSED));
 	}
 
 

@@ -9,13 +9,25 @@ import org.newdawn.slick.Input;
 public class GComponent$Button extends GComponent {
 
 	private Image   button;
+	private Image   buttonPressed;
+	private Image   buttonHovered;
 	private int     width;
 	private int     height;
 	private GStates currentState;
 
 	public GComponent$Button(Vector2f pos, Image button) {
+		this(pos, button, null);
+	}
+
+	public GComponent$Button(Vector2f pos, Image button, Image buttonPressed) {
+		this(pos, button, buttonPressed, null);
+	}
+
+	public GComponent$Button(Vector2f pos, Image button, Image buttonPressed, Image buttonHovered) {
 		super(pos);
 		this.button = button;
+		this.buttonPressed = buttonPressed;
+		this.buttonHovered = buttonHovered;
 		width = button.getWidth();
 		height = button.getHeight();
 		currentState = GStates.NORMAL;
@@ -23,7 +35,19 @@ public class GComponent$Button extends GComponent {
 
 	@Override
 	public void render(Graphics g) {
-		button.draw(position.x, position.y);
+		switch (currentState) {
+			case PRESSED:
+				if (buttonPressed != null) buttonPressed.draw(position.x, position.y);
+				else button.draw(position.x, position.y);
+				break;
+			case HOVERED:
+				if (buttonHovered != null) buttonHovered.draw(position.x, position.y);
+				else button.draw(position.x, position.y);
+				break;
+			default:
+				if (button != null) button.draw(position.x, position.y);
+				break;
+		}
 	}
 
 	@Override
@@ -41,7 +65,7 @@ public class GComponent$Button extends GComponent {
 						firedHoverEvent = true;
 					}
 				} else {
-					currentState = GStates.CLICKED;
+					currentState = GStates.PRESSED;
 					wasClicked = true;
 				}
 
@@ -53,8 +77,7 @@ public class GComponent$Button extends GComponent {
 			}
 
 		}//END OF MOUSE BOUNDS
-		else
-		{
+		else {
 			currentState = GStates.NORMAL;
 			firedHoverEvent = false;
 		}
