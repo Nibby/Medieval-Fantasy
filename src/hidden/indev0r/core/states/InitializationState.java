@@ -4,6 +4,7 @@ import hidden.indev0r.core.MedievalLauncher;
 import hidden.indev0r.core.entity.animation.ActionSetDatabase;
 import hidden.indev0r.core.maps.TileMapDatabase;
 import hidden.indev0r.core.maps.TilesetDatabase;
+import hidden.indev0r.core.texture.Textures;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -31,6 +32,7 @@ public class InitializationState extends BasicGameState {
         try {
             //Load and register tilesets
             TilesetDatabase.getDatabase().loadTilesets();
+	        Textures.Init();
 
             //Load and register maps
             TileMapDatabase.getDatabase().loadMaps();

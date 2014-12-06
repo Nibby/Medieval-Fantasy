@@ -1,7 +1,7 @@
 package hidden.indev0r.core.entity.animation;
 
 import hidden.indev0r.core.reference.References;
-import hidden.indev0r.core.texture.Textures;
+import hidden.indev0r.core.texture.ResourceManager;
 import hidden.indev0r.core.util.CipherEngine;
 import hidden.indev0r.core.util.XMLParser;
 import org.newdawn.slick.SpriteSheet;
@@ -54,7 +54,7 @@ public  class ActionSetDatabase {
             //Load spritesheet resource from Textures
             SpriteSheet resource = null;
             try {
-                resource = (SpriteSheet) Textures.get(setResource);
+                resource = (SpriteSheet) ResourceManager.get(setResource);
 
                 if(resource == null) {
                     JOptionPane.showMessageDialog(null, "Unable to locate resource:\n'" + setResource +"' (null resource)", "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
