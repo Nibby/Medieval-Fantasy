@@ -32,18 +32,20 @@ public class InitializationState extends BasicGameState {
         try {
             //Load and register tilesets
             TilesetDatabase.getDatabase().loadTilesets();
-	        Textures.Init();
 
             //Load and register maps
             TileMapDatabase.getDatabase().loadMaps();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        //When all is done, switch state
+        MedievalLauncher.getInstance().enterState(GameStateID.MAIN_GAME_STATE.getID());
     }
 
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
-        if(!loadedActionSets) {
+	    if(!loadedActionSets) {
             /*
                 THIS MAY BE A TEMPORARY PLACE
 
@@ -58,18 +60,19 @@ public class InitializationState extends BasicGameState {
                  Then again, this is the initalization state and we can do things that are sort of
                  logical, as long as it makes the actual game work. Right?
              */
-            try {
-                ActionSetDatabase.getDatabase().loadActionSets();
-                loadedActionSets = true;
+		    try {
+			    ActionSetDatabase.getDatabase().loadActionSets();
+			    loadedActionSets = true;
 
-                MedievalLauncher.getInstance().enterState(GameStateID.MAIN_GAME_STATE.getID());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+			    MedievalLauncher.getInstance().enterState(GameStateID.MAIN_GAME_STATE.getID());
+		    } catch (Exception e) {
+			    e.printStackTrace();
+		    }
+	    }
     }
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
+
     }
 }

@@ -43,21 +43,21 @@ public class MainGameState extends BasicGameState {
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-        Graphics g2 = canvas.getGraphics();
-        g2.setColor(Color.black);
-        g2.fillRect(0, 0, References.GAME_WIDTH, References.GAME_HEIGHT);
 
-        map.render(g2, camera);
+		map.render(g, camera);
 
-        g.pushTransform();
-        g.scale(References.DRAW_SCALE, References.DRAW_SCALE);
-        g.drawImage(canvas, 0, 0);
-        g.popTransform();
+		g.pushTransform();
+		g.scale(References.DRAW_SCALE, References.DRAW_SCALE);
+		g.drawImage(canvas, 0, 0);
+		g.popTransform();
 
+		map.render(g, camera);
 
-        BitFont.render(g, map.getIdentifierName() + " [" + map.getName() + "]" , 5, 5);
-        BitFont.render(g, player.getX() + ", " + player.getY() + " / " + player.getCurrentX() + ", " + player.getCurrentY(), 5, 25);
+		BitFont.render(g, map.getIdentifierName() + " [" + map.getName() + "]" , 5, 5);
+		BitFont.render(g, player.getX() + ", " + player.getY() + " / " + player.getCurrentX() + ", " + player.getCurrentY(), 5, 25);
+
 	}
+
 
 	@Override
 	public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
@@ -68,10 +68,6 @@ public class MainGameState extends BasicGameState {
 
     public Camera getCamera() {
         return camera;
-    }
-
-    public Player getPlayer() {
-        return player;
     }
 }
 
