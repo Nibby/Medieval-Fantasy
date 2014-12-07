@@ -41,6 +41,7 @@ public class GComponent$Button extends GComponent {
 				if (buttonHovered != null) buttonHovered.draw(position.x, position.y);
 				else button.draw(position.x, position.y);
 				break;
+			case NORMAL:
 			default:
 				if (button != null) button.draw(position.x, position.y);
 				break;
@@ -52,7 +53,7 @@ public class GComponent$Button extends GComponent {
 		Input input = gc.getInput();
 		Vector2f mouse = new Vector2f(input.getMouseX(), input.getMouseY());
 
-		if (mouse.x > position.x && mouse.x < (position.x + width) && mouse.y > position.y && (mouse.y < position.x + height)) {
+		if (mouse.x > this.position.x && mouse.x < (this.position.x + this.width) && mouse.y > this.position.y && (mouse.y < this.position.y + this.height)) {
 
 			if (!currentState.equals(GStates.DISABLED)) {
 				if (!input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {

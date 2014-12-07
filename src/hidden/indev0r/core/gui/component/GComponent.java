@@ -1,5 +1,6 @@
 package hidden.indev0r.core.gui.component;
 
+import hidden.indev0r.core.gui.component.listener.GComponentListener;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -55,11 +56,11 @@ public abstract class GComponent {
 	public abstract void tick(GameContainer gc);
 
 	protected void fireHoverEvent() {
-		for(GComponentListener l : componentListeners)l.componentHovered(this);
+		for (GComponentListener l : componentListeners) l.componentHovered(this);
 	}
 
 	protected void firePressEvent() {
-		for(GComponentListener l : componentListeners)l.componentClicked(this);
+		for (GComponentListener l : componentListeners) l.componentClicked(this);
 	}
 
 	public GComponent addListener(GComponentListener l){
@@ -67,7 +68,21 @@ public abstract class GComponent {
 		return this;
 	}
 
+	public Vector2f getPosition() {
+		return position;
+	}
 
+	public void setPosition(Vector2f position) {
+		this.position = position;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
 }
 
 

@@ -1,5 +1,6 @@
 package hidden.indev0r.core.gui.menu;
 
+import hidden.indev0r.core.BitFont;
 import hidden.indev0r.core.gui.component.*;
 import hidden.indev0r.core.texture.Textures;
 import org.lwjgl.util.vector.Vector2f;
@@ -22,10 +23,12 @@ public class GTestMenu extends GMenu {
 		button = new GComponent$Button(new Vector2f(20, 20), Textures.UI.BUTTON, Textures.UI.BUTTON_PRESSED);
 		button.addListener(this);
 
-		dialog = new GComponent$Dialog(new Vector2f(80, 10), 8, 5);
+		dialog = new GComponent$Dialog("Title", new Vector2f(80, 10), 8, 5);
+		dialog.addComponent(new GComponent$Button(new Vector2f(0, 0), Textures.UI.BUTTON, Textures.UI.BUTTON_PRESSED));
 		dialog.addListener(this);
 
 		frame = new GComponent$Frame(new Vector2f(340, 10), 10, 5);
+		frame.addComponent(new GComponent$Label("Player Stats", new Vector2f((frame.getWidth() / 2) - (BitFont.widthOf("Player Stats", 0) / 2), 0)));
 		frame.addListener(this);
 
 		addComponent(label);
@@ -47,7 +50,7 @@ public class GTestMenu extends GMenu {
 
 	@Override
 	public void componentClicked(GComponent c) {
-		System.out.println("Component clicked");
+		System.out.printf("Component %s clicked\n", c.getClass().toString());
 	}
 
 	@Override
