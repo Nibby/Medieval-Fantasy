@@ -34,10 +34,22 @@ public class Textures {
             ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "warrior1.png", 32, 32);
             ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "warrior2.png", 32, 32);
             ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "warrior3.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "bowman0.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "bowman1.png", 32, 32);
             ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "rogue0.png", 32, 32);
             ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "rogue1.png", 32, 32);
             ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "monk0.png", 32, 32);
-		}
+
+            //Monster
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "blob0.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "blob1.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "blob2.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "blob3.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "blob4.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "blob5.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "blob6.png", 32, 32);
+
+        }
 	}
 
 
@@ -93,7 +105,15 @@ public class Textures {
 		public static final Image PLUS             = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/icons/PLUS.png");
 		public static final Image MINUS            = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/icons/MINUS.png");
 		public static final Image MAGNIFYING_GLASS = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/icons/MAGNIFYING_GLASS.png");
-	}
+
+        public static final Image BOOK_BIG               = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/icons/BOOK.png");
+        public static final Image CHARACTER_BIG          = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/icons/CHARACTER.png");
+        public static final Image INVENTORY_BIG          = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/icons/INVENTORY.png");
+        public static final Image SCROLL_BIG             = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/icons/SCROLL.png");
+        public static final Image MENU_BIG               = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/icons/MENU.png");
+
+
+    }
 
 
 	public static final class Cursors {

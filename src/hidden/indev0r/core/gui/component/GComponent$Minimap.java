@@ -63,6 +63,7 @@ public class GComponent$Minimap extends GComponent {
 						Textures.UI.MINIMAP_BUTTON_PRESSED));
 				continue;
 			}
+
 			GComponent$SidebarButton sb = new GComponent$SidebarButton(
 					new Vector2f((position.x + 84), (position.y + 130) + (i * Textures.UI.MINIMAP_BUTTON_NORMAL.getWidth()) + (4 * i)),
 					Textures.UI.MINIMAP_BUTTON_NORMAL,
@@ -71,7 +72,11 @@ public class GComponent$Minimap extends GComponent {
 			this.sideButtons.add(sb);
 		}
 
-
+        this.sideButtons.get(0).setIcon(Textures.Icons.CHARACTER_BIG, Textures.Icons.CHARACTER_BIG);
+        this.sideButtons.get(1).setIcon(Textures.Icons.INVENTORY_BIG, Textures.Icons.INVENTORY_BIG);
+        this.sideButtons.get(2).setIcon(Textures.Icons.SCROLL_BIG, Textures.Icons.SCROLL_BIG);
+        this.sideButtons.get(3).setIcon(Textures.Icons.BOOK_BIG, Textures.Icons.BOOK_BIG);
+        this.sideButtons.get(4).setIcon(Textures.Icons.MENU_BIG, Textures.Icons.MENU_BIG);
 	}
 
 
@@ -107,6 +112,9 @@ public class GComponent$Minimap extends GComponent {
 
 		private Image connectorImage;
 
+        private Image iconActive;
+        private Image iconPressed;
+
 		public GComponent$SidebarButton(Vector2f pos, Image button, Image buttonPressed) {
 			super(pos, button, buttonPressed);
 			connectorImage = null;
@@ -117,13 +125,27 @@ public class GComponent$Minimap extends GComponent {
 		public void render(Graphics g) {
 			super.render(g);
 			if (connectorImage != null) connectorImage.draw(position.x + 12, position.y - connectorImage.getHeight());
+
+            switch(currentState) {
+                case PRESSED:
+                    if(iconActive != null) iconPressed.draw(position.x + 7, position.y + 7);
+                    break;
+                default:
+                    if(iconPressed != null) iconActive.draw(position.x + 5, position.y + 5);
+                    break;
+            }
 		}
 
 		public GComponent$SidebarButton setConnectorImage(Image connectorImage) {
 			this.connectorImage = connectorImage;
 			return this;
 		}
-	}
+
+        public void setIcon(Image active, Image pressed) {
+            this.iconActive = active;
+            this.iconPressed = pressed;
+        }
+    }
 
 
 }

@@ -97,6 +97,7 @@ public class GComponent$Button extends GComponent {
 		else {
 			currentState = GStates.NORMAL;
 			firedHoverEvent = false;
+            wasClicked = false;
 		}
 
 	}//END OF TICK

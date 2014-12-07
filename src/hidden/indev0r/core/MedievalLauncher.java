@@ -1,6 +1,7 @@
 package hidden.indev0r.core;
 
 import hidden.indev0r.core.entity.animation.ActionSetDatabase;
+import hidden.indev0r.core.gui.Cursor;
 import hidden.indev0r.core.maps.TileMapDatabase;
 import hidden.indev0r.core.maps.TilesetDatabase;
 import hidden.indev0r.core.reference.References;
@@ -24,28 +25,43 @@ public class MedievalLauncher extends StateBasedGame {
 	private MainGameState stateGame;
 	private MainMenuState stateMainMenu;
 
+    //Game container
+    private GameContainer gameContainer;
+
 	public MedievalLauncher(String title) {
 		super(title);
 	}
 
 	@Override
 	public void initStatesList(GameContainer gc) throws SlickException {
+        this.gameContainer = gc;
+
 		try {
-			//Init textures, then load and register tilesets, maps, and actionsets
+			//Initializing game data
 			Textures.Init();
 			TilesetDatabase.getDatabase().loadTilesets();
 			TileMapDatabase.getDatabase().loadMaps();
 			ActionSetDatabase.getDatabase().loadActionSets();
 
 		} catch (Exception e) {
-			e.printStackTrace();
-		}
+            e.printStackTrace();
+        }
+
+        setCursor(Cursor.NORMAL);
 
 		this.addState((stateGame = new MainGameState()));
 		this.addState((stateMainMenu = new MainMenuState()));
 
 		enterState(GameStateID.MAIN_GAME_STATE.getID());
 	}
+
+    public void setCursor(Cursor cursor) {
+        try {
+            gameContainer.setMouseCursor(cursor.getImage(), cursor.getFocusX(), cursor.getFocusY());
+        } catch (SlickException e) {
+            e.printStackTrace();
+        }
+    }
 
 	public MainGameState getGameState() {
 		return stateGame;
@@ -72,10 +88,10 @@ public class MedievalLauncher extends StateBasedGame {
 			app.setUpdateOnlyWhenVisible(true);
 			app.setShowFPS(false);
 			app.setTargetFrameRate(60);
+            app.setVerbose(false);
 			app.start();
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
 	}
-
 }

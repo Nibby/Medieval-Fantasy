@@ -3,7 +3,9 @@ package hidden.indev0r.core.states;
 
 import hidden.indev0r.core.BitFont;
 import hidden.indev0r.core.Camera;
+import hidden.indev0r.core.MedievalLauncher;
 import hidden.indev0r.core.entity.Player;
+import hidden.indev0r.core.gui.Cursor;
 import hidden.indev0r.core.gui.menu.GGameMenu;
 import hidden.indev0r.core.gui.menu.GMenuManager;
 import hidden.indev0r.core.maps.TileMap;
@@ -54,7 +56,6 @@ public class MainGameState extends BasicGameState {
 
 //		BitFont.render(g, map.getIdentifierName() + " [" + map.getName() + "]", 5, 5);
 //		BitFont.render(g, player.getX() + ", " + player.getY() + " / " + player.getCurrentX() + ", " + player.getCurrentY(), 5, 25);
-
 	}
 
 
