@@ -69,17 +69,22 @@ public abstract class GComponent {
 		for (GComponentListener l : componentListeners) l.componentClicked(this);
 	}
 
+
+	//Add listener
+	public GComponent addListener(GComponentListener l) {
+		componentListeners.add(l);
+		return this;
+	}
+
+	//Add and remove events
 	public void onAdd(GMenu parent) {
 		this.parent = parent;
 	}
 
 	public void onRemove() {}
 
-	public GComponent addListener(GComponentListener l) {
-		componentListeners.add(l);
-		return this;
-	}
 
+	//Getters and Setters
 	public int getWidth() {
 		return width;
 	}
@@ -99,6 +104,7 @@ public abstract class GComponent {
 	public GMenu getParent() {
 		return parent;
 	}
+
 }
 
 

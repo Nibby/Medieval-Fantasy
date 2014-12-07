@@ -20,7 +20,6 @@ import java.util.ArrayList;
 
 public class GComponent$Minimap extends GComponent implements GComponentListener, GDialogListener {
 
-	//private int sideButtons;
 	public ArrayList<GComponent$SidebarButton> sideButtons;
 
 	private Image             minimap;
@@ -33,8 +32,6 @@ public class GComponent$Minimap extends GComponent implements GComponentListener
 	private GComponent$InventoryDialog dialogInventory;
 	private GComponent$SkillDialog     dialogSkill;
 	private GComponent$JournalDialog   dialogJournal;
-
-
 
 	public GComponent$Minimap(Vector2f pos, int numOfButton) {
 		super(pos);
@@ -109,7 +106,6 @@ public class GComponent$Minimap extends GComponent implements GComponentListener
 		dialogSkill.addDialogListener(this);
 		dialogJournal.addDialogListener(this);
 	}
-
 
 	@Override
 	public void render(Graphics g) {
