@@ -12,67 +12,100 @@ import java.util.ArrayList;
  */
 public class Action {
 
-	Animation animation;
-	private ActionType actionType;
+    private class ActionFrame {
 
+        private Image frame;
+        private int xShift;
+        private int yShift;
+
+        private ActionFrame(Image frame, int xShift, int yShift) {
+            this.frame = frame;
+            this.xShift = xShift;
+            this.yShift = yShift;
+        }
+
+        public void render(Graphics g, float x, float y) {
+            g.drawImage(frame, x + xShift, y + yShift);
+        }
+    }
+
+	private java.util.List<ActionFrame> animation = new ArrayList<>();
+    private java.util.List<Integer> animationDelay = new ArrayList<>();
+
+    private long animationTick;
+    private int animationFrame = 0;
+    private boolean animationStopped = false;
+
+	private ActionType actionType;
 	private int xShift = 0, yShift = 0;
-	private java.util.List<Point> frameShifts = new ArrayList<>();
 
 	public Action(ActionType id) {
 		this(id, 0, 0);
 	}
 
 	public Action(ActionType id, int xShift, int yShift) {
-		animation = new Animation(new Image[]{}, 0);
 		this.actionType = id;
 		this.xShift = xShift;
 		this.yShift = yShift;
+
+        animationTick = System.currentTimeMillis();
 	}
 
 	public Action addFrame(Image frame, int delay, int xShift, int yShift) {
-		animation.addFrame(frame, delay);
-		frameShifts.add(new Point(xShift, yShift));
+        animation.add(new ActionFrame(frame, xShift, yShift));
+        animationDelay.add(delay);
+
 		return Action.this;
 	}
 
 	public void render(Graphics g, float x, float y, boolean animate) {
-		if (animate) {
-			animation.start();
-			int frame = animation.getFrame();
-			Point shift = frameShifts.get(frame);
+        tick(false, animate);
 
-			drawOutline(animation.getCurrentFrame(), x, y, 1);
-			g.drawAnimation(animation, x + xShift + shift.x, y + yShift + shift.y);
+		if (animate) {
+            animationStopped = false;
+
+            ActionFrame frame = animation.get(animationFrame);
+			frame.render(g, x, y);
 		} else {
-			drawOutline(animation.getImage(0), x, y, 1);
-			g.drawImage(animation.getImage(0), x + xShift, y + yShift);
+			animation.get(0).render(g, x, y);
 		}
 	}
 
 	public void renderForced(Graphics g, float x, float y) {
-		animation.setLooping(false);
+        tick(true, true);
 
-		int frame = animation.getFrame();
-		Point shift = frameShifts.get(frame);
-
-		drawOutline(animation.getCurrentFrame(), x, y, 1);
-		g.drawAnimation(animation, x + xShift + shift.x, y + yShift + shift.y);
+        ActionFrame frame = animation.get(animationFrame);
+        frame.render(g, x, y);
 	}
 
-	private void drawOutline(Image img, float x, float y, int weight) {
+    private void tick(boolean forced, boolean animated) {
+        if(!animated) return;
+        if(System.currentTimeMillis() - animationTick > 2 * animationDelay.get(animationFrame)) {
+            animationTick = System.currentTimeMillis();
+            return;
+        }
 
-		img.getScaledCopy(img.getWidth() + weight * 2, img.getHeight() + weight * 2).draw(x - weight, y - weight, org.newdawn.slick.Color.black);
-	}
+        if(System.currentTimeMillis() - animationTick > animationDelay.get(animationFrame)) {
+            if(animationFrame < animation.size() - 1) animationFrame++;
+            else {
+                if(forced) animationStopped = true;
+                else animationFrame = 0;
+            }
 
-	public ActionType getActionType() {
+            animationTick = System.currentTimeMillis();
+        }
+    }
+
+    public ActionType getActionType() {
 		return actionType;
 	}
 
 	public boolean hasEnded() {
-		return animation.isStopped();
+		return animationStopped;
 	}
 
 	public void restart() {
-		animation.restart();
+		animationStopped = false;
+        animationFrame = 0;
 	}
 }

@@ -18,18 +18,14 @@ public class Player extends Entity {
 
 	public Player(int x, int y) {
 		super(x, y);
+
+        setActionSet(ActionSetDatabase.get(11));
 		setSize(32, 32);
 	}
 
 	@Override
 	public void render(Graphics g) {
 		super.render(g);
-
-
-		if (actionMap == null) {
-			//Placeholder
-			setActionSet(ActionSetDatabase.get(1));
-		}
 	}
 
 	@Override
@@ -42,6 +38,7 @@ public class Player extends Entity {
 			int y = (int) getY();
 
 			if (input.isKeyDown(Input.KEY_W)) {
+                currentDirection = MapDirection.UP;
 				setMotion(ActionType.WALK_UP);
 				moving = true;
 				if (!map.isBlocked(x, y - 1)) {
@@ -57,6 +54,7 @@ public class Player extends Entity {
 				}
 			}
 			if (input.isKeyDown(Input.KEY_S)) {
+                currentDirection = MapDirection.DOWN;
 				setMotion(ActionType.WALK_DOWN);
 				moving = true;
 				if (!map.isBlocked(x, y + 1)) {
@@ -72,15 +70,40 @@ public class Player extends Entity {
 				}
 			}
 
+            //Debug
 			if (input.isKeyPressed(Input.KEY_F1)) {
-				//Debug
-				ActionType ani = (ActionType) JOptionPane.showInputDialog(null, "Select animation: ", "ActionSet Debug", JOptionPane.QUESTION_MESSAGE,
-						null, ActionType.values(), ActionType.STATIC_RIGHT);
-
-				if (ani != null) {
-					forceActAction(ani);
-				}
+				forceActAction(ActionType.ATTACK_RIGHT);
 			}
+            if (input.isKeyPressed(Input.KEY_F2)) {
+                forceActAction(ActionType.ATTACK_LEFT);
+            }
+            if (input.isKeyPressed(Input.KEY_F3)) {
+                forceActAction(ActionType.ATTACK_UP);
+            }
+            if (input.isKeyPressed(Input.KEY_F4)) {
+                forceActAction(ActionType.ATTACK_DOWN);
+            }
+
+            if (input.isKeyPressed(Input.KEY_F5)) {
+                forceActAction(ActionType.CAST_RIGHT);
+            }
+            if (input.isKeyPressed(Input.KEY_F6)) {
+                forceActAction(ActionType.CAST_LEFT);
+            }
+            if (input.isKeyPressed(Input.KEY_F7)) {
+                forceActAction(ActionType.CAST_UP);
+            }
+            if (input.isKeyPressed(Input.KEY_F8)) {
+                forceActAction(ActionType.CAST_DOWN);
+            }
+
+            if (input.isKeyPressed(Input.KEY_F9)) {
+                forceActAction(ActionType.USE_SPECIAL);
+            }
+            if (input.isKeyPressed(Input.KEY_F10)) {
+                forceActAction(ActionType.DEATH);
+            }
+
 		}
 	}
 

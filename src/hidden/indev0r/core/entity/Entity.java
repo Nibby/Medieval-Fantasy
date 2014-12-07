@@ -4,6 +4,7 @@ import hidden.indev0r.core.Camera;
 import hidden.indev0r.core.MedievalLauncher;
 import hidden.indev0r.core.entity.animation.Action;
 import hidden.indev0r.core.entity.animation.ActionSet;
+import hidden.indev0r.core.entity.animation.ActionSetDatabase;
 import hidden.indev0r.core.entity.animation.ActionType;
 import hidden.indev0r.core.maps.MapDirection;
 import hidden.indev0r.core.maps.Tile;
@@ -79,7 +80,9 @@ public abstract class Entity {
 					actionPlayStack.pop();
 				}
 
-			} else {
+			}
+
+            if(actionPlayStack.isEmpty()) {
 				motion = actionMap.get(action);
 				if (motion == null) {
 					actionMap.get(ActionType.STATIC_RIGHT).render(g, getRenderX(), getRenderY(), false);
@@ -147,6 +150,11 @@ public abstract class Entity {
 		if (Math.abs(moveY - currentY) < moveSpeed) currentY = moveY;
 		if (currentY == moveY && currentX == moveX) {
 			moving = false;
+
+            if(action.equals(ActionType.WALK_LEFT))  action = ActionType.STATIC_LEFT;
+            if(action.equals(ActionType.WALK_RIGHT)) action = ActionType.STATIC_RIGHT;
+            if(action.equals(ActionType.WALK_DOWN))  action = ActionType.STATIC_DOWN;
+            if(action.equals(ActionType.WALK_UP))    action = ActionType.STATIC_UP;
 		}
 	}
 
@@ -189,7 +197,8 @@ public abstract class Entity {
 	 * @see hidden.indev0r.core.entity.animation.ActionSetDatabase
 	 */
 	public void setActionSet(ActionSet set) {
-		actionMap = new HashMap<>();
+        if(set == null) set = ActionSetDatabase.get(0);
+        actionMap = new HashMap<>();
 		set.applyAll(actionMap);
 
 		action = ActionType.STATIC_RIGHT;

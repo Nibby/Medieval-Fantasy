@@ -25,9 +25,18 @@ public class Textures {
 
 
 		static {
-			ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "mage0.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "mage0.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "mage1.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "mage2.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "mage3.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "mage4.png", 32, 32);
 			ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "warrior0.png", 32, 32);
-			ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "rogue0.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "warrior1.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "warrior2.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "warrior3.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "rogue0.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "rogue1.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "monk0.png", 32, 32);
 		}
 	}
 

@@ -23,5 +23,5 @@ public final class References {
 	public static final Path ACTION_SET_DATABASE_PATH = DATA_PATH.resolve("asdb.dat");
 
 	public static final String CIPHER_KEY_1 = "TTMSECKY";
-	public static final String CIPHER_KEY_2 = "MEDIEVAL";
+	public static final String CIPHER_KEY_2 = "pyFaTGFo";
 }
