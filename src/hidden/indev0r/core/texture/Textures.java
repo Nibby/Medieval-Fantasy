@@ -55,7 +55,7 @@ public class Textures {
 
 	public static final class Images {
 		public static final Image EMPTY        = ResourceManager.loadImage("res/empty.png");
-		public static final Image DUNGEON_MASK = ResourceManager.loadImage("res/overlay/mask.png");
+		public static final Image DUNGEON_MASK = ResourceManager.loadImage("res/hud/mask.png");
 	}
 
 

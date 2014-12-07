@@ -83,6 +83,14 @@ public abstract class GComponent {
 	public int getHeight() {
 		return height;
 	}
+
+    public void onAdd() {
+
+    }
+
+    public void onRemove() {
+
+    }
 }
 
 

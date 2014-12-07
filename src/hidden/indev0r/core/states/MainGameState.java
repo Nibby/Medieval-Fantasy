@@ -1,12 +1,9 @@
 package hidden.indev0r.core.states;
 
 
-import hidden.indev0r.core.BitFont;
 import hidden.indev0r.core.Camera;
-import hidden.indev0r.core.MedievalLauncher;
 import hidden.indev0r.core.entity.Player;
-import hidden.indev0r.core.gui.Cursor;
-import hidden.indev0r.core.gui.menu.GGameMenu;
+import hidden.indev0r.core.gui.menu.GGameOverlayMenu;
 import hidden.indev0r.core.gui.menu.GMenuManager;
 import hidden.indev0r.core.maps.TileMap;
 import hidden.indev0r.core.maps.TileMapDatabase;
@@ -29,6 +26,7 @@ public class MainGameState extends BasicGameState {
 
 	//2D Elements
 	private GMenuManager menuMgr;
+    private GGameOverlayMenu menuOverlay;
 
 	@Override
 	public int getID() {
@@ -46,7 +44,9 @@ public class MainGameState extends BasicGameState {
 		map.addEntity(player);
 
 		menuMgr = new GMenuManager();
-		menuMgr.addMenu(new GGameMenu());
+        menuMgr.setDisplayTopMenuOnly(false);
+        menuMgr.setTickTopMenuOnly(false);
+        menuMgr.addMenu((menuOverlay = new GGameOverlayMenu()));
 	}
 
 	@Override
@@ -61,14 +61,27 @@ public class MainGameState extends BasicGameState {
 
 	@Override
 	public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
-		camera.tick();
-		map.tick(gameContainer);
-		menuMgr.tick(gameContainer);
+        menuMgr.tick(gameContainer);
+
+        //This means menu wants to pull the focus, no need to do these...
+        if(menuMgr.hasMenus() && !menuMgr.isTickingTopMenuOnly()) {
+            camera.tick();
+            map.tick(gameContainer);
+        }
+
 	}
 
 
 	public Camera getCamera() {
 		return camera;
 	}
+
+    public GGameOverlayMenu getMenuOverlay() {
+        return menuOverlay;
+    }
+
+    public GMenuManager getMenuManager() {
+        return menuMgr;
+    }
 }
 

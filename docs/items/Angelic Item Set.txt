@@ -1,0 +1,67 @@
+The Holy Sanctums kept the most sacred weapons in the innermost chambers. Purified and well kept,
+they are various symbols of The Church itself. Each item is made with luxuriously
+polished and well decorated white gold and glows with a faint aqua hue.
+
+Created in ancient times in the heavens and gifted to human kind, these items were imbued with
+age-old wisdom and used by countless saints to accomplish great miracles in their times.
+
+Sealed within the inner sanctum chambers, they are extremely hard to obtain. It is often rumoured
+that the items choose their wielders, only those deemed just are able to wield them. Upon wielding full set,
+it radiates a special holy aura capable of healing those near the user, as well as warding off evil.
+
+> SET ITEMS:
+
+1. Armours
+
+    > Angelic Chasuble (Robe, Wizard)
+
+        A feathery light robe skillfully woven in purified white ether-silk by the angels in heavenly
+        realms. It's energetic belt bears the insignia of Holy Saint Martyr and shimmers with a faint blue glow.
+
+        It is the Church's symbol of divinity.
+
+    > Angelic Chainmail (Armour, Warrior)
+
+        A high quality armour forged in the heavenly realms with great precision and skill. The magically
+        enchanted white plates bears the insignia of Holy Saint Martyr and shimmers with a faint blue glow.
+
+        It is the Church's symbol of divinity.
+
+2. Weapons
+
+    > Angelic Sabre    (Sword, Warrior)
+
+        A legendary weapon crafted by Martyr and used in the war against the demons centuries ago.
+        It's magically enchanted aqua blade emanates holiness and it's attacks are able to purify the evil.
+
+        It is the Church's symbol of justice.
+
+    > Angelic Sceptre  (Staff, Wizard)
+
+        A long white rod made of luxurious white gold topped with an age-old aqua crystal fostered in
+        the heavens. It overflows with the power of gods and is able to blast evil with celestial beams.
+
+        It is the Church's symbol of justice.
+
+3. Glove
+
+    > Angelic Gauntlet (Warrior)
+
+    > Angelic Glove    (Wizard)
+
+4. Ring
+
+    > Angelic Ring
+
+5. Necklace
+
+    > Angelic Amulet
+
+6. Accessory
+
+    > Globus Cruciger (latin. Cross-bearing Orb)
+
+
+> UPON WEARING FULL SET:
+
+Player sprite changes, pulsing effect and a shimmering yellow halo is visible above player's head.

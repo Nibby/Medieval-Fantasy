@@ -71,7 +71,11 @@ public class MedievalLauncher extends StateBasedGame {
 		return stateMainMenu;
 	}
 
-	public static MedievalLauncher getInstance() {
+    public GameContainer getGameContainer() {
+        return gameContainer;
+    }
+
+    public static MedievalLauncher getInstance() {
 		return instance;
 	}
 

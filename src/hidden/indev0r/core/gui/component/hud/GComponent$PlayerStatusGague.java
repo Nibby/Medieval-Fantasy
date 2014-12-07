@@ -1,4 +1,4 @@
-package hidden.indev0r.core.gui.component;
+package hidden.indev0r.core.gui.component.hud;
 
 import hidden.indev0r.core.gui.component.base.GComponent;
 import hidden.indev0r.core.texture.Textures;
@@ -8,14 +8,14 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
 
-public class GComponent$Gague extends GComponent {
+public class GComponent$PlayerStatusGague extends GComponent {
 
 	private Image gague;
 	private Image redBar;
 	private Image blueBar;
 	private Image greenBar;
 
-	public GComponent$Gague(Vector2f pos) {
+	public GComponent$PlayerStatusGague(Vector2f pos) {
 		super(pos);
 		gague = Textures.UI.STATS_GAGUE_BASE;
 		redBar = Textures.UI.STATS_GAGUE_RED;

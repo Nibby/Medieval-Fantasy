@@ -21,6 +21,7 @@ public class MainMenuState extends BasicGameState {
 	public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
 		menuMgr = new GMenuManager();
 		menuMgr.addMenu(new GTestMenu());
+
 	}
 
 	@Override

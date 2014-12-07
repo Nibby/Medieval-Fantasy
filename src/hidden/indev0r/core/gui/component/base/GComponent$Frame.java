@@ -33,6 +33,10 @@ public class GComponent$Frame extends GComponent {
 	//Components to render on frame;
 	protected ArrayList<GComponent> internalComponents;
 
+    //Frame properties
+    protected boolean disposed = false;
+    protected boolean visible = false;
+
 	public GComponent$Frame(Vector2f pos, int tileWidth, int tileHeight) {
 		super(pos);
 
@@ -79,6 +83,7 @@ public class GComponent$Frame extends GComponent {
 
 	@Override
 	public void render(Graphics g) {
+        if(!visible) return;
 		g.pushTransform();
 		g.scale(scale, scale);
 		for (int x = 0; x < tileWidth; x++)
@@ -121,4 +126,30 @@ public class GComponent$Frame extends GComponent {
 		internalComponents.add(gc);
 	}
 
+    public void dispose() {
+        disposed = true;
+        visible = false;
+    }
+
+    public boolean isDisposed() {
+        return disposed;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
+    public void onAdd() {
+        super.onAdd();
+        visible = true;
+    }
+
+    public void onRemove() {
+        super.onRemove();
+        visible = false;
+    }
 }
