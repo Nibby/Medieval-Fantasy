@@ -104,6 +104,12 @@ public class Player extends Entity {
                 forceActAction(ActionType.DEATH);
             }
 
+            if (input.isKeyPressed(Input.KEY_F12)) {
+                String option = JOptionPane.showInputDialog(null, "Enter action set id: ");
+                if(option != null && !option.isEmpty() && !option.contains(" ")) {
+                    setActionSet(ActionSetDatabase.get(Integer.parseInt(option)));
+                }
+            }
 		}
 	}
 
