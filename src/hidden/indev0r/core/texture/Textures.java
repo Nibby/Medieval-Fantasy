@@ -11,13 +11,13 @@ public class Textures {
 
 
 	public static final class Images {
-		public static final Image DUNGEON_MASK = ResourceLoader.loadImage("res/mask.png");
+		public static final Image DUNGEON_MASK = ResourceLoader.loadImage("res/overlay/mask.png");
 	}
 
 
 	public static final class SpriteSheets {
 		public static final SpriteSheet WIZARD  = ResourceLoader.loadSpriteSheet(ENTITY_IMAGE_PATH + "player.png", 32, 32);
-		public static final SpriteSheet UI_FONT = ResourceLoader.loadSpriteSheet("res/font.png", 16, 20);
+		public static final SpriteSheet UI_FONT = ResourceLoader.loadSpriteSheet("res/font/font.png", 16, 20);
 	}
 
 
