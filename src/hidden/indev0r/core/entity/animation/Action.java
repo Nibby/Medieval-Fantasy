@@ -63,7 +63,7 @@ public class Action {
 
     private void drawOutline(Image img, float x, float y, int weight) {
 
-//        img.getScaledCopy(img.getWidth() + weight * 2, img.getHeight() + weight * 2).draw(x - weight, y - weight, org.newdawn.slick.Color.black);
+        img.getScaledCopy(img.getWidth() + weight * 2, img.getHeight() + weight * 2).draw(x - weight, y - weight, org.newdawn.slick.Color.black);
     }
 
     public ActionType getActionType() {

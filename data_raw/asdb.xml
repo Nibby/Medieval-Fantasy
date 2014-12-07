@@ -109,6 +109,11 @@
             <frame sprite="2,2" time="350" />
         </action>
 
+        <action type="ATTACK_RIGHT">
+            <frame sprite="3,0" time="200" />
+            <frame subImage="128,0,48,32" time="200" />
+        </action>
+
     </actionSet>
 
     <!-- rogue0 -->
