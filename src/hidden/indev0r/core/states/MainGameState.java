@@ -52,8 +52,8 @@ public class MainGameState extends BasicGameState {
 		map.render(g, camera);
 		menuMgr.render(g);
 
-		BitFont.render(g, map.getIdentifierName() + " [" + map.getName() + "]", 5, 5);
-		BitFont.render(g, player.getX() + ", " + player.getY() + " / " + player.getCurrentX() + ", " + player.getCurrentY(), 5, 25);
+//		BitFont.render(g, map.getIdentifierName() + " [" + map.getName() + "]", 5, 5);
+//		BitFont.render(g, player.getX() + ", " + player.getY() + " / " + player.getCurrentX() + ", " + player.getCurrentY(), 5, 25);
 
 	}
 

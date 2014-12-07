@@ -38,14 +38,19 @@ public class Textures {
 	}
 
 
-
-
 	public static final class UI {
 		public static final Image MINIMAP_BASE             = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "minimap/MINIMAP.png");
 		public static final Image MINIMAP_BUTTON_NORMAL    = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "minimap/BUTTON.png");
 		public static final Image MINIMAP_BUTTON_PRESSED   = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "minimap/BUTTON_PRESSED.png");
 		public static final Image MINIMAP_BUTTON_ATTACH    = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "minimap/BUTTON_ATTACH.png");
 		public static final Image MINIMAP_BUTTON_SEPERATOR = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "minimap/BUTTON_SEPERATOR.png");
+
+		public static final Image STATS_GAGUE_BASE  = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "gague/GAGUE.png");
+		public static final Image STATS_GAGUE_BARS  = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "gague/GAGUE_BARS.png");
+		public static final Image STATS_GAGUE_RED   = STATS_GAGUE_BARS.getSubImage(0, 0, 80, 12);
+		public static final Image STATS_GAGUE_BLUE  = STATS_GAGUE_BARS.getSubImage(0, 12, 80, 12);
+		public static final Image STATS_GAGUE_GREEN = STATS_GAGUE_BARS.getSubImage(0, 24, 80, 12);
+
 
 		public static final Image FRAME_TOP_RIGHT         = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "frame/TOP_RIGHT.png");
 		public static final Image FRAME_TOP_MIDDLE        = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "frame/TOP_MIDDLE.png");
@@ -76,8 +81,8 @@ public class Textures {
 
 
 	public static final class Icons {
-		public static final Image PLUS  = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/icons/PLUS.png");
-		public static final Image MINUS = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/icons/MINUS.png");
+		public static final Image PLUS             = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/icons/PLUS.png");
+		public static final Image MINUS            = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/icons/MINUS.png");
 		public static final Image MAGNIFYING_GLASS = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/icons/MAGNIFYING_GLASS.png");
 	}
 
