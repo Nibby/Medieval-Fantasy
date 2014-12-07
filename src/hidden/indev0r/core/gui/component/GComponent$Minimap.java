@@ -14,13 +14,13 @@ import java.util.ArrayList;
 public class GComponent$Minimap extends GComponent {
 
 	//private int sideButtons;
-	private ArrayList<GComponent$SidebarButton> sideButtons;
+	public ArrayList<GComponent$SidebarButton> sideButtons;
 
 	private Image             minimap;
 	private Image             buttonAttach;
-	private GComponent$Button zoomInButton;
-	private GComponent$Button zoomOutButton;
-	private GComponent$Button bigMapButton;
+	public  GComponent$Button zoomInButton;
+	public  GComponent$Button zoomOutButton;
+	public  GComponent$Button bigMapButton;
 
 
 	public GComponent$Minimap(Vector2f pos, int numOfButton) {
@@ -102,12 +102,6 @@ public class GComponent$Minimap extends GComponent {
 		return super.addListener(l);
 	}
 
-	public void checkClicked(GComponent c){
-		if(c == zoomInButton) System.out.println("ZOOM IN");
-		if(c == zoomOutButton) System.out.println("ZOOM OUT");
-		if(c == bigMapButton) System.out.println("PRESEND BIG MAP");
-
-	}
 
 	private class GComponent$SidebarButton extends GComponent$Button {
 

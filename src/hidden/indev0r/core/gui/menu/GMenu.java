@@ -17,15 +17,21 @@ public abstract class GMenu implements GComponentListener {
 	}
 
 	public void render(Graphics g) {
-		for (GComponent gc : componenets) gc.render(g);
+		//for (GComponent gc : componenets) gc.render(g);
+		for(int i = 0; i < componenets.size(); i++)componenets.get(i).render(g);
 	}
 
 	public void tick(GameContainer gamec) {
-		for (GComponent gc : componenets) gc.tick(gamec);
+		//for (GComponent gc : componenets) gc.tick(gamec);
+		for(int i = 0; i < componenets.size(); i++)componenets.get(i).tick(gamec);
 	}
 
 	public void addComponent(GComponent c) {
 		componenets.add(c);
+	}
+
+	public void removeComponent(GComponent c){
+		componenets.remove(c);
 	}
 
 

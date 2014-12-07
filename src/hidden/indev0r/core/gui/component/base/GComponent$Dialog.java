@@ -10,7 +10,7 @@ import org.newdawn.slick.Graphics;
 
 public class GComponent$Dialog extends GComponent$Frame {
 
-	private GComponent$Button closeButton;
+	public  GComponent$Button closeButton;
 	private String            title;
 
 	public GComponent$Dialog(Vector2f pos, int width, int height) {
@@ -77,7 +77,6 @@ public class GComponent$Dialog extends GComponent$Frame {
 		for (GComponent gc : internalComponents) gc.addListener(l);
 		return super.addListener(l);
 	}
-
 
 	@Override
 	public void addComponent(GComponent gc) {

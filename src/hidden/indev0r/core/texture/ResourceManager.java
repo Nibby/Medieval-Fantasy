@@ -21,7 +21,6 @@ public class ResourceManager {
 			JOptionPane.showMessageDialog(null, "Duplicated texture id: '" + id + "'!", "Internal Error", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		System.out.println(id);
 		RESOURCES.put(id, resource);
 	}
 

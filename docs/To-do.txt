@@ -23,3 +23,9 @@ TODO
 
 √ 5. Movement
 	a. Test in Git Branches. Gridlocked Movement vs. Free-Form movement
+
+6. 2D Menu
+    a. Allow dialogs to be moved with cursor
+    b. Buttons for main menu;
+    c. Checkboxes (When needed)
+    d. Radio boxes (When needed)
