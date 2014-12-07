@@ -20,175 +20,177 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
-public  class ActionSetDatabase {
+public class ActionSetDatabase {
 
-    //Keeping a record of all registered sets with unique IDs
-    //In case if we want XML genereated NPC's to inherit some of these sets
-    private static final Map<Integer, ActionSet> setMap = new HashMap<>();
+	//Keeping a record of all registered sets with unique IDs
+	//In case if we want XML genereated NPC's to inherit some of these sets
+	private static final Map<Integer, ActionSet> setMap = new HashMap<>();
 
-    /**
-     * Loads 'asdb.dat', which is the XML equivalence for all action set
-     * definitions
-     */
-    public void loadActionSets() throws Exception {
-        Path dbPath = References.ACTION_SET_DATABASE_PATH;
-        Cipher cipher = CipherEngine.getCipher(Cipher.DECRYPT_MODE, References.CIPHER_KEY_2);
+	/**
+	 * Loads 'asdb.dat', which is the XML equivalence for all action set definitions
+	 */
+	public void loadActionSets() throws Exception {
+		Path dbPath = References.ACTION_SET_DATABASE_PATH;
+		Cipher cipher = CipherEngine.getCipher(Cipher.DECRYPT_MODE, References.CIPHER_KEY_2);
 
-        DataInputStream input = new DataInputStream(new CipherInputStream(Files.newInputStream(dbPath), cipher));
-        byte[] bytes = new byte[input.readInt()];
-        input.readFully(bytes);
+		DataInputStream input = new DataInputStream(new CipherInputStream(Files.newInputStream(dbPath), cipher));
+		byte[] bytes = new byte[input.readInt()];
+		input.readFully(bytes);
 
-        String data = new String(bytes, Charset.forName("UTF-8"));
-        XMLParser parser = new XMLParser(data);
+		String data = new String(bytes, Charset.forName("UTF-8"));
+		XMLParser parser = new XMLParser(data);
 
-        Document doc = parser.getDocument();
-        Element root = (Element) doc.getElementsByTagName("actionSetDB").item(0);
+		Document doc = parser.getDocument();
+		Element root = (Element) doc.getElementsByTagName("actionSetDB").item(0);
 
-        NodeList actionSetList = root.getElementsByTagName("actionSet");
-        for(int i = 0; i < actionSetList.getLength(); i++) {
-            Element eSet = (Element) actionSetList.item(i);
+		NodeList actionSetList = root.getElementsByTagName("actionSet");
+		for (int i = 0; i < actionSetList.getLength(); i++) {
+			Element eSet = (Element) actionSetList.item(i);
 
-            //Parse attribute information for current action set
-            int setID = Integer.parseInt(eSet.getAttribute("id"));
-            String setResource = "spritesheet:" + eSet.getAttribute("resource");
+			//Parse attribute information for current action set
+			int setID = Integer.parseInt(eSet.getAttribute("id"));
+			String setResource = "spritesheet:" + eSet.getAttribute("resource");
 
-            //Load spritesheet resource from Textures
-            SpriteSheet resource = null;
-            try {
-                resource = (SpriteSheet) ResourceManager.get(setResource);
+			//Load spritesheet resource from Textures
+			SpriteSheet resource = null;
+			try {
+				resource = (SpriteSheet) ResourceManager.get(setResource);
 
-                if(resource == null) {
-                    JOptionPane.showMessageDialog(null, "Unable to locate resource:\n'" + setResource +"' (null resource)", "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
-                    continue;
-                }
-            }  catch(Exception e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Unable to locate resource:\n'" + setResource +"' (error)", "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
-                continue;
-            }
+				if (resource == null) {
+					JOptionPane.showMessageDialog(null, "Unable to locate resource:\n'" + setResource + "' (null resource)", "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
+					continue;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Unable to locate resource:\n'" + setResource + "' (error)", "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
+				continue;
+			}
 
-            //Create set object from existing information
-            ActionSet set = new ActionSet(setID);
-            registerActionSet(set);
+			//Create set object from existing information
+			ActionSet set = new ActionSet(setID);
+			registerActionSet(set);
 
-            //Map all the actions and frames within this set
-            NodeList actionList = eSet.getElementsByTagName("action");
-            for(int j = 0; j < actionList.getLength(); j++) {
-                Element eAction = (Element) actionList.item(j);
-                String actionTypeString = eAction.getAttribute("type");
-                ActionType actionType = ActionType.valueOf(actionTypeString);
+			//Map all the actions and frames within this set
+			NodeList actionList = eSet.getElementsByTagName("action");
+			for (int j = 0; j < actionList.getLength(); j++) {
+				Element eAction = (Element) actionList.item(j);
+				String actionTypeString = eAction.getAttribute("type");
+				ActionType actionType = ActionType.valueOf(actionTypeString);
 
-                if(actionType == null) {
-                    JOptionPane.showMessageDialog(null, "Unable to find action type: " + actionTypeString +"' for id '" + setID + "'", "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
-                    continue;
-                }
+				if (actionType == null) {
+					JOptionPane.showMessageDialog(null, "Unable to find action type: " + actionTypeString + "' for id '" + setID + "'", "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
+					continue;
+				}
 
-                int actionXShift, actionYShift;
+				int actionXShift, actionYShift;
 
-                try {
-                    actionXShift = (eAction.hasAttribute("shiftX") ? Integer.parseInt(eAction.getAttribute("shiftX")) : 0);
-                    actionYShift = (eAction.hasAttribute("shiftY") ? Integer.parseInt(eAction.getAttribute("shiftY")) : 0);
-                } catch(Exception e) {
-                    JOptionPane.showMessageDialog(null, "Unable to load action xShift or yShift attribute for id '" + setID + "'", "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
-                    continue;
-                }
+				try {
+					actionXShift = (eAction.hasAttribute("shiftX") ? Integer.parseInt(eAction.getAttribute("shiftX")) : 0);
+					actionYShift = (eAction.hasAttribute("shiftY") ? Integer.parseInt(eAction.getAttribute("shiftY")) : 0);
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Unable to load action xShift or yShift attribute for id '" + setID + "'", "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
+					continue;
+				}
 
-                //Create and register newly created action from given information
-                Action action = new Action(actionType, actionXShift, actionYShift);
-                set.add(action);
+				//Create and register newly created action from given information
+				Action action = new Action(actionType, actionXShift, actionYShift);
+				set.add(action);
 
-                //Read all the frames in the given action
-                NodeList frameList = eAction.getElementsByTagName("frame");
-                for(int k = 0; k < frameList.getLength(); k++) {
-                    Element eFrame = (Element) frameList.item(k);
+				//Read all the frames in the given action
+				NodeList frameList = eAction.getElementsByTagName("frame");
+				for (int k = 0; k < frameList.getLength(); k++) {
+					Element eFrame = (Element) frameList.item(k);
 
-                    Image frameSprite = null;
-                    int frameTime;
-                    int frameXShift, frameYShift;
-
-
-                    //If done via. sprites
-                    if(eFrame.hasAttribute("sprite")) {
-                        //Read sprite information, in co-ord pairs (e.g. 2,3)
-                        try {
-                            int frameX = -1, frameY = -1;
-
-                            String frameData = eFrame.getAttribute("sprite");
-                            String[] frameXY = frameData.split(",");
-                            frameX = Integer.parseInt(frameXY[0]);
-                            frameY = Integer.parseInt(frameXY[1]);
-                            frameSprite = resource.getSprite(frameX, frameY);
-
-                        } catch(Exception e) {
-                            JOptionPane.showMessageDialog(null, "Error occurred while loading frame data (sprite)!\n" + e, "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
-                            continue;
-                        }
-                    }
-
-                    //If done via subimage
-                    else if(eFrame.hasAttribute("subImage")) {
-                        try {
-                            int startX, startY, width, height;
+					Image frameSprite = null;
+					int frameTime;
+					int frameXShift, frameYShift;
 
 
-                            String frameData = eFrame.getAttribute("subImage");
-                            String[] frameSub = frameData.split(",");
-                            startX = Integer.parseInt(frameSub[0]);
-                            startY = Integer.parseInt(frameSub[1]);
-                            width = Integer.parseInt(frameSub[2]);
-                            height = Integer.parseInt(frameSub[3]);
-                            frameSprite = resource.getSubImage(startX, startY, width, height);
+					//If done via. sprites
+					if (eFrame.hasAttribute("sprite")) {
+						//Read sprite information, in co-ord pairs (e.g. 2,3)
+						try {
+							int frameX = -1, frameY = -1;
 
-                        } catch(Exception e) {
-                            JOptionPane.showMessageDialog(null, "Error occurred while loading frame data (subImage)!\n" + e, "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
-                            continue;
-                        }
-                    }
+							String frameData = eFrame.getAttribute("sprite");
+							String[] frameXY = frameData.split(",");
+							frameX = Integer.parseInt(frameXY[0]);
+							frameY = Integer.parseInt(frameXY[1]);
+							frameSprite = resource.getSprite(frameX, frameY);
 
-                    //Load data
-                    try {
+						} catch (Exception e) {
+							JOptionPane.showMessageDialog(null, "Error occurred while loading frame data (sprite)!\n" + e, "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
+							continue;
+						}
+					}
 
-                        frameTime = Integer.parseInt(eFrame.getAttribute("time"));
-                        frameXShift = (eFrame.hasAttribute("shiftX") ? Integer.parseInt(eFrame.getAttribute("shiftX")) : 0);
-                        frameYShift = (eFrame.hasAttribute("shiftY") ? Integer.parseInt(eFrame.getAttribute("shiftY")) : 0);
+					//If done via subimage
+					else if (eFrame.hasAttribute("subImage")) {
+						try {
+							int startX, startY, width, height;
 
-                    } catch(Exception e) {
-                        JOptionPane.showMessageDialog(null, "Error occurred while loading frame data!\n" + e, "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
-                        continue;
-                    }
 
-                    //Create and add frame to set, from given information
-                    try {
-                        action.addFrame(frameSprite, frameTime, frameXShift, frameYShift);
-                    } catch(Exception e) {
-                        e.printStackTrace();
-                        JOptionPane.showMessageDialog(null, "Error occurred upon creating frame for action '" + actionTypeString + "'!", "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
-                        continue;
-                    }
-                }
-            }
-        }
+							String frameData = eFrame.getAttribute("subImage");
+							String[] frameSub = frameData.split(",");
+							startX = Integer.parseInt(frameSub[0]);
+							startY = Integer.parseInt(frameSub[1]);
+							width = Integer.parseInt(frameSub[2]);
+							height = Integer.parseInt(frameSub[3]);
+							frameSprite = resource.getSubImage(startX, startY, width, height);
 
-    }
+						} catch (Exception e) {
+							JOptionPane.showMessageDialog(null, "Error occurred while loading frame data (subImage)!\n" + e, "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
+							continue;
+						}
+					}
 
-    private void registerActionSet(ActionSet set) {
-        int id = set.getID();
-        if(setMap.get(id) != null) {
-            JOptionPane.showMessageDialog(null,
-                    "EntityActionSet '" + id + "' already registered!",
-                    "Internal Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        setMap.put(id, set);
-    }
+					//Load data
+					try {
 
-    public static ActionSet get(int id) {
-        return setMap.get(id);
-    }
+						frameTime = Integer.parseInt(eFrame.getAttribute("time"));
+						frameXShift = (eFrame.hasAttribute("shiftX") ? Integer.parseInt(eFrame.getAttribute("shiftX")) : 0);
+						frameYShift = (eFrame.hasAttribute("shiftY") ? Integer.parseInt(eFrame.getAttribute("shiftY")) : 0);
 
-    public static ActionSetDatabase getDatabase() { return database; }
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(null, "Error occurred while loading frame data!\n" + e, "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
+						continue;
+					}
 
-    private static final ActionSetDatabase database = new ActionSetDatabase();
+					//Create and add frame to set, from given information
+					try {
+						action.addFrame(frameSprite, frameTime, frameXShift, frameYShift);
+					} catch (Exception e) {
+						e.printStackTrace();
+						JOptionPane.showMessageDialog(null, "Error occurred upon creating frame for action '" + actionTypeString + "'!", "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
+						continue;
+					}
+				}
+			}
+		}
 
-    private ActionSetDatabase() {}
+	}
+
+	private void registerActionSet(ActionSet set) {
+		int id = set.getID();
+		if (setMap.get(id) != null) {
+			JOptionPane.showMessageDialog(null,
+					"EntityActionSet '" + id + "' already registered!",
+					"Internal Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		setMap.put(id, set);
+	}
+
+	public static ActionSet get(int id) {
+		return setMap.get(id);
+	}
+
+	public static ActionSetDatabase getDatabase() {
+		return database;
+	}
+
+	private static final ActionSetDatabase database = new ActionSetDatabase();
+
+	private ActionSetDatabase() {
+	}
 }

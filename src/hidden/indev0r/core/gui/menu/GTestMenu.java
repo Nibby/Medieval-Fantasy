@@ -14,17 +14,15 @@ public class GTestMenu extends GMenu {
 	private GComponent$Frame  dialog;
 	private GComponent$Frame  frame;
 
-	//TODO: GDialogue box system. How are you going to get these to close?
-	//TODO: Cursors
 	public GTestMenu() {
 		super();
 		label = new GComponent$Label("Hello", new Vector2f(1, 1));
 
-		button = new GComponent$Button(new Vector2f(20, 20), Textures.UI.BUTTON, Textures.UI.BUTTON_PRESSED);
+		button = new GComponent$Button(new Vector2f(20, 20), Textures.UI.MINIMAP_BUTTON, Textures.UI.MINIMAP_BUTTON_PRESSED);
 		button.addListener(this);
 
-		dialog = new GComponent$Dialog("Title", new Vector2f(80, 10), 8, 5);
-		dialog.addComponent(new GComponent$Button(new Vector2f(0, 0), Textures.UI.BUTTON, Textures.UI.BUTTON_PRESSED));
+		dialog = new GComponent$Dialog("Title", new Vector2f(80, 300), 8, 5);
+		dialog.addComponent(new GComponent$Button(new Vector2f(0, 0), Textures.UI.MINIMAP_BUTTON, Textures.UI.MINIMAP_BUTTON_PRESSED));
 		dialog.addListener(this);
 
 		frame = new GComponent$Frame(new Vector2f(340, 10), 10, 5);

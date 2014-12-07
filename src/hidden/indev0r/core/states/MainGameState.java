@@ -6,22 +6,21 @@ import hidden.indev0r.core.Camera;
 import hidden.indev0r.core.entity.Player;
 import hidden.indev0r.core.maps.TileMap;
 import hidden.indev0r.core.maps.TileMapDatabase;
-import hidden.indev0r.core.reference.References;
-import hidden.indev0r.core.texture.Textures;
-import org.newdawn.slick.*;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class MainGameState extends BasicGameState {
 
-    //Game objects
-    private Camera camera;
-    private Image canvas;
+	//Game objects
+	private Camera camera;
 
-    //Currently focused map
-    private TileMap map;
+	//Currently focused map
+	private TileMap map;
 
-    //Globally constant player
+	//Globally constant player
 	private Player player;
 
 	@Override
@@ -31,29 +30,20 @@ public class MainGameState extends BasicGameState {
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-        canvas = Textures.Images.EMPTY;
 
-        camera = new Camera(0, 0);
-        player = new Player(4, 3);
-        camera.setTrackObject(player);
+		camera = new Camera(0, 0);
+		player = new Player(4, 3);
+		camera.setTrackObject(player);
 
-        map = TileMapDatabase.getTileMap("map00_test");
-        map.addEntity(player);
-    }
+		map = TileMapDatabase.getTileMap("map00_test");
+		map.addEntity(player);
+	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-
 		map.render(g, camera);
 
-		g.pushTransform();
-		g.scale(References.DRAW_SCALE, References.DRAW_SCALE);
-		g.drawImage(canvas, 0, 0);
-		g.popTransform();
-
-		map.render(g, camera);
-
-		BitFont.render(g, map.getIdentifierName() + " [" + map.getName() + "]" , 5, 5);
+		BitFont.render(g, map.getIdentifierName() + " [" + map.getName() + "]", 5, 5);
 		BitFont.render(g, player.getX() + ", " + player.getY() + " / " + player.getCurrentX() + ", " + player.getCurrentY(), 5, 25);
 
 	}
@@ -61,13 +51,13 @@ public class MainGameState extends BasicGameState {
 
 	@Override
 	public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
-        camera.tick();
-        map.tick(gameContainer);
+		camera.tick();
+		map.tick(gameContainer);
 	}
 
 
-    public Camera getCamera() {
-        return camera;
-    }
+	public Camera getCamera() {
+		return camera;
+	}
 }
 

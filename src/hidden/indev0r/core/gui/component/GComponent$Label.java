@@ -11,13 +11,13 @@ import org.newdawn.slick.Graphics;
 public class GComponent$Label extends GComponent {
 
 	private String text;
-	private Color color;
+	private Color  color;
 
-	public GComponent$Label(String text, Vector2f pos){
+	public GComponent$Label(String text, Vector2f pos) {
 		this(text, pos, Color.white);
 	}
 
-	public GComponent$Label(String text, Vector2f pos, Color color){
+	public GComponent$Label(String text, Vector2f pos, Color color) {
 		super(pos);
 		this.text = text;
 		this.color = color;

@@ -63,7 +63,7 @@ public abstract class GComponent {
 		for (GComponentListener l : componentListeners) l.componentClicked(this);
 	}
 
-	public GComponent addListener(GComponentListener l){
+	public GComponent addListener(GComponentListener l) {
 		componentListeners.add(l);
 		return this;
 	}

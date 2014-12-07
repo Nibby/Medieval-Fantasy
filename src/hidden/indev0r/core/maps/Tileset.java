@@ -9,17 +9,17 @@ import org.newdawn.slick.SpriteSheet;
  */
 public class Tileset {
 
-    private SpriteSheet textureMap;
+	private SpriteSheet textureMap;
 
-    public Tileset(String imgPath) throws SlickException {
-        setTextureMap(imgPath);
-    }
+	public Tileset(String imgPath) throws SlickException {
+		setTextureMap(imgPath);
+	}
 
-    public Image getTexture(int x, int y) {
-        return textureMap.getSprite(x, y);
-    }
+	public Image getTexture(int x, int y) {
+		return textureMap.getSprite(x, y);
+	}
 
-    private void setTextureMap(String imagePath) throws SlickException {
-        textureMap = new SpriteSheet(imagePath, Tile.TILE_SIZE, Tile.TILE_SIZE);
-    }
+	private void setTextureMap(String imagePath) throws SlickException {
+		textureMap = new SpriteSheet(imagePath, Tile.TILE_SIZE, Tile.TILE_SIZE);
+	}
 }

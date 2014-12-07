@@ -10,62 +10,62 @@ import java.util.Map;
  */
 public class TileMapZone {
 
-    private Map<String, String> properties = new HashMap<>();
+	private Map<String, String> properties = new HashMap<>();
 
-    private TileMap map;
-    private String zoneID;
-    private int x, y, w, h;
+	private TileMap map;
+	private String  zoneID;
+	private int     x, y, w, h;
 
-    public TileMapZone(TileMap map, String zoneID, String property, int x, int y, int w, int h) {
-        this.map = map;
-        this.zoneID = zoneID;
-        this.x = x;
-        this.y = y;
-        this.w = w;
-        this.h = h;
+	public TileMapZone(TileMap map, String zoneID, String property, int x, int y, int w, int h) {
+		this.map = map;
+		this.zoneID = zoneID;
+		this.x = x;
+		this.y = y;
+		this.w = w;
+		this.h = h;
 
-        //Assigning properties
-        String[] propertySegments = property.split(";");
-        for(String segment : propertySegments) {
-            String[] kvPair = segment.split("=");
+		//Assigning properties
+		String[] propertySegments = property.split(";");
+		for (String segment : propertySegments) {
+			String[] kvPair = segment.split("=");
 
-            properties.put(kvPair[0], (kvPair.length > 1) ? kvPair[1] : "");
-        }
-    }
+			properties.put(kvPair[0], (kvPair.length > 1) ? kvPair[1] : "");
+		}
+	}
 
-    public void steppedInto(Entity entity) {
+	public void steppedInto(Entity entity) {
 
-    }
+	}
 
-    public void steppedOut(Entity entity) {
+	public void steppedOut(Entity entity) {
 
-    }
+	}
 
-    public boolean propertyExists(String propertyKey) {
-        return properties.get(propertyKey) != null;
-    }
+	public boolean propertyExists(String propertyKey) {
+		return properties.get(propertyKey) != null;
+	}
 
-    public String getProperty(String propertyKey) {
-        return properties.get(propertyKey);
-    }
+	public String getProperty(String propertyKey) {
+		return properties.get(propertyKey);
+	}
 
-    public String getZoneID() {
-        return zoneID;
-    }
+	public String getZoneID() {
+		return zoneID;
+	}
 
-    public int getX() {
-        return x;
-    }
+	public int getX() {
+		return x;
+	}
 
-    public int getY() {
-        return y;
-    }
+	public int getY() {
+		return y;
+	}
 
-    public int getW() {
-        return w;
-    }
+	public int getW() {
+		return w;
+	}
 
-    public int getH() {
-        return h;
-    }
+	public int getH() {
+		return h;
+	}
 }

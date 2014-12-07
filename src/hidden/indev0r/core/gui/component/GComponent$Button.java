@@ -8,9 +8,9 @@ import org.newdawn.slick.Input;
 
 public class GComponent$Button extends GComponent {
 
-	private Image   button;
-	private Image   buttonPressed;
-	private Image   buttonHovered;
+	private Image button;
+	private Image buttonPressed;
+	private Image buttonHovered;
 
 	public GComponent$Button(Vector2f pos, Image button) {
 		this(pos, button, null);
@@ -34,12 +34,18 @@ public class GComponent$Button extends GComponent {
 	public void render(Graphics g) {
 		switch (currentState) {
 			case PRESSED:
-				if (buttonPressed != null) buttonPressed.draw(position.x, position.y);
-				else button.draw(position.x, position.y);
+				if (buttonPressed != null) {
+					buttonPressed.draw(position.x, position.y);
+				} else {
+					button.draw(position.x, position.y);
+				}
 				break;
 			case HOVERED:
-				if (buttonHovered != null) buttonHovered.draw(position.x, position.y);
-				else button.draw(position.x, position.y);
+				if (buttonHovered != null) {
+					buttonHovered.draw(position.x, position.y);
+				} else {
+					button.draw(position.x, position.y);
+				}
 				break;
 			case NORMAL:
 			default:

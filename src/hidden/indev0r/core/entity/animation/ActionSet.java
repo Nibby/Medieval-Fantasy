@@ -9,25 +9,25 @@ import java.util.Map;
  */
 public class ActionSet {
 
-    List<Action> motionList = new ArrayList<>();
+	List<Action> motionList = new ArrayList<>();
 
-    private int id;
+	private int id;
 
-    protected ActionSet(int id) {
-        this.id = id;
-    }
+	protected ActionSet(int id) {
+		this.id = id;
+	}
 
-    protected void add(Action motion) {
-        motionList.add(motion);
-    }
+	protected void add(Action motion) {
+		motionList.add(motion);
+	}
 
-    public void applyAll(Map<ActionType, Action> motionMap) {
-        for(Action motion : motionList) {
-            motionMap.put(motion.getActionType(), motion);
-        }
-    }
+	public void applyAll(Map<ActionType, Action> motionMap) {
+		for (Action motion : motionList) {
+			motionMap.put(motion.getActionType(), motion);
+		}
+	}
 
-    public int getID() {
-        return id;
-    }
+	public int getID() {
+		return id;
+	}
 }

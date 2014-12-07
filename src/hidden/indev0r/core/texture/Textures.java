@@ -3,49 +3,44 @@ package hidden.indev0r.core.texture;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
 
-import javax.swing.*;
-import java.util.HashMap;
-import java.util.Map;
-
 public class Textures {
 
-	private static final String ENTITY_IMAGE_PATH    = "res/textures/entity/";
+
+	private static final String ENTITY_IMAGE_PATH        = "res/textures/sprites/";
+	private static final String ENTITY_STATIC_IMAGE_PATH = ENTITY_IMAGE_PATH + "static/";
+	private static final String ENTITY_ANIM_IMAGE_PATH   = ENTITY_IMAGE_PATH + "animated/";
+
 	private static final String UI_GAME_ELEMENT_PATH = "res/textures/ui_elements/game/";
 	private static final String CURSOR_IMAGE_PATH    = "res/textures/cursors/";
 
-
-	private static final String ENTITY_IMAGE_PATH = "res/textures/sprites/";
-    private static final String ENTITY_ANIM_IMAGE_PATH = ENTITY_IMAGE_PATH  + "animated/";
-    private static final String ENTITY_STATIC_IMAGE_PATH = ENTITY_IMAGE_PATH  + "static/";
-
-	public static void Init() {}
+	public static void Init() {
+		SpriteSheets.Init();
+	}
 
 	public static final class SpriteSheets {
+		public static void Init() {
+		}
 
-		public static final SpriteSheet ANIM_MAGE_0    = ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "mage0.png", 32, 32);
-		public static final SpriteSheet ANIM_WARRIOR_0 = ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "warrior0.png", 32, 32);
-		public static final SpriteSheet ANIM_ROGUE_0   = ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "rogue0.png", 32, 32);
-
-		public static final SpriteSheet UI_FONT = ResourceManager.loadSpriteSheet("res/font.png", 16, 20);
-		public static final SpriteSheet WIZARD  = ResourceManager.loadSpriteSheet(ENTITY_IMAGE_PATH + "player.png", 32, 32);
 		public static final SpriteSheet UI_FONT = ResourceManager.loadSpriteSheet("res/font/font.png", 16, 20);
 
+
+		static {
+			ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "mage0.png", 32, 32);
+			ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "warrior0.png", 32, 32);
+			ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "rogue0.png", 32, 32);
+		}
 	}
 
 
 	public static final class Images {
-		public static final Image EMPTY = ResourceManager.loadImage("res/empty.png");
+		public static final Image EMPTY        = ResourceManager.loadImage("res/empty.png");
 		public static final Image DUNGEON_MASK = ResourceManager.loadImage("res/overlay/mask.png");
 	}
 
 
-	public static final class SpriteSheets {
-	}
-
-
 	public static final class UI {
-		public static final Image BUTTON         = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "minimap/BUTTON.png");
-		public static final Image BUTTON_PRESSED = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "minimap/BUTTON_PRESSED.png");
+		public static final Image MINIMAP_BUTTON         = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "minimap/BUTTON.png");
+		public static final Image MINIMAP_BUTTON_PRESSED = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "minimap/BUTTON_PRESSED.png");
 
 		public static final Image FRAME_TOP_RIGHT         = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "frame/TOP_RIGHT.png");
 		public static final Image FRAME_TOP_MIDDLE        = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "frame/TOP_MIDDLE.png");
@@ -72,7 +67,6 @@ public class Textures {
 		public static final Image BUTTON_ROUND_GREY_NORMAL   = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/GREY_ROUND_NORMAL.png");
 		public static final Image BUTTON_ROUND_GREY_HOVERED  = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/GREY_ROUND_HOVERED.png");
 		public static final Image BUTTON_ROUND_GREY_PRESSED  = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/GREY_ROUND_PRESSED.png");
-
 	}
 
 
@@ -84,7 +78,6 @@ public class Textures {
 		public static final Image POINTER_WHITE       = ResourceManager.loadImage(CURSOR_IMAGE_PATH + "POINTER_WHITE.png");
 		public static final Image POINTER_YELLOW      = ResourceManager.loadImage(CURSOR_IMAGE_PATH + "POINTER_YELLOW.png");
 		public static final Image POINTER_DARK_YELLOW = ResourceManager.loadImage(CURSOR_IMAGE_PATH + "POINTER_DARK_YELLOW.png");
-
 	}
 
 }

@@ -13,7 +13,7 @@ public class GComponent$Dialog extends GComponent$Frame {
 	private GComponent$Button closeButton;
 	private String            title;
 
-	public GComponent$Dialog(Vector2f pos, int width, int height){
+	public GComponent$Dialog(Vector2f pos, int width, int height) {
 		this(null, pos, width, height);
 	}
 
@@ -59,7 +59,7 @@ public class GComponent$Dialog extends GComponent$Frame {
 		}
 		//Render close button
 		closeButton.render(g);
-		BitFont.render(g, title, (int) position.x + 5, (int) position.y + 3, Color.white, 0);
+		BitFont.render(g, title, (int) position.x + 5, (int) position.y + 3, Color.white);
 		for (GComponent gc : internalComponents) gc.render(g);
 		g.popTransform();
 	}
