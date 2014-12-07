@@ -44,7 +44,7 @@ public class MedievalLauncher extends StateBasedGame {
 		this.addState((stateGame = new MainGameState()));
 		this.addState((stateMainMenu = new MainMenuState()));
 
-		enterState(GameStateID.MAIN_MENU_STATE.getID());
+		enterState(GameStateID.MAIN_GAME_STATE.getID());
 	}
 
 	public MainGameState getGameState() {

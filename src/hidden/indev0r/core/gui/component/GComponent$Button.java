@@ -11,6 +11,7 @@ public class GComponent$Button extends GComponent {
 	private Image button;
 	private Image buttonPressed;
 	private Image buttonHovered;
+	private Image icon;
 
 	public GComponent$Button(Vector2f pos, Image button) {
 		this(pos, button, null);
@@ -21,14 +22,20 @@ public class GComponent$Button extends GComponent {
 	}
 
 	public GComponent$Button(Vector2f pos, Image button, Image buttonPressed, Image buttonHovered) {
+		this(pos, button, buttonPressed, buttonHovered, null);
+	}
+
+	public GComponent$Button(Vector2f pos, Image button, Image buttonPressed, Image buttonHovered, Image icon) {
 		super(pos);
 		this.button = button;
 		this.buttonPressed = buttonPressed;
 		this.buttonHovered = buttonHovered;
+		this.icon = icon;
 		this.width = button.getWidth();
 		this.height = button.getHeight();
 		currentState = GStates.NORMAL;
 	}
+
 
 	@Override
 	public void render(Graphics g) {
@@ -39,6 +46,7 @@ public class GComponent$Button extends GComponent {
 				} else {
 					button.draw(position.x, position.y);
 				}
+				if (icon != null) icon.draw(position.x + 3, position.y + 3);
 				break;
 			case HOVERED:
 				if (buttonHovered != null) {
@@ -46,12 +54,16 @@ public class GComponent$Button extends GComponent {
 				} else {
 					button.draw(position.x, position.y);
 				}
+
+				if (icon != null) icon.draw(position.x + 2, position.y + 2);
 				break;
 			case NORMAL:
 			default:
 				if (button != null) button.draw(position.x, position.y);
+				if (icon != null) icon.draw(position.x + 2, position.y + 2);
 				break;
 		}
+
 	}
 
 	@Override

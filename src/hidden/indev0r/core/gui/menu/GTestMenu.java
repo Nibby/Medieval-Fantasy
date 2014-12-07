@@ -18,11 +18,11 @@ public class GTestMenu extends GMenu {
 		super();
 		label = new GComponent$Label("Hello", new Vector2f(1, 1));
 
-		button = new GComponent$Button(new Vector2f(20, 20), Textures.UI.MINIMAP_BUTTON, Textures.UI.MINIMAP_BUTTON_PRESSED);
+		button = new GComponent$Button(new Vector2f(20, 20), Textures.UI.MINIMAP_BUTTON_NORMAL, Textures.UI.MINIMAP_BUTTON_PRESSED);
 		button.addListener(this);
 
 		dialog = new GComponent$Dialog("Title", new Vector2f(80, 300), 8, 5);
-		dialog.addComponent(new GComponent$Button(new Vector2f(0, 0), Textures.UI.MINIMAP_BUTTON, Textures.UI.MINIMAP_BUTTON_PRESSED));
+		dialog.addComponent(new GComponent$Button(new Vector2f(0, 0), Textures.UI.MINIMAP_BUTTON_NORMAL, Textures.UI.MINIMAP_BUTTON_PRESSED));
 		dialog.addListener(this);
 
 		frame = new GComponent$Frame(new Vector2f(340, 10), 10, 5);

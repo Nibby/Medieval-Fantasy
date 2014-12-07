@@ -4,6 +4,8 @@ package hidden.indev0r.core.states;
 import hidden.indev0r.core.BitFont;
 import hidden.indev0r.core.Camera;
 import hidden.indev0r.core.entity.Player;
+import hidden.indev0r.core.gui.menu.GGameMenu;
+import hidden.indev0r.core.gui.menu.GMenuManager;
 import hidden.indev0r.core.maps.TileMap;
 import hidden.indev0r.core.maps.TileMapDatabase;
 import org.newdawn.slick.GameContainer;
@@ -23,6 +25,9 @@ public class MainGameState extends BasicGameState {
 	//Globally constant player
 	private Player player;
 
+	//2D Elements
+	private GMenuManager menuMgr;
+
 	@Override
 	public int getID() {
 		return GameStateID.MAIN_GAME_STATE.getID();
@@ -37,11 +42,15 @@ public class MainGameState extends BasicGameState {
 
 		map = TileMapDatabase.getTileMap("map00_test");
 		map.addEntity(player);
+
+		menuMgr = new GMenuManager();
+		menuMgr.addMenu(new GGameMenu());
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		map.render(g, camera);
+		menuMgr.render(g);
 
 		BitFont.render(g, map.getIdentifierName() + " [" + map.getName() + "]", 5, 5);
 		BitFont.render(g, player.getX() + ", " + player.getY() + " / " + player.getCurrentX() + ", " + player.getCurrentY(), 5, 25);
@@ -53,6 +62,7 @@ public class MainGameState extends BasicGameState {
 	public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
 		camera.tick();
 		map.tick(gameContainer);
+		menuMgr.tick(gameContainer);
 	}
 
 
