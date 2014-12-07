@@ -1,5 +1,6 @@
 package hidden.indev0r.core.gui.component.base;
 
+import hidden.indev0r.core.gui.menu.GMenu;
 import hidden.indev0r.core.texture.Textures;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.GameContainer;
@@ -143,8 +144,8 @@ public class GComponent$Frame extends GComponent {
         this.visible = visible;
     }
 
-    public void onAdd() {
-        super.onAdd();
+    public void onAdd(GMenu menu) {
+        super.onAdd(menu);
         visible = true;
     }
 

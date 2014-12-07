@@ -1,6 +1,8 @@
 package hidden.indev0r.core.gui.component.base;
 
 import hidden.indev0r.core.gui.component.listener.GComponentListener;
+import hidden.indev0r.core.gui.component.listener.GDialogListener;
+import hidden.indev0r.core.gui.menu.GMenu;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -31,6 +33,9 @@ public abstract class GComponent {
 	}
 
 
+	//Parent
+	protected GMenu parent;
+
 	//Location and Size
 	protected Vector2f position;
 	protected int      width;
@@ -44,11 +49,12 @@ public abstract class GComponent {
 	//Listeners
 	protected ArrayList<GComponentListener> componentListeners;
 
+
 	public GComponent(Vector2f pos) {
 		this.position = pos;
 		firedHoverEvent = false;
 		wasClicked = false;
-		componentListeners = new ArrayList<>();
+		componentListeners = new ArrayList<>(0);
 	}
 
 	public abstract void render(Graphics g);
@@ -63,17 +69,15 @@ public abstract class GComponent {
 		for (GComponentListener l : componentListeners) l.componentClicked(this);
 	}
 
+	public void onAdd(GMenu parent) {
+		this.parent = parent;
+	}
+
+	public void onRemove() {}
+
 	public GComponent addListener(GComponentListener l) {
 		componentListeners.add(l);
 		return this;
-	}
-
-	public Vector2f getPosition() {
-		return position;
-	}
-
-	public void setPosition(Vector2f position) {
-		this.position = position;
 	}
 
 	public int getWidth() {
@@ -84,13 +88,17 @@ public abstract class GComponent {
 		return height;
 	}
 
-    public void onAdd() {
+	public Vector2f getPosition() {
+		return position;
+	}
 
-    }
+	public void setPosition(Vector2f position) {
+		this.position = position;
+	}
 
-    public void onRemove() {
-
-    }
+	public GMenu getParent() {
+		return parent;
+	}
 }
 
 

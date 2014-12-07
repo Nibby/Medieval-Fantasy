@@ -8,7 +8,7 @@ import hidden.indev0r.core.gui.component.dialog.GComponent$JournalDialog;
 import hidden.indev0r.core.gui.component.dialog.GComponent$SkillDialog;
 import hidden.indev0r.core.gui.component.dialog.GComponent$StatusDialog;
 import hidden.indev0r.core.gui.component.listener.GComponentListener;
-import hidden.indev0r.core.gui.menu.GGameOverlayMenu;
+import hidden.indev0r.core.gui.component.listener.GDialogListener;
 import hidden.indev0r.core.gui.menu.GGameOverlayMenu$OptionMenu;
 import hidden.indev0r.core.texture.Textures;
 import org.lwjgl.util.vector.Vector2f;
@@ -18,7 +18,7 @@ import org.newdawn.slick.Image;
 
 import java.util.ArrayList;
 
-public class GComponent$Minimap extends GComponent implements GComponentListener {
+public class GComponent$Minimap extends GComponent implements GComponentListener, GDialogListener {
 
 	//private int sideButtons;
 	public ArrayList<GComponent$SidebarButton> sideButtons;
@@ -29,10 +29,11 @@ public class GComponent$Minimap extends GComponent implements GComponentListener
 	public  GComponent$Button zoomOutButton;
 	public  GComponent$Button bigMapButton;
 
-    private GComponent$StatusDialog dialogStatus;
-    private GComponent$InventoryDialog dialogInventory;
-    private GComponent$SkillDialog dialogSkill;
-    private GComponent$JournalDialog dialogJournal;
+	private GComponent$StatusDialog    dialogStatus;
+	private GComponent$InventoryDialog dialogInventory;
+	private GComponent$SkillDialog     dialogSkill;
+	private GComponent$JournalDialog   dialogJournal;
+
 
 
 	public GComponent$Minimap(Vector2f pos, int numOfButton) {
@@ -49,7 +50,7 @@ public class GComponent$Minimap extends GComponent implements GComponentListener
 				Textures.UI.BUTTON_ROUND_GREEN_HOVERED,
 				Textures.Icons.PLUS
 		);
-        zoomInButton.addListener(this);
+		zoomInButton.addListener(this);
 
 		zoomOutButton = new GComponent$Button(new Vector2f(position.x + 26, position.y + 104),
 				Textures.UI.BUTTON_ROUND_RED_NORMAL,
@@ -57,7 +58,7 @@ public class GComponent$Minimap extends GComponent implements GComponentListener
 				Textures.UI.BUTTON_ROUND_RED_HOVERED,
 				Textures.Icons.MINUS
 		);
-        zoomOutButton.addListener(this);
+		zoomOutButton.addListener(this);
 
 		bigMapButton = new GComponent$Button(new Vector2f(position.x + 96, position.y + 18),
 				Textures.UI.BUTTON_ROUND_BLUE_NORMAL,
@@ -65,18 +66,18 @@ public class GComponent$Minimap extends GComponent implements GComponentListener
 				Textures.UI.BUTTON_ROUND_BLUE_HOVERED,
 				Textures.Icons.MAGNIFYING_GLASS
 		);
-        bigMapButton.addListener(this);
+		bigMapButton.addListener(this);
 
 
 		//SIDE BUTTONS
 		this.sideButtons = new ArrayList<>(0);
 		for (int i = 0; i < numOfButton; i++) {
 			if (i == 0) {
-                GComponent$SidebarButton sb = new GComponent$SidebarButton(
-                        new Vector2f(position.x + 84, position.y + 130),
-                        Textures.UI.MINIMAP_BUTTON_NORMAL,
-                        Textures.UI.MINIMAP_BUTTON_PRESSED);
-                sb.addListener(this);
+				GComponent$SidebarButton sb = new GComponent$SidebarButton(
+						new Vector2f(position.x + 84, position.y + 130),
+						Textures.UI.MINIMAP_BUTTON_NORMAL,
+						Textures.UI.MINIMAP_BUTTON_PRESSED);
+				sb.addListener(this);
 				this.sideButtons.add(sb);
 				continue;
 			}
@@ -86,22 +87,27 @@ public class GComponent$Minimap extends GComponent implements GComponentListener
 					Textures.UI.MINIMAP_BUTTON_NORMAL,
 					Textures.UI.MINIMAP_BUTTON_PRESSED);
 			sb.setConnectorImage(Textures.UI.MINIMAP_BUTTON_SEPERATOR);
-            sb.addListener(this);
+			sb.addListener(this);
 			this.sideButtons.add(sb);
 		}
 
-        //I know parameters are duplicated, second one is for the icon when button is pressed. For now I think this way looks best (in game, of course)
-        this.sideButtons.get(0).setIcon(Textures.Icons.CHARACTER_BIG, Textures.Icons.CHARACTER_BIG);
-        this.sideButtons.get(1).setIcon(Textures.Icons.INVENTORY_BIG, Textures.Icons.INVENTORY_BIG);
-        this.sideButtons.get(2).setIcon(Textures.Icons.SCROLL_BIG, Textures.Icons.SCROLL_BIG);
-        this.sideButtons.get(3).setIcon(Textures.Icons.BOOK_BIG, Textures.Icons.BOOK_BIG);
-        this.sideButtons.get(4).setIcon(Textures.Icons.MENU_BIG, Textures.Icons.MENU_BIG);
+		//I know parameters are duplicated, second one is for the icon when button is pressed. For now I think this way looks best (in game, of course)
+		this.sideButtons.get(0).setIcon(Textures.Icons.CHARACTER_BIG, Textures.Icons.CHARACTER_BIG);
+		this.sideButtons.get(1).setIcon(Textures.Icons.INVENTORY_BIG, Textures.Icons.INVENTORY_BIG);
+		this.sideButtons.get(2).setIcon(Textures.Icons.SCROLL_BIG, Textures.Icons.SCROLL_BIG);
+		this.sideButtons.get(3).setIcon(Textures.Icons.BOOK_BIG, Textures.Icons.BOOK_BIG);
+		this.sideButtons.get(4).setIcon(Textures.Icons.MENU_BIG, Textures.Icons.MENU_BIG);
 
-        Vector2f dialogPos = new Vector2f(200, 200);
-        dialogStatus = new GComponent$StatusDialog(dialogPos);
-        dialogInventory = new GComponent$InventoryDialog(dialogPos);
-        dialogSkill = new GComponent$SkillDialog(dialogPos);
-        dialogJournal = new GComponent$JournalDialog(dialogPos);
+		Vector2f dialogPos = new Vector2f(200, 200);
+		dialogStatus = new GComponent$StatusDialog(dialogPos);
+		dialogInventory = new GComponent$InventoryDialog(dialogPos);
+		dialogSkill = new GComponent$SkillDialog(dialogPos);
+		dialogJournal = new GComponent$JournalDialog(dialogPos);
+
+		dialogStatus.addDialogListener(this);
+		dialogInventory.addDialogListener(this);
+		dialogSkill.addDialogListener(this);
+		dialogJournal.addDialogListener(this);
 	}
 
 
@@ -123,71 +129,87 @@ public class GComponent$Minimap extends GComponent implements GComponentListener
 		for (GComponent$SidebarButton s : sideButtons) s.tick(gc);
 	}
 
-    @Override
-    public void componentClicked(GComponent c) {
-        if(c.equals(zoomInButton)) {
+	private void checkSidebarButtons(GComponent c) {
+		//Character
+		if (c == sideButtons.get(0)) {
+			if (!dialogStatus.isVisible()) {
+				dialogStatus = new GComponent$StatusDialog(new Vector2f(dialogStatus.getPosition()));
+				MedievalLauncher.getInstance().getGameState().getMenuOverlay().addComponent(dialogStatus);
+			} else {
+				dialogStatus.dispose();
+			}
+		}
 
-        }
+		//Inventory
+		if (c == sideButtons.get(1)) {
+			if (!dialogInventory.isVisible()) {
+				dialogInventory = new GComponent$InventoryDialog(new Vector2f(dialogInventory.getPosition()));
+				MedievalLauncher.getInstance().getGameState().getMenuOverlay().addComponent(dialogInventory);
+			} else {
+				dialogInventory.dispose();
+			}
+		}
 
-        if(c.equals(zoomOutButton)) {
+		//Skill
+		if (c == sideButtons.get(2)) {
+			if (!dialogSkill.isVisible()) {
+				dialogSkill = new GComponent$SkillDialog(new Vector2f(dialogSkill.getPosition()));
+				MedievalLauncher.getInstance().getGameState().getMenuOverlay().addComponent(dialogSkill);
+			} else {
+				dialogSkill.dispose();
+			}
+		}
 
-        }
+		//Journal
+		if (c == sideButtons.get(3)) {
+			if (!dialogJournal.isVisible()) {
+				dialogJournal = new GComponent$JournalDialog(new Vector2f(dialogJournal.getPosition()));
+				MedievalLauncher.getInstance().getGameState().getMenuOverlay().addComponent(dialogJournal);
+			} else {
+				dialogJournal.dispose();
+			}
+		}
 
-        if(c.equals(bigMapButton)) {
+		//Game settings/menu
+		if (c == sideButtons.get(4)) {
+			GGameOverlayMenu$OptionMenu menu = new GGameOverlayMenu$OptionMenu();
+			MedievalLauncher.getInstance().getGameState().getMenuManager().addMenu(menu);
+		}
+	}
 
-        }
+	@Override
+	public void componentClicked(GComponent c) {
+		checkSidebarButtons(c);
 
-        //Character
-        if(c == sideButtons.get(0)) {
-            if(!dialogStatus.isVisible()) {
-                dialogStatus = new GComponent$StatusDialog(new Vector2f(dialogStatus.getPosition()));
-                MedievalLauncher.getInstance().getGameState().getMenuOverlay().addComponent(dialogStatus);
-            } else dialogStatus.dispose();
-        }
+		if (c.equals(zoomInButton)) {
 
-        //Inventory
-        if(c == sideButtons.get(1)) {
-            if(!dialogInventory.isVisible()) {
-                dialogInventory = new GComponent$InventoryDialog(new Vector2f(dialogInventory.getPosition()));
-                MedievalLauncher.getInstance().getGameState().getMenuOverlay().addComponent(dialogInventory);
-            } else dialogInventory.dispose();
-        }
+		}
 
-        //Skill
-        if(c == sideButtons.get(2)) {
-            if(!dialogSkill.isVisible()) {
-                dialogSkill = new GComponent$SkillDialog(new Vector2f(dialogSkill.getPosition()));
-                MedievalLauncher.getInstance().getGameState().getMenuOverlay().addComponent(dialogSkill);
-            } else dialogSkill.dispose();
-        }
+		if (c.equals(zoomOutButton)) {
 
-        //Journal
-        if(c == sideButtons.get(3)) {
-            if(!dialogJournal.isVisible()) {
-                dialogJournal = new GComponent$JournalDialog(new Vector2f(dialogJournal.getPosition()));
-                MedievalLauncher.getInstance().getGameState().getMenuOverlay().addComponent(dialogJournal);
-            } else dialogJournal.dispose();
-        }
+		}
 
-        //Game settings/menu
-        if(c == sideButtons.get(4)) {
-            GGameOverlayMenu$OptionMenu menu = new GGameOverlayMenu$OptionMenu();
-            MedievalLauncher.getInstance().getGameState().getMenuManager().addMenu(menu);
-        }
-    }
+		if (c.equals(bigMapButton)) {
 
-    @Override
-    public void componentHovered(GComponent c) {
-
-    }
+		}
 
 
-    private class GComponent$SidebarButton extends GComponent$Button {
+	}
+
+	@Override
+	public void componentHovered(GComponent c) {}
+
+	@Override
+	public void titleBarClicked(GComponent c) {
+		c.getParent().setComponentTopPriority(c);
+	}
+
+	private class GComponent$SidebarButton extends GComponent$Button {
 
 		private Image connectorImage;
 
-        private Image iconActive;
-        private Image iconPressed;
+		private Image iconActive;
+		private Image iconPressed;
 
 		public GComponent$SidebarButton(Vector2f pos, Image button, Image buttonPressed) {
 			super(pos, button, buttonPressed);
@@ -200,14 +222,14 @@ public class GComponent$Minimap extends GComponent implements GComponentListener
 			super.render(g);
 			if (connectorImage != null) connectorImage.draw(position.x + 12, position.y - connectorImage.getHeight());
 
-            switch(currentState) {
-                case PRESSED:
-                    if(iconActive != null) iconPressed.draw(position.x + 7, position.y + 7);
-                    break;
-                default:
-                    if(iconPressed != null) iconActive.draw(position.x + 5, position.y + 5);
-                    break;
-            }
+			switch (currentState) {
+				case PRESSED:
+					if (iconActive != null) iconPressed.draw(position.x + 7, position.y + 7);
+					break;
+				default:
+					if (iconPressed != null) iconActive.draw(position.x + 5, position.y + 5);
+					break;
+			}
 		}
 
 		public GComponent$SidebarButton setConnectorImage(Image connectorImage) {
@@ -215,11 +237,11 @@ public class GComponent$Minimap extends GComponent implements GComponentListener
 			return this;
 		}
 
-        public void setIcon(Image active, Image pressed) {
-            this.iconActive = active;
-            this.iconPressed = pressed;
-        }
-    }
+		public void setIcon(Image active, Image pressed) {
+			this.iconActive = active;
+			this.iconPressed = pressed;
+		}
+	}
 
 
 }

@@ -4,20 +4,26 @@ import hidden.indev0r.core.BitFont;
 import hidden.indev0r.core.MedievalLauncher;
 import hidden.indev0r.core.gui.Cursor;
 import hidden.indev0r.core.gui.component.listener.GComponentListener;
+import hidden.indev0r.core.gui.component.listener.GDialogListener;
 import hidden.indev0r.core.texture.Textures;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.*;
 import org.newdawn.slick.util.InputAdapter;
 
+import java.util.ArrayList;
+
 public class GComponent$Dialog extends GComponent$Frame implements GComponentListener {
+
+	//This doesn't seem right...
+	protected static ArrayList<GDialogListener> dialogListeners = new ArrayList<>(0);
 
 	public  GComponent$Button closeButton;
 	private String            title;
 
-    private boolean draggable = true;
-    private boolean closed = false;
+	private boolean draggable = true;
+	private boolean closed    = false;
 
-    private DialogInputHandler inputHandler;
+	private DialogInputHandler inputHandler;
 
 	public GComponent$Dialog(Vector2f pos, int width, int height) {
 		this(null, pos, width, height);
@@ -36,17 +42,17 @@ public class GComponent$Dialog extends GComponent$Frame implements GComponentLis
 				Textures.UI.BUTTON_ROUND_RED_NORMAL,
 				Textures.UI.BUTTON_ROUND_RED_PRESSED,
 				Textures.UI.BUTTON_ROUND_RED_HOVERED);
-        closeButton.addListener(this);
-        addComponent(closeButton);
+		closeButton.addListener(this);
+		addComponent(closeButton);
 		this.title = (title != null ? title : "");
 
-        MedievalLauncher.getInstance().getGameContainer().getInput().addListener((inputHandler = new DialogInputHandler()));
+		MedievalLauncher.getInstance().getGameContainer().getInput().addListener((inputHandler = new DialogInputHandler()));
 		fillFrames();
 	}
 
 	@Override
 	public void render(Graphics g) {
-        if(!isVisible()) return;
+		if (!isVisible()) return;
 		g.pushTransform();
 		g.scale(scale, scale);
 		for (int x = 0; x < tileWidth; x++) {
@@ -78,6 +84,35 @@ public class GComponent$Dialog extends GComponent$Frame implements GComponentLis
 		super.tick(gc);
 		closeButton.tick(gc);
 		for (GComponent gco : internalComponents) gco.tick(gc);
+
+		Input input = gc.getInput();
+		Vector2f mouse = new Vector2f(input.getMouseX(), input.getMouseY());
+
+		if (mouse.x > this.position.x && mouse.x < (this.position.x + this.width) && mouse.y > this.position.y && (mouse.y < this.position.y + 32)) {
+			if (currentState.equals(GStates.DISABLED)) return;
+			if (!input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+				currentState = GStates.HOVERED;
+			} else {
+				currentState = GStates.PRESSED;
+				wasClicked = true;
+			}
+
+			//Mouse click
+			if (wasClicked && !input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+				fireTitleBarClickedEvent();
+				wasClicked = false;
+			}
+		}//END OF MOUSE BOUNDS
+		else {
+			currentState = GStates.NORMAL;
+			wasClicked = false;
+		}
+
+
+	}
+
+	public void addDialogListener(GDialogListener l) {
+		dialogListeners.add(l);
 	}
 
 	@Override
@@ -94,87 +129,97 @@ public class GComponent$Dialog extends GComponent$Frame implements GComponentLis
 		internalComponents.add(gc);
 	}
 
-    public boolean canDrag() {
-        return draggable;
-    }
+	public boolean canDrag() {
+		return draggable;
+	}
 
-    public void setDraggable(boolean mouseMovable) {
-        this.draggable = mouseMovable;
-    }
+	public void setDraggable(boolean mouseMovable) {
+		this.draggable = mouseMovable;
+	}
 
-    @Override
-    public void componentClicked(GComponent c) {
-        if(c.equals(closeButton))
-            dispose();
-    }
+	@Override
+	public void componentClicked(GComponent c) {
+		if (c.equals(closeButton)) {
+			dispose();
+		}
+	}
 
-    @Override
-    public void componentHovered(GComponent c) {
+	@Override
+	public void componentHovered(GComponent c) {
+	}
 
-    }
+	@Override
+	public void dispose() {
+		super.dispose();
+		MedievalLauncher.getInstance().getGameContainer().getInput().removeListener(inputHandler);
+	}
 
-    @Override
-    public void dispose() {
-        super.dispose();
-        MedievalLauncher.getInstance().getGameContainer().getInput().removeListener(inputHandler);
-    }
+	private void fireTitleBarClickedEvent() {
+		//if (this instanceof GComponent$Dialog) {
+		for (GDialogListener g : dialogListeners) g.titleBarClicked(this);
+		//}
+	}
 
-    class DialogInputHandler extends InputAdapter {
-        boolean wasDragging = false;
 
-        private boolean isDialogDragInstance() {
-            if(Cursor.DRAG_INSTANCE != null) {
-                Object dragObj = Cursor.DRAG_INSTANCE;
-                if(!(dragObj instanceof GComponent$Dialog)) return false;
-                else {
-                    //Check if the dragging dialog is this dialog
-                    GComponent$Dialog dialog = (GComponent$Dialog) dragObj;
-                    return dialog.equals(GComponent$Dialog.this);
-                }
-            } else return true;
-        }
+	class DialogInputHandler extends InputAdapter {
+		boolean wasDragging = false;
 
-        //Dragging frames = moving
-        @Override
-        public void mouseDragged(int oldx, int oldy, int newx, int newy) {
-            //Check cursor's current drag instance to prevent multi-dragging
-            if(wasDragging || newx > position.x && newx < position.x + width && newy > position.y && newy < position.y + 32) {
-                if(!isDialogDragInstance()) return;
+		private boolean isDialogDragInstance() {
+			if (Cursor.DRAG_INSTANCE != null) {
+				Object dragObj = Cursor.DRAG_INSTANCE;
+				if (!(dragObj instanceof GComponent$Dialog)) {
+					return false;
+				} else {
+					//Check if the dragging dialog is this dialog
+					GComponent$Dialog dialog = (GComponent$Dialog) dragObj;
+					return dialog.equals(GComponent$Dialog.this);
+				}
+			} else {
+				return true;
+			}
+		}
 
-                int relativeX = (int) (oldx - position.x);
-                int relativeY = (int) (oldy - position.y);
+		//Dragging frames = moving
+		@Override
+		public void mouseDragged(int oldx, int oldy, int newx, int newy) {
+			//Check cursor's current drag instance to prevent multi-dragging
+			if (wasDragging || newx > position.x && newx < position.x + width && newy > position.y && newy < position.y + 32) {
+				if (!isDialogDragInstance()) return;
 
-                position.x = newx - relativeX;
-                position.y = newy - relativeY;
+				int relativeX = (int) (oldx - position.x);
+				int relativeY = (int) (oldy - position.y);
 
-                int diffX = newx - oldx;
-                int diffY = newy - oldy;
+				position.x = newx - relativeX;
+				position.y = newy - relativeY;
 
-                for(GComponent gc : internalComponents) {
-                    Vector2f oldComponentPosition = gc.getPosition();
-                    Vector2f newComponentPosition = new Vector2f(oldComponentPosition.x + diffX, oldComponentPosition.y + diffY);
+				int diffX = newx - oldx;
+				int diffY = newy - oldy;
 
-                    gc.setPosition(newComponentPosition);
-                }
+				for (GComponent gc : internalComponents) {
+					Vector2f oldComponentPosition = gc.getPosition();
+					Vector2f newComponentPosition = new Vector2f(oldComponentPosition.x + diffX, oldComponentPosition.y + diffY);
 
-                wasDragging = true;
-                Cursor.DRAG_INSTANCE = GComponent$Dialog.this;
-            }
-        }
+					gc.setPosition(newComponentPosition);
+				}
 
-        @Override
-        public void mouseReleased(int button, int x, int y) {
-            super.mouseReleased(button, x, y);
+				wasDragging = true;
+				Cursor.DRAG_INSTANCE = GComponent$Dialog.this;
+			}
+		}
 
-            //Release all drag focus
-            if(button == Input.MOUSE_LEFT_BUTTON) {
-                wasDragging = false;
+		@Override
+		public void mouseReleased(int button, int x, int y) {
+			super.mouseReleased(button, x, y);
 
-                if(isDialogDragInstance()) {
-                    //Release
-                    Cursor.DRAG_INSTANCE = null;
-                }
-            }
-        }
-    }
+			//Release all drag focus
+			if (button == Input.MOUSE_LEFT_BUTTON) {
+				wasDragging = false;
+
+				if (isDialogDragInstance()) {
+					//Release
+					Cursor.DRAG_INSTANCE = null;
+				}
+			}
+		}
+	}
 }

@@ -9,8 +9,8 @@ public final class References {
 	public static final String   GAME_VERSION = "v0.0.1";
 	public static final String[] GAME_AUTHORS = {"James Roberts", "Kevin Yang"};
 
-	public static final int GAME_WIDTH  = 800;
-	public static final int GAME_HEIGHT = 600;
+	public static final int GAME_WIDTH  = 1600;
+	public static final int GAME_HEIGHT = 900;
 	public static final int DRAW_SCALE  = 1;
 
 	public static final Path ROOT_PATH = Paths.get(System.getProperty("user.dir"));
