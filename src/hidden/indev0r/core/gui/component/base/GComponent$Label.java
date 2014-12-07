@@ -1,7 +1,8 @@
-package hidden.indev0r.core.gui.component;
+package hidden.indev0r.core.gui.component.base;
 
 
 import hidden.indev0r.core.BitFont;
+import hidden.indev0r.core.gui.component.base.GComponent;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;

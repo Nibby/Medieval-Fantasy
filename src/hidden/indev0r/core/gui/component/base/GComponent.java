@@ -1,4 +1,4 @@
-package hidden.indev0r.core.gui.component;
+package hidden.indev0r.core.gui.component.base;
 
 import hidden.indev0r.core.gui.component.listener.GComponentListener;
 import org.lwjgl.util.vector.Vector2f;

@@ -1,5 +1,6 @@
-package hidden.indev0r.core.gui.component;
+package hidden.indev0r.core.gui.component.base;
 
+import hidden.indev0r.core.gui.component.base.GComponent;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;

@@ -1,5 +1,7 @@
 package hidden.indev0r.core.gui.component;
 
+import hidden.indev0r.core.gui.component.base.GComponent;
+import hidden.indev0r.core.gui.component.base.GComponent$Button;
 import hidden.indev0r.core.gui.component.listener.GComponentListener;
 import hidden.indev0r.core.texture.Textures;
 import org.lwjgl.util.vector.Vector2f;
@@ -98,6 +100,13 @@ public class GComponent$Minimap extends GComponent {
 		bigMapButton.addListener(l);
 		for (GComponent$SidebarButton s : sideButtons) s.addListener(l);
 		return super.addListener(l);
+	}
+
+	public void checkClicked(GComponent c){
+		if(c == zoomInButton) System.out.println("ZOOM IN");
+		if(c == zoomOutButton) System.out.println("ZOOM OUT");
+		if(c == bigMapButton) System.out.println("PRESEND BIG MAP");
+
 	}
 
 	private class GComponent$SidebarButton extends GComponent$Button {

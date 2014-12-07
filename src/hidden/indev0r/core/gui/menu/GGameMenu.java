@@ -1,6 +1,6 @@
 package hidden.indev0r.core.gui.menu;
 
-import hidden.indev0r.core.gui.component.GComponent;
+import hidden.indev0r.core.gui.component.base.GComponent;
 import hidden.indev0r.core.gui.component.GComponent$Gague;
 import hidden.indev0r.core.gui.component.GComponent$Minimap;
 import hidden.indev0r.core.reference.References;
@@ -26,7 +26,7 @@ public class GGameMenu extends GMenu {
 
 	@Override
 	public void componentClicked(GComponent c) {
-		System.out.println("Clicked " + c.getClass().toString());
+		minimap.checkClicked(c);
 	}
 
 	@Override

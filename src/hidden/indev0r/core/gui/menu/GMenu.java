@@ -1,6 +1,6 @@
 package hidden.indev0r.core.gui.menu;
 
-import hidden.indev0r.core.gui.component.GComponent;
+import hidden.indev0r.core.gui.component.base.GComponent;
 import hidden.indev0r.core.gui.component.listener.GComponentListener;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
