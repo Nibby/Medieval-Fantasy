@@ -4,7 +4,6 @@ import hidden.indev0r.core.MedievalLauncher;
 import hidden.indev0r.core.gui.component.hud.GComponent$PlayerStatusGague;
 import hidden.indev0r.core.gui.component.base.GComponent;
 import hidden.indev0r.core.gui.component.hud.GComponent$Minimap;
-import hidden.indev0r.core.gui.component.base.GComponent$Dialog;
 import hidden.indev0r.core.reference.References;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.GameContainer;

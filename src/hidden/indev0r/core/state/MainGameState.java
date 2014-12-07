@@ -1,12 +1,12 @@
-package hidden.indev0r.core.states;
+package hidden.indev0r.core.state;
 
 
 import hidden.indev0r.core.Camera;
 import hidden.indev0r.core.entity.Player;
 import hidden.indev0r.core.gui.menu.GGameOverlayMenu;
 import hidden.indev0r.core.gui.menu.GMenuManager;
-import hidden.indev0r.core.maps.TileMap;
-import hidden.indev0r.core.maps.TileMapDatabase;
+import hidden.indev0r.core.map.TileMap;
+import hidden.indev0r.core.map.TileMapDatabase;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -63,8 +63,8 @@ public class MainGameState extends BasicGameState {
 	public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
         menuMgr.tick(gameContainer);
 
-        //This means menu wants to pull the focus, no need to do these...
-        if(menuMgr.hasMenus() && !menuMgr.isTickingTopMenuOnly()) {
+        //This means menu wants to pull the focus, no need to do these... (except for debug menu)
+        if(!menuMgr.isTickingTopMenuOnly() || !menuMgr.hasMenus()) {
             camera.tick();
             map.tick(gameContainer);
         }

@@ -1,4 +1,4 @@
-package hidden.indev0r.core.states;
+package hidden.indev0r.core.state;
 
 import hidden.indev0r.core.gui.menu.GMenuManager;
 import hidden.indev0r.core.gui.menu.GTestMenu;

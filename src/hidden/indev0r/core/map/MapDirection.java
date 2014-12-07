@@ -1,4 +1,4 @@
-package hidden.indev0r.core.maps;
+package hidden.indev0r.core.map;
 
 /**
  * Created by James on 12/4/2014.

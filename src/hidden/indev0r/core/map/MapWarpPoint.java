@@ -1,4 +1,4 @@
-package hidden.indev0r.core.maps;
+package hidden.indev0r.core.map;
 
 import java.awt.*;
 

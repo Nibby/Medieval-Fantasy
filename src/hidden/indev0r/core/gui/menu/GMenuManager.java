@@ -80,4 +80,8 @@ public class GMenuManager {
     public boolean hasMenus() {
         return !menus.isEmpty();
     }
+
+    public GMenu peekMenu() {
+        return menus.peek();
+    }
 }

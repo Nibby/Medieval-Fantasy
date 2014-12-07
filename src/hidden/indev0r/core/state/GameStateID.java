@@ -1,4 +1,4 @@
-package hidden.indev0r.core.states;
+package hidden.indev0r.core.state;
 
 /**
  * Created by James on 12/2/2014.

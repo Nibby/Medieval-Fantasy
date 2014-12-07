@@ -1,4 +1,4 @@
-package hidden.indev0r.core.maps;
+package hidden.indev0r.core.map;
 
 import hidden.indev0r.core.reference.References;
 import hidden.indev0r.core.util.CipherEngine;
@@ -22,7 +22,7 @@ import java.util.Map;
 /**
  * Created by MrDeathJockey on 14/12/3.
  * <p/>
- * This is the database class that loads and registers all the available tile maps in the 'data/maps' directory.
+ * This is the database class that loads and registers all the available tile map in the 'data/map' directory.
  * <p/>
  * Each map is registered based on their given identifier key (or codename)
  */

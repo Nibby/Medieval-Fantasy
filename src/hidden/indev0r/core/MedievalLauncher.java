@@ -2,19 +2,18 @@ package hidden.indev0r.core;
 
 import hidden.indev0r.core.entity.animation.ActionSetDatabase;
 import hidden.indev0r.core.gui.Cursor;
-import hidden.indev0r.core.maps.TileMapDatabase;
-import hidden.indev0r.core.maps.TilesetDatabase;
+import hidden.indev0r.core.map.TileMapDatabase;
+import hidden.indev0r.core.map.TilesetDatabase;
 import hidden.indev0r.core.reference.References;
-import hidden.indev0r.core.states.GameStateID;
-import hidden.indev0r.core.states.MainGameState;
-import hidden.indev0r.core.states.MainMenuState;
+import hidden.indev0r.core.state.GameStateID;
+import hidden.indev0r.core.state.MainGameState;
+import hidden.indev0r.core.state.MainMenuState;
 import hidden.indev0r.core.texture.Textures;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import java.lang.ref.Reference;
 import java.nio.file.Paths;
 
 public class MedievalLauncher extends StateBasedGame {

@@ -2,7 +2,7 @@ package hidden.indev0r.core.entity;
 
 import hidden.indev0r.core.entity.animation.ActionSetDatabase;
 import hidden.indev0r.core.entity.animation.ActionType;
-import hidden.indev0r.core.maps.MapDirection;
+import hidden.indev0r.core.map.MapDirection;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
