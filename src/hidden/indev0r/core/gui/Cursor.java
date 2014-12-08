@@ -26,6 +26,7 @@ public class Cursor {
     //to make it so user can drag items in inventory screen, they may do so without confusing
     //the GComponents.
     public static Object DRAG_INSTANCE = null;
+    public static Object INTERACT_INSTANCE = null;
 
     private Image image;
     private int focusX, focusY;
