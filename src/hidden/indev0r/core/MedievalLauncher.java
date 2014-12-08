@@ -1,5 +1,6 @@
 package hidden.indev0r.core;
 
+import hidden.indev0r.core.entity.NPCDatabase;
 import hidden.indev0r.core.entity.animation.ActionSetDatabase;
 import hidden.indev0r.core.gui.Cursor;
 import hidden.indev0r.core.map.TileMapDatabase;
@@ -27,6 +28,8 @@ public class MedievalLauncher extends StateBasedGame {
     //Game container
     private GameContainer gameContainer;
 
+    private Cursor currentCursor;
+
 	public MedievalLauncher(String title) {
 		super(title);
 	}
@@ -38,15 +41,18 @@ public class MedievalLauncher extends StateBasedGame {
 		try {
 			//Initializing game data
 			Textures.Init();
-			TilesetDatabase.getDatabase().loadTilesets();
+
+            TilesetDatabase.getDatabase().loadTilesets();
 			TileMapDatabase.getDatabase().loadMaps();
 			ActionSetDatabase.getDatabase().loadActionSets();
+            NPCDatabase.getDatabase().loadNPCs();
 
 		} catch (Exception e) {
             e.printStackTrace();
         }
 
-        setCursor(Cursor.NORMAL);
+        currentCursor = Cursor.NORMAL;
+        setCursor(currentCursor);
 
 		this.addState((stateGame = new MainGameState()));
 		this.addState((stateMainMenu = new MainMenuState()));
@@ -56,7 +62,10 @@ public class MedievalLauncher extends StateBasedGame {
 
     public void setCursor(Cursor cursor) {
         try {
+            if(currentCursor.equals(cursor)) return;
+
             gameContainer.setMouseCursor(cursor.getImage(), cursor.getFocusX(), cursor.getFocusY());
+            currentCursor = cursor;
         } catch (SlickException e) {
             e.printStackTrace();
         }

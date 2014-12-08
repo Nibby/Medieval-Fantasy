@@ -14,7 +14,7 @@ public class Camera {
 	private Entity trackingEntity;
 
 	/*
-	 * When panning, it will disable any attempts to set
+	 * When panning, it will disable any attempts to setStat
 	 * offset of an entity
 	 */
 	private boolean forcePan     = false;

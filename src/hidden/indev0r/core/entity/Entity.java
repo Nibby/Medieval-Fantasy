@@ -35,6 +35,7 @@ public abstract class Entity {
 	protected float    moveX, moveY;
 	protected boolean moving    = false;
 	protected float   moveSpeed = 2f;
+    protected boolean solid     = true;
 
 	protected TileMap map;
 
@@ -52,14 +53,17 @@ public abstract class Entity {
 	}
 
 	public Entity(float x, float y) {
-		this.position = new Vector2f(x * Tile.TILE_SIZE, y * Tile.TILE_SIZE);
-		this.moveX = x * Tile.TILE_SIZE;
-		this.moveY = y * Tile.TILE_SIZE;
+		setPosition((int) x, (int) y);
+        currentDirection = MapDirection.RIGHT;
 	}
 
+    public void setPosition(int x, int y) {
+        this.moveX = x * Tile.TILE_SIZE;
+        this.moveY = y * Tile.TILE_SIZE;
+        this.position = new Vector2f(moveX, moveY);
+    }
 
-
-	public void render(Graphics g) {
+    public void render(Graphics g) {
 		//If entity is not using a motion map
 		if (actionMap == null) {
 			if (sprite != null) {
@@ -158,10 +162,12 @@ public abstract class Entity {
 		if (position.y == moveY && position.x == moveX) {
 			moving = false;
 
-			if (action.equals(ActionType.WALK_LEFT)) action = ActionType.STATIC_LEFT;
-			if (action.equals(ActionType.WALK_RIGHT)) action = ActionType.STATIC_RIGHT;
-			if (action.equals(ActionType.WALK_DOWN)) action = ActionType.STATIC_DOWN;
-			if (action.equals(ActionType.WALK_UP)) action = ActionType.STATIC_UP;
+            if(actionMap != null) {
+                if (action.equals(ActionType.WALK_LEFT)) action = ActionType.STATIC_LEFT;
+                if (action.equals(ActionType.WALK_RIGHT)) action = ActionType.STATIC_RIGHT;
+                if (action.equals(ActionType.WALK_DOWN)) action = ActionType.STATIC_DOWN;
+                if (action.equals(ActionType.WALK_UP)) action = ActionType.STATIC_UP;
+            }
 		}
 	}
 
@@ -199,7 +205,7 @@ public abstract class Entity {
 	/**
 	 * EntityActionSets are pre-defined sets of animation for use on this entity.
 	 * <p/>
-	 * Once used, all properties from the action set will be cloned.
+	 * Once used, all properties from the action setStat will be cloned.
 	 *
 	 * @see hidden.indev0r.core.entity.animation.ActionSetDatabase
 	 */
@@ -234,6 +240,7 @@ public abstract class Entity {
 	public void setSprite(Image sprite) {
 		this.sprite = sprite;
 		spriteFlipped = sprite.getFlippedCopy(true, false);
+        currentDirection = MapDirection.RIGHT;
 	}
 
 	public Image getSprite() {
@@ -256,4 +263,12 @@ public abstract class Entity {
 	public void setDrawShadow(boolean shadow) {
 		this.drawShadow = shadow;
 	}
+
+    public boolean isSolid() {
+        return solid;
+    }
+
+    public void setSolid(boolean solid) {
+        this.solid = solid;
+    }
 }

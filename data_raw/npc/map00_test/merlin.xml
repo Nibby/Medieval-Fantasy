@@ -1,0 +1,18 @@
+<npc hostile="false" faction="HUMAN" resource="res/textures/sprites/static/mon00.png" sprite="0,2"
+        width="1" height="1" name="Old Merlin" identifier="merlin" facing="RIGHT">
+
+    <!-- This tag is in charge of telling NPC its direction -->
+    <location>
+        <!-- Reference to map identifier -->
+        <map>map00_test</map>
+
+        <!-- X,Y position (in terms of tiles) -->
+        <pos>10,11</pos>
+    </location>
+
+    <!-- All NPCs are given a setStat of default properties. These here will modify the default, but this tag is still needed -->
+    <stats>
+        <stat type="HEALTH" value="100" />
+        <stat type="HEALTH_MAX" value="100" />
+    </stats>
+</npc>

@@ -1,7 +1,9 @@
 package hidden.indev0r.core.state;
 
 
+import hidden.indev0r.core.BitFont;
 import hidden.indev0r.core.Camera;
+import hidden.indev0r.core.entity.Actor;
 import hidden.indev0r.core.entity.Entity;
 import hidden.indev0r.core.entity.Player;
 import hidden.indev0r.core.gui.component.interfaces.GMapSupplier;
@@ -10,6 +12,8 @@ import hidden.indev0r.core.gui.menu.GMenuManager;
 import hidden.indev0r.core.map.Tile;
 import hidden.indev0r.core.map.TileMap;
 import hidden.indev0r.core.map.TileMapDatabase;
+import hidden.indev0r.core.map.WarpType;
+import hidden.indev0r.core.texture.Textures;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -17,6 +21,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 
 public class MainGameState extends BasicGameState implements GMapSupplier {
@@ -43,7 +49,8 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 
 		camera = new Camera(0, 0);
-		player = new Player(4, 3);
+		player = new Player(Actor.Faction.GLYSIA, Player.Job.MAGE, 7, 6);
+        player.setLevel(1);
 		camera.setTrackObject(player);
 
 		map = TileMapDatabase.getTileMap("map00_test");
@@ -60,7 +67,7 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
 		map.render(g, camera);
 		menuMgr.render(g);
 
-//		BitFont.render(g, map.getIdentifierName() + " [" + map.getName() + "]", 5, 5);
+//		BitFont.render(g, map.getName(), 345, 25);
 //		BitFont.render(g, player.getX() + ", " + player.getY() + " / " + player.getCurrentX() + ", " + player.getCurrentY(), 5, 25);
 	}
 
@@ -76,6 +83,20 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
         }
 
 	}
+
+    public void warpPlayer(TileMap targetMap, int x, int y, WarpType type) {
+        if(targetMap == null) {
+            JOptionPane.showMessageDialog(null, "Specified warp map is null!", "Internal Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        this.map.removeEntity(player);
+        this.map = targetMap;
+        player.setPosition(x, y);
+        targetMap.addEntity(player);
+
+        //TEMPORARY
+        getMenuOverlay().showAnimatedScroll(map.getName(), map.getName().split(" ").length * 750);
+    }
 
 	public Camera getCamera() {
 		return camera;
@@ -108,7 +129,7 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
     }
 
     @Override
-    public Entity getCenterEntity() {
+    public Actor getCenterEntity() {
         return player;
     }
 

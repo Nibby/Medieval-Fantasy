@@ -9,31 +9,31 @@ import java.util.Map;
 
 public class Actor extends Entity {
 
-	//TODO: AI Object
+    public enum Faction {
+
+        NEUTRAL,
+        GLYSIA,
+        NAYA,
+        UNDEAD,
+        DEMONS,
+        HUMAN,
+        ;
+    }
+
+
+    //TODO: AI Object
 
 	// Actor Attributes
-	protected Map<STATS, String> propertyMap;
+	protected Map<Stat, Integer> propertyMap;
+    protected Faction faction;
 
-	private float   health;
-	private float   healthMax;
-	private float   mana;
-	private float   manaMax;
-	private float   experience;
-	private float   experienceMax;
 	private boolean isAlive;
 
-	public Actor(Vector2f position) {
+	public Actor(Faction faction, Vector2f position) {
 		super(position);
 		propertyMap = new HashMap<>(0);
-		for (STATS v : STATS.values()) propertyMap.put(v, v.getDefaultValue());
-
-
-		health = 100;
-		healthMax = 100;
-		mana = 100;
-		manaMax = 100;
-		experience = 100;
-		experienceMax = 100;
+		for (Stat v : Stat.values()) propertyMap.put(v, v.getDefaultValue());
+        this.faction = faction;
 		isAlive = true;
 	}
 
@@ -48,71 +48,104 @@ public class Actor extends Entity {
 		}
 	}
 
-	public String getProperty(STATS property) {
+	public Integer getProperty(Stat property) {
 		return propertyMap.get(property);
 	}
 
-	public float getHealth() {
-		return health;
+	public int getHealth() {
+		return getStat(Stat.HEALTH);
 	}
 
-	public float getHealthMax() {
-		return healthMax;
+	public int getHealthMax() {
+		return getStat(Stat.HEALTH_MAX);
 	}
 
-	public float getMana() {
-		return mana;
+	public int getMana() {
+		return getStat(Stat.MANA);
 	}
 
-	public float getManaMax() {
-		return manaMax;
+	public int getManaMax() {
+		return getStat(Stat.MANA_MAX);
 	}
 
-	public float getExperience() {
-		return experience;
+	public int getExperience() {
+		return getStat(Stat.EXPERIENCE);
 	}
 
-	public float getExperienceMax() {
-		return experienceMax;
+	public int getExperienceMax() {
+		return getStat(Stat.EXPERIENCE_MAX);
 	}
 
-	public void setHealth(float health) {
-		this.health = health;
-	}
+    public int getLevel() { return getStat(Stat.LEVEL); }
 
-	public void setHealthMax(float healthMax) {
-		this.healthMax = healthMax;
-	}
+	public void setStat(Stat stat, int value) {
+        propertyMap.put(stat, value);
+    }
 
-	public void setMana(float mana) {
-		this.mana = mana;
-	}
+    public Integer getStat(Stat stat) {
 
-	public void setManaMax(float manaMax) {
-		this.manaMax = manaMax;
-	}
+        return propertyMap.get(stat);
+    }
 
-	public void setExperience(float experience) {
-		this.experience = experience;
-	}
+    public Faction getFaction() {
+        return faction;
+    }
 
-	public void setExperienceMax(float experienceMax) {
-		this.experienceMax = experienceMax;
-	}
+    public void setFaction(Faction faction) {
+        this.faction = faction;
+    }
 
-	public enum STATS {
-		HEALTH("100"),
-		MANA("100"),
-		EXPERIENCE("100");
+	public enum Stat {
+		HEALTH(1),
+        HEALTH_MAX(1),
+		MANA(0),
+        MANA_MAX(0),
+		EXPERIENCE(0),
+        EXPERIENCE_MAX(1),
+        LEVEL(1),
+        GOLD(0),
+
+        //Affects damage dealt and taken
+        ATTACK_DAMAGE(0),
+        ATTACK_DAMAGE_BONUS(0),
+        DEFENSE(0),
+        DEFENSE_BONUS(0),
+
+        //Affects movement speed
+        SPEED(20),
+        SPEED_BONUS(0),
+
+        //Affects rate of attack
+        DEXTERITY(0),
+        DEXTERITY_BONUS(0),
+
+        //Affects ability scaling (wizards)
+        INTELLIGENCE(0),
+        INTELLIGENCE_BONUS(0),
+
+        //Affects attack damage
+        STRENGTH(0),
+        STRENGTH_BONUS(0),
+
+        //Misc.
+        LUCK(0),
+        LUCK_BONUS(0),
+
+        ACCURACY(0),
+        ACCURACY_BONUS(0),
+
+        EVASION(0),
+        EVASION_BONUS(0)
+        ;
 
 
-		private String defaultValue;
+		private int defaultValue;
 
-		STATS(String standard) {
+		Stat(int standard) {
 			this.defaultValue = standard;
 		}
 
-		public String getDefaultValue() {
+		public int getDefaultValue() {
 			return defaultValue;
 		}
 	}

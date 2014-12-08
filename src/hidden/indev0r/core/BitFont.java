@@ -45,8 +45,9 @@ public class BitFont {
 		int drawX = x, drawY = y;
 		SpriteSheet fontSheet = Textures.SpriteSheets.UI_FONT;
 
-		float fontWidth = ((size - 2) * (float) (size / FONT_GLYPH_SIZE)),
-				fontHeight = (20 * (float) (size / FONT_GLYPH_SIZE));
+		float fontWidth = ((FONT_GLYPH_SIZE) * ((float) size / FONT_GLYPH_SIZE)),
+				fontHeight = (20 * ((float) size / FONT_GLYPH_SIZE));
+
 		for (int i = 0; i < text.length(); i++) {
 			int index = letters.indexOf(text.charAt(i));
 			if (text.charAt(i) == ' ') {
@@ -60,7 +61,7 @@ public class BitFont {
 			}
 			for (FontSpacing spacing : GLYPH_SPACING) {
 				if (spacing.affectedGlyphs.contains("" + text.charAt(i))) {
-					fontWidth = (spacing.glyphWidth * (float) (size / FONT_GLYPH_SIZE));
+					fontWidth = (spacing.glyphWidth * ((float) size / FONT_GLYPH_SIZE));
 				}
 			}
 			if (index < 0) continue;

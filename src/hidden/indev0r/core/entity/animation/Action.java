@@ -113,4 +113,8 @@ public class Action {
 		animationStopped = false;
         animationFrame = 0;
 	}
+
+    public Image getFrame(int frame) {
+        return animation.get(frame).frame;
+    }
 }
