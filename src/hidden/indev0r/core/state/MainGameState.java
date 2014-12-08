@@ -2,18 +2,24 @@ package hidden.indev0r.core.state;
 
 
 import hidden.indev0r.core.Camera;
+import hidden.indev0r.core.entity.Entity;
 import hidden.indev0r.core.entity.Player;
+import hidden.indev0r.core.gui.component.interfaces.GMapSupplier;
 import hidden.indev0r.core.gui.menu.GGameOverlayMenu;
 import hidden.indev0r.core.gui.menu.GMenuManager;
+import hidden.indev0r.core.map.Tile;
 import hidden.indev0r.core.map.TileMap;
 import hidden.indev0r.core.map.TileMapDatabase;
+import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class MainGameState extends BasicGameState {
+import java.util.List;
+
+public class MainGameState extends BasicGameState implements GMapSupplier {
 
 	//Game objects
 	private Camera camera;
@@ -45,8 +51,8 @@ public class MainGameState extends BasicGameState {
 
 		menuMgr = new GMenuManager();
         menuMgr.setDisplayTopMenuOnly(false);
+        menuMgr.addMenu((menuOverlay = new GGameOverlayMenu(this, player, this)));
         menuMgr.setTickTopMenuOnly(false);
-        menuMgr.addMenu((menuOverlay = new GGameOverlayMenu(map, player)));
 	}
 
 	@Override
@@ -71,7 +77,6 @@ public class MainGameState extends BasicGameState {
 
 	}
 
-
 	public Camera getCamera() {
 		return camera;
 	}
@@ -82,6 +87,40 @@ public class MainGameState extends BasicGameState {
 
     public GMenuManager getMenuManager() {
         return menuMgr;
+    }
+
+    @Override
+    public List<Entity> getEntitiesOnMap() {
+        if(map == null) return null;
+        return map.getEntities();
+    }
+
+    @Override
+    public Tile getTile(int layer, Vector2f position) {
+        if(map == null) return null;
+        return map.getTile(layer, position);
+    }
+
+    @Override
+    public boolean blockedAt(Vector2f position) {
+        if(map == null) return true;
+        return map.tileBlocked((int) (position.x), (int) (position.y));
+    }
+
+    @Override
+    public Entity getCenterEntity() {
+        return player;
+    }
+
+    @Override
+    public int[][][] getTiles() {
+        return map.getTileData();
+    }
+
+    @Override
+    public boolean isNullTile(Vector2f vector2f) {
+        if(map == null) return true;
+        return map.isNullTile((int) vector2f.x, (int) vector2f.y);
     }
 }
 

@@ -12,5 +12,12 @@ public interface GMapSupplier {
 
 	Tile getTile(int layer, Vector2f position);
 
+    boolean blockedAt(Vector2f position);
+
+    Entity getCenterEntity();
+
+    int[][][] getTiles();
+
+    boolean isNullTile(Vector2f vector2f);
 }
 

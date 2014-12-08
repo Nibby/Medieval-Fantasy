@@ -187,11 +187,11 @@ public class GComponent$Minimap extends GComponent implements GComponentListener
 		checkSidebarButtons(c);
 
 		if (c.equals(zoomInButton)) {
-
+            mapView.scaleUp();
 		}
 
 		if (c.equals(zoomOutButton)) {
-
+            mapView.scaleDown();
 		}
 
 		if (c.equals(bigMapButton)) {

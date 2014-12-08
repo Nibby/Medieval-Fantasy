@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * Created by MrDeathJockey on 14/12/3.
  */
-public class TileMap implements GMapSupplier {
+public class TileMap {
 
 	//Each map houses a series of 'zones' or 'regions' denoted with a special ID
 	private Map<String, TileMapZone> mapZones      = new HashMap<>();
@@ -108,19 +108,43 @@ public class TileMap implements GMapSupplier {
 
 	public boolean isBlocked(int x, int y) {
 		if (x < 0 || x > tileData[0].length - 1 || y < 0 || y > tileData[0][0].length - 1) return true;
-
-		for (int layer = tileData.length - 1; layer > -1; layer--) {
-			Tile tile = Tile.getTile(tileData[layer][x][y]);
-			if (tile != null && tile.propertyExists("solid")) return true;
-
-		}
+        if(tileBlocked(x, y)) return true;
 
 		return false;
 	}
 
-	/*
-		When entity steps on a given x, y tile
-	 */
+    public boolean tileBlocked(int x, int y) {
+        if (x < 0 || x > tileData[0].length - 1 || y < 0 || y > tileData[0][0].length - 1) return true;
+        boolean[] solid = new boolean[layers];
+
+        for(int l= 0; l < layers; l++) {
+            Tile tile = Tile.getTile(tileData[l][x][y]);
+            solid[l] = (tile != null && tile.propertyExists("solid"));
+        }
+
+        for(boolean b : solid)  {
+            if(b) return true;
+        }
+
+        return false;
+    }
+
+    public boolean isNullTile(int x, int y) {
+
+        if (x < 0 || x > tileData[0].length - 1 || y < 0 || y > tileData[0][0].length - 1) return true;
+        int nullCount = 0;
+        for(int l= 0; l < layers; l++) {
+            Tile tile = Tile.getTile(tileData[l][x][y]);
+
+            if(tile == null) nullCount++;
+        }
+
+        return nullCount == layers;
+    }
+
+    /*
+        When entity steps on a given x, y tile
+     */
 	public void stepOn(Entity entity, int x1, int i, int x, int y) {
 		if (x < 0 || x > tileData[0].length - 1 || y < 0 || y > tileData[0][0].length - 1) return;
 
@@ -186,16 +210,14 @@ public class TileMap implements GMapSupplier {
 		return warpPointList;
 	}
 
-	//GMap Supplier Interface
-	@Override
-	public List<Entity> getEntitiesOnMap() {
-		return entities;
-	}
+    public List<Entity> getEntities() {
+        return entities;
+    }
 
-	@Override
-	public Tile getTile(int layer, Vector2f position) {
-		return Tile.getTile(this.getTileData()[layer][(int) position.x][(int) position.y]);
-	}
+    public Tile getTile(int layer, Vector2f position) {
+        if(layer < 0 || layer > tileData.length - 1) return null;
+        if(position.x < 0 || position.x > tileData[0].length - 1 || position.y < 0 || position.y > tileData[0][0].length - 1) return null;
 
-
+        return Tile.getTile(tileData[layer][((int) position.x)][((int) position.y)]);
+    }
 }

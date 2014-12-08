@@ -61,6 +61,7 @@ public class Textures {
 
 	public static final class UI {
 		public static final Image MINIMAP_BASE             = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "minimap/MINIMAP.png");
+        public static final Image MINIMAP_IMAGE            = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "minimap/MINIMAP_BLANK.png");
 		public static final Image MINIMAP_BUTTON_NORMAL    = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "minimap/BUTTON.png");
 		public static final Image MINIMAP_BUTTON_PRESSED   = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "minimap/BUTTON_PRESSED.png");
 		public static final Image MINIMAP_BUTTON_ATTACH    = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "minimap/BUTTON_ATTACH.png");
@@ -111,7 +112,6 @@ public class Textures {
         public static final Image INVENTORY_BIG          = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/icons/INVENTORY.png");
         public static final Image SCROLL_BIG             = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/icons/SCROLL.png");
         public static final Image MENU_BIG               = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/icons/MENU.png");
-
 
     }
 
