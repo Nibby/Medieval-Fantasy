@@ -69,8 +69,11 @@ public class Tile {
 	}
 
 	public void steppedOn(Entity entity) {
-
+        entity.setSunken(propertyExists("liquid"));
 	}
+
+    public void steppedOut(Entity entity) {
+    }
 
 	public boolean propertyExists(String propertyKey) {
 		return properties.get(propertyKey) != null;

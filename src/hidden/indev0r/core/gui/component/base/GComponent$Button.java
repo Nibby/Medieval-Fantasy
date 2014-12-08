@@ -89,7 +89,7 @@ public class GComponent$Button extends GComponent {
 						firedHoverEvent = true;
 
                         if(Cursor.INTERACT_INSTANCE == null) {
-                            Cursor.INTERACT_INSTANCE = this;
+                            Cursor.setInteractInstance(this);
                         }
 					}
 				} else {
@@ -104,7 +104,7 @@ public class GComponent$Button extends GComponent {
 
                     if(Cursor.INTERACT_INSTANCE != null) {
                         Object obj = Cursor.INTERACT_INSTANCE;
-                        if(obj.equals(this)) Cursor.INTERACT_INSTANCE = null;
+                        if(obj.equals(this)) Cursor.setInteractInstance(null);
                     }
 				}
 			}
@@ -117,7 +117,7 @@ public class GComponent$Button extends GComponent {
 
             if(Cursor.INTERACT_INSTANCE != null) {
                 Object obj = Cursor.INTERACT_INSTANCE;
-                if(obj.equals(this)) Cursor.INTERACT_INSTANCE = null;
+                if(obj.equals(this)) Cursor.setInteractInstance(null);
             }
 		}
 

@@ -113,6 +113,8 @@ public class TileMap {
 		if (e == null) return;
 		entities.add(e);
 		e.setCurrentMap(this);
+        
+        stepOn(e, (int) e.getX(), (int) e.getY(), (int) e.getX(), (int) e.getY());
 
 		if (e instanceof Player) {
 			this.player = (Player) e;
@@ -166,20 +168,28 @@ public class TileMap {
     /*
         When entity steps on a given x, y tile
      */
-	public void stepOn(Entity entity, int x1, int i, int x, int y) {
+	public void stepOn(Entity entity, int oldX, int oldY, int x, int y) {
 		if (x < 0 || x > tileData[0].length - 1 || y < 0 || y > tileData[0][0].length - 1) return;
+        if (oldX < 0 || oldX > tileData[0].length - 1 || oldY < 0 || oldY > tileData[0][0].length - 1) return;
 
 		for (int layer = tileData.length - 1; layer > -1; layer--) {
-			Tile tile = Tile.getTile(tileData[layer][x][y]);
-			if (tile != null) {
-				tile.steppedOn(entity);
-			}
+            Tile tileOld = Tile.getTile(tileData[layer][oldX][oldY]);
+            if(tileOld != null) {
+                tileOld.steppedOut(entity);
+            }
+
+            Tile tile = Tile.getTile(tileData[layer][x][y]);
+            if (tile != null) {
+                tile.steppedOn(entity);
+
+            }
+
 		}
 
         if(entity instanceof Player) {
             for(MapWarpPoint warp : warpPointList) {
                 Point origin = warp.getOrigin();
-
+                if(player == null) return;
                 if(origin.x == player.getX() && origin.getY() == player.getY()) {
                     Point target = warp.getTarget();
                     TileMap targetMap = TileMapDatabase.getTileMap(warp.getTargetMap());

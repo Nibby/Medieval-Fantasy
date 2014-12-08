@@ -46,6 +46,7 @@ public class GGameOverlayMenu extends GMenu {
 	}
 
     public void showAnimatedScroll(String text, int duration) {
+        removeComponent(scrollComponent);
         scrollComponent = new GComponent$AnimatedScroll(text, duration);
         addComponent(scrollComponent);
     }

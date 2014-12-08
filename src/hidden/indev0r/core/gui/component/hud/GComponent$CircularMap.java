@@ -6,6 +6,7 @@ import hidden.indev0r.core.entity.FactionUtil;
 import hidden.indev0r.core.entity.NPC;
 import hidden.indev0r.core.gui.component.base.GComponent;
 import hidden.indev0r.core.gui.component.interfaces.GMapSupplier;
+import hidden.indev0r.core.map.Tile;
 import hidden.indev0r.core.texture.Textures;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.*;
@@ -19,6 +20,9 @@ public class GComponent$CircularMap extends GComponent {
     private static final Color COLOR_ENEMY = Color.red;
     private static final Color COLOR_SELF = Color.white;
     private static final Color COLOR_FRIENDLY = Color.green;
+
+    private static final Color COLOR_LIQUID_WATER = new Color(0, 155, 211);
+    private static final Color COLOR_LIQUID_LAVA = new Color(237, 28, 36);
 
     private static final Color COLOR_CLEAR = Color.black;
     private static final Color COLOR_NULL_TILE = Color.black;
@@ -75,12 +79,25 @@ public class GComponent$CircularMap extends GComponent {
             if(mapTiles != null) {
                 for(int x = mix; x < max; x++) {
                     for(int y = miy; y < may; y++) {
+                        if (x < 0 || x > mapTiles[0].length - 1 || y < 0 || y > mapTiles[0][0].length - 1) continue;
+
                         if(mapSupplier.isNullTile(new Vector2f(x, y))) {
                             mapG.setColor(COLOR_NULL_TILE);
                         } else if(mapSupplier.blockedAt(new Vector2f(x, y))) {
                             mapG.setColor(COLOR_BLOCKED_TILE);
                         } else {
                             mapG.setColor(COLOR_NON_BLOCKED_TILE);
+                        }
+                        
+                        for(int l = 0; l < mapTiles.length; l++) {
+                            Tile tile = Tile.getTile(mapTiles[l][x][y]);
+                            if(tile == null) continue;
+                            if(tile.getId() == 337 || tile.getId() == 401) {
+                                mapG.setColor(COLOR_LIQUID_WATER);
+                            }
+                            if(tile.getId() == 335 || tile.getId() == 399) {
+                                mapG.setColor(COLOR_LIQUID_LAVA);
+                            }
                         }
 
                         mapG.fillRect(x * MAP_PIXEL_SIZE + offsetX, y * MAP_PIXEL_SIZE + offsetY, MAP_PIXEL_SIZE, MAP_PIXEL_SIZE);
@@ -103,7 +120,7 @@ public class GComponent$CircularMap extends GComponent {
                         }
                     }
 
-                    mapG.fillRect(e.getX() * MAP_PIXEL_SIZE + offsetX, e.getY() * MAP_PIXEL_SIZE + offsetY, MAP_PIXEL_SIZE, MAP_PIXEL_SIZE);
+                    mapG.fillOval(e.getX() * MAP_PIXEL_SIZE + offsetX, e.getY() * MAP_PIXEL_SIZE + offsetY, MAP_PIXEL_SIZE, MAP_PIXEL_SIZE);
                 }
             }
 
@@ -112,8 +129,6 @@ public class GComponent$CircularMap extends GComponent {
             mapG.setColor(COLOR_SELF);
             mapG.fillRect(centerActor.getX() * MAP_PIXEL_SIZE + offsetX,
                     centerActor.getY() * MAP_PIXEL_SIZE + offsetY, MAP_PIXEL_SIZE, MAP_PIXEL_SIZE);
-
-//            System.out.println(mix * MAP_PIXEL_SIZE + " - " + centerActor.getX() * MAP_PIXEL_SIZE);
         } catch (SlickException e) {
             e.printStackTrace();
         }

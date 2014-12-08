@@ -2,6 +2,8 @@ package hidden.indev0r.core.gui;
 
 import hidden.indev0r.core.MedievalLauncher;
 import hidden.indev0r.core.entity.NPC;
+import hidden.indev0r.core.gui.component.base.GComponent;
+import hidden.indev0r.core.gui.component.base.GComponent$Button;
 import hidden.indev0r.core.texture.Textures;
 import org.newdawn.slick.Image;
 
@@ -42,7 +44,7 @@ public class Cursor {
     public static void setInteractInstance(Object instance) {
         INTERACT_INSTANCE = instance;
 
-        if(instance instanceof NPC) {
+        if(instance instanceof NPC || instance  instanceof GComponent) {
             MedievalLauncher.getInstance().setCursor(INTERACT);
         }
 

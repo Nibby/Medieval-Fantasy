@@ -34,7 +34,7 @@ public abstract class Entity {
 	protected Vector2f position;
 	protected float    moveX, moveY;
 	protected boolean moving    = false;
-	protected float   moveSpeed = 2f;
+	protected float targetMoveSpeed = 2f, actualMoveSpeed = targetMoveSpeed;
     protected boolean solid     = true;
 
 	protected TileMap map;
@@ -43,8 +43,9 @@ public abstract class Entity {
 	protected int width, height; //In terms of pixels
 	protected              boolean drawShadow  = true;
 	protected static final Color   shadowColor = new Color(0f, 0f, 0f, 0.6f);
+    private boolean sunken;
 
-	public Entity() {
+    public Entity() {
 		this(0, 0);
 	}
 
@@ -68,7 +69,8 @@ public abstract class Entity {
 		if (actionMap == null) {
 			if (sprite != null) {
 				renderShadow(g);
-				g.drawImage((currentDirection == MapDirection.RIGHT) ? sprite : spriteFlipped,
+				g.drawImage((currentDirection == MapDirection.RIGHT) ? sprite.getSubImage(0, 0, width, (sunken) ? height / 4 * 3 : height)
+                                                                     : spriteFlipped.getSubImage(0, 0, width, (sunken) ? height / 4 * 3 : height),
 						getRenderX(), getRenderY());
 			}
 		}
@@ -95,9 +97,7 @@ public abstract class Entity {
 
 			if (actionPlayStack.isEmpty()) {
 				motion = actionMap.get(action);
-				if (motion == null) {
-					actionMap.get(ActionType.STATIC_RIGHT).render(g, getRenderX(), getRenderY(), false);
-				} else {
+				if (motion != null) {
 					motion.render(g, getRenderX(), getRenderY(), moving);
 				}
 			}
@@ -106,12 +106,15 @@ public abstract class Entity {
 
 	private float getRenderY() {
 		Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
-		return position.y + camera.getOffsetY() - Tile.TILE_SIZE / 5;
+        float y = position.y + camera.getOffsetY() - Tile.TILE_SIZE / 5;
+        if(sunken) y += height / 4;
+		return y;
 	}
 
 	private float getRenderX() {
 		Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
-		return position.x + camera.getOffsetX();
+        float x = position.x + camera.getOffsetX();
+		return x;
 	}
 
 	private void renderShadow(Graphics g) {
@@ -119,20 +122,25 @@ public abstract class Entity {
 	}
 
 	public void tick(GameContainer gc) {
+        if(sunken) {
+            actualMoveSpeed = 0.7f * targetMoveSpeed;
+        }
+        else actualMoveSpeed = targetMoveSpeed;
+
 		if (position.x != moveX) {
 			if (position.x > moveX) {
-				if (position.x - moveSpeed < moveX) {
+				if (position.x - actualMoveSpeed < moveX) {
 					position.x = moveX;
 				} else {
-					position.x -= moveSpeed;
+					position.x -= actualMoveSpeed;
 				}
 				action = ActionType.WALK_LEFT;
 			}
 			if (position.x < moveX) {
-				if (position.x + moveSpeed > moveX) {
-					position.x = moveSpeed;
+				if (position.x + actualMoveSpeed > moveX) {
+					position.x = actualMoveSpeed;
 				} else {
-					position.x += moveSpeed;
+					position.x += actualMoveSpeed;
 				}
 				action = ActionType.WALK_RIGHT;
 			}
@@ -140,25 +148,25 @@ public abstract class Entity {
 
 		if (position.y != moveY) {
 			if (position.y > moveY) {
-				if (position.y - moveSpeed < moveY) {
+				if (position.y - actualMoveSpeed < moveY) {
 					position.y = moveY;
 				} else {
-					position.y -= moveSpeed;
+					position.y -= actualMoveSpeed;
 				}
 				action = ActionType.WALK_UP;
 			}
 			if (position.y < moveY) {
-				if (position.y + moveSpeed > moveY) {
+				if (position.y + actualMoveSpeed > moveY) {
 					position.y = moveY;
 				} else {
-					position.y += moveSpeed;
+					position.y += actualMoveSpeed;
 				}
 				action = ActionType.WALK_DOWN;
 			}
 		}
 
-		if (Math.abs(moveX - position.x) < moveSpeed) position.x = moveX;
-		if (Math.abs(moveY - position.y) < moveSpeed) position.y = moveY;
+		if (Math.abs(moveX - position.x) < targetMoveSpeed) position.x = moveX;
+		if (Math.abs(moveY - position.y) < targetMoveSpeed) position.y = moveY;
 		if (position.y == moveY && position.x == moveX) {
 			moving = false;
 
@@ -179,7 +187,7 @@ public abstract class Entity {
 		moveX = x * Tile.TILE_SIZE;
 		moveY = y * Tile.TILE_SIZE;
 
-		map.stepOn(this, x, y, oldX, oldY);
+		map.stepOn(this, oldX, oldY, x, y);
 	}
 
 	public void setMotion(ActionType action) {
@@ -270,5 +278,13 @@ public abstract class Entity {
 
     public void setSolid(boolean solid) {
         this.solid = solid;
+    }
+
+    public void setSunken(boolean sunken) {
+        this.sunken = sunken;
+    }
+
+    public boolean isSunken() {
+        return sunken;
     }
 }

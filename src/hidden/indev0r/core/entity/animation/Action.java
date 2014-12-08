@@ -78,7 +78,7 @@ public class Action {
         frame.render(g, x, y);
 	}
 
-    private void tick(boolean forced, boolean animated) {
+    private void tick(boolean forced,  boolean animated) {
         if(!animated) return;
         if(System.currentTimeMillis() - animationTick > 2 * animationDelay.get(animationFrame)) {
             animationTick = System.currentTimeMillis();
