@@ -25,11 +25,17 @@ public class Textures {
 
 
 		static {
-			ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "chars/mage0.png", 32, 32);
-			ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "chars/mage1.png", 32, 32);
-			ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "chars/mage2.png", 32, 32);
-			ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "chars/mage3.png", 32, 32);
-			ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "chars/mage4.png", 32, 32);
+
+            ResourceManager.loadSpriteSheet(ENTITY_STATIC_IMAGE_PATH + "mon00.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_STATIC_IMAGE_PATH + "mon01.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_STATIC_IMAGE_PATH + "mon02.png", 32, 32);
+
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "chars/mage0.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "chars/mage1.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "chars/mage2.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "chars/mage3.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "chars/mage4.png", 32, 32);
+
 			ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "chars/warrior0.png", 32, 32);
 			ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "chars/warrior1.png", 32, 32);
 			ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "chars/warrior2.png", 32, 32);
@@ -86,6 +92,10 @@ public class Textures {
 		public static final Image FRAME_TOP_RIGHT_DIALOG  = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "frame/TOP_RIGHT_DIALOG.png");
 		public static final Image FRAME_TOP_MIDDLE_DIALOG = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "frame/TOP_MIDDLE_DIALOG.png");
 		public static final Image FRAME_TOP_LEFT_DIALOG   = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "frame/TOP_LEFT_DIALOG.png");
+
+        public static final Image SCROLL_LEFT   = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "banner/SCROLL_LEFT.png");
+        public static final Image SCROLL_CENTER  = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "banner/SCROLL_CENTER.png");
+        public static final Image SCROLL_RIGHT  = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "banner/SCROLL_RIGHT.png");
 
 		public static final Image BUTTON_ROUND_GREEN_NORMAL  = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/GREEN_ROUND_NORMAL.png");
 		public static final Image BUTTON_ROUND_GREEN_HOVERED = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/GREEN_ROUND_HOVERED.png");

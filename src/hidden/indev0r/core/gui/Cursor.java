@@ -1,5 +1,9 @@
 package hidden.indev0r.core.gui;
 
+import hidden.indev0r.core.MedievalLauncher;
+import hidden.indev0r.core.entity.NPC;
+import hidden.indev0r.core.gui.component.base.GComponent;
+import hidden.indev0r.core.gui.component.base.GComponent$Button;
 import hidden.indev0r.core.texture.Textures;
 import org.newdawn.slick.Image;
 
@@ -10,7 +14,7 @@ import org.newdawn.slick.Image;
  * Additionally, it handles mouse dragging events when dragging windows.
  *
  * There's a technical issue that when you draw and update multiple GComponent$Dialogs,
- * if they're too close together, dragging one dialog causes the other to get dragged too.
+ * if they're too close together, dragging one dialog causes the other to getStat dragged too.
  * The cursor class holds some information to make sure that only one dialog is dragged.
  *
  * I could've made a separate mouse handler class but that.... doesn't seem really necessary.
@@ -26,6 +30,7 @@ public class Cursor {
     //to make it so user can drag items in inventory screen, they may do so without confusing
     //the GComponents.
     public static Object DRAG_INSTANCE = null;
+    public static Object INTERACT_INSTANCE = null;
 
     private Image image;
     private int focusX, focusY;
@@ -34,6 +39,18 @@ public class Cursor {
         this.image = image;
         this.focusX = focusX;
         this.focusY = focusY;
+    }
+
+    public static void setInteractInstance(Object instance) {
+        INTERACT_INSTANCE = instance;
+
+        if(instance instanceof NPC || instance  instanceof GComponent) {
+            MedievalLauncher.getInstance().setCursor(INTERACT);
+        }
+
+        if(instance == null) {
+            MedievalLauncher.getInstance().setCursor(NORMAL);
+        }
     }
 
     public Image getImage() {

@@ -27,7 +27,7 @@ public class ActionSetDatabase {
 	private static final Map<Integer, ActionSet> setMap = new HashMap<>();
 
 	/**
-	 * Loads 'asdb.dat', which is the XML equivalence for all action set definitions
+	 * Loads 'asdb.dat', which is the XML equivalence for all action setStat definitions
 	 */
 	public void loadActionSets() throws Exception {
 		Path dbPath = References.ACTION_SET_DATABASE_PATH;
@@ -47,7 +47,7 @@ public class ActionSetDatabase {
 		for (int i = 0; i < actionSetList.getLength(); i++) {
 			Element eSet = (Element) actionSetList.item(i);
 
-			//Parse attribute information for current action set
+			//Parse attribute information for current action setStat
 			int setID = Integer.parseInt(eSet.getAttribute("id"));
 			String setResource = "spritesheet:" + eSet.getAttribute("resource");
 
@@ -57,20 +57,20 @@ public class ActionSetDatabase {
 				resource = (SpriteSheet) ResourceManager.get(setResource);
 
 				if (resource == null) {
-					JOptionPane.showMessageDialog(null, "Unable to locate resource:\n'" + setResource + "' (null resource)", "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Unable to locate resource:\n'" + setResource + "' (null resource)", "ActionSetDatabase - setStat " + setID, JOptionPane.ERROR_MESSAGE);
 					continue;
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				JOptionPane.showMessageDialog(null, "Unable to locate resource:\n'" + setResource + "' (error)", "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Unable to locate resource:\n'" + setResource + "' (error)", "ActionSetDatabase - setStat " + setID, JOptionPane.ERROR_MESSAGE);
 				continue;
 			}
 
-			//Create set object from existing information
+			//Create setStat object from existing information
 			ActionSet set = new ActionSet(setID);
 			registerActionSet(set);
 
-			//Map all the actions and frames within this set
+			//Map all the actions and frames within this setStat
 			NodeList actionList = eSet.getElementsByTagName("action");
 			for (int j = 0; j < actionList.getLength(); j++) {
 				Element eAction = (Element) actionList.item(j);
@@ -78,7 +78,7 @@ public class ActionSetDatabase {
 				ActionType actionType = ActionType.valueOf(actionTypeString);
 
 				if (actionType == null) {
-					JOptionPane.showMessageDialog(null, "Unable to find action type: " + actionTypeString + "' for id '" + setID + "'", "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Unable to find action type: " + actionTypeString + "' for id '" + setID + "'", "ActionSetDatabase - setStat " + setID, JOptionPane.ERROR_MESSAGE);
 					continue;
 				}
 
@@ -88,7 +88,7 @@ public class ActionSetDatabase {
 					actionXShift = (eAction.hasAttribute("shiftX") ? Integer.parseInt(eAction.getAttribute("shiftX")) : 0);
 					actionYShift = (eAction.hasAttribute("shiftY") ? Integer.parseInt(eAction.getAttribute("shiftY")) : 0);
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "Unable to load action xShift or yShift attribute for id '" + setID + "'", "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Unable to load action xShift or yShift attribute for id '" + setID + "'", "ActionSetDatabase - setStat " + setID, JOptionPane.ERROR_MESSAGE);
 					continue;
 				}
 
@@ -119,7 +119,7 @@ public class ActionSetDatabase {
 							frameSprite = resource.getSprite(frameX, frameY);
 
 						} catch (Exception e) {
-							JOptionPane.showMessageDialog(null, "Error occurred while loading frame data (sprite)!\n" + e, "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, "Error occurred while loading frame data (sprite)!\n" + e, "ActionSetDatabase - setStat " + setID, JOptionPane.ERROR_MESSAGE);
 							continue;
 						}
 					}
@@ -139,7 +139,7 @@ public class ActionSetDatabase {
 							frameSprite = resource.getSubImage(startX, startY, width, height);
 
 						} catch (Exception e) {
-							JOptionPane.showMessageDialog(null, "Error occurred while loading frame data (subImage)!\n" + e, "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, "Error occurred while loading frame data (subImage)!\n" + e, "ActionSetDatabase - setStat " + setID, JOptionPane.ERROR_MESSAGE);
 							continue;
 						}
 					}
@@ -152,17 +152,16 @@ public class ActionSetDatabase {
 						frameYShift = (eFrame.hasAttribute("shiftY") ? Integer.parseInt(eFrame.getAttribute("shiftY")) : 0);
 
 					} catch (Exception e) {
-						JOptionPane.showMessageDialog(null, "Error occurred while loading frame data!\n" + e, "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Error occurred while loading frame data!\n" + e, "ActionSetDatabase - setStat " + setID, JOptionPane.ERROR_MESSAGE);
 						continue;
 					}
 
-					//Create and add frame to set, from given information
+					//Create and add frame to setStat, from given information
 					try {
 						action.addFrame(frameSprite, frameTime, frameXShift, frameYShift);
 					} catch (Exception e) {
 						e.printStackTrace();
-						JOptionPane.showMessageDialog(null, "Error occurred upon creating frame for action '" + actionTypeString + "'!", "ActionSetDatabase - set " + setID, JOptionPane.ERROR_MESSAGE);
-						continue;
+						JOptionPane.showMessageDialog(null, "Error occurred upon creating frame for action '" + actionTypeString + "'!", "ActionSetDatabase - setStat " + setID, JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}

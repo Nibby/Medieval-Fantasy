@@ -1,5 +1,6 @@
 package hidden.indev0r.core.gui.component.interfaces;
 
+import hidden.indev0r.core.entity.Actor;
 import hidden.indev0r.core.entity.Entity;
 import hidden.indev0r.core.map.Tile;
 import org.lwjgl.util.vector.Vector2f;
@@ -14,7 +15,7 @@ public interface GMapSupplier {
 
     boolean blockedAt(Vector2f position);
 
-    Entity getCenterEntity();
+    Actor getCenterEntity();
 
     int[][][] getTiles();
 

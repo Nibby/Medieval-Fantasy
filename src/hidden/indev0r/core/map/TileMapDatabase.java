@@ -37,12 +37,15 @@ public class TileMapDatabase {
 	 * As the name implies, this will initiate the entire map loading sequence.
 	 */
 	public void loadMaps() throws Exception {
-		DirectoryStream<Path> entries = Files.newDirectoryStream(References.MAP_PATH.toAbsolutePath());
+		//This gets the list of files within the MAP_PATH folder
+        DirectoryStream<Path> entries = Files.newDirectoryStream(References.MAP_PATH.toAbsolutePath());
 
+        //Iterate through each file, if the file is of file extension .tm, attempt to load it
 		for (Path entry : entries) {
 			if (entry.getFileName().toString().endsWith(".tm")) {
 				TileMap map = loadTileMap(entry);
 
+                //If tile map is successfully loaded, register it in the database
 				if (map != null) {
 					registerTileMap(map);
 				}
@@ -57,9 +60,11 @@ public class TileMapDatabase {
 	 * @return
 	 */
 	private TileMap loadTileMap(Path entry) throws Exception {
+        //Check if map to load is of .tm extension, abort if not
 		if (!entry.getFileName().toString().endsWith(".tm")) return null;
 
-		Cipher cipher = CipherEngine.getCipher(Cipher.DECRYPT_MODE, "TTMSECKY");
+        //Sets up the cipher engine and read the encrypted map data
+		Cipher cipher = CipherEngine.getCipher(Cipher.DECRYPT_MODE, References.CIPHER_KEY_1);
 		DataInputStream input = new DataInputStream(new CipherInputStream(Files.newInputStream(entry), cipher));
 		byte[] bytes = new byte[input.readInt()];
 		input.readFully(bytes);
@@ -67,10 +72,14 @@ public class TileMapDatabase {
 
 		String data = new String(bytes, Charset.forName("UTF-8"));
 
+        //Once we have the map data decrypted and in the form of a string, XMLParser will start reading the document
 		XMLParser file = new XMLParser(data);
 		Document doc = file.getDocument();
 
+        //The root of the XML file is ttmMap
 		Element root = (Element) doc.getElementsByTagName("ttmMap").item(0);
+
+        //Retrieve important information such as map name, identifier etc. from the attribute section on the root tag
 		String mapName = root.getAttribute("name");
 		String mapCodename = root.getAttribute("code");
 		int mapWidth = Integer.parseInt(root.getAttribute("width"));
@@ -78,17 +87,21 @@ public class TileMapDatabase {
 		int mapLayer = Integer.parseInt(root.getAttribute("layers"));
 		String mapProperties = root.getAttribute("properties");
 
-		//Read tiles
+		//Read tiles in the map
 		int[][][] mapTiles = new int[mapLayer][mapWidth][mapHeight];
 
 		Element tileData = (Element) root.getElementsByTagName("tileData").item(0);
 		NodeList tileLayers = tileData.getElementsByTagName("tileLayer");
+
+        //Map loading is done in layers
 		for (int i = 0; i < tileLayers.getLength(); i++) {
 			Element tileLayer = (Element) tileLayers.item(i);
 			int layerNum = Integer.parseInt(tileLayer.getAttribute("layer"));
 
 			String layerData = tileLayer.getTextContent();
 			String[] layerRaw = layerData.split(",");
+
+            //Lazy man's way of parsing a linear line of tile data into a multi-dimensional array
 			int x = 0, y = 0;
 			for (int j = 0; j < layerRaw.length; j++) {
 				if (y > mapHeight - 1) {
@@ -99,9 +112,11 @@ public class TileMapDatabase {
 				y++;
 			}
 		}
+
+        //Once we have all the information, assemble the TileMap object
 		TileMap map = new TileMap(mapName, mapCodename, mapTiles, mapProperties);
 
-		//Zone data
+		//Zone data follows
 		Element zoneData = (Element) root.getElementsByTagName("zoneData").item(0);
 		NodeList zoneList = zoneData.getElementsByTagName("zone");
 		for (int i = 0; i < zoneList.getLength(); i++) {

@@ -5,7 +5,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.Color;
+import hidden.indev0r.core.gui.Cursor;
 
 import java.awt.*;
 
@@ -76,13 +76,21 @@ public class GComponent$Button extends GComponent {
 		Vector2f mouse = new Vector2f(input.getMouseX(), input.getMouseY());
 
 		if (mouse.x > this.position.x && mouse.x < (this.position.x + this.width) && mouse.y > this.position.y && (mouse.y < this.position.y + this.height)) {
-
 			if (!currentState.equals(GStates.DISABLED)) {
-				if (!input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+                if(Cursor.INTERACT_INSTANCE != null) {
+                    Object obj = Cursor.INTERACT_INSTANCE;
+                    if(!obj.equals(this)) return;
+                }
+
+                if (!input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
 					currentState = GStates.HOVERED;
 					if (!firedHoverEvent) {
 						fireHoverEvent();
 						firedHoverEvent = true;
+
+                        if(Cursor.INTERACT_INSTANCE == null) {
+                            Cursor.setInteractInstance(this);
+                        }
 					}
 				} else {
 					currentState = GStates.PRESSED;
@@ -93,6 +101,11 @@ public class GComponent$Button extends GComponent {
 				if (wasClicked && !input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
 					firePressEvent();
 					wasClicked = false;
+
+                    if(Cursor.INTERACT_INSTANCE != null) {
+                        Object obj = Cursor.INTERACT_INSTANCE;
+                        if(obj.equals(this)) Cursor.setInteractInstance(null);
+                    }
 				}
 			}
 
@@ -101,6 +114,11 @@ public class GComponent$Button extends GComponent {
 			currentState = GStates.NORMAL;
 			firedHoverEvent = false;
             wasClicked = false;
+
+            if(Cursor.INTERACT_INSTANCE != null) {
+                Object obj = Cursor.INTERACT_INSTANCE;
+                if(obj.equals(this)) Cursor.setInteractInstance(null);
+            }
 		}
 
 	}//END OF TICK

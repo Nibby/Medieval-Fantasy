@@ -18,6 +18,7 @@ public final class References {
 
 	public static final Path DATA_RESOURCE_PATH      = DATA_PATH.resolve("resources");
 	public static final Path MAP_PATH                = DATA_PATH.resolve("maps");
+    public static final Path NPC_PATH                = DATA_PATH.resolve("npc");
 	public static final Path TILESET_DEFINITION_PATH = MAP_PATH.resolve("tileset.ts");
 
 	public static final Path ACTION_SET_DATABASE_PATH = DATA_PATH.resolve("asdb.dat");

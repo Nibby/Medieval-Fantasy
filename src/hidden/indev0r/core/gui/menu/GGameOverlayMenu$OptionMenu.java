@@ -29,7 +29,7 @@ public class GGameOverlayMenu$OptionMenu extends GMenu {
 
         super.render(g);
 
-        BitFont.render(g, "Menu items go here...`Need to add long, text-holding buttons!``Press [ESC] to get outta here!",
+        BitFont.render(g, "Menu items go here...`Need to add long, text-holding buttons!``Press [ESC] to getStat outta here!",
                 References.GAME_WIDTH / 2 - 220, References.GAME_HEIGHT / 2 - 75, Color.yellow);
     }
 
