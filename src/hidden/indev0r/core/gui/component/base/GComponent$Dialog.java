@@ -88,24 +88,15 @@ public class GComponent$Dialog extends GComponent$Frame implements GComponentLis
 		Input input = gc.getInput();
 		Vector2f mouse = new Vector2f(input.getMouseX(), input.getMouseY());
 
-		if (mouse.x > this.position.x && mouse.x < (this.position.x + this.width) && mouse.y > this.position.y && (mouse.y < this.position.y + 32)) {
-			if (currentState.equals(GStates.DISABLED)) return;
-			if (!input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
-				currentState = GStates.HOVERED;
-			} else {
-				currentState = GStates.PRESSED;
-				wasClicked = true;
-			}
-
-			//Mouse click
-			if (wasClicked && !input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
-				fireTitleBarClickedEvent();
-				wasClicked = false;
-			}
-		}//END OF MOUSE BOUNDS
+        if (mouse.x > this.position.x && mouse.x < (this.position.x + this.width) && mouse.y > this.position.y && (mouse.y < this.position.y + 32)) {
+            if (currentState.equals(GStates.DISABLED)) return;
+            //Mouse click
+            if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+                fireTitleBarClickedEvent();
+            }
+        }//END OF MOUSE BOUNDS
 		else {
 			currentState = GStates.NORMAL;
-			wasClicked = false;
 		}
 
 

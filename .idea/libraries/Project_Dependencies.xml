@@ -5,6 +5,7 @@
       <root url="jar://$PROJECT_DIR$/dep/lib/slick-util.jar!/" />
       <root url="jar://$PROJECT_DIR$/dep/lib/slick.jar!/" />
       <root url="jar://$PROJECT_DIR$/dep/lib/lwjgl_util.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dep/lib/tween-engine-api.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

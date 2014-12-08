@@ -1,11 +1,13 @@
 package hidden.indev0r.core.gui.component.base;
 
-import hidden.indev0r.core.gui.component.base.GComponent;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.Color;
+
+import java.awt.*;
 
 public class GComponent$Button extends GComponent {
 
@@ -14,7 +16,7 @@ public class GComponent$Button extends GComponent {
 	private Image buttonHovered;
 	private Image icon;
 
-	public GComponent$Button(Vector2f pos, Image button) {
+    public GComponent$Button(Vector2f pos, Image button) {
 		this(pos, button, null);
 	}
 
@@ -69,6 +71,7 @@ public class GComponent$Button extends GComponent {
 
 	@Override
 	public void tick(GameContainer gc) {
+
 		Input input = gc.getInput();
 		Vector2f mouse = new Vector2f(input.getMouseX(), input.getMouseY());
 
@@ -101,6 +104,4 @@ public class GComponent$Button extends GComponent {
 		}
 
 	}//END OF TICK
-
-
 }

@@ -1,10 +1,8 @@
 package hidden.indev0r.core.entity.animation;
 
-import org.newdawn.slick.Animation;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -28,6 +26,8 @@ public class Action {
             g.drawImage(frame, x + xShift, y + yShift);
         }
     }
+
+    private ActionSet actionSet;
 
 	private java.util.List<ActionFrame> animation = new ArrayList<>();
     private java.util.List<Integer> animationDelay = new ArrayList<>();
@@ -94,6 +94,11 @@ public class Action {
 
             animationTick = System.currentTimeMillis();
         }
+    }
+
+    public Image getCurrentFrame() {
+        ActionFrame frame = animation.get(animationFrame);
+        return frame.frame;
     }
 
     public ActionType getActionType() {
