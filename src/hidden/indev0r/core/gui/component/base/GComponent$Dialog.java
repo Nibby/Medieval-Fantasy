@@ -41,7 +41,8 @@ public class GComponent$Dialog extends GComponent$Frame implements GComponentLis
 				new Vector2f((stdImageWidth * width) - 32, -28),
 				Textures.UI.BUTTON_ROUND_RED_NORMAL,
 				Textures.UI.BUTTON_ROUND_RED_PRESSED,
-				Textures.UI.BUTTON_ROUND_RED_HOVERED);
+				Textures.UI.BUTTON_ROUND_RED_HOVERED,
+				Textures.Icons.EXIT);
 		closeButton.addListener(this);
 		addComponent(closeButton);
 		this.title = (title != null ? title : "");
