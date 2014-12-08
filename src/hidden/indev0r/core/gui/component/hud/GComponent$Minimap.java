@@ -7,8 +7,9 @@ import hidden.indev0r.core.gui.component.dialog.GComponent$InventoryDialog;
 import hidden.indev0r.core.gui.component.dialog.GComponent$JournalDialog;
 import hidden.indev0r.core.gui.component.dialog.GComponent$SkillDialog;
 import hidden.indev0r.core.gui.component.dialog.GComponent$StatusDialog;
-import hidden.indev0r.core.gui.component.listener.GComponentListener;
-import hidden.indev0r.core.gui.component.listener.GDialogListener;
+import hidden.indev0r.core.gui.component.interfaces.GComponentListener;
+import hidden.indev0r.core.gui.component.interfaces.GDialogListener;
+import hidden.indev0r.core.gui.component.interfaces.GMapSupplier;
 import hidden.indev0r.core.gui.menu.GGameOverlayMenu$OptionMenu;
 import hidden.indev0r.core.texture.Textures;
 import org.lwjgl.util.vector.Vector2f;
@@ -28,12 +29,13 @@ public class GComponent$Minimap extends GComponent implements GComponentListener
 	public  GComponent$Button zoomOutButton;
 	public  GComponent$Button bigMapButton;
 
+	private GComponent$CircularMap     mapView;
 	private GComponent$StatusDialog    dialogStatus;
 	private GComponent$InventoryDialog dialogInventory;
 	private GComponent$SkillDialog     dialogSkill;
 	private GComponent$JournalDialog   dialogJournal;
 
-	public GComponent$Minimap(Vector2f pos, int numOfButton) {
+	public GComponent$Minimap(Vector2f pos, GMapSupplier supplier, int numOfButton) {
 		super(pos);
 		minimap = Textures.UI.MINIMAP_BASE;
 		this.width = minimap.getWidth();
@@ -95,6 +97,8 @@ public class GComponent$Minimap extends GComponent implements GComponentListener
 		this.sideButtons.get(3).setIcon(Textures.Icons.BOOK_BIG, Textures.Icons.BOOK_BIG);
 		this.sideButtons.get(4).setIcon(Textures.Icons.MENU_BIG, Textures.Icons.MENU_BIG);
 
+
+
 		Vector2f dialogPos = new Vector2f(200, 200);
 		dialogStatus = new GComponent$StatusDialog(dialogPos);
 		dialogInventory = new GComponent$InventoryDialog(dialogPos);
@@ -105,15 +109,19 @@ public class GComponent$Minimap extends GComponent implements GComponentListener
 		dialogInventory.addDialogListener(this);
 		dialogSkill.addDialogListener(this);
 		dialogJournal.addDialogListener(this);
+
+		mapView = new GComponent$CircularMap(new Vector2f(position.x + 14, position.y + 14), supplier);
 	}
 
 	@Override
 	public void render(Graphics g) {
+		mapView.render(g);
 		minimap.draw(position.x, position.y);
 		buttonAttach.draw(position.x + 97, position.y + 103);
 		zoomInButton.render(g);
 		zoomOutButton.render(g);
 		bigMapButton.render(g);
+
 		for (GComponent$SidebarButton s : sideButtons) s.render(g);
 	}
 
@@ -122,6 +130,7 @@ public class GComponent$Minimap extends GComponent implements GComponentListener
 		zoomInButton.tick(gc);
 		zoomOutButton.tick(gc);
 		bigMapButton.tick(gc);
+		mapView.tick(gc);
 		for (GComponent$SidebarButton s : sideButtons) s.tick(gc);
 	}
 
@@ -193,7 +202,8 @@ public class GComponent$Minimap extends GComponent implements GComponentListener
 	}
 
 	@Override
-	public void componentHovered(GComponent c) {}
+	public void componentHovered(GComponent c) {
+	}
 
 	@Override
 	public void titleBarClicked(GComponent c) {

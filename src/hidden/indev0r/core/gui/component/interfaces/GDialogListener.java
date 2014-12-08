@@ -1,4 +1,4 @@
-package hidden.indev0r.core.gui.component.listener;
+package hidden.indev0r.core.gui.component.interfaces;
 
 import hidden.indev0r.core.gui.component.base.GComponent;
 

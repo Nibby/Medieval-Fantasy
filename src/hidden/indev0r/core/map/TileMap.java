@@ -3,7 +3,9 @@ package hidden.indev0r.core.map;
 import hidden.indev0r.core.Camera;
 import hidden.indev0r.core.entity.Entity;
 import hidden.indev0r.core.entity.Player;
+import hidden.indev0r.core.gui.component.interfaces.GMapSupplier;
 import hidden.indev0r.core.reference.References;
+import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
@@ -16,7 +18,7 @@ import java.util.Map;
 /**
  * Created by MrDeathJockey on 14/12/3.
  */
-public class TileMap {
+public class TileMap implements GMapSupplier {
 
 	//Each map houses a series of 'zones' or 'regions' denoted with a special ID
 	private Map<String, TileMapZone> mapZones      = new HashMap<>();
@@ -183,4 +185,17 @@ public class TileMap {
 	public List<MapWarpPoint> getWarpPointList() {
 		return warpPointList;
 	}
+
+	//GMap Supplier Interface
+	@Override
+	public List<Entity> getEntitiesOnMap() {
+		return entities;
+	}
+
+	@Override
+	public Tile getTile(int layer, Vector2f position) {
+		return Tile.getTile(this.getTileData()[layer][(int) position.x][(int) position.y]);
+	}
+
+
 }

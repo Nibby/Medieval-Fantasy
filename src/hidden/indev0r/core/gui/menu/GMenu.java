@@ -2,13 +2,12 @@ package hidden.indev0r.core.gui.menu;
 
 import hidden.indev0r.core.gui.component.base.GComponent;
 import hidden.indev0r.core.gui.component.base.GComponent$Frame;
-import hidden.indev0r.core.gui.component.listener.GComponentListener;
+import hidden.indev0r.core.gui.component.interfaces.GComponentListener;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 public abstract class GMenu implements GComponentListener {
 

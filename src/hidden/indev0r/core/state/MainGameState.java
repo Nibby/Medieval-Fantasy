@@ -46,7 +46,7 @@ public class MainGameState extends BasicGameState {
 		menuMgr = new GMenuManager();
         menuMgr.setDisplayTopMenuOnly(false);
         menuMgr.setTickTopMenuOnly(false);
-        menuMgr.addMenu((menuOverlay = new GGameOverlayMenu()));
+        menuMgr.addMenu((menuOverlay = new GGameOverlayMenu(map)));
 	}
 
 	@Override

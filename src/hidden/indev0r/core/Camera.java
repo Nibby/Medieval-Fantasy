@@ -46,8 +46,8 @@ public class Camera {
 		//Updates track
 		if (trackingEntity != null) {
 			if (!forcePan) {
-				setOffset(-(trackingEntity.getCurrentX() - (References.GAME_WIDTH / 2 / References.DRAW_SCALE) + trackingEntity.getWidth() / 2),
-						-(trackingEntity.getCurrentY() - (References.GAME_HEIGHT / 2 / References.DRAW_SCALE) + trackingEntity.getHeight() / 2));
+				setOffset(-(trackingEntity.getPosition().x - (References.GAME_WIDTH / 2 / References.DRAW_SCALE) + trackingEntity.getWidth() / 2),
+						-(trackingEntity.getPosition().y - (References.GAME_HEIGHT / 2 / References.DRAW_SCALE) + trackingEntity.getHeight() / 2));
 
 			} else {
 				doForcePan();

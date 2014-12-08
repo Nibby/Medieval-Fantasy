@@ -9,6 +9,8 @@ import hidden.indev0r.core.entity.animation.ActionType;
 import hidden.indev0r.core.map.MapDirection;
 import hidden.indev0r.core.map.Tile;
 import hidden.indev0r.core.map.TileMap;
+import org.lwjgl.util.vector.Vector2f;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -29,8 +31,9 @@ public abstract class Entity {
 	protected Map<ActionType, Action> actionMap       = null; //The map of all entity actions
 	protected Stack<ActionType>       actionPlayStack = new Stack<>();        //A stack of animation which the entity is forced to act out
 	protected ActionType              action          = null;
-	protected float currentX, currentY;
-	protected float moveX, moveY;
+	//protected float currentX, currentY;
+	protected Vector2f position;
+	protected float    moveX, moveY;
 	protected boolean moving    = false;
 	protected float   moveSpeed = 2f;
 
@@ -38,16 +41,15 @@ public abstract class Entity {
 
 	protected Image sprite, spriteFlipped;
 	protected int width, height; //In terms of pixels
-	protected              boolean                 drawShadow  = true;
-	protected static final org.newdawn.slick.Color shadowColor = new org.newdawn.slick.Color(0f, 0f, 0f, 0.6f);
+	protected              boolean drawShadow  = true;
+	protected static final Color   shadowColor = new Color(0f, 0f, 0f, 0.6f);
 
 	public Entity() {
 		this(0, 0);
 	}
 
 	public Entity(float x, float y) {
-		this.currentX = x * Tile.TILE_SIZE;
-		this.currentY = y * Tile.TILE_SIZE;
+		this.position = new Vector2f(x * Tile.TILE_SIZE, y * Tile.TILE_SIZE);
 		this.moveX = x * Tile.TILE_SIZE;
 		this.moveY = y * Tile.TILE_SIZE;
 	}
@@ -82,7 +84,7 @@ public abstract class Entity {
 
 			}
 
-            if(actionPlayStack.isEmpty()) {
+			if (actionPlayStack.isEmpty()) {
 				motion = actionMap.get(action);
 				if (motion == null) {
 					actionMap.get(ActionType.STATIC_RIGHT).render(g, getRenderX(), getRenderY(), false);
@@ -95,12 +97,12 @@ public abstract class Entity {
 
 	private float getRenderY() {
 		Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
-		return currentY + camera.getOffsetY() - Tile.TILE_SIZE / 5;
+		return position.y + camera.getOffsetY() - Tile.TILE_SIZE / 5;
 	}
 
 	private float getRenderX() {
 		Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
-		return currentX + camera.getOffsetX();
+		return position.x + camera.getOffsetX();
 	}
 
 	private void renderShadow(Graphics g) {
@@ -108,53 +110,53 @@ public abstract class Entity {
 	}
 
 	public void tick(GameContainer gc) {
-		if (currentX != moveX) {
-			if (currentX > moveX) {
-				if (currentX - moveSpeed < moveX) {
-					currentX = moveX;
+		if (position.x != moveX) {
+			if (position.x > moveX) {
+				if (position.x - moveSpeed < moveX) {
+					position.x = moveX;
 				} else {
-					currentX -= moveSpeed;
+					position.x -= moveSpeed;
 				}
 				action = ActionType.WALK_LEFT;
 			}
-			if (currentX < moveX) {
-				if (currentX + moveSpeed > moveX) {
-					currentX = moveSpeed;
+			if (position.x < moveX) {
+				if (position.x + moveSpeed > moveX) {
+					position.x = moveSpeed;
 				} else {
-					currentX += moveSpeed;
+					position.x += moveSpeed;
 				}
 				action = ActionType.WALK_RIGHT;
 			}
 		}
 
-		if (currentY != moveY) {
-			if (currentY > moveY) {
-				if (currentY - moveSpeed < moveY) {
-					currentY = moveY;
+		if (position.y != moveY) {
+			if (position.y > moveY) {
+				if (position.y - moveSpeed < moveY) {
+					position.y = moveY;
 				} else {
-					currentY -= moveSpeed;
+					position.y -= moveSpeed;
 				}
 				action = ActionType.WALK_UP;
 			}
-			if (currentY < moveY) {
-				if (currentY + moveSpeed > moveY) {
-					currentY = moveY;
+			if (position.y < moveY) {
+				if (position.y + moveSpeed > moveY) {
+					position.y = moveY;
 				} else {
-					currentY += moveSpeed;
+					position.y += moveSpeed;
 				}
 				action = ActionType.WALK_DOWN;
 			}
 		}
 
-		if (Math.abs(moveX - currentX) < moveSpeed) currentX = moveX;
-		if (Math.abs(moveY - currentY) < moveSpeed) currentY = moveY;
-		if (currentY == moveY && currentX == moveX) {
+		if (Math.abs(moveX - position.x) < moveSpeed) position.x = moveX;
+		if (Math.abs(moveY - position.y) < moveSpeed) position.y = moveY;
+		if (position.y == moveY && position.x == moveX) {
 			moving = false;
 
-            if(action.equals(ActionType.WALK_LEFT))  action = ActionType.STATIC_LEFT;
-            if(action.equals(ActionType.WALK_RIGHT)) action = ActionType.STATIC_RIGHT;
-            if(action.equals(ActionType.WALK_DOWN))  action = ActionType.STATIC_DOWN;
-            if(action.equals(ActionType.WALK_UP))    action = ActionType.STATIC_UP;
+			if (action.equals(ActionType.WALK_LEFT)) action = ActionType.STATIC_LEFT;
+			if (action.equals(ActionType.WALK_RIGHT)) action = ActionType.STATIC_RIGHT;
+			if (action.equals(ActionType.WALK_DOWN)) action = ActionType.STATIC_DOWN;
+			if (action.equals(ActionType.WALK_UP)) action = ActionType.STATIC_UP;
 		}
 	}
 
@@ -197,8 +199,8 @@ public abstract class Entity {
 	 * @see hidden.indev0r.core.entity.animation.ActionSetDatabase
 	 */
 	public void setActionSet(ActionSet set) {
-        if(set == null) set = ActionSetDatabase.get(0);
-        actionMap = new HashMap<>();
+		if (set == null) set = ActionSetDatabase.get(0);
+		actionMap = new HashMap<>();
 		set.applyAll(actionMap);
 
 		action = ActionType.STATIC_RIGHT;
@@ -233,13 +235,18 @@ public abstract class Entity {
 		return sprite;
 	}
 
-	public float getCurrentY() {
-		return currentY;
+	public Vector2f getPosition() {
+		return position;
 	}
 
-	public float getCurrentX() {
-		return currentX;
-	}
+
+//	public float getCurrentY() {
+//		return currentY;
+//	}
+//
+//	public float getCurrentX() {
+//		return currentX;
+//	}
 
 	public void setDrawShadow(boolean shadow) {
 		this.drawShadow = shadow;

@@ -1,7 +1,6 @@
 package hidden.indev0r.core.gui.component.base;
 
-import hidden.indev0r.core.gui.component.listener.GComponentListener;
-import hidden.indev0r.core.gui.component.listener.GDialogListener;
+import hidden.indev0r.core.gui.component.interfaces.GComponentListener;
 import hidden.indev0r.core.gui.menu.GMenu;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.GameContainer;
