@@ -25,29 +25,29 @@ public class Textures {
 
 
 		static {
-            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "mage0.png", 32, 32);
-            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "mage1.png", 32, 32);
-            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "mage2.png", 32, 32);
-            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "mage3.png", 32, 32);
-            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "mage4.png", 32, 32);
-			ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "warrior0.png", 32, 32);
-            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "warrior1.png", 32, 32);
-            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "warrior2.png", 32, 32);
-            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "warrior3.png", 32, 32);
-            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "bowman0.png", 32, 32);
-            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "bowman1.png", 32, 32);
-            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "rogue0.png", 32, 32);
-            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "rogue1.png", 32, 32);
-            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "monk0.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "chars/mage0.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "chars/mage1.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "chars/mage2.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "chars/mage3.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "chars/mage4.png", 32, 32);
+			ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "chars/warrior0.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "chars/warrior1.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "chars/warrior2.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "chars/warrior3.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "chars/bowman0.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "chars/bowman1.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "chars/rogue0.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "chars/rogue1.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "chars/monk0.png", 32, 32);
 
             //Monster
-            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "blob0.png", 32, 32);
-            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "blob1.png", 32, 32);
-            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "blob2.png", 32, 32);
-            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "blob3.png", 32, 32);
-            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "blob4.png", 32, 32);
-            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "blob5.png", 32, 32);
-            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "blob6.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "mon/blob/blob0.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "mon/blob/blob1.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "mon/blob/blob2.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "mon/blob/blob3.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "mon/blob/blob4.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "mon/blob/blob5.png", 32, 32);
+            ResourceManager.loadSpriteSheet(ENTITY_ANIM_IMAGE_PATH + "mon/blob/blob6.png", 32, 32);
 
         }
 	}

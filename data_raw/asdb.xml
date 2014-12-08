@@ -2,7 +2,7 @@
 <actionSetDB>
 
     <!-- mage0 -->
-    <actionSet id="0" resource="res/textures/sprites/animated/mage0.png">
+    <actionSet id="0" resource="res/textures/sprites/animated/chars/mage0.png">
 
         <action type="STATIC_LEFT">
             <frame sprite="0,3" time="1000" />
@@ -95,7 +95,7 @@
     </actionSet>
 
     <!-- warrior0 -->
-    <actionSet id="1" resource="res/textures/sprites/animated/warrior0.png">
+    <actionSet id="1" resource="res/textures/sprites/animated/chars/warrior0.png">
 
         <action type="STATIC_LEFT">
             <frame sprite="0,3" time="1000" />
@@ -188,7 +188,7 @@
     </actionSet>
 
     <!-- rogue0 -->
-    <actionSet id="2" resource="res/textures/sprites/animated/rogue0.png">
+    <actionSet id="2" resource="res/textures/sprites/animated/chars/rogue0.png">
         <action type="STATIC_LEFT">
             <frame sprite="0,3" time="1000" />
         </action>
@@ -280,7 +280,7 @@
     </actionSet>
 
     <!-- rogue1 -->
-    <actionSet id="3" resource="res/textures/sprites/animated/rogue1.png">
+    <actionSet id="3" resource="res/textures/sprites/animated/chars/rogue1.png">
         <action type="STATIC_LEFT">
             <frame sprite="0,3" time="1000" />
         </action>
@@ -372,7 +372,7 @@
     </actionSet>
 
     <!-- warrior1 -->
-    <actionSet id="4" resource="res/textures/sprites/animated/warrior1.png">
+    <actionSet id="4" resource="res/textures/sprites/animated/chars/warrior1.png">
         <action type="STATIC_LEFT">
             <frame sprite="0,3" time="1000" />
         </action>
@@ -464,7 +464,7 @@
     </actionSet>
 
     <!-- warrior2 -->
-    <actionSet id="5" resource="res/textures/sprites/animated/warrior2.png">
+    <actionSet id="5" resource="res/textures/sprites/animated/chars/warrior2.png">
         <action type="STATIC_LEFT">
             <frame sprite="0,3" time="1000" />
         </action>
@@ -556,7 +556,7 @@
     </actionSet>
 
     <!-- warrior3 -->
-    <actionSet id="6" resource="res/textures/sprites/animated/warrior3.png">
+    <actionSet id="6" resource="res/textures/sprites/animated/chars/warrior3.png">
         <action type="STATIC_LEFT">
             <frame sprite="0,3" time="1000" />
         </action>
@@ -648,7 +648,7 @@
     </actionSet>
 
     <!-- mage1 -->
-    <actionSet id="7" resource="res/textures/sprites/animated/mage1.png">
+    <actionSet id="7" resource="res/textures/sprites/animated/chars/mage1.png">
 
         <action type="STATIC_LEFT">
             <frame sprite="0,3" time="1000" />
@@ -741,7 +741,7 @@
     </actionSet>
 
     <!-- mage2 -->
-    <actionSet id="8" resource="res/textures/sprites/animated/mage2.png">
+    <actionSet id="8" resource="res/textures/sprites/animated/chars/mage2.png">
 
         <action type="STATIC_LEFT">
             <frame sprite="0,3" time="1000" />
@@ -834,7 +834,7 @@
     </actionSet>
 
     <!-- mage3 -->
-    <actionSet id="9" resource="res/textures/sprites/animated/mage3.png">
+    <actionSet id="9" resource="res/textures/sprites/animated/chars/mage3.png">
         <action type="STATIC_LEFT">
             <frame sprite="0,3" time="1000" />
         </action>
@@ -926,7 +926,7 @@
     </actionSet>
 
     <!-- mage4 -->
-    <actionSet id="10" resource="res/textures/sprites/animated/mage4.png">
+    <actionSet id="10" resource="res/textures/sprites/animated/chars/mage4.png">
 
         <action type="STATIC_LEFT">
             <frame sprite="0,3" time="1000" />
@@ -1019,7 +1019,7 @@
     </actionSet>
 
     <!-- monk0 -->
-    <actionSet id="11" resource="res/textures/sprites/animated/monk0.png">
+    <actionSet id="11" resource="res/textures/sprites/animated/chars/monk0.png">
 
         <action type="STATIC_LEFT">
             <frame sprite="0,3" time="1000" />
@@ -1112,7 +1112,7 @@
     </actionSet>
 
     <!-- bowman0 -->
-    <actionSet id="12" resource="res/textures/sprites/animated/bowman0.png">
+    <actionSet id="12" resource="res/textures/sprites/animated/chars/bowman0.png">
         <action type="STATIC_LEFT">
             <frame sprite="0,3" time="1000" />
         </action>
@@ -1204,7 +1204,7 @@
     </actionSet>
 
     <!-- bowman2 -->
-    <actionSet id="13" resource="res/textures/sprites/animated/bowman1.png">
+    <actionSet id="13" resource="res/textures/sprites/animated/chars/bowman1.png">
         <action type="STATIC_LEFT">
             <frame sprite="0,3" time="1000" />
         </action>
@@ -1296,7 +1296,7 @@
     </actionSet>
 
     <!-- blobs & all other monster sprites begin from id 100 onwards -->
-    <actionSet id="100" resource="res/textures/sprites/animated/blob0.png">
+    <actionSet id="100" resource="res/textures/sprites/animated/mon/blob/blob0.png">
         <action type="STATIC_RIGHT">
             <frame sprite="0,0" time="1000" />
         </action>
@@ -1379,7 +1379,7 @@
         </action>
     </actionSet>
 
-    <actionSet id="101" resource="res/textures/sprites/animated/blob1.png">
+    <actionSet id="101" resource="res/textures/sprites/animated/mon/blob/blob1.png">
         <action type="STATIC_RIGHT">
             <frame sprite="0,0" time="1000" />
         </action>
@@ -1462,7 +1462,7 @@
         </action>
     </actionSet>
 
-    <actionSet id="102" resource="res/textures/sprites/animated/blob2.png">
+    <actionSet id="102" resource="res/textures/sprites/animated/mon/blob/blob2.png">
         <action type="STATIC_RIGHT">
             <frame sprite="0,0" time="1000" />
         </action>
@@ -1545,7 +1545,7 @@
         </action>
     </actionSet>
 
-    <actionSet id="103" resource="res/textures/sprites/animated/blob3.png">
+    <actionSet id="103" resource="res/textures/sprites/animated/mon/blob/blob3.png">
         <action type="STATIC_RIGHT">
             <frame sprite="0,0" time="1000" />
         </action>
@@ -1628,7 +1628,7 @@
         </action>
     </actionSet>
 
-    <actionSet id="104" resource="res/textures/sprites/animated/blob4.png">
+    <actionSet id="104" resource="res/textures/sprites/animated/mon/blob/blob4.png">
         <action type="STATIC_RIGHT">
             <frame sprite="0,0" time="1000" />
         </action>
@@ -1711,7 +1711,7 @@
         </action>
     </actionSet>
 
-    <actionSet id="105" resource="res/textures/sprites/animated/blob5.png">
+    <actionSet id="105" resource="res/textures/sprites/animated/mon/blob/blob5.png">
         <action type="STATIC_RIGHT">
             <frame sprite="0,0" time="1000" />
         </action>
@@ -1794,7 +1794,7 @@
         </action>
     </actionSet>
 
-    <actionSet id="106" resource="res/textures/sprites/animated/blob6.png">
+    <actionSet id="106" resource="res/textures/sprites/animated/mon/blob/blob6.png">
         <action type="STATIC_RIGHT">
             <frame sprite="0,0" time="1000" />
         </action>
