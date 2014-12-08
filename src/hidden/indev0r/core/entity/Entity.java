@@ -31,7 +31,6 @@ public abstract class Entity {
 	protected Map<ActionType, Action> actionMap       = null; //The map of all entity actions
 	protected Stack<ActionType>       actionPlayStack = new Stack<>();        //A stack of animation which the entity is forced to act out
 	protected ActionType              action          = null;
-	//protected float currentX, currentY;
 	protected Vector2f position;
 	protected float    moveX, moveY;
 	protected boolean moving    = false;
@@ -48,11 +47,17 @@ public abstract class Entity {
 		this(0, 0);
 	}
 
+	public Entity(Vector2f position){
+		this(position.x, position.y);
+	}
+
 	public Entity(float x, float y) {
 		this.position = new Vector2f(x * Tile.TILE_SIZE, y * Tile.TILE_SIZE);
 		this.moveX = x * Tile.TILE_SIZE;
 		this.moveY = y * Tile.TILE_SIZE;
 	}
+
+
 
 	public void render(Graphics g) {
 		//If entity is not using a motion map

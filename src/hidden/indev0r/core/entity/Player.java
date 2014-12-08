@@ -2,7 +2,9 @@ package hidden.indev0r.core.entity;
 
 import hidden.indev0r.core.entity.animation.ActionSetDatabase;
 import hidden.indev0r.core.entity.animation.ActionType;
+import hidden.indev0r.core.gui.component.interfaces.GStatsSupplier;
 import hidden.indev0r.core.map.MapDirection;
+import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -13,13 +15,13 @@ import javax.swing.*;
     I hope you don't mind me testing some of my own code.
     Although we might be branching soon by the looks of the progress ^_^
  */
-public class Player extends Entity {
+public class Player extends Actor implements GStatsSupplier {
 
 
 	public Player(int x, int y) {
-		super(x, y);
+		super(new Vector2f(x, y));
 
-        setActionSet(ActionSetDatabase.get(11));
+		setActionSet(ActionSetDatabase.get(11));
 		setSize(32, 32);
 	}
 
@@ -38,7 +40,7 @@ public class Player extends Entity {
 			int y = (int) getY();
 
 			if (input.isKeyDown(Input.KEY_W)) {
-                currentDirection = MapDirection.UP;
+				currentDirection = MapDirection.UP;
 				setMotion(ActionType.WALK_UP);
 				moving = true;
 				if (!map.isBlocked(x, y - 1)) {
@@ -54,7 +56,7 @@ public class Player extends Entity {
 				}
 			}
 			if (input.isKeyDown(Input.KEY_S)) {
-                currentDirection = MapDirection.DOWN;
+				currentDirection = MapDirection.DOWN;
 				setMotion(ActionType.WALK_DOWN);
 				moving = true;
 				if (!map.isBlocked(x, y + 1)) {
@@ -70,46 +72,51 @@ public class Player extends Entity {
 				}
 			}
 
-            //Debug
-			if (input.isKeyPressed(Input.KEY_F1)) {
-				forceActAction(ActionType.ATTACK_RIGHT);
+
+			//Debug
+			{
+				if (input.isKeyPressed(Input.KEY_F1)) {
+					forceActAction(ActionType.ATTACK_RIGHT);
+				}
+				if (input.isKeyPressed(Input.KEY_F2)) {
+					forceActAction(ActionType.ATTACK_LEFT);
+				}
+				if (input.isKeyPressed(Input.KEY_F3)) {
+					forceActAction(ActionType.ATTACK_UP);
+				}
+				if (input.isKeyPressed(Input.KEY_F4)) {
+					forceActAction(ActionType.ATTACK_DOWN);
+				}
+
+				if (input.isKeyPressed(Input.KEY_F5)) {
+					forceActAction(ActionType.CAST_RIGHT);
+				}
+				if (input.isKeyPressed(Input.KEY_F6)) {
+					forceActAction(ActionType.CAST_LEFT);
+				}
+				if (input.isKeyPressed(Input.KEY_F7)) {
+					forceActAction(ActionType.CAST_UP);
+				}
+				if (input.isKeyPressed(Input.KEY_F8)) {
+					forceActAction(ActionType.CAST_DOWN);
+				}
+
+				if (input.isKeyPressed(Input.KEY_F9)) {
+					forceActAction(ActionType.USE_SPECIAL);
+				}
+				if (input.isKeyPressed(Input.KEY_F10)) {
+					forceActAction(ActionType.DEATH);
+				}
+
+				if (input.isKeyPressed(Input.KEY_F12)) {
+					String option = JOptionPane.showInputDialog(null, "Enter action set id: ");
+					if (option != null && !option.isEmpty() && !option.contains(" ")) {
+						setActionSet(ActionSetDatabase.get(Integer.parseInt(option)));
+					}
+				}
 			}
-            if (input.isKeyPressed(Input.KEY_F2)) {
-                forceActAction(ActionType.ATTACK_LEFT);
-            }
-            if (input.isKeyPressed(Input.KEY_F3)) {
-                forceActAction(ActionType.ATTACK_UP);
-            }
-            if (input.isKeyPressed(Input.KEY_F4)) {
-                forceActAction(ActionType.ATTACK_DOWN);
-            }
 
-            if (input.isKeyPressed(Input.KEY_F5)) {
-                forceActAction(ActionType.CAST_RIGHT);
-            }
-            if (input.isKeyPressed(Input.KEY_F6)) {
-                forceActAction(ActionType.CAST_LEFT);
-            }
-            if (input.isKeyPressed(Input.KEY_F7)) {
-                forceActAction(ActionType.CAST_UP);
-            }
-            if (input.isKeyPressed(Input.KEY_F8)) {
-                forceActAction(ActionType.CAST_DOWN);
-            }
 
-            if (input.isKeyPressed(Input.KEY_F9)) {
-                forceActAction(ActionType.USE_SPECIAL);
-            }
-            if (input.isKeyPressed(Input.KEY_F10)) {
-                forceActAction(ActionType.DEATH);
-            }
-
-            if (input.isKeyPressed(Input.KEY_F12)) {
-                String option = JOptionPane.showInputDialog(null, "Enter action set id: ");
-                if(option != null && !option.isEmpty() && !option.contains(" ")) {
-                    setActionSet(ActionSetDatabase.get(Integer.parseInt(option)));
-                }
-            }
 		}
 	}
 
@@ -118,6 +125,37 @@ public class Player extends Entity {
 		super.move(x, y);
 	}
 
+
+	//GStatsSupplier Implementation
+	@Override
+	public float getHealth() {
+		return super.getHealth();
+	}
+
+	@Override
+	public float getHealthMax() {
+		return super.getHealthMax();
+	}
+
+	@Override
+	public float getMana() {
+		return super.getMana();
+	}
+
+	@Override
+	public float getManaMax() {
+		return super.getManaMax();
+	}
+
+	@Override
+	public float getExperience() {
+		return super.getExperience();
+	}
+
+	@Override
+	public float getExperienceMax() {
+		return super.getExperienceMax();
+	}
 }
 
 
