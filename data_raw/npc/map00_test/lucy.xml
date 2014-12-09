@@ -1,5 +1,5 @@
-<npc hostile="false" faction="HUMAN" resource="res/textures/sprites/static/mon00.png" sprite="0,2"
-        width="1" height="1" name="Merlin" identifier="merlin" facing="LEFT" nameColor="WHITE">
+<npc hostile="false" faction="HUMAN" resource="res/textures/sprites/static/mon00.png" sprite="10,16"
+        width="1" height="1" name="Lucy" identifier="lucy" facing="LEFT" nameColor="WHITE">
 
     <!-- This tag is in charge of telling NPC its direction -->
     <location>
@@ -7,7 +7,7 @@
         <map>map00_test</map>
 
         <!-- X,Y position (in terms of tiles) -->
-        <pos>11,11</pos>
+        <pos>16,7</pos>
     </location>
 
     <!-- All NPCs are given a setStat of default properties. These here will modify the default, but this tag is still needed -->
@@ -20,12 +20,12 @@
     <script type="interact">
         <dialog id="dialog" title="$NPC_NAME" type="0">
             <content>
-Welcome to my study, I have the;
-finest collection of magic;
-grimories that the kingdom has;
-to offer. We're relocating soon,;
-so most of the books aren't here;
-at the moment.
+The magical orb will reveal your;
+future! The spell is called...;
+um... Revela-something...
+
+;;Anyways it's a new spell I'm;
+learning from my uncle.
             </content>
         </dialog>
     </script>
