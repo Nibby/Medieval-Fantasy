@@ -14,9 +14,9 @@ public class Action {
     private class ActionFrame {
 
         private Image frame;
+
         private int xShift;
         private int yShift;
-
         private ActionFrame(Image frame, int xShift, int yShift) {
             this.frame = frame;
             this.xShift = xShift;
@@ -33,20 +33,20 @@ public class Action {
 
             g.drawImage(renderFrame, x, y);
         }
-    }
 
+    }
     private ActionSet actionSet;
 
 	private java.util.List<ActionFrame> animation = new ArrayList<>();
-    private java.util.List<Integer> animationDelay = new ArrayList<>();
 
+    private java.util.List<Integer> animationDelay = new ArrayList<>();
     private long animationTick;
+
     private int animationFrame = 0;
     private boolean animationStopped = false;
-
 	private ActionType actionType;
-	private int xShift = 0, yShift = 0;
 
+    private int xShift = 0, yShift = 0;
 	public Action(ActionType id) {
 		this(id, 0, 0);
 	}
@@ -102,6 +102,15 @@ public class Action {
 
             animationTick = System.currentTimeMillis();
         }
+    }
+
+    //Returns the collective time that is required to play this animation
+    public int getPlayTime() {
+        int time = 0;
+        for(int delay : animationDelay) {
+            time += delay;
+        }
+        return time;
     }
 
     public Image getCurrentFrame() {

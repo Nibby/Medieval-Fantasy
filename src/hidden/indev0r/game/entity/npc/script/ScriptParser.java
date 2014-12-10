@@ -38,7 +38,7 @@ public class ScriptParser {
                 Element commandElement = (Element) node;
 
                 //Creates command
-                Command command = Command.getInstance(commandElement.getTagName());
+                Command command = Command.getCommand(commandElement.getTagName());
                 if(command != null) {
                     scriptCommands.add(command.make(script, actor, commandElement));
                 }
@@ -50,4 +50,30 @@ public class ScriptParser {
         return script;
     }
 
+    public static List<Command> parse(String cmdName, Script script, Actor actor, Element cmdElement) {
+        if(actor == null || cmdElement == null) return null;
+
+        List<Command> blockCommands = new ArrayList<>();
+
+        //Load all commands
+        NodeList commandList = cmdElement.getChildNodes();
+        for(int i = 0; i < commandList.getLength(); i++) {
+            Node node = commandList.item(i);
+
+            //Filter node for only top level elements
+            if(node.getParentNode().getNodeName().equals(cmdName)
+                    && node.getParentNode().getNodeType() == Node.ELEMENT_NODE
+                    && node.getNodeType() == Node.ELEMENT_NODE) {
+
+                Element commandElement = (Element) node;
+
+                //Creates command
+                Command cmd = Command.getCommand(commandElement.getTagName());
+                if(cmd != null) {
+                    blockCommands.add(cmd.make(script, actor, commandElement));
+                }
+            }
+        }
+        return blockCommands;
+    }
 }

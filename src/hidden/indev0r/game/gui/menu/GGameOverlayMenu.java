@@ -1,15 +1,22 @@
 package hidden.indev0r.game.gui.menu;
 
+import hidden.indev0r.game.BitFont;
+import hidden.indev0r.game.Camera;
 import hidden.indev0r.game.MedievalLauncher;
+import hidden.indev0r.game.entity.Actor;
+import hidden.indev0r.game.entity.Player;
+import hidden.indev0r.game.gui.component.base.GComponent$Frame;
 import hidden.indev0r.game.gui.component.hud.GComponent$AnimatedScroll;
 import hidden.indev0r.game.gui.component.hud.GComponent$Minimap;
 import hidden.indev0r.game.gui.component.hud.GComponent$PlayerStatusGauge;
 import hidden.indev0r.game.gui.component.base.GComponent;
+import hidden.indev0r.game.gui.component.hud.GComponent$SpeechBubble;
 import hidden.indev0r.game.gui.component.interfaces.GMapSupplier;
 import hidden.indev0r.game.gui.component.interfaces.GStatsSupplier;
 import hidden.indev0r.game.reference.References;
 import hidden.indev0r.game.state.MainGameState;
 import org.lwjgl.util.vector.Vector2f;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 
@@ -33,7 +40,26 @@ public class GGameOverlayMenu extends GMenu {
 	}
 
 	public void tick(GameContainer gc) {
-		super.tick(gc);
+        int removed = 0;
+        //for (GComponent gc : components) gc.tick(gamec);
+        for (int i = 0; i < components.size() - removed; i++) {
+            GComponent c = components.get(i);
+            c.tick(gc);
+
+            if (c instanceof GComponent$Frame) {
+                GComponent$Frame dialog = (GComponent$Frame) c;
+                if (dialog.isDisposed()) {
+                    removeComponent(c);
+                    removed++;
+                }
+            }
+
+            if(c instanceof GComponent$SpeechBubble) {
+                if(((GComponent$SpeechBubble) c).isExpired()) {
+                    removeComponent(c);
+                }
+            }
+        }
 
         if(!scrollComponent.isActive()) {
             removeComponent(scrollComponent);
@@ -41,7 +67,7 @@ public class GGameOverlayMenu extends GMenu {
 
 		Input input = gc.getInput();
 		if (input.isKeyPressed(Input.KEY_ESCAPE)) {
-			MedievalLauncher.getInstance().getGameState().getMenuManager().addMenu(new GGameOverlayMenu$OptionMenu());
+			state.getMenuManager().addMenu(new GGameOverlayMenu$OptionMenu());
 		}
 	}
 
@@ -49,6 +75,14 @@ public class GGameOverlayMenu extends GMenu {
         removeComponent(scrollComponent);
         scrollComponent = new GComponent$AnimatedScroll(text, duration);
         addComponent(scrollComponent);
+    }
+
+    public void showSpeechBubble(Actor actor, String text, int duration, Color textCol) {
+        GComponent$SpeechBubble bubble = new GComponent$SpeechBubble(
+                text, new Vector2f(actor.getPosition().x + actor.getWidth() / 2 - BitFont.widthOf(text, 16) / 2,
+                                   actor.getPosition().y - 48), duration, textCol);
+        bubble.onAdd();
+        addComponent(bubble);
     }
 
 	@Override
@@ -61,7 +95,7 @@ public class GGameOverlayMenu extends GMenu {
 
     public boolean isComponentEmpty() {
         for(GComponent c : components) {
-            if(!(c == minimap || c == gauge || c == scrollComponent))
+            if(!(c == minimap || c == gauge || c == scrollComponent || c instanceof GComponent$SpeechBubble))
                 return false;
         }
         return true;

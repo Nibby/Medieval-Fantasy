@@ -10,7 +10,11 @@ import hidden.indev0r.game.map.Tile;
 import hidden.indev0r.game.texture.Textures;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.*;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 
+import java.awt.*;
 import java.util.List;
 
 public class GComponent$CircularMap extends GComponent {
@@ -18,8 +22,8 @@ public class GComponent$CircularMap extends GComponent {
     private static int MAP_PIXEL_SIZE = 3;
 
     private static final Color COLOR_ENEMY = Color.red;
-    private static final Color COLOR_SELF = Color.white;
-    private static final Color COLOR_FRIENDLY = Color.green;
+    private static final Color COLOR_SELF = Color.green;
+    private static final Color COLOR_FRIENDLY = new Color(0, 138, 255);
 
     private static final Color COLOR_LIQUID_WATER = new Color(0, 155, 211);
     private static final Color COLOR_LIQUID_LAVA = new Color(237, 28, 36);
@@ -120,7 +124,9 @@ public class GComponent$CircularMap extends GComponent {
                         }
                     }
 
-                    mapG.fillOval(e.getX() * MAP_PIXEL_SIZE + offsetX, e.getY() * MAP_PIXEL_SIZE + offsetY, MAP_PIXEL_SIZE, MAP_PIXEL_SIZE);
+                    if(e.isVisibleOnScreen())
+                        mapG.fillOval(e.getX() * MAP_PIXEL_SIZE + offsetX, e.getY() * MAP_PIXEL_SIZE + offsetY,
+                            MAP_PIXEL_SIZE * e.getWidth() / Tile.TILE_SIZE, MAP_PIXEL_SIZE * e.getHeight() / Tile.TILE_SIZE);
                 }
             }
 

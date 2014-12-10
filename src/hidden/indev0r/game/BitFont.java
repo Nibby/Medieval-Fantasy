@@ -88,6 +88,7 @@ public class BitFont {
 			width += size;
 		}
 		return width;
+
 	}
 
 	private static class FontSpacing {

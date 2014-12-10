@@ -3,8 +3,10 @@ package hidden.indev0r.game.entity;
 import hidden.indev0r.game.entity.animation.ActionType;
 import hidden.indev0r.game.entity.npc.script.Script;
 import hidden.indev0r.game.gui.Cursor;
+import hidden.indev0r.game.map.Tile;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.geom.Rectangle;
 
 import javax.swing.*;
 import java.util.HashMap;
@@ -18,7 +20,7 @@ public class Actor extends Entity {
         GLYSIA,
         NAYA,
         UNDEAD,
-        DEMONS,
+        DEMON,
         HUMAN,
 
         //Special entities like signs and event points
@@ -26,8 +28,9 @@ public class Actor extends Entity {
         ;
 
     }
-    //TODO: AI Object
 
+    //TODO: AI Object
+    private static final int INTERACT_TILE_DISTANCE = 2;
     /*
         Actor scripts are kept here rather than solely stored in NPC class
         because certain special monsters will have scripts also.
@@ -36,10 +39,10 @@ public class Actor extends Entity {
 
 	// Actor Attributes
 	protected Map<Stat, Integer> propertyMap;
-
     protected Faction faction;
-	private boolean isAlive;
+    protected AI ai;
 
+    private boolean isAlive;
 	public Actor(Faction faction, Vector2f position) {
 		super(position);
 		propertyMap = new HashMap<>(0);
@@ -51,14 +54,38 @@ public class Actor extends Entity {
 	@Override
 	public void tick(GameContainer gc) {
 		super.tick(gc);
-		if(isAlive){
-			//AI.create();
-			//AI.tick();
-		} else {
-			if(actionMap != null && action != ActionType.DEATH)
+        if(!(this instanceof Player))
+            ai.tick(map, this);
+
+        calculateStats();
+
+        if(isAlive){
+            //AI.create();
+            //AI.tick();
+        } else {
+            if(actionMap != null && action != ActionType.DEATH) {
                 forceActAction(ActionType.DEATH);
-		}
+            }
+        }
+
 	}
+
+    private void calculateStats() {
+        targetMoveSpeed = (getStat(Stat.SPEED) + getStat(Stat.SPEED_BONUS)) / 10;
+    }
+
+    public boolean withinInteractRange(Actor actor) {
+
+        Rectangle bounds = new Rectangle(getX() - INTERACT_TILE_DISTANCE  + 1, getY() - INTERACT_TILE_DISTANCE + 1,
+                                         getWidth() / Tile.TILE_SIZE + INTERACT_TILE_DISTANCE, getHeight() / Tile.TILE_SIZE + INTERACT_TILE_DISTANCE);
+        Rectangle other  = new Rectangle(actor.getX(), actor.getY(), actor.getWidth() / Tile.TILE_SIZE, actor.getHeight() / Tile.TILE_SIZE);
+
+        return other.intersects(bounds);
+    }
+
+    public void setAI(AI ai) {
+        this.ai = ai;
+    }
 
     public void addScript(Script script) {
         if(scripts.get(script.getType()) != null) {
@@ -75,6 +102,10 @@ public class Actor extends Entity {
         Script script = scripts.get(scriptType);
         if(script != null)
             script.execute();
+    }
+
+    public boolean hasScript(Script.Type type) {
+        return scripts.get(type) != null;
     }
 
 	public Integer getProperty(Stat property) {
@@ -141,7 +172,7 @@ public class Actor extends Entity {
         DEFENSE_BONUS(0),
 
         //Affects movement speed
-        SPEED(20),
+        SPEED(10),
         SPEED_BONUS(0),
 
         //Affects rate of attack

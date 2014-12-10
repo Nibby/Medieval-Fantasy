@@ -6,10 +6,7 @@ import hidden.indev0r.game.entity.animation.ActionSetDatabase;
 import hidden.indev0r.game.entity.animation.ActionType;
 import hidden.indev0r.game.gui.component.interfaces.GStatsSupplier;
 import org.lwjgl.util.vector.Vector2f;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
+import org.newdawn.slick.*;
 
 import javax.swing.*;
 
@@ -25,6 +22,7 @@ public class Player extends Actor implements GStatsSupplier {
         super(faction, new Vector2f(x, y));
 
         setJob(job);
+        setStat(Stat.SPEED, 20);
         setSize(32, 32);
     }
 
@@ -45,30 +43,23 @@ public class Player extends Actor implements GStatsSupplier {
 			if (input.isKeyDown(Input.KEY_W)) {
 				setMotion(ActionType.WALK_UP);
 				moving = true;
-				if (!map.isBlocked(this, x, y - 1)) {
-					move(x, y - 1);
-				}
+                move(x, y - 1);
+
 			}
 			if (input.isKeyDown(Input.KEY_A)) {
 				setMotion(ActionType.WALK_LEFT);
 				moving = true;
-				if (!map.isBlocked(this, x - 1, y)) {
-					move(x - 1, y);
-				}
+                move(x - 1, y);
 			}
 			if (input.isKeyDown(Input.KEY_S)) {
 				setMotion(ActionType.WALK_DOWN);
 				moving = true;
-				if (!map.isBlocked(this, x, y + 1)) {
-					move(x, y + 1);
-				}
+                move(x, y + 1);
 			}
 			if (input.isKeyDown(Input.KEY_D)) {
 				setMotion(ActionType.WALK_RIGHT);
 				moving = true;
-				if (!map.isBlocked(this, x + 1, y)) {
-					move(x + 1, y);
-				}
+                move(x + 1, y);
 			}
 
 
@@ -80,7 +71,6 @@ public class Player extends Actor implements GStatsSupplier {
 				}
 				if (input.isKeyPressed(Input.KEY_F2)) {
 //					forceActAction(ActionType.ATTACK_LEFT);
-                    MedievalLauncher.getInstance().getGameState().getMenuOverlay().showAnimatedScroll("Woof", 5000);
 				}
 				if (input.isKeyPressed(Input.KEY_F3)) {
 					forceActAction(ActionType.ATTACK_UP);

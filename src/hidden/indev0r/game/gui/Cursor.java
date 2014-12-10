@@ -6,6 +6,7 @@ import hidden.indev0r.game.MedievalLauncher;
 import hidden.indev0r.game.entity.FactionUtil;
 import hidden.indev0r.game.entity.NPC;
 import hidden.indev0r.game.entity.Player;
+import hidden.indev0r.game.entity.npc.script.Script;
 import hidden.indev0r.game.gui.component.base.GComponent;
 import hidden.indev0r.game.texture.Textures;
 import org.newdawn.slick.*;
@@ -62,6 +63,7 @@ public class Cursor {
     }
 
     public static void render(Graphics g) {
+
         if(INTERACT_INSTANCE instanceof NPC) {
             NPC npc = (NPC) INTERACT_INSTANCE;
             Player player = MedievalLauncher.getInstance().getGameState().getPlayer();
@@ -70,8 +72,13 @@ public class Cursor {
             g.setColor(NAME_TAG_COLOR);
             Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
 
-            g.drawAnimation(INTERACT_TALK, npc.getPosition().x + camera.getOffsetX() + npc.getWidth() / 2 - 16,
-                                           npc.getPosition().y + camera.getOffsetY() - 32);
+            if(!isEnemy && npc.hasScript(Script.Type.interact)) {
+                g.drawAnimation(INTERACT_TALK, npc.getPosition().x + camera.getOffsetX() + npc.getWidth() / 2 - 16,
+                        npc.getPosition().y + camera.getOffsetY() - 32);
+            }
+
+            if(isEnemy) MedievalLauncher.getInstance().setCursor(Cursor.ENEMY_TARGET);
+
 
             GameContainer gc = MedievalLauncher.getInstance().getGameContainer();
             Input input = gc.getInput();
@@ -81,7 +88,7 @@ public class Cursor {
             String renderText = (isEnemy || npc.isHostile()) ? npc.getName() + " [Hostile]" : npc.getName();
             g.fillRoundRect(mx + 16 - BitFont.widthOf(renderText, 16) / 2 - 8, my + 38, BitFont.widthOf(renderText, 16) + 16, 24, 5);
 
-            BitFont.render(g, renderText, (mx + 16 - BitFont.widthOf(renderText, 16) / 2), my + 44, (!isEnemy) ? npc.getNameColor() : Color.red);
+            BitFont.render(g, renderText, (mx + 16 - BitFont.widthOf(renderText, 16) / 2), my + 42, (!isEnemy) ? npc.getNameColor() : Color.red);
         }
     }
 

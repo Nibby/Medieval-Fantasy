@@ -31,9 +31,9 @@ public class FactionUtil {
             case NAYA:
                 return array(NAYA, HUMAN);
             case UNDEAD:
-                return array(UNDEAD, DEMONS);
-            case DEMONS:
-                return array(DEMONS, UNDEAD);
+                return array(UNDEAD, DEMON);
+            case DEMON:
+                return array(DEMON, UNDEAD);
             case HUMAN:
                 return array(HUMAN, GLYSIA, NAYA);
             case NEUTRAL:
@@ -46,22 +46,22 @@ public class FactionUtil {
     public static Faction[] getEnemies(Faction faction) {
         switch(faction) {
             case GLYSIA:
-                return array(NAYA, UNDEAD, DEMONS, NEUTRAL);
+                return array(NAYA, UNDEAD, DEMON, NEUTRAL);
 
             case NAYA:
-                return array(GLYSIA, UNDEAD, DEMONS, NEUTRAL);
+                return array(GLYSIA, UNDEAD, DEMON, NEUTRAL);
 
             case UNDEAD:
                 return array(GLYSIA, NAYA, HUMAN, NEUTRAL);
 
-            case DEMONS:
+            case DEMON:
                 return array(GLYSIA, NAYA, HUMAN, NEUTRAL);
 
             case NEUTRAL:
-                return array(GLYSIA, NAYA, HUMAN, DEMONS, UNDEAD);
+                return array(GLYSIA, NAYA, HUMAN, DEMON, UNDEAD);
 
             case HUMAN:
-                return array(UNDEAD, DEMONS, NEUTRAL);
+                return array(UNDEAD, DEMON, NEUTRAL);
 
             default:
                 return new Faction[] {};

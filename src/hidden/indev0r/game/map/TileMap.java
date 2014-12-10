@@ -2,12 +2,16 @@ package hidden.indev0r.game.map;
 
 import hidden.indev0r.game.Camera;
 import hidden.indev0r.game.MedievalLauncher;
+import hidden.indev0r.game.entity.Actor;
 import hidden.indev0r.game.entity.Entity;
 import hidden.indev0r.game.entity.Player;
+import hidden.indev0r.game.entity.npc.script.Script;
 import hidden.indev0r.game.reference.References;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.util.pathfinding.PathFindingContext;
+import org.newdawn.slick.util.pathfinding.TileBasedMap;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +26,7 @@ import java.util.Map;
  *
  * Created by MrDeathJockey on 14/12/3.
  */
-public class TileMap {
+public class TileMap implements TileBasedMap {
 
 	//Each map houses a series of 'zones' or 'regions' denoted with a special ID
 	private Map<String, TileMapZone> mapZones      = new HashMap<>();
@@ -86,15 +90,15 @@ public class TileMap {
 				for (int y = miy; y < may; y++) {
 
                     //Because the camera bounds will yield invalid results, this will check for only valid results
-					if (x < 0 || x > tileData[0].length - 1 || y < 0 || y > tileData[0][0].length - 1) continue;
+                    if (x < 0 || x > tileData[0].length - 1 || y < 0 || y > tileData[0][0].length - 1) continue;
 
                     Tile tile = Tile.getTile(tileData[layer][x][y]);
-					if (tile != null) {
-						tile.render(g,
-								x * Tile.TILE_SIZE + camera.getOffsetX(),
-								(layer != 0) ? y * Tile.TILE_SIZE + camera.getOffsetY() - Tile.TILE_SIZE / 4 : y * Tile.TILE_SIZE + camera.getOffsetY());
-					}
-				}
+                    if (tile != null) {
+                        tile.render(g,
+                                x * Tile.TILE_SIZE + camera.getOffsetX(),
+                                (layer == 2) ? y * Tile.TILE_SIZE + camera.getOffsetY() - Tile.TILE_SIZE / 4 : y * Tile.TILE_SIZE + camera.getOffsetY());
+                    }
+                }
 			}
 
 			//Second layer are where entities are rendered
@@ -121,6 +125,19 @@ public class TileMap {
 		}
 	}
 
+    public void entityMoved(Entity entity, int nx, int ny) {
+
+        for(Entity e : entities) {
+            if (entity instanceof Player) {
+                if(e instanceof Actor) {
+                    boolean near = ((Actor) e).withinInteractRange((Player) entity);
+                    if(near)
+                        ((Actor) e).executeScript(Script.Type.approach);
+                }
+            }
+        }
+    }
+
 	public boolean isBlocked(Entity reference, int x, int y) {
 		if (x < 0 || x > tileData[0].length - 1 || y < 0 || y > tileData[0][0].length - 1) return true;
         if(tileBlocked(x, y)) return true;
@@ -131,7 +148,11 @@ public class TileMap {
     private boolean entityBlocked(Entity reference, int x, int y) {
         if (x < 0 || x > tileData[0].length - 1 || y < 0 || y > tileData[0][0].length - 1) return true;
         for(Entity e : entities) {
-            if(!e.equals(reference) && e.isSolid() && e.getX() == x && e.getY() == y) return true;
+            Vector2f[] blockedTiles = e.getBlockedTiles();
+            for(Vector2f pos : blockedTiles) {
+                if(pos == null) continue;
+                if(!e.equals(reference) && pos.x == x && pos.y == y) return true;
+            }
         }
         return false;
     }
@@ -181,11 +202,10 @@ public class TileMap {
             Tile tile = Tile.getTile(tileData[layer][x][y]);
             if (tile != null) {
                 tile.steppedOn(entity);
-
             }
-
 		}
 
+        //Warp
         if(entity instanceof Player) {
             for(MapWarpPoint warp : warpPointList) {
                 Point origin = warp.getOrigin();
@@ -270,5 +290,30 @@ public class TileMap {
         if(entity instanceof Player) {
             this.player = null;
         }
+    }
+
+    @Override
+    public int getWidthInTiles() {
+        return width;
+    }
+
+    @Override
+    public int getHeightInTiles() {
+        return height;
+    }
+
+    @Override
+    public void pathFinderVisited(int x, int y) {
+
+    }
+
+    @Override
+    public boolean blocked(PathFindingContext context, int x, int y) {
+        return isBlocked(null, x, y);
+    }
+
+    @Override
+    public float getCost(PathFindingContext context, int x, int y) {
+        return 0;
     }
 }

@@ -34,4 +34,12 @@ public class GComponent$Label extends GComponent {
 	public void tick(GameContainer gc) {
         super.tick(gc);
 	}
+
+    public String getText() {
+        return text;
+    }
+
+    public Color getColor() {
+        return color;
+    }
 }

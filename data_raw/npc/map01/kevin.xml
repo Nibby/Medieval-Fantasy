@@ -1,0 +1,41 @@
+<npc hostile="false" faction="HUMAN" actionSet="10"
+     width="1" height="1" name="Kevin Yang" identifier="kevin" facing="DOWN" nameColor="MAGENTA">
+
+    <location>
+        <map>map01</map>
+        <pos>6,5</pos>
+    </location>
+
+    <ai type="NONE" />
+
+    <stats>
+        <stat type="HEALTH" value="100" />
+        <stat type="HEALTH_MAX" value="100" />
+    </stats>
+
+    <script type="approach">
+        <random interval="10000">
+            <say interval="10000" duration="1500">Yo!</say>
+            <say interval="10000" duration="1500">Hiya!</say>
+            <say interval="10000" duration="1500">Hey!</say>
+            <say interval="10000" duration="1500">Hello!</say>
+            <say interval="10000" duration="1500">Aay!</say>
+        </random>
+    </script>
+
+    <script type="interact">
+        <facing target="$PLAYER" />
+        <dialog type="0" title="$NPC_NAME" id="dialog">
+            <content>
+                Yes, it's Kevin Yang right here...;
+                Well... an in-game avatar at least.;
+                I've made some pretty sweet speech;
+                bubbles and some AI stuff;
+                Hope you can follow through my;
+                code. UNBAN ME FROM MAKING LORE!!;
+            </content>
+        </dialog>
+
+        <say interval="0" duration="2000">Have fun!</say>
+    </script>
+</npc>

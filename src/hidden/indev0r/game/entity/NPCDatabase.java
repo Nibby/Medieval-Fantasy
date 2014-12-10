@@ -177,6 +177,13 @@ public class NPCDatabase {
                             "Internal Error", JOptionPane.ERROR_MESSAGE);
             }
 
+            //Load AI
+            Element aiElement = (Element) root.getElementsByTagName("ai").item(0);
+            String aiType = aiElement.getAttribute("type");
+
+            AI ai = AI.getAI(aiType);
+            npc.setAI(ai.make(npc, aiElement));
+
         } catch(Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "An error occurred while loading NPC '" + path + "'\n" + e,

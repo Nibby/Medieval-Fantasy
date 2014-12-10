@@ -9,6 +9,7 @@ import hidden.indev0r.game.entity.animation.ActionType;
 import hidden.indev0r.game.map.MapDirection;
 import hidden.indev0r.game.map.Tile;
 import hidden.indev0r.game.map.TileMap;
+import hidden.indev0r.game.reference.References;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -65,44 +66,49 @@ public abstract class Entity {
     }
 
     public void render(Graphics g) {
-		//If entity is not using a motion map
-		if (actionMap == null) {
-			if (sprite != null) {
-				renderShadow(g);
-				g.drawImage((currentDirection == MapDirection.RIGHT) ? sprite.getSubImage(0, 0, width, (sunken) ? height / 4 * 3 : height)
-                                                                     : spriteFlipped.getSubImage(0, 0, width, (sunken) ? height / 4 * 3 : height),
-						getRenderX(), getRenderY());
-			}
-		}
-
-		//Otherwise
-		else {
-			renderShadow(g);
-
-			Action motion = null;
-			//If entity is forced to act out an animation, do so
-			if (!actionPlayStack.isEmpty()) {
-				motion = actionMap.get(actionPlayStack.peek());
-				if (motion != null) {
-					if (!motion.hasEnded()) {
-						motion.renderForced(g, this, getRenderX(), getRenderY());
-					} else {
-						actionPlayStack.pop();
-					}
-				} else {
-					actionPlayStack.pop();
-				}
-
-			}
-
-			if (actionPlayStack.isEmpty()) {
-				motion = actionMap.get(action);
-				if (motion != null) {
-					motion.render(g, this, getRenderX(), getRenderY(), moving);
-				}
-			}
-		}
+		render(g, getRenderX(), getRenderY());
 	}
+
+    public void render(Graphics g, float x, float y) {
+        //If entity is not using a motion map
+        if (actionMap == null) {
+            if (sprite != null) {
+                renderShadow(g);
+                Image renderImg = (currentDirection == MapDirection.RIGHT) ? sprite : spriteFlipped;
+                renderImg = renderImg.getScaledCopy(width, height);
+                if(sunken) renderImg = renderImg.getSubImage(0, 0, renderImg.getWidth(), renderImg.getHeight() / 4);
+                g.drawImage(renderImg, x, y);
+            }
+        }
+
+        //Otherwise
+        else {
+            renderShadow(g);
+
+            Action motion = null;
+            //If entity is forced to act out an animation, do so
+            if (!actionPlayStack.isEmpty()) {
+                motion = actionMap.get(actionPlayStack.peek());
+                if (motion != null) {
+                    if (!motion.hasEnded()) {
+                        motion.renderForced(g, this, x, y);
+                    } else {
+                        actionPlayStack.pop();
+                    }
+                } else {
+                    actionPlayStack.pop();
+                }
+
+            }
+
+            if (actionPlayStack.isEmpty()) {
+                motion = actionMap.get(action);
+                if (motion != null) {
+                    motion.render(g, this, x, y, moving);
+                }
+            }
+        }
+    }
 
 	private float getRenderY() {
 		Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
@@ -134,6 +140,7 @@ public abstract class Entity {
 				} else {
 					position.x -= actualMoveSpeed;
 				}
+                setFacingDirection(MapDirection.LEFT);
 				action = ActionType.WALK_LEFT;
 			}
 			if (position.x < moveX) {
@@ -142,6 +149,7 @@ public abstract class Entity {
 				} else {
 					position.x += actualMoveSpeed;
 				}
+                setFacingDirection(MapDirection.RIGHT);
 				action = ActionType.WALK_RIGHT;
 			}
 		}
@@ -153,6 +161,7 @@ public abstract class Entity {
 				} else {
 					position.y -= actualMoveSpeed;
 				}
+                setFacingDirection(MapDirection.UP);
 				action = ActionType.WALK_UP;
 			}
 			if (position.y < moveY) {
@@ -161,6 +170,7 @@ public abstract class Entity {
 				} else {
 					position.y += actualMoveSpeed;
 				}
+                setFacingDirection(MapDirection.DOWN);
 				action = ActionType.WALK_DOWN;
 			}
 		}
@@ -171,15 +181,17 @@ public abstract class Entity {
 			moving = false;
 
             if(actionMap != null) {
-                if (action.equals(ActionType.WALK_LEFT)) action = ActionType.STATIC_LEFT;
-                if (action.equals(ActionType.WALK_RIGHT)) action = ActionType.STATIC_RIGHT;
-                if (action.equals(ActionType.WALK_DOWN)) action = ActionType.STATIC_DOWN;
-                if (action.equals(ActionType.WALK_UP)) action = ActionType.STATIC_UP;
+                if (currentDirection.equals(MapDirection.LEFT)) action = ActionType.STATIC_LEFT;
+                if (currentDirection.equals(MapDirection.RIGHT)) action = ActionType.STATIC_RIGHT;
+                if (currentDirection.equals(MapDirection.UP)) action = ActionType.STATIC_UP;
+                if (currentDirection.equals(MapDirection.DOWN)) action = ActionType.STATIC_DOWN;
             }
 		}
 	}
 
 	public void move(int x, int y) {
+        if(map.isBlocked(this, x, y)) return;
+
         int oldX = (int) (moveX / Tile.TILE_SIZE);
 		int oldY = (int) (moveY / Tile.TILE_SIZE);
 
@@ -193,11 +205,26 @@ public abstract class Entity {
 		moveX = x * Tile.TILE_SIZE;
 		moveY = y * Tile.TILE_SIZE;
 
-		map.stepOn(this, oldX, oldY, x, y);
-	}
+        map.entityMoved(this, x, y);
+        map.stepOn(this, oldX, oldY, x, y);
+    }
 
 	public void setMotion(ActionType action) {
 		this.action = action;
+        switch(action) {
+            case STATIC_DOWN: case WALK_DOWN:
+                currentDirection = MapDirection.DOWN;
+                break;
+            case STATIC_UP: case WALK_UP:
+                currentDirection = MapDirection.UP;
+                break;
+            case STATIC_LEFT: case WALK_LEFT:
+                currentDirection = MapDirection.LEFT;
+                break;
+            case STATIC_RIGHT: case WALK_RIGHT:
+                currentDirection = MapDirection.RIGHT;
+                break;
+        }
 	}
 
 	public void setSize(int width, int height) {
@@ -215,6 +242,12 @@ public abstract class Entity {
 		action.restart();
 		actionPlayStack.add(0, id);
 	}
+
+    public boolean isVisibleOnScreen() {
+        Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
+        return (getPosition().x + width + camera.getOffsetX() > 0 && getPosition().y + camera.getOffsetY() + height > 0 &&
+                getPosition().x + width + camera.getOffsetX() < References.GAME_WIDTH && getPosition().y + height + camera.getOffsetY() < References.GAME_HEIGHT);
+    }
 
 	/**
 	 * EntityActionSets are pre-defined sets of animation for use on this entity.
@@ -287,9 +320,46 @@ public abstract class Entity {
 
     public void setFacingDirection(MapDirection direction) {
         currentDirection = direction;
+        if(actionPlayStack.isEmpty()) {
+            if(!moving) {
+                switch(direction) {
+                    case UP:
+                        action = ActionType.STATIC_UP;
+                        break;
+                    case DOWN:
+                        action = ActionType.STATIC_DOWN;
+                        break;
+                    case LEFT:
+                        action = ActionType.STATIC_LEFT;
+                        break;
+                    case RIGHT:
+                        action = ActionType.STATIC_RIGHT;
+                        break;
+                }
+            }
+        }
     }
 
     public MapDirection getCurrentDirection() {
         return currentDirection;
+    }
+
+    public Vector2f[] getBlockedTiles() {
+
+        Vector2f[] result = new Vector2f[(width * height) / Tile.TILE_SIZE];
+
+        int index = 0;
+        for(int x = (int) getX(); x <= (int) getX() + width / Tile.TILE_SIZE - 1; x++) {
+            for(int y = (int) getY(); y <= (int) getY() + height / Tile.TILE_SIZE - 1; y++) {
+                result[index] = new Vector2f(x, y);
+
+                index++;
+            }
+        }
+        return result;
+    }
+
+    public Map<ActionType, Action> getActionMap() {
+        return actionMap;
     }
 }

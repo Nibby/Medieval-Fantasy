@@ -1,0 +1,5 @@
+NONE            - No AI at all
+LOOK_ORDERED    - Look in a specific order, and repeat
+LOOK_RANDOM     - Look in any random direction specified
+WALK_RANDOM     - Walk randomly
+ASTAR           - A* path finding (monsters only)

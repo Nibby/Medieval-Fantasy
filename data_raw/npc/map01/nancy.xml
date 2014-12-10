@@ -1,0 +1,23 @@
+<npc hostile="false" faction="HUMAN" resource="res/textures/sprites/static/mon00.png" sprite="2,2"
+     width="1" height="1" name="Nancy" identifier="nancy" facing="RIGHT" nameColor="WHITE">
+
+    <location>
+        <map>map01</map>
+        <pos>13,6</pos>
+    </location>
+
+    <ai type="LOOK_ORDERED" interval="3500">
+        <param direction="LEFT" />
+        <param direction="RIGHT" />
+    </ai>
+
+    <stats>
+        <stat type="HEALTH" value="100" />
+        <stat type="HEALTH_MAX" value="100" />
+    </stats>
+
+    <script type="interact">
+        <facing target="$PLAYER" />
+        <say duration="2000" interval="0">Busy busy...</say>
+    </script>
+</npc>

@@ -1,0 +1,19 @@
+<npc hostile="false" faction="HUMAN" actionSet="11"
+     width="1" height="1" name="Mage" identifier="worker2" facing="UP" nameColor="WHITE">
+
+    <location>
+        <map>map00</map>
+        <pos>18,11</pos>
+    </location>
+
+    <ai type="NONE" />
+
+    <stats>
+        <stat type="HEALTH" value="100" />
+        <stat type="HEALTH_MAX" value="100" />
+    </stats>
+
+    <script type="interact">
+        <say interval="0" duration="2400">No please, no!</say>
+    </script>
+</npc>

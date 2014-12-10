@@ -1,0 +1,29 @@
+<npc hostile="false" faction="HUMAN" resource="res/textures/sprites/static/mon00.png" sprite="5,2"
+     width="1" height="1" name="Mage" identifier="mage0" facing="RIGHT" nameColor="WHITE">
+
+    <location>
+        <map>map00</map>
+        <pos>20,28</pos>
+    </location>
+
+    <ai type="NONE"></ai>
+
+    <stats>
+        <stat type="HEALTH" value="100" />
+        <stat type="HEALTH_MAX" value="100" />
+    </stats>
+
+    <script type="interact">
+        <facing target="$PLAYER" />
+        <dialog id="dialog" title="$NPC_NAME" type="0">
+            <content>
+                Welcome lad, to our grand dimension;
+                gate. Sadly it is still being opened;
+                and the whole thing is not safe yet;
+                God knows what kind of mosnter will;
+                jump out if we unsealed the magic ;
+                barriers right now...
+            </content>
+        </dialog>
+    </script>
+</npc>

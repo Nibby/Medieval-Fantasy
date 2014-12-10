@@ -46,26 +46,25 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 
 		camera = new Camera(0, 0);
-		player = new Player(Actor.Faction.GLYSIA, Player.Job.MAGE, 7, 6);
+		player = new Player(Actor.Faction.GLYSIA, Player.Job.MAGE, 9, 8);
         player.setLevel(1);
 		camera.setTrackObject(player);
 
-		map = TileMapDatabase.getTileMap("map00_test");
+		map = TileMapDatabase.getTileMap("map01");
 		map.addEntity(player);
 
 		menuMgr = new GMenuManager();
         menuMgr.setDisplayTopMenuOnly(false);
         menuMgr.addMenu((menuOverlay = new GGameOverlayMenu(this, player, this)));
         menuMgr.setTickTopMenuOnly(false);
+
+        announceMapName(true);
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		map.render(g, camera);
 		menuMgr.render(g);
-
-//		BitFont.render(g, map.getName(), 345, 25);
-//		BitFont.render(g, player.getX() + ", " + player.getY() + " / " + player.getCurrentX() + ", " + player.getCurrentY(), 5, 25);
 	}
 
 
@@ -91,8 +90,12 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
         player.setPosition(x, y);
         targetMap.addEntity(player);
 
-        //TEMPORARY
-        getMenuOverlay().showAnimatedScroll(map.getName(), map.getName().split(" ").length * 750);
+        announceMapName(false);
+    }
+
+    public void announceMapName(boolean forced) {
+        if(forced || map.propertyExists("showName") && map.getProperty("showName").equals("true"))
+            getMenuOverlay().showAnimatedScroll(map.getName(), map.getName().split(" ").length * 750);
     }
 
 	public Camera getCamera() {

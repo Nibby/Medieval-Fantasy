@@ -1,6 +1,8 @@
 package hidden.indev0r.game;
 
+import hidden.indev0r.game.debug.DataPublisher;
 import hidden.indev0r.game.entity.NPCDatabase;
+import hidden.indev0r.game.entity.AI;
 import hidden.indev0r.game.entity.animation.ActionSetDatabase;
 import hidden.indev0r.game.entity.npc.script.Command;
 import hidden.indev0r.game.gui.Cursor;
@@ -39,10 +41,15 @@ public class MedievalLauncher extends StateBasedGame {
 	public void initStatesList(GameContainer gc) throws SlickException {
         this.gameContainer = gc;
 
-		try {
-			//Initializing game data
+        try {
+            //Encrypt game raw data
+            DataPublisher.publishContents();
+
+            //Initializing game data
 			Textures.Init();
             Command.init();
+            AI.init();
+
             TilesetDatabase.getDatabase().loadTilesets();
 			TileMapDatabase.getDatabase().loadMaps();
 			ActionSetDatabase.getDatabase().loadActionSets();

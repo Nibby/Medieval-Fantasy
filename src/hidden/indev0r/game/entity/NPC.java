@@ -16,8 +16,6 @@ import org.newdawn.slick.Input;
  */
 public class NPC extends Actor {
 
-    private static final int INTERACT_TILE_DISTANCE = 2;
-
     private String identifier;
     private String name;
     private Faction faction;
@@ -58,15 +56,14 @@ public class NPC extends Actor {
                 mx < position.x + width + camera.getOffsetX() && my < position.y + height + camera.getOffsetY()) {
 
             Player player = MedievalLauncher.getInstance().getGameState().getPlayer();
-
             if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 //To interact, player must be 2 tiles or less away from the NPC
-                if(Math.abs(player.getX() - getX()) <= INTERACT_TILE_DISTANCE && Math.abs(player.getY() - getY()) <= INTERACT_TILE_DISTANCE) {
+                if(withinInteractRange(player)) {
                     interact(MedievalLauncher.getInstance().getGameState().getPlayer());
                 }
             }
 
-            if(Math.abs(player.getX() - getX()) <= INTERACT_TILE_DISTANCE && Math.abs(player.getY() - getY()) <= INTERACT_TILE_DISTANCE) {
+            if(withinInteractRange(player)) {
                 if(Cursor.INTERACT_INSTANCE == null) {
                     Cursor.setInteractInstance(this);
                     wasMouseFocused = true;
@@ -82,7 +79,6 @@ public class NPC extends Actor {
     }
 
     private void interact(Player player) {
-        setFacingDirection(MapDirection.turnToFace(this, player));
         executeScript(Script.Type.interact);
     }
 
