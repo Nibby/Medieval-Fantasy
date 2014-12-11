@@ -7,12 +7,14 @@ import hidden.indev0r.game.entity.Entity;
 import hidden.indev0r.game.entity.Player;
 import hidden.indev0r.game.gui.component.interfaces.GMapSupplier;
 import hidden.indev0r.game.gui.menu.GGameOverlayMenu;
+import hidden.indev0r.game.gui.menu.GMapTransitionOverlay;
 import hidden.indev0r.game.gui.menu.GMenuManager;
 import hidden.indev0r.game.map.Tile;
 import hidden.indev0r.game.map.TileMap;
 import hidden.indev0r.game.map.TileMapDatabase;
 import hidden.indev0r.game.map.WarpType;
 import org.lwjgl.util.vector.Vector2f;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -58,7 +60,7 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
         menuMgr.addMenu((menuOverlay = new GGameOverlayMenu(this, player, this)));
         menuMgr.setTickTopMenuOnly(false);
 
-        announceMapName(true);
+        announceName(map.getName());
 	}
 
 	@Override
@@ -70,32 +72,40 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
 
 	@Override
 	public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
-        menuMgr.tick(gameContainer);
-
-        //This means menu wants to pull the focus, no need to do these... (except for debug menu)
+	//This means menu wants to pull the focus, no need to do these... (except for debug menu)
+        camera.tick();
         if(!menuMgr.isTickingTopMenuOnly() || !menuMgr.hasMenus()) {
-            camera.tick();
             map.tick(gameContainer);
         }
 
-	}
+        menuMgr.tick(gameContainer);
+    }
 
-    public void warpPlayer(TileMap targetMap, int x, int y, WarpType type) {
+    public void levelTransition(Entity entity, TileMap targetMap, int x, int y, WarpType type) {
+        if(entity instanceof Player) {
+            getMenuManager().addMenu(new GMapTransitionOverlay(getMenuManager(), targetMap, type, x, y,
+                    map.propertyExists("showName") && map.getProperty("showName").equals("true") ? targetMap.getName() : "", Color.white));
+            return;
+        }
+
+        //For other entities
+        forceWarpEntity(entity, targetMap, x, y, type);
+    }
+
+    public void forceWarpEntity(Entity entity, TileMap targetMap, int x, int y, WarpType type) {
         if(targetMap == null) {
             JOptionPane.showMessageDialog(null, "Specified warp map is null!", "Internal Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        this.map.removeEntity(player);
-        this.map = targetMap;
-        player.setPosition(x, y);
-        targetMap.addEntity(player);
 
-        announceMapName(false);
+        this.map.removeEntity(entity);
+        entity.setPosition(x, y);
+        this.map = targetMap;
+        targetMap.addEntity(entity);
     }
 
-    public void announceMapName(boolean forced) {
-        if(forced || map.propertyExists("showName") && map.getProperty("showName").equals("true"))
-            getMenuOverlay().showAnimatedScroll(map.getName(), map.getName().split(" ").length * 750);
+    public void announceName(String text) {
+        getMenuOverlay().showAnimatedScroll(text, text.split(" ").length * 750);
     }
 
 	public Camera getCamera() {

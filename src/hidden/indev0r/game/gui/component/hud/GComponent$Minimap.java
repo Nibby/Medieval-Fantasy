@@ -2,7 +2,7 @@ package hidden.indev0r.game.gui.component.hud;
 
 import hidden.indev0r.game.MedievalLauncher;
 import hidden.indev0r.game.gui.component.base.GComponent;
-import hidden.indev0r.game.gui.component.base.GComponent$ButtonSmall;
+import hidden.indev0r.game.gui.component.base.GComponent$Button;
 import hidden.indev0r.game.gui.component.base.GComponent$Frame;
 import hidden.indev0r.game.gui.component.dialog.player.GDialog$PlayerInventory;
 import hidden.indev0r.game.gui.component.dialog.player.GDialog$PlayerJournal;
@@ -26,9 +26,9 @@ public class GComponent$Minimap extends GComponent implements GComponentListener
 
 	private Image             minimap;
 	private Image             buttonAttach;
-	public GComponent$ButtonSmall zoomInButton;
-	public GComponent$ButtonSmall zoomOutButton;
-	public GComponent$ButtonSmall bigMapButton;
+	public GComponent$Button zoomInButton;
+	public GComponent$Button zoomOutButton;
+	public GComponent$Button bigMapButton;
 
 	private GComponent$CircularMap mapView;
 	private GDialog$PlayerStatus dialogStatus;
@@ -44,7 +44,7 @@ public class GComponent$Minimap extends GComponent implements GComponentListener
 
 		buttonAttach = Textures.UI.MINIMAP_BUTTON_ATTACH;
 
-		zoomInButton = new GComponent$ButtonSmall(new Vector2f(position.x + 10, position.y + 88),
+		zoomInButton = new GComponent$Button(new Vector2f(position.x + 10, position.y + 88),
 				Textures.UI.BUTTON_ROUND_GREEN_NORMAL,
 				Textures.UI.BUTTON_ROUND_GREEN_PRESSED,
 				Textures.UI.BUTTON_ROUND_GREEN_HOVERED,
@@ -52,7 +52,7 @@ public class GComponent$Minimap extends GComponent implements GComponentListener
 		);
 		zoomInButton.addListener(this);
 
-		zoomOutButton = new GComponent$ButtonSmall(new Vector2f(position.x + 26, position.y + 104),
+		zoomOutButton = new GComponent$Button(new Vector2f(position.x + 26, position.y + 104),
 				Textures.UI.BUTTON_ROUND_RED_NORMAL,
 				Textures.UI.BUTTON_ROUND_RED_PRESSED,
 				Textures.UI.BUTTON_ROUND_RED_HOVERED,
@@ -60,7 +60,7 @@ public class GComponent$Minimap extends GComponent implements GComponentListener
 		);
 		zoomOutButton.addListener(this);
 
-		bigMapButton = new GComponent$ButtonSmall(new Vector2f(position.x + 96, position.y + 18),
+		bigMapButton = new GComponent$Button(new Vector2f(position.x + 96, position.y + 18),
 				Textures.UI.BUTTON_ROUND_BLUE_NORMAL,
 				Textures.UI.BUTTON_ROUND_BLUE_PRESSED,
 				Textures.UI.BUTTON_ROUND_BLUE_HOVERED,
@@ -216,7 +216,7 @@ public class GComponent$Minimap extends GComponent implements GComponentListener
 
     }
 
-    private class GComponent$SidebarButton extends GComponent$ButtonSmall {
+    private class GComponent$SidebarButton extends GComponent$Button {
 
 		private Image connectorImage;
 

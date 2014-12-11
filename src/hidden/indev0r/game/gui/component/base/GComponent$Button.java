@@ -1,32 +1,31 @@
 package hidden.indev0r.game.gui.component.base;
 
 import org.lwjgl.util.vector.Vector2f;
-import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
-import hidden.indev0r.game.gui.Cursor;
 
-public class GComponent$ButtonSmall extends GComponent$AbstractButton {
+public class GComponent$Button extends GComponent$AbstractButton {
 
 	private Image button;
 	private Image buttonPressed;
 	private Image buttonHovered;
 	private Image icon;
 
-    public GComponent$ButtonSmall(Vector2f pos, Image button) {
+    private String text;
+
+    public GComponent$Button(Vector2f pos, Image button) {
 		this(pos, button, null);
 	}
 
-	public GComponent$ButtonSmall(Vector2f pos, Image button, Image buttonPressed) {
+	public GComponent$Button(Vector2f pos, Image button, Image buttonPressed) {
 		this(pos, button, buttonPressed, null);
 	}
 
-	public GComponent$ButtonSmall(Vector2f pos, Image button, Image buttonPressed, Image buttonHovered) {
+	public GComponent$Button(Vector2f pos, Image button, Image buttonPressed, Image buttonHovered) {
 		this(pos, button, buttonPressed, buttonHovered, null);
 	}
 
-	public GComponent$ButtonSmall(Vector2f pos, Image button, Image buttonPressed, Image buttonHovered, Image icon) {
+	public GComponent$Button(Vector2f pos, Image button, Image buttonPressed, Image buttonHovered, Image icon) {
 		super(pos);
 		this.button = button;
 		this.buttonPressed = buttonPressed;
@@ -38,8 +37,15 @@ public class GComponent$ButtonSmall extends GComponent$AbstractButton {
 		currentState = GStates.NORMAL;
 	}
 
+    public String getText() {
+        return text;
+    }
 
-	@Override
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    @Override
 	public void render(Graphics g) {
 		switch (currentState) {
 			case PRESSED:
@@ -66,5 +72,8 @@ public class GComponent$ButtonSmall extends GComponent$AbstractButton {
 				break;
 		}
 
-	}
+        if(text != null && !text.isEmpty()) {
+
+        }
+    }
 }

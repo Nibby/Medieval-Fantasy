@@ -111,6 +111,8 @@ public class Textures {
 		public static final Image BUTTON_ROUND_GREY_PRESSED  = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/GREY_ROUND_PRESSED.png");
 
         public static final SpriteSheet SPEECH_BUBBLE = ResourceManager.loadSpriteSheet(UI_GAME_ELEMENT_PATH + "SPEECH_BUBBLE.png", 16, 32);
+
+        public static final SpriteSheet BUTTON_LONG_WOODEN = ResourceManager.loadSpriteSheet(UI_GAME_ELEMENT_PATH + "buttons/LONG_ROUNDED_WOODEN.png", 192, 48);
 	}
 
 

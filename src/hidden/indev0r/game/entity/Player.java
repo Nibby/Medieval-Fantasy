@@ -31,9 +31,14 @@ public class Player extends Actor implements GStatsSupplier {
 		super.render(g);
 	}
 
+    int exp = 0;
 	@Override
 	public void tick(GameContainer gc) {
 		super.tick(gc);
+
+        if(getStat(Stat.EXPERIENCE) >= getStat(Stat.EXPERIENCE_MAX)) {
+            setLevel(getLevel() + 1);
+        }
 
 		Input input = gc.getInput();
 		if (!moving) {

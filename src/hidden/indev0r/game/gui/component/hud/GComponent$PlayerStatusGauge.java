@@ -10,6 +10,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
+import java.text.DecimalFormat;
+
 
 public class GComponent$PlayerStatusGauge extends GComponent {
 
@@ -19,6 +21,7 @@ public class GComponent$PlayerStatusGauge extends GComponent {
 	private Image greenExpBar;
 
 	private GStatsSupplier statsSupplier;
+    private static final DecimalFormat EXP_FORMAT = new DecimalFormat("#0.00");
 
 	public GComponent$PlayerStatusGauge(Vector2f pos, GStatsSupplier statsSupplier) {
 		super(pos);
@@ -60,8 +63,8 @@ public class GComponent$PlayerStatusGauge extends GComponent {
         String mpString = Math.round(eMana) + "/" + Math.round(eManaMax);
         BitFont.render(g, mpString, (int) position.x + 150 + blueManaBar.getWidth() / 2 - BitFont.widthOf(mpString, 16) / 2, 55, Color.white, 16);
 
-        String expString = String.format("%.2g%n", expPercent) + "%";
-        BitFont.render(g, expString, (int) position.x + 160 + greenExpBar.getWidth() / 2 - BitFont.widthOf(expString, 14) / 2, 85, Color.white, 16);
+        String expString = EXP_FORMAT.format(expPercent * 100) + "%";
+        BitFont.render(g, expString, (int) position.x + 150 + greenExpBar.getWidth() / 2 - BitFont.widthOf(expString, 16) / 2, 85, Color.white, 16);
 
         String levelString =  eLevel + "";
         BitFont.render(g, "Level", (int) position.x + 35, (int) position.y + 60, Color.white, 10);

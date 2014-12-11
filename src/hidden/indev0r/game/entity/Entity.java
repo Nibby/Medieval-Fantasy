@@ -205,7 +205,6 @@ public abstract class Entity {
 		moveX = x * Tile.TILE_SIZE;
 		moveY = y * Tile.TILE_SIZE;
 
-        map.entityMoved(this, x, y);
         map.stepOn(this, oldX, oldY, x, y);
     }
 

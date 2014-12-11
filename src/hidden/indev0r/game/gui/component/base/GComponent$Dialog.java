@@ -12,7 +12,7 @@ import org.newdawn.slick.util.InputAdapter;
 
 public class GComponent$Dialog extends GComponent$Frame implements GComponentListener {
 
-	public GComponent$ButtonSmall closeButton;
+	public GComponent$Button closeButton;
 	private String            title;
 
 	private boolean draggable = true;
@@ -32,7 +32,7 @@ public class GComponent$Dialog extends GComponent$Frame implements GComponentLis
 		this.TOP_MIDDLE_FRAME = Textures.UI.FRAME_TOP_MIDDLE_DIALOG;
 		this.TOP_LEFT_FRAME = Textures.UI.FRAME_TOP_LEFT_DIALOG;
 
-		closeButton = new GComponent$ButtonSmall(
+		closeButton = new GComponent$Button (
 				new Vector2f((stdImageWidth * width) - 32, -28),
 				Textures.UI.BUTTON_ROUND_RED_NORMAL,
 				Textures.UI.BUTTON_ROUND_RED_PRESSED,

@@ -44,7 +44,7 @@ public class GComponent$SpeechBubble extends GComponent {
         Image center2 = Textures.UI.SPEECH_BUBBLE.getSprite(3, 0);
         Image bRight = Textures.UI.SPEECH_BUBBLE.getSprite(2, 0);
 
-        int fWidth = BitFont.widthOf(text, 16);
+        int fWidth = BitFont.widthOf(text, 14);
         Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
 
         g.drawImage(bLeft, position.x - 8 + camera.getOffsetX(), position.y - 4 + camera.getOffsetY());

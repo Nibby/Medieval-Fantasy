@@ -73,6 +73,7 @@ public class GComponent$CircularMap extends GComponent {
             mapG.setColor(COLOR_CLEAR);
             mapG.fillOval(0, 0, minimapImg.getWidth(), minimapImg.getHeight());
 
+
             //Map
             int mix = (int) -(offsetX / MAP_PIXEL_SIZE);
             int miy = (int) -(offsetY / MAP_PIXEL_SIZE);

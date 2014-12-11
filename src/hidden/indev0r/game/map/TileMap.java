@@ -125,19 +125,6 @@ public class TileMap implements TileBasedMap {
 		}
 	}
 
-    public void entityMoved(Entity entity, int nx, int ny) {
-
-        for(Entity e : entities) {
-            if (entity instanceof Player) {
-                if(e instanceof Actor) {
-                    boolean near = ((Actor) e).withinInteractRange((Player) entity);
-                    if(near)
-                        ((Actor) e).executeScript(Script.Type.approach);
-                }
-            }
-        }
-    }
-
 	public boolean isBlocked(Entity reference, int x, int y) {
 		if (x < 0 || x > tileData[0].length - 1 || y < 0 || y > tileData[0][0].length - 1) return true;
         if(tileBlocked(x, y)) return true;
@@ -213,9 +200,32 @@ public class TileMap implements TileBasedMap {
                 if(origin.x == player.getX() && origin.getY() == player.getY()) {
                     Point target = warp.getTarget();
                     TileMap targetMap = TileMapDatabase.getTileMap(warp.getTargetMap());
-                    MedievalLauncher.getInstance().getGameState().warpPlayer(targetMap, target.x, target.y, WarpType.MOVEMENT);
+                    MedievalLauncher.getInstance().getGameState().levelTransition(entity, targetMap, target.x, target.y, WarpType.MOVEMENT);
                     return;
                 }
+            }
+        }
+
+        if(entity instanceof Player) {
+            for(Entity e : entities) {
+                if(e instanceof Actor) {
+                    boolean near = ((Actor) e).withinInteractRange((Player) entity);
+                    if(near)
+                        ((Actor) e).executeScript(Script.Type.approach);
+                }
+            }
+
+        }
+
+        for(String zoneKey : mapZones.keySet()) {
+            TileMapZone zone = mapZones.get(zoneKey);
+            if(!zone.isEntityInZone(entity)
+                    && zone.inBounds(x, y, entity.getWidth() / Tile.TILE_SIZE, entity.getHeight() /  Tile.TILE_SIZE)) {
+                zone.enterZone(entity);
+            }
+
+            if(zone.isEntityInZone(entity) && !zone.inBounds(x, y, entity.getWidth() / Tile.TILE_SIZE, entity.getHeight() / Tile.TILE_SIZE)) {
+                zone.leaveZone(entity);
             }
         }
 	}
@@ -287,6 +297,7 @@ public class TileMap implements TileBasedMap {
 
     public void removeEntity(Entity entity) {
         entities.remove(entity);
+        
         if(entity instanceof Player) {
             this.player = null;
         }

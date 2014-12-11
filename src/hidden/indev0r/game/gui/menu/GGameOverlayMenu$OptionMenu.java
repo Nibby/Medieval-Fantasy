@@ -3,7 +3,7 @@ package hidden.indev0r.game.gui.menu;
 import hidden.indev0r.game.BitFont;
 import hidden.indev0r.game.MedievalLauncher;
 import hidden.indev0r.game.gui.component.base.GComponent;
-import hidden.indev0r.game.gui.component.base.GComponent$ButtonSmall;
+import hidden.indev0r.game.gui.component.base.GComponent$Button;
 import hidden.indev0r.game.reference.References;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -17,7 +17,7 @@ public class GGameOverlayMenu$OptionMenu extends GMenu {
 
     private static final Color BACKGROUND_COLOR = new Color(0f, 0f, 0f, 0.4f);
 
-    private GComponent$ButtonSmall[] buttons;
+    private GComponent$Button[] buttons;
 
     public GGameOverlayMenu$OptionMenu() {
 
