@@ -21,8 +21,7 @@ public abstract class GComponent$AbstractButton extends GComponent {
         if (mouse.x > this.position.x && mouse.x < (this.position.x + this.width) && mouse.y > this.position.y && (mouse.y < this.position.y + this.height)) {
             if (!currentState.equals(GStates.DISABLED)) {
                 if(Cursor.INTERACT_INSTANCE != null) {
-                    Object obj = Cursor.INTERACT_INSTANCE;
-                    if(!obj.equals(this)) return;
+                    if(!Cursor.INTERACT_INSTANCE.equals(this)) return;
                 }
 
                 if (!input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
@@ -46,8 +45,7 @@ public abstract class GComponent$AbstractButton extends GComponent {
                     wasClicked = false;
 
                     if(Cursor.INTERACT_INSTANCE != null) {
-                        Object obj = Cursor.INTERACT_INSTANCE;
-                        if(obj.equals(this)) Cursor.setInteractInstance(null);
+                        Cursor.releaseInteractInstance(this);
                     }
                 }
             }
@@ -57,8 +55,7 @@ public abstract class GComponent$AbstractButton extends GComponent {
             currentState = GStates.NORMAL;
             firedHoverEvent = false;
             wasClicked = false;
-
-            if(wasInteractInstance) Cursor.INTERACT_INSTANCE = null;
+            Cursor.releaseInteractInstance(this);
         }
     }
 }

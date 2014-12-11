@@ -3,23 +3,39 @@ package hidden.indev0r.game.gui.component.dialog.npc;
 import hidden.indev0r.game.BitFont;
 import hidden.indev0r.game.entity.Actor;
 import hidden.indev0r.game.gui.component.base.GComponent;
+import hidden.indev0r.game.gui.component.base.GComponent$Button;
 import hidden.indev0r.game.gui.component.base.GComponent$Dialog;
+import hidden.indev0r.game.map.Tile;
+import hidden.indev0r.game.texture.Textures;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
 /**
  * Created by MrDeathJockey on 14/12/9.
  */
-public class GDialog$NPC$0 extends GComponent$Dialog {
+public class GDialog$NPC$Standard extends GComponent$Dialog {
 
     private String[] textContent;
     private Actor actor;
+    private String title;
 
-    public GDialog$NPC$0(Actor actor, String title, String content, Vector2f pos) {
-        super(title, pos, 13, 6);
+    private GComponent$Button buttonOkay;
+
+    public GDialog$NPC$Standard(Actor actor, String title, String content, Vector2f pos, int width, int height) {
+        super(pos, width, height);
         this.actor = actor;
         textContent = content.split(";");
+        this.title = title;
+        buttonOkay = new GComponent$Button(new Vector2f(width * Tile.TILE_SIZE / 2 - 52, height * Tile.TILE_SIZE - 42),
+                Textures.UI.BUTTON_LONG_BLUE.getSprite(0, 0),
+                Textures.UI.BUTTON_LONG_BLUE.getSprite(0, 1),
+                Textures.UI.BUTTON_LONG_BLUE.getSprite(0, 2));
+        addComponent(buttonOkay);
+
+        buttonOkay.setText("OKAY");
+        buttonOkay.addListener(this);
     }
 
     public void render(Graphics g) {
@@ -45,7 +61,7 @@ public class GDialog$NPC$0 extends GComponent$Dialog {
             }
         }
         //Render close button
-        BitFont.render(g, getTitle(), (int) position.x + actor.getWidth() + 10, (int) position.y + 3, Color.white);
+        BitFont.render(g, title, (int) position.x + actor.getWidth() + 10, (int) position.y + 3, Color.white);
         actor.render(g, position.x + 5, position.y - 12);
         for (GComponent gc : internalComponents) gc.render(g);
         g.popTransform();
@@ -55,4 +71,14 @@ public class GDialog$NPC$0 extends GComponent$Dialog {
         }
     }
 
+    public void tick(GameContainer gc) {
+        super.tick(gc);
+    }
+
+    @Override
+    public void componentClicked(GComponent c) {
+        super.componentClicked(c);
+
+        if(c == buttonOkay) dispose();
+    }
 }

@@ -71,7 +71,6 @@ public class GComponent$Dialog extends GComponent$Frame implements GComponentLis
 				}
 			}
 		}
-		//Render close button
 		BitFont.render(g, title, (int) position.x + 5, (int) position.y + 3, Color.white);
 		for (GComponent gc : internalComponents) gc.render(g);
 		g.popTransform();

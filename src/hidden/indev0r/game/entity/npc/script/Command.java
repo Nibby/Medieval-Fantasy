@@ -7,12 +7,15 @@ import hidden.indev0r.game.entity.animation.Action;
 import hidden.indev0r.game.entity.animation.ActionType;
 import hidden.indev0r.game.gui.component.base.GComponent$Dialog;
 import hidden.indev0r.game.gui.component.base.GComponent$Frame;
-import hidden.indev0r.game.gui.component.dialog.npc.GDialog$NPC$0;
+import hidden.indev0r.game.gui.component.dialog.npc.GDialog$NPC$Paged;
+import hidden.indev0r.game.gui.component.dialog.npc.GDialog$NPC$Standard;
 import hidden.indev0r.game.gui.component.interfaces.GDialogListener;
 import hidden.indev0r.game.map.MapDirection;
+import hidden.indev0r.game.map.Tile;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -36,17 +39,31 @@ public class Command implements Cloneable {
 
             private String  dialogID   = "null";
             private int     dialogType = 0;
+            private int     dialogWidth = 13, dialogHeight = 6;
 
             private String  dialogTitle = "null";
-            private String  dialogContent = "null";
+            private String[]  dialogContent = new String[] { };
 
             @Override
             public Command make(Script script, Actor actor, Element e) {
 
                 dialogID        = e.getAttribute("id");
                 dialogType      = Integer.parseInt(e.getAttribute("type"));
-                dialogContent   = e.getElementsByTagName("content").item(0).getTextContent().replace("  ", "");
                 dialogTitle     = (String) Script.translate(e.getAttribute("title"), actor);
+
+                if(e.hasAttribute("width"))  dialogWidth = Integer.parseInt(e.getAttribute("width"));
+                else                         dialogWidth = 13;
+
+                if(e.hasAttribute("height")) dialogHeight = Integer.parseInt(e.getAttribute("height"));
+                else                         dialogHeight = 6;
+
+                NodeList contentList = e.getElementsByTagName("content");
+                dialogContent = new String[contentList.getLength()];
+
+                for(int i = 0; i < dialogContent.length; i++) {
+                    Element eContent = (Element) contentList.item(i);
+                    dialogContent[i] = eContent.getTextContent().replace("    ", "");
+                }
 
                 //TODO assign this dialog instance information into script temp store
 
@@ -56,10 +73,14 @@ public class Command implements Cloneable {
             @Override
             public void exec(Actor actor, final Script script) {
                 super.exec(actor, script);
+                Vector2f pos = GComponent$Frame.alignToCenter(dialogWidth * Tile.TILE_SIZE, dialogHeight * Tile.TILE_SIZE);
                 GComponent$Dialog dialog = null;
                 switch(dialogType) {
                     case 0:
-                        dialog = new GDialog$NPC$0(actor, dialogTitle, dialogContent, new Vector2f(200, 200));
+                        dialog = new GDialog$NPC$Standard(actor, dialogTitle, dialogContent[0], pos, dialogWidth, dialogHeight);
+                        break;
+                    case 1:
+                        dialog = new GDialog$NPC$Paged(actor, dialogTitle, dialogContent, pos, dialogWidth, dialogHeight);
                         break;
                 }
 
@@ -172,9 +193,9 @@ public class Command implements Cloneable {
                 if(System.currentTimeMillis() - lastTime > interval) {
                     MedievalLauncher.getInstance().getGameState().getMenuOverlay().showSpeechBubble(actor, text, duration, color);
                     lastTime = System.currentTimeMillis();
-                }
 
-                script.executeNext();
+                    script.executeNext();
+                }
             }
         };
 
@@ -238,12 +259,14 @@ public class Command implements Cloneable {
                 super.exec(actor, script);
                 if(System.currentTimeMillis() - randomTick > interval) {
                     int size = randomCommands.size();
-                    if(size <= 0) return;
+                    if(size <= 0) {
+                        script.executeNext();
+                        return;
+                    }
                     int random = (int) (Math.random() * size);
                     randomCommands.get(random).exec(actor, script);
-
                     randomTick = System.currentTimeMillis();
-                }
+                } else script.executeNext();
             }
         };
     }
@@ -268,7 +291,6 @@ public class Command implements Cloneable {
 
     public Command make(Script script, Actor actor, Element e) { return null; }
     public void exec(Actor actor, Script script) {
-        if(script.isFinished()) return;
     }
 
     public Map<String, List<Command>> getCommandMap() {

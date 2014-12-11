@@ -7,6 +7,8 @@ import hidden.indev0r.game.map.Tile;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.util.pathfinding.AStarPathFinder;
+import org.newdawn.slick.util.pathfinding.Path;
 
 import javax.swing.*;
 import java.util.HashMap;
@@ -37,12 +39,16 @@ public class Actor extends Entity {
      */
     protected Map<Script.Type, Script> scripts = new HashMap<>();
 
+    protected Vector2f moveDestination = new Vector2f(0, 0);
+
 	// Actor Attributes
 	protected Map<Stat, Integer> propertyMap;
     protected Faction faction;
     protected AI ai;
 
     private boolean isAlive;
+
+
 	public Actor(Faction faction, Vector2f position) {
 		super(position);
 		propertyMap = new HashMap<>(0);
@@ -56,6 +62,15 @@ public class Actor extends Entity {
 		super.tick(gc);
         if(!(this instanceof Player))
             ai.tick(map, this);
+
+        if(getX() != moveDestination.x || getY() != moveDestination.y) {
+            AStarPathFinder aStar = new AStarPathFinder(map, 16, false);
+            Path path = aStar.findPath(null, (int) getX(), (int) getY(), (int) moveDestination.x, (int) moveDestination.y);
+            if(path != null && path.getLength() > 0) {
+                Path.Step step = path.getStep(1);
+                if(!moving) move(step.getX(), step.getY());
+            }
+        }
 
         calculateStats();
 
@@ -81,6 +96,25 @@ public class Actor extends Entity {
         Rectangle other  = new Rectangle(actor.getX(), actor.getY(), actor.getWidth() / Tile.TILE_SIZE, actor.getHeight() / Tile.TILE_SIZE);
 
         return other.intersects(bounds);
+    }
+
+    @Override
+    public void setPosition(int x, int y) {
+        super.setPosition(x, y);
+        setMoveDestination(x, y);
+    }
+
+    public Vector2f getMoveDestination() {
+        return moveDestination;
+    }
+
+    public void setMoveDestination(float x, float y) {
+        if(moveDestination == null) {
+            moveDestination = new Vector2f(x, y);
+            return;
+        }
+        moveDestination.x = x;
+        moveDestination.y = y;
     }
 
     public void setAI(AI ai) {

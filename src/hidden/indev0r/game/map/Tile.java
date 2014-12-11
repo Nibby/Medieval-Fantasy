@@ -1,6 +1,7 @@
 package hidden.indev0r.game.map;
 
 import hidden.indev0r.game.entity.Entity;
+import hidden.indev0r.game.entity.Player;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -23,6 +24,7 @@ import java.util.Map;
 public class Tile {
 
 	public static final  int                TILE_SIZE = 32; //actual tile size
+    public static final int                 TILE_INTERACTION_RANGE = 1;
 	//Tile database, contains all the registered, unique tiles
 	private static final Map<Integer, Tile> tiles     = new HashMap<>();
 
@@ -75,7 +77,19 @@ public class Tile {
     public void steppedOut(Entity entity) {
     }
 
-	public boolean propertyExists(String propertyKey) {
+    public boolean isSolid() {
+        return propertyExists("solid");
+    }
+
+    public void interact(Player player) {
+
+    }
+
+    private void setProperty(String key, String value) {
+        properties.put(key, value);
+    }
+
+    public boolean propertyExists(String propertyKey) {
 		return properties.get(propertyKey) != null;
 	}
 
@@ -87,7 +101,11 @@ public class Tile {
 		return id;
 	}
 
-	public static void registerTile(Tile tile) {
+    public Animation getTexture() {
+        return texture;
+    }
+
+    public static void registerTile(Tile tile) {
 		if (tiles.get(tile.getId()) != null) {
 			JOptionPane.showMessageDialog(null, "Tile ID '" + tile.getId() + "' has already been taken!",
 					"Internal Error", JOptionPane.ERROR_MESSAGE);

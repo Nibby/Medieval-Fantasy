@@ -2,6 +2,8 @@ package hidden.indev0r.game.gui.component.base;
 
 import hidden.indev0r.game.gui.component.interfaces.GDialogListener;
 import hidden.indev0r.game.gui.menu.GMenu;
+import hidden.indev0r.game.map.Tile;
+import hidden.indev0r.game.reference.References;
 import hidden.indev0r.game.texture.Textures;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.GameContainer;
@@ -38,7 +40,6 @@ public class GComponent$Frame extends GComponent {
 
     //Frame properties
     protected boolean disposed = false;
-    protected boolean visible = false;
 
 	public GComponent$Frame(Vector2f pos, int tileWidth, int tileHeight) {
 		super(pos);
@@ -86,7 +87,7 @@ public class GComponent$Frame extends GComponent {
 
 	@Override
 	public void render(Graphics g) {
-        if(!visible) return;
+        super.render(g);
 		g.pushTransform();
 		g.scale(scale, scale);
 		for (int x = 0; x < tileWidth; x++)
@@ -148,14 +149,6 @@ public class GComponent$Frame extends GComponent {
         return disposed;
     }
 
-    public boolean isVisible() {
-        return visible;
-    }
-
-    public void setVisible(boolean visible) {
-        this.visible = visible;
-    }
-
     public void onAdd(GMenu menu) {
         super.onAdd(menu);
         visible = true;
@@ -164,5 +157,9 @@ public class GComponent$Frame extends GComponent {
     public void onRemove() {
         super.onRemove();
         visible = false;
+    }
+
+    public static Vector2f alignToCenter(int frameWidth, int frameHeight) {
+        return new Vector2f(References.GAME_WIDTH / 2 - frameWidth / 2, References.GAME_HEIGHT / 2 - frameHeight / 2);
     }
 }

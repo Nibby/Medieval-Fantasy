@@ -114,18 +114,17 @@ public class Script {
     public void execute() {
         if(actor instanceof Player) return;
         if(!finished) return;
+        step = 0;
         finished = false;
         scriptStore = new HashMap<>();
-        step = 0;
         executeStep(step);
     }
 
     private void executeStep(int step) {
         if(step > commandList.size() - 1) {
-            finished = true;
+            finish();
             return;
         }
-
         Command cmd = commandList.get(step);
         cmd.exec(actor, this);
     }
@@ -140,6 +139,10 @@ public class Script {
         if(finished) return;
         step--;
         executeStep(step);
+    }
+
+    public void finish() {
+        finished = true;
     }
 
     public Type getType() {

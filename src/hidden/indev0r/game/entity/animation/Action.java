@@ -1,8 +1,10 @@
 package hidden.indev0r.game.entity.animation;
 
 import hidden.indev0r.game.entity.Entity;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 import java.util.ArrayList;
 
@@ -30,7 +32,6 @@ public class Action {
             if(e.isSunken()) {
                 renderFrame = renderFrame.getSubImage(0, 0, renderFrame.getWidth(), renderFrame.getHeight() / 4 * 3);
             }
-
             g.drawImage(renderFrame, x, y);
         }
 
@@ -55,9 +56,12 @@ public class Action {
 		this.actionType = id;
 		this.xShift = xShift;
 		this.yShift = yShift;
-
         animationTick = System.currentTimeMillis();
 	}
+
+    public void setActionSet(ActionSet set) {
+        this.actionSet = set;
+    }
 
 	public Action addFrame(Image frame, int delay, int xShift, int yShift) {
         animation.add(new ActionFrame(frame, xShift, yShift));
@@ -77,7 +81,36 @@ public class Action {
 		} else {
 			animation.get(0).render(g, e, x, y);
 		}
+
+        if(actionSet != null && actionSet.getID() == 10) {
+            Image frame = getCurrentFrame();
+            try {
+                frame.setFilter(Image.FILTER_LINEAR);
+                g.setAntiAlias(true);
+                Color col = new Color(1f, 1f, 1f, fxAlpha);
+                frame = frame.getScaledCopy(1 + (float) tick / 15);
+                frame.draw(x - tick, y - tick, col);
+            } catch (SlickException e1) {
+                e1.printStackTrace();
+            }
+
+            if(System.currentTimeMillis() - tickTime > 25) {
+                tick++;
+                fxAlpha -= 0.02f;
+                if(fxAlpha <= 0f) {
+                    tick = 0;
+                    fxAlpha = 0.5f;
+                    tickTime += 2000;
+                    return;
+                }
+                tickTime = System.currentTimeMillis();
+            }
+        }
 	}
+
+    private float fxAlpha = 0.5f;
+    private long tickTime = 0;
+    private int tick = 0;
 
 	public void renderForced(Graphics g, Entity e, float x, float y) {
         tick(true, true);

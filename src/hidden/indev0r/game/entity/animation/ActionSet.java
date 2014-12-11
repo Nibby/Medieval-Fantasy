@@ -18,6 +18,7 @@ public class ActionSet {
 	}
 
 	protected void add(Action motion) {
+        motion.setActionSet(this);
 		motionList.add(motion);
 	}
 

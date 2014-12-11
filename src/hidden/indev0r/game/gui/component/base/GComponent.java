@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public abstract class GComponent {
 
 
-	public enum GStates {
+    public enum GStates {
 		DISABLED(-1),
 
 		NORMAL(0),
@@ -32,23 +32,24 @@ public abstract class GComponent {
 		public int getID() {
 			return id;
 		}
-	}
 
-
+    }
 	//Parent
 	protected GMenu parent;
 
 	//Location and Size
 	protected Vector2f position;
-	protected int      width;
-	protected int      height;
-    protected Rectangle interactBounds;
 
+    protected int      width;
+    protected int      height;
+    protected Rectangle interactBounds;
 	//Mouse Related
 	protected boolean firedHoverEvent;
-	protected boolean wasClicked;
+
+    protected boolean wasClicked;
     protected boolean wasInteractInstance = false;
-	protected GStates currentState;
+    protected boolean visible = true;
+    protected GStates currentState;
 
 	//Listeners
 	protected ArrayList<GComponentListener> componentListeners;
@@ -60,9 +61,12 @@ public abstract class GComponent {
 		componentListeners = new ArrayList<>(0);
 	}
 
-	public abstract void render(Graphics g);
+	public void render(Graphics g) {
+        if(!isVisible()) return;
+    }
 
 	public void tick(GameContainer gc) {
+        if(!isVisible()) return;
         Input input = gc.getInput();
         int mx = input.getMouseX();
         int my = input.getMouseY();
@@ -80,6 +84,12 @@ public abstract class GComponent {
             }
         }
     }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
+    public boolean isVisible() { return visible; }
 
 	protected void fireHoverEvent() {
 		for (GComponentListener l : componentListeners) l.componentHovered(this);

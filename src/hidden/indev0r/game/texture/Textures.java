@@ -112,7 +112,9 @@ public class Textures {
 
         public static final SpriteSheet SPEECH_BUBBLE = ResourceManager.loadSpriteSheet(UI_GAME_ELEMENT_PATH + "SPEECH_BUBBLE.png", 16, 32);
 
-        public static final SpriteSheet BUTTON_LONG_WOODEN = ResourceManager.loadSpriteSheet(UI_GAME_ELEMENT_PATH + "buttons/LONG_ROUNDED_WOODEN.png", 192, 48);
+        public static final SpriteSheet BUTTON_LONG_WOODEN = ResourceManager.loadSpriteSheet(UI_GAME_ELEMENT_PATH + "buttons/LONG_ROUNDED_WOODEN.png", 96, 24);
+        public static final SpriteSheet BUTTON_LONG_BLUE   = ResourceManager.loadSpriteSheet(UI_GAME_ELEMENT_PATH + "buttons/LONG_ROUNDED_BLUE.png", 96, 24);
+        public static final SpriteSheet BUTTON_ROUND_SLOTTED   = ResourceManager.loadSpriteSheet(UI_GAME_ELEMENT_PATH + "buttons/ROUND_SLOTTED.png", 24, 24);
 	}
 
 
@@ -121,6 +123,10 @@ public class Textures {
 		public static final Image MINUS            = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/icons/MINUS.png");
 		public static final Image MAGNIFYING_GLASS = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/icons/MAGNIFYING_GLASS.png");
 		public static final Image EXIT             = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/icons/EXIT.png");
+        public static final Image ARROW_LEFT       = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/icons/LEFT.png");
+        public static final Image ARROW_RIGHT      = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/icons/RIGHT.png");
+        public static final Image ARROW_UP         = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/icons/UP.png");
+        public static final Image ARROW_DOWN       = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/icons/DOWN.png");
 
 		public static final Image BOOK_BIG      = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/icons/BOOK.png");
 		public static final Image CHARACTER_BIG = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/icons/CHARACTER.png");

@@ -24,8 +24,7 @@ public class BitFont {
 			new FontSpacing("@#$%&_~?", 14),
 			new FontSpacing("ABCDEFGHJKLMNOPQRSTUVWXYZfexabcdghkmnopquvwyz023456789=\"", 12),
 			new FontSpacing("Ijrst^*-+<>/\\", 10),
-			new FontSpacing("il1()[],;'", 8),
-			new FontSpacing("!.|:", 6),
+			new FontSpacing("!.|:il1()[],;'", 9),
 	};
 
 	public static void render(Graphics g, String text, int x, int y) {
@@ -81,11 +80,11 @@ public class BitFont {
 		for (int i = 0; i < s.length(); i++) {
 			for (FontSpacing spacing : GLYPH_SPACING) {
 				if (spacing.affectedGlyphs.contains("" + s.charAt(i))) {
-					width += spacing.glyphWidth;
+					width += (int) (spacing.glyphWidth * ((float) size / (float) FONT_GLYPH_SIZE));
 					continue outer;
 				}
 			}
-			width += size;
+			width += (int) (size * ((float) size / (float) FONT_GLYPH_SIZE));
 		}
 		return width;
 

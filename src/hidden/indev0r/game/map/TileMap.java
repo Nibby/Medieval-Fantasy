@@ -150,7 +150,7 @@ public class TileMap implements TileBasedMap {
 
         for(int l= 0; l < layers; l++) {
             Tile tile = Tile.getTile(tileData[l][x][y]);
-            solid[l] = (tile != null && tile.propertyExists("solid"));
+            solid[l] = (tile != null && tile.isSolid());
         }
 
         for(boolean b : solid)  {

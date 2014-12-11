@@ -23,6 +23,7 @@ public class NPC extends Actor {
     private Color nameColor;
 
     private boolean wasMouseFocused = false;
+    private boolean postInteraction = false;
 
     public NPC(String identifier, Faction faction, String name, Vector2f position) {
         super(faction, position);
@@ -60,6 +61,7 @@ public class NPC extends Actor {
                 //To interact, player must be 2 tiles or less away from the NPC
                 if(withinInteractRange(player)) {
                     interact(MedievalLauncher.getInstance().getGameState().getPlayer());
+                    postInteraction = true;
                 }
             }
 
@@ -74,6 +76,8 @@ public class NPC extends Actor {
             if(wasMouseFocused) {
                 Cursor.setInteractInstance(null);
                 wasMouseFocused = false;
+
+                if(postInteraction) postInteraction = false;
             }
         }
     }
@@ -98,8 +102,8 @@ public class NPC extends Actor {
         return name;
     }
 
-    public boolean isWasMouseFocused() {
-        return wasMouseFocused;
+    public boolean isPostInteraction() {
+        return postInteraction;
     }
 
     public boolean isHostile() {

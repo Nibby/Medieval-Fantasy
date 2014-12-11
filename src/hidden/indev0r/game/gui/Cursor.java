@@ -60,11 +60,12 @@ public class Cursor {
         if(instance == null) {
             MedievalLauncher.getInstance().setCursor(NORMAL);
         }
+
     }
 
     public static void render(Graphics g) {
 
-        if(INTERACT_INSTANCE instanceof NPC) {
+        if(INTERACT_INSTANCE instanceof NPC && !((NPC) INTERACT_INSTANCE).isPostInteraction()) {
             NPC npc = (NPC) INTERACT_INSTANCE;
             Player player = MedievalLauncher.getInstance().getGameState().getPlayer();
             boolean isEnemy = FactionUtil.isEnemy(player.getFaction(), npc.getFaction());
@@ -86,9 +87,9 @@ public class Cursor {
             int my = input.getMouseY();
 
             String renderText = (isEnemy || npc.isHostile()) ? npc.getName() + " [Hostile]" : npc.getName();
-            g.fillRoundRect(mx + 16 - BitFont.widthOf(renderText, 16) / 2 - 8, my + 38, BitFont.widthOf(renderText, 16) + 16, 24, 5);
+            g.fillRoundRect(mx + 16 - BitFont.widthOf(renderText, 16) / 2,  my + 38, (BitFont.widthOf(renderText, 16)) + 16, 24, 5);
 
-            BitFont.render(g, renderText, (mx + 16 - BitFont.widthOf(renderText, 16) / 2), my + 42, (!isEnemy) ? npc.getNameColor() : Color.red);
+            BitFont.render(g, renderText, (mx + 24 - BitFont.widthOf(renderText, 16) / 2), my + 42, (!isEnemy) ? npc.getNameColor() : Color.red);
         }
     }
 

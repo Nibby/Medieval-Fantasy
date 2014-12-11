@@ -1,10 +1,14 @@
 package hidden.indev0r.game.entity;
 
+import hidden.indev0r.game.Camera;
 import hidden.indev0r.game.MedievalLauncher;
 import hidden.indev0r.game.entity.animation.ActionSet;
 import hidden.indev0r.game.entity.animation.ActionSetDatabase;
 import hidden.indev0r.game.entity.animation.ActionType;
+import hidden.indev0r.game.gui.Cursor;
 import hidden.indev0r.game.gui.component.interfaces.GStatsSupplier;
+import hidden.indev0r.game.map.Tile;
+import hidden.indev0r.game.texture.Textures;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.*;
 
@@ -31,7 +35,6 @@ public class Player extends Actor implements GStatsSupplier {
 		super.render(g);
 	}
 
-    int exp = 0;
 	@Override
 	public void tick(GameContainer gc) {
 		super.tick(gc);
@@ -40,80 +43,66 @@ public class Player extends Actor implements GStatsSupplier {
             setLevel(getLevel() + 1);
         }
 
-		Input input = gc.getInput();
-		if (!moving) {
-			int x = (int) getX();
-			int y = (int) getY();
 
-			if (input.isKeyDown(Input.KEY_W)) {
-				setMotion(ActionType.WALK_UP);
-				moving = true;
-                move(x, y - 1);
+        Input input = gc.getInput();
 
-			}
-			if (input.isKeyDown(Input.KEY_A)) {
-				setMotion(ActionType.WALK_LEFT);
-				moving = true;
-                move(x - 1, y);
-			}
-			if (input.isKeyDown(Input.KEY_S)) {
-				setMotion(ActionType.WALK_DOWN);
-				moving = true;
-                move(x, y + 1);
-			}
-			if (input.isKeyDown(Input.KEY_D)) {
-				setMotion(ActionType.WALK_RIGHT);
-				moving = true;
-                move(x + 1, y);
-			}
+        if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON) && MedievalLauncher.getInstance().getGameState().getMenuOverlay().isComponentEmpty()) {
+            int mx = input.getMouseX();
+            int my = input.getMouseY();
+            Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
+            int tileX = (int) (mx - camera.getOffsetX()) / Tile.TILE_SIZE;
+            int tileY = (int) (my - camera.getOffsetY()) / Tile.TILE_SIZE;
+            boolean blocked = map.isBlocked(this, tileX, tileY);
+
+            if(!blocked) {
+                setMoveDestination(tileX, tileY);
+            }
+        }
 
 
-			//Debug
-			{
-				if (input.isKeyPressed(Input.KEY_F1)) {
+        //Debug
+        {
+            if (input.isKeyPressed(Input.KEY_F1)) {
 //					forceActAction(ActionType.ATTACK_RIGHT);
-                    setLevel(getLevel() + 1);
-				}
-				if (input.isKeyPressed(Input.KEY_F2)) {
+                setLevel(getLevel() + 1);
+            }
+            if (input.isKeyPressed(Input.KEY_F2)) {
 //					forceActAction(ActionType.ATTACK_LEFT);
-				}
-				if (input.isKeyPressed(Input.KEY_F3)) {
-					forceActAction(ActionType.ATTACK_UP);
-				}
-				if (input.isKeyPressed(Input.KEY_F4)) {
-					forceActAction(ActionType.ATTACK_DOWN);
-				}
+            }
+            if (input.isKeyPressed(Input.KEY_F3)) {
+                forceActAction(ActionType.ATTACK_UP);
+            }
+            if (input.isKeyPressed(Input.KEY_F4)) {
+                forceActAction(ActionType.ATTACK_DOWN);
+            }
 
-				if (input.isKeyPressed(Input.KEY_F5)) {
-					forceActAction(ActionType.CAST_RIGHT);
-				}
-				if (input.isKeyPressed(Input.KEY_F6)) {
-					forceActAction(ActionType.CAST_LEFT);
-				}
-				if (input.isKeyPressed(Input.KEY_F7)) {
-					forceActAction(ActionType.CAST_UP);
-				}
-				if (input.isKeyPressed(Input.KEY_F8)) {
-					forceActAction(ActionType.CAST_DOWN);
-				}
+            if (input.isKeyPressed(Input.KEY_F5)) {
+                forceActAction(ActionType.CAST_RIGHT);
+            }
+            if (input.isKeyPressed(Input.KEY_F6)) {
+                forceActAction(ActionType.CAST_LEFT);
+            }
+            if (input.isKeyPressed(Input.KEY_F7)) {
+                forceActAction(ActionType.CAST_UP);
+            }
+            if (input.isKeyPressed(Input.KEY_F8)) {
+                forceActAction(ActionType.CAST_DOWN);
+            }
 
-				if (input.isKeyPressed(Input.KEY_F9)) {
-					forceActAction(ActionType.USE_SPECIAL);
-				}
-				if (input.isKeyPressed(Input.KEY_F10)) {
-					forceActAction(ActionType.DEATH);
-				}
+            if (input.isKeyPressed(Input.KEY_F9)) {
+                forceActAction(ActionType.USE_SPECIAL);
+            }
+            if (input.isKeyPressed(Input.KEY_F10)) {
+                forceActAction(ActionType.DEATH);
+            }
 
-				if (input.isKeyPressed(Input.KEY_F12)) {
-					String option = JOptionPane.showInputDialog(null, "Enter action setStat id: ");
-					if (option != null && !option.isEmpty() && !option.contains(" ")) {
-						setActionSet(ActionSetDatabase.get(Integer.parseInt(option)));
-					}
-				}
-			}
-
-
-		}
+            if (input.isKeyPressed(Input.KEY_F12)) {
+                String option = JOptionPane.showInputDialog(null, "Enter action setStat id: ");
+                if (option != null && !option.isEmpty() && !option.contains(" ")) {
+                    setActionSet(ActionSetDatabase.get(Integer.parseInt(option)));
+                }
+            }
+        }
 	}
 
     public void setJob(Job job) {

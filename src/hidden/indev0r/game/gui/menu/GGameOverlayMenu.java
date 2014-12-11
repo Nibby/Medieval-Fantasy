@@ -6,11 +6,8 @@ import hidden.indev0r.game.MedievalLauncher;
 import hidden.indev0r.game.entity.Actor;
 import hidden.indev0r.game.entity.Player;
 import hidden.indev0r.game.gui.component.base.GComponent$Frame;
-import hidden.indev0r.game.gui.component.hud.GComponent$AnimatedScroll;
-import hidden.indev0r.game.gui.component.hud.GComponent$Minimap;
-import hidden.indev0r.game.gui.component.hud.GComponent$PlayerStatusGauge;
+import hidden.indev0r.game.gui.component.hud.*;
 import hidden.indev0r.game.gui.component.base.GComponent;
-import hidden.indev0r.game.gui.component.hud.GComponent$SpeechBubble;
 import hidden.indev0r.game.gui.component.interfaces.GMapSupplier;
 import hidden.indev0r.game.gui.component.interfaces.GStatsSupplier;
 import hidden.indev0r.game.reference.References;
@@ -59,6 +56,12 @@ public class GGameOverlayMenu extends GMenu {
                     removeComponent(c);
                 }
             }
+
+            if(c instanceof GComponent$Hint) {
+                if(((GComponent$Hint) c).isFinished()) {
+                    removeComponent(c);
+                }
+            }
         }
 
         if(!scrollComponent.isActive()) {
@@ -85,6 +88,12 @@ public class GGameOverlayMenu extends GMenu {
         addComponent(bubble);
     }
 
+    public void showHint(String text, int duration, Color color) {
+        GComponent$Hint hint = new GComponent$Hint(text, color, duration);
+        addComponent(hint);
+
+    }
+
 	@Override
 	public void componentClicked(GComponent c) {
 	}
@@ -95,7 +104,8 @@ public class GGameOverlayMenu extends GMenu {
 
     public boolean isComponentEmpty() {
         for(GComponent c : components) {
-            if(!(c == minimap || c == gauge || c == scrollComponent || c instanceof GComponent$SpeechBubble))
+            if(!(c == minimap || c == gauge || c == scrollComponent || c instanceof GComponent$SpeechBubble
+            || c instanceof GComponent$Hint))
                 return false;
         }
         return true;

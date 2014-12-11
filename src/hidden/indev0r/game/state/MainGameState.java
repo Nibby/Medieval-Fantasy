@@ -13,6 +13,7 @@ import hidden.indev0r.game.map.Tile;
 import hidden.indev0r.game.map.TileMap;
 import hidden.indev0r.game.map.TileMapDatabase;
 import hidden.indev0r.game.map.WarpType;
+import hidden.indev0r.game.texture.Textures;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -61,6 +62,7 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
         menuMgr.setTickTopMenuOnly(false);
 
         announceName(map.getName());
+        getMenuOverlay().showHint("Left click the map to move around", 3000, Color.white);
 	}
 
 	@Override
