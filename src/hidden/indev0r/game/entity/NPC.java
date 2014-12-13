@@ -25,9 +25,8 @@ public class NPC extends Actor {
     private boolean wasMouseFocused = false;
     private boolean postInteraction = false;
 
-    public NPC(String identifier, Faction faction, String name, Vector2f position) {
+    public NPC(Faction faction, String name, Vector2f position) {
         super(faction, position);
-        this.identifier = identifier;
         this.name = name;
         this.faction = faction;
         nameColor = Color.white;
@@ -108,5 +107,9 @@ public class NPC extends Actor {
 
     public boolean isHostile() {
         return hostile;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 }

@@ -46,6 +46,8 @@ public abstract class Entity {
 	protected static final Color   shadowColor = new Color(0f, 0f, 0f, 0.6f);
     private boolean sunken;
 
+    protected Vector2f moveDestination = new Vector2f(0, 0);
+
     public Entity() {
 		this(0, 0);
 	}
@@ -63,6 +65,7 @@ public abstract class Entity {
         this.moveX = x * Tile.TILE_SIZE;
         this.moveY = y * Tile.TILE_SIZE;
         this.position = new Vector2f(moveX, moveY);
+        setMoveDestination(x, y);
     }
 
     public void render(Graphics g) {
@@ -76,7 +79,7 @@ public abstract class Entity {
                 renderShadow(g);
                 Image renderImg = (currentDirection == MapDirection.RIGHT) ? sprite : spriteFlipped;
                 renderImg = renderImg.getScaledCopy(width, height);
-                if(sunken) renderImg = renderImg.getSubImage(0, 0, renderImg.getWidth(), renderImg.getHeight() / 4);
+                if(sunken) renderImg = renderImg.getSubImage(0, 0, renderImg.getWidth(), renderImg.getHeight() / 4 * 3);
                 g.drawImage(renderImg, x, y);
             }
         }
@@ -180,7 +183,7 @@ public abstract class Entity {
 		if (position.y == moveY && position.x == moveX) {
 			moving = false;
 
-            if(actionMap != null) {
+            if(actionMap != null && getX() == moveDestination.x && getY() == moveDestination.y) {
                 if (currentDirection.equals(MapDirection.LEFT)) action = ActionType.STATIC_LEFT;
                 if (currentDirection.equals(MapDirection.RIGHT)) action = ActionType.STATIC_RIGHT;
                 if (currentDirection.equals(MapDirection.UP)) action = ActionType.STATIC_UP;
@@ -246,6 +249,19 @@ public abstract class Entity {
         Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
         return (getPosition().x + width + camera.getOffsetX() > 0 && getPosition().y + camera.getOffsetY() + height > 0 &&
                 getPosition().x + width + camera.getOffsetX() < References.GAME_WIDTH && getPosition().y + height + camera.getOffsetY() < References.GAME_HEIGHT);
+    }
+
+    public Vector2f getMoveDestination() {
+        return moveDestination;
+    }
+
+    public void setMoveDestination(float x, float y) {
+        if(moveDestination == null) {
+            moveDestination = new Vector2f(x, y);
+            return;
+        }
+        moveDestination.x = x;
+        moveDestination.y = y;
     }
 
 	/**

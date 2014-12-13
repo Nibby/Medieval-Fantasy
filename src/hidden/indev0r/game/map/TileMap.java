@@ -148,10 +148,14 @@ public class TileMap implements TileBasedMap {
         if (x < 0 || x > tileData[0].length - 1 || y < 0 || y > tileData[0][0].length - 1) return true;
         boolean[] solid = new boolean[layers];
 
+        int nulls = 0;
         for(int l= 0; l < layers; l++) {
             Tile tile = Tile.getTile(tileData[l][x][y]);
             solid[l] = (tile != null && tile.isSolid());
+            if(tile == null) nulls++;
         }
+
+        if(nulls == layers) return true;
 
         for(boolean b : solid)  {
             if(b) return true;

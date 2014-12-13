@@ -39,9 +39,7 @@ public class Actor extends Entity {
      */
     protected Map<Script.Type, Script> scripts = new HashMap<>();
 
-    protected Vector2f moveDestination = new Vector2f(0, 0);
-
-	// Actor Attributes
+    // Actor Attributes
 	protected Map<Stat, Integer> propertyMap;
     protected Faction faction;
     protected AI ai;
@@ -69,6 +67,8 @@ public class Actor extends Entity {
             if(path != null && path.getLength() > 0) {
                 Path.Step step = path.getStep(1);
                 if(!moving) move(step.getX(), step.getY());
+            } else {
+                setMoveDestination(getX(), getY());
             }
         }
 
@@ -101,20 +101,6 @@ public class Actor extends Entity {
     @Override
     public void setPosition(int x, int y) {
         super.setPosition(x, y);
-        setMoveDestination(x, y);
-    }
-
-    public Vector2f getMoveDestination() {
-        return moveDestination;
-    }
-
-    public void setMoveDestination(float x, float y) {
-        if(moveDestination == null) {
-            moveDestination = new Vector2f(x, y);
-            return;
-        }
-        moveDestination.x = x;
-        moveDestination.y = y;
     }
 
     public void setAI(AI ai) {
@@ -134,8 +120,14 @@ public class Actor extends Entity {
     public void executeScript(Script.Type scriptType) {
         Cursor.INTERACT_INSTANCE = null;
         Script script = scripts.get(scriptType);
+        if(script != null && script.isFinished())
+            script.execute(this);
+    }
+
+    public void executeScript(Script script) {
+        Cursor.INTERACT_INSTANCE = null;
         if(script != null)
-            script.execute();
+            script.execute(this);
     }
 
     public boolean hasScript(Script.Type type) {

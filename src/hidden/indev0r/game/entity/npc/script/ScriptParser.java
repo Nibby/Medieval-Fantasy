@@ -50,7 +50,7 @@ public class ScriptParser {
         return script;
     }
 
-    public static List<Command> parse(String cmdName, Script script, Actor actor, Element cmdElement) {
+    public static List<Command> parse(String cmdName, CommandBlock block, Actor actor, Element cmdElement) {
         if(actor == null || cmdElement == null) return null;
 
         List<Command> blockCommands = new ArrayList<>();
@@ -69,8 +69,9 @@ public class ScriptParser {
 
                 //Creates command
                 Command cmd = Command.getCommand(commandElement.getTagName());
+                cmd.setParentBlock(block);
                 if(cmd != null) {
-                    blockCommands.add(cmd.make(script, actor, commandElement));
+                    blockCommands.add(cmd.make(block, actor, commandElement));
                 }
             }
         }

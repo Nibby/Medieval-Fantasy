@@ -49,11 +49,11 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 
 		camera = new Camera(0, 0);
-		player = new Player(Actor.Faction.GLYSIA, Player.Job.MAGE, 9, 8);
+		player = new Player(Actor.Faction.GLYSIA, Player.Job.MAGE, 11, 18);
         player.setLevel(1);
 		camera.setTrackObject(player);
 
-		map = TileMapDatabase.getTileMap("map01");
+		map = TileMapDatabase.getTileMap("dev_quarters_lobby");
 		map.addEntity(player);
 
 		menuMgr = new GMenuManager();

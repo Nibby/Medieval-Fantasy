@@ -1,0 +1,27 @@
+<npc hostile="false" faction="HUMAN" resource="res/textures/sprites/static/mon00.png" sprite="1,1" width="1" height="1"
+     name="Ben" identifier="guest_0" facing="RIGHT" nameColor="WHITE">
+
+    <location>
+        <map>dev_quarters_lobby</map>
+        <pos>16,10</pos>
+    </location>
+
+    <ai type="NONE" />
+
+    <stats>
+    </stats>
+
+    <script type="interact">
+        <facing object="$PLAYER" />
+        <dialog title="$NPC_NAME" id="dialog" type="0">
+            <content>
+                Man they are taking their time.;
+                I want better movement scripts and;
+                an improved scripting engine.;;
+                The idea was put forward but it's;
+                a tough job I think...
+            </content>
+        </dialog>
+        <facing direction="RIGHT" />
+    </script>
+</npc>

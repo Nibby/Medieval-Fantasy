@@ -1,0 +1,26 @@
+<npc hostile="false" faction="HUMAN" resource="res/textures/sprites/static/mon00.png" sprite="10,16" width="1" height="1"
+     name="Lucy" identifier="lucy" facing="RIGHT" nameColor="WHITE">
+
+    <location>
+        <map>dev_quarters_lobby</map>
+        <pos>6,12</pos>
+    </location>
+
+    <ai type="NONE" />
+
+    <stats>
+    </stats>
+
+    <script type="interact">
+        <dialog type="0" id="dialog" title="$NPC_NAME">
+            <content>
+                The magical orb will reveal your;
+                future! The spell is called... um...;
+                Revala-something...;;
+
+                Anyways it's going to be a spell;
+                soon, since I put forward the idea!
+            </content>
+        </dialog>
+    </script>
+</npc>

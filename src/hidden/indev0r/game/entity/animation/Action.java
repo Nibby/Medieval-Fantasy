@@ -4,7 +4,6 @@ import hidden.indev0r.game.entity.Entity;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 
 import java.util.ArrayList;
 
@@ -82,36 +81,27 @@ public class Action {
 			animation.get(0).render(g, e, x, y);
 		}
 
-        if(actionSet != null && actionSet.getID() == 10) {
+        //Special effects
+        if(actionSet != null && (actionSet.getID() == 10 || actionSet.getID() == 6)) {
             Image frame = getCurrentFrame();
-            try {
-                frame.setFilter(Image.FILTER_LINEAR);
-                g.setAntiAlias(true);
-                Color col = new Color(1f, 1f, 1f, fxAlpha);
-                frame = frame.getScaledCopy(1 + (float) tick / 15);
-                frame.draw(x - tick, y - tick, col);
-            } catch (SlickException e1) {
-                e1.printStackTrace();
-            }
+            Color col = new Color(1f, 1f, 1f, actionSet.getAnimAlpha());
+            frame = frame.getScaledCopy(1 + (float) actionSet.getAnimTick() / 15);
+            frame.draw(x - actionSet.getAnimTick(), y - actionSet.getAnimTick(), col);
 
-            if(System.currentTimeMillis() - tickTime > 25) {
-                tick++;
-                fxAlpha -= 0.02f;
-                if(fxAlpha <= 0f) {
-                    tick = 0;
-                    fxAlpha = 0.5f;
-                    tickTime += 2000;
+            if(System.currentTimeMillis() - actionSet.getAnimTickTime() > 25) {
+                actionSet.setAnimTick(actionSet.getAnimTick() + 1);
+                actionSet.setAnimAlpha(actionSet.getAnimAlpha() - 0.02f);
+                if(actionSet.getAnimAlpha() <= 0f) {
+                    actionSet.setAnimTick(0);
+                    actionSet.setAnimAlpha(0.5f);
+                    actionSet.setAnimTickTime(actionSet.getAnimTickTime() + 2000);
                     return;
                 }
-                tickTime = System.currentTimeMillis();
+                actionSet.setAnimTickTime(System.currentTimeMillis());
             }
         }
 	}
-
-    private float fxAlpha = 0.5f;
-    private long tickTime = 0;
-    private int tick = 0;
-
+    
 	public void renderForced(Graphics g, Entity e, float x, float y) {
         tick(true, true);
 

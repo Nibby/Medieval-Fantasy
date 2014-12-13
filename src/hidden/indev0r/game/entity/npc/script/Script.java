@@ -1,8 +1,10 @@
 package hidden.indev0r.game.entity.npc.script;
 
 import hidden.indev0r.game.MedievalLauncher;
+import hidden.indev0r.game.data.ScriptDataManager;
 import hidden.indev0r.game.entity.Actor;
 import hidden.indev0r.game.entity.NPC;
+import hidden.indev0r.game.entity.NPCDatabase;
 import hidden.indev0r.game.entity.Player;
 
 import java.util.ArrayList;
@@ -18,11 +20,7 @@ import java.util.Map;
  *
  * A script is essentially a list of commands executed in order.
  */
-public class Script {
-
-    public boolean isFinished() {
-        return finished;
-    }
+public class Script implements CommandBlock {
 
     //The type of script, these are called at different times
     public enum Type {
@@ -52,8 +50,27 @@ public class Script {
             public Object getDefinition(Object... params) {
                 return MedievalLauncher.getInstance().getGameState().getPlayer();
             }
-        };
+        },
 
+        //A specific, referred NPC
+        $NPC_REF {
+            @Override
+            public Object getDefinition(Object... params) {
+                String refID = (String) params[0];
+                return NPCDatabase.get(refID);
+            }
+        },
+
+        //Data from ScriptDataManagr
+        $SCRIPT_DATA {
+            @Override
+            public Object getDefinition(Object... params) {
+                String refKey = (String) params[0];
+                return ScriptDataManager.getManager().getValue(refKey);
+            }
+        }
+
+        ;
         public abstract Object getDefinition(Object ... params);
 
     }
@@ -69,9 +86,9 @@ public class Script {
     //Current command out of total that the script is up to
     //This is absolutely necessary because we don't want all scripts to be executed all at once
     private int step = 0;
+
     private boolean finished = true;
     private Type type;
-
     //Associated actor this script is made for
     private Actor actor;
 
@@ -102,50 +119,65 @@ public class Script {
         this.commandList = commandList;
     }
 
-    public void putStore(String key, Object obj) {
+    @Override
+    public void storeTemp(String key, Object obj) {
         scriptStore.put(key, obj);
     }
 
-    public Object getStore(String key) {
+    @Override
+    public Object getTemp(String key) {
         return scriptStore.get(key);
     }
 
     //Runs the script
-    public void execute() {
-        if(actor instanceof Player) return;
+    @Override
+    public void execute(Actor actor) {
         if(!finished) return;
+        System.out.println("SCRIPT STARTED Type." + type + " [" + actor + "]");
         step = 0;
         finished = false;
         scriptStore = new HashMap<>();
-        executeStep(step);
+        executeStep(actor, step);
     }
 
-    private void executeStep(int step) {
+    @Override
+    public void executeStep(Actor actor, int step) {
         if(step > commandList.size() - 1) {
-            finish();
+            finish(actor);
             return;
         }
         Command cmd = commandList.get(step);
+        System.out.println("    STEP: " + step + " - " + cmd.getKey());
         cmd.exec(actor, this);
     }
 
-    protected void executeNext() {
+    @Override
+    public void executeNext(Actor actor) {
         if(finished) return;
         step++;
-        executeStep(step);
+        executeStep(actor, step);
     }
 
-    protected void executePrevious() {
+    @Override
+    public void executePrev(Actor actor) {
         if(finished) return;
         step--;
-        executeStep(step);
+        executeStep(actor, step);
     }
 
-    public void finish() {
+    @Override
+    public void finish(Actor actor) {
         finished = true;
+        step = 0;
+        System.out.println("SCRIPT ENDED\n");
     }
 
     public Type getType() {
         return type;
+    }
+
+    @Override
+    public boolean isFinished() {
+        return finished;
     }
 }

@@ -1,0 +1,19 @@
+<npc hostile="false" faction="HUMAN" resource="res/textures/sprites/static/mon00.png" sprite="3,1" width="1" height="1"
+     name="Wade" identifier="guest_2" facing="RIGHT" nameColor="WHITE">
+
+    <location>
+        <map>dev_quarters_lobby</map>
+        <pos>16,8</pos>
+    </location>
+
+    <ai type="NONE" />
+
+    <stats>
+    </stats>
+
+    <script type="interact">
+        <say interval="0" duration="750">Beer!</say>
+        <wait for="750" />
+        <say actor="$NPC_REF" actorRef="dev_quarters_lobby.bartender" interval="0" duration="750">No beer...</say>
+    </script>
+</npc>

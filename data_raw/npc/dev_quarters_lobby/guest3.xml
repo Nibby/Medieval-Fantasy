@@ -1,0 +1,17 @@
+<npc hostile="false" faction="HUMAN" resource="res/textures/sprites/static/mon00.png" sprite="0,0" width="1" height="1"
+     name="Johnston" identifier="guest_3" facing="RIGHT" nameColor="WHITE">
+
+    <location>
+        <map>dev_quarters_lobby</map>
+        <pos>5,6</pos>
+    </location>
+
+    <ai type="NONE" />
+
+    <stats>
+    </stats>
+
+    <script type="interact">
+        <say interval="0" duration="1500">Interesting books...</say>
+    </script>
+</npc>

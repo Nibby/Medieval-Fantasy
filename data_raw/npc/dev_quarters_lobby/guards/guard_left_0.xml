@@ -1,0 +1,35 @@
+<npc hostile="false" faction="HUMAN" resource="res/textures/sprites/static/mon00.png" sprite="8,0" width="1" height="1"
+     name="Guard" identifier="guard_0" facing="RIGHT" nameColor="WHITE">
+
+    <location>
+        <map>dev_quarters_lobby</map>
+        <pos>11,16</pos>
+    </location>
+
+    <ai type="NONE" />
+
+    <stats>
+    </stats>
+
+    <script type="interact">
+        <if check="$SCRIPT_DATA" scriptDataParam="guard_left_0.spoken" operation="==" compare="1">
+            <say interval="0" duration="1000">*yawn*</say>
+        </if>
+        <if check="$SCRIPT_DATA" scriptDataParam="guard_left_0.spoken" operation="==" compare="0">
+            <say interval="0" duration="2000">This job sucks...</say>
+            <wait for="2000" />
+            <say actor="$NPC_REF" actorRef="dev_quarters_lobby.guards.guard_right_0" interval="0" duration="1000">Aye</say>
+            <wait for="1250" />
+            <say interval="0" duration="1000">Oh sorry...</say>
+            <wait for="1000" />
+            <move direction="LEFT" steps="1" />
+            <wait for="1000" />
+            <facing direction="RIGHT" />
+            <wait for="250" />
+            <say interval="0" duration="1000">Welcome!</say>
+
+            <scriptData key="guard_left_0.spoken" value="1" />
+        </if>
+
+    </script>
+</npc>

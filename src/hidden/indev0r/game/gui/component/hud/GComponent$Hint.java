@@ -24,7 +24,7 @@ public class GComponent$Hint extends GComponent {
     private int ticks = 0;
 
     public GComponent$Hint(String text, Color color, int duration) {
-        super(new Vector2f(References.GAME_WIDTH / 2 - BitFont.widthOf(text, 16) / 2, References.GAME_HEIGHT / 2 - 10));
+        super(new Vector2f(References.GAME_WIDTH / 2 - BitFont.widthOf(text, 16) / 2, References.GAME_HEIGHT / 3 - 10));
         setSize(BitFont.widthOf(text, 16), 20);
         this.duration = duration;
         this.text = text;

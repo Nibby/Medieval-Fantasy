@@ -1,0 +1,24 @@
+<npc hostile="false" faction="HUMAN" resource="res/textures/sprites/static/mon00.png" sprite="5,1" width="1" height="1"
+     name="Kyle" identifier="guest_1" facing="RIGHT" nameColor="WHITE">
+
+    <location>
+        <map>dev_quarters_lobby</map>
+        <pos>16,7</pos>
+    </location>
+
+    <ai type="NONE" />
+
+    <stats>
+    </stats>
+
+    <script type="interact">
+        <facing object="$PLAYER" />
+        <dialog title="$NPC_NAME" id="dialog" type="0" height="3">
+            <content>
+                Grr, I can't wait to get my hands;
+                dirty killin' monsters...;
+            </content>
+        </dialog>
+        <facing direction="RIGHT" />
+    </script>
+</npc>

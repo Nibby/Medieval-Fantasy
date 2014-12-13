@@ -44,6 +44,8 @@ public class MedievalLauncher extends StateBasedGame {
         try {
             //Encrypt game raw data
             DataPublisher.publishContents();
+            System.gc();
+
 
             //Initializing game data
 			Textures.Init();

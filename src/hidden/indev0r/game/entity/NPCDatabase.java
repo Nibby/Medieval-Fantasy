@@ -89,9 +89,8 @@ public class NPCDatabase {
             int npcWidth = Integer.parseInt(root.getAttribute("width"));
             int npcHeight = Integer.parseInt(root.getAttribute("height"));
             String npcName = root.getAttribute("name");
-            String npcId = root.getAttribute("identifier");
 
-            NPC npc = new NPC(npcId, npcFaction, npcName, new Vector2f(0, 0));
+            NPC npc = new NPC(npcFaction, npcName, new Vector2f(0, 0));
             npc.setSize(npcWidth * Tile.TILE_SIZE, npcHeight * Tile.TILE_SIZE);
 
             if(root.hasAttribute("resource") && root.hasAttribute("sprite")) {
@@ -139,7 +138,7 @@ public class NPCDatabase {
                 npc.setPosition(npcX, npcY);
                 npcMap.addEntity(npc);
             } else {
-                JOptionPane.showMessageDialog(null, "The specified map idenfier '" + npcAssignedMap + "' for NPC '" + path + "' is invalid!",
+                JOptionPane.showMessageDialog(null, "The specified map identifier '" + npcAssignedMap + "' for NPC '" + path + "' is invalid!",
                         "Internal Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -162,6 +161,7 @@ public class NPCDatabase {
                 key += relative.getName(i) + ".";
             }
             key += relative.getName(relative.getNameCount() - 1).toString().replace(".dat", "");
+            npc.setIdentifier(key);
             put(key, npc);
 
             //Load scripts
@@ -177,19 +177,20 @@ public class NPCDatabase {
                             "Internal Error", JOptionPane.ERROR_MESSAGE);
             }
 
+
             //Load AI
             Element aiElement = (Element) root.getElementsByTagName("ai").item(0);
             String aiType = aiElement.getAttribute("type");
 
             AI ai = AI.getAI(aiType);
             npc.setAI(ai.make(npc, aiElement));
-
         } catch(Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "An error occurred while loading NPC '" + path + "'\n" + e,
                     "Internal Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+
     }
 
     public static final NPC get(String key) {

@@ -116,16 +116,16 @@ public class AI implements Cloneable {
                     int x = (int) actor.getX(), y = (int) actor.getY();
                     switch(random) {
                         case UP:
-                            actor.move(x, y - 1);
+                            actor.setMoveDestination(x, y - 1);
                             break;
                         case DOWN:
-                            actor.move(x, y + 1);
+                            actor.setMoveDestination(x, y + 1);
                             break;
                         case LEFT:
-                            actor.move(x - 1, y);
+                            actor.setMoveDestination(x - 1, y);
                             break;
                         case RIGHT:
-                            actor.move(x + 1, y);
+                            actor.setMoveDestination(x + 1, y);
                             break;
                     }
 

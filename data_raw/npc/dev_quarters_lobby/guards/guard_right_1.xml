@@ -1,0 +1,13 @@
+<npc hostile="false" faction="HUMAN" resource="res/textures/sprites/static/mon00.png" sprite="9,0" width="1" height="1"
+     name="Guard" identifier="guard_3" facing="LEFT" nameColor="WHITE">
+
+    <location>
+        <map>dev_quarters_lobby</map>
+        <pos>12,5</pos>
+    </location>
+
+    <ai type="NONE" />
+
+    <stats>
+    </stats>
+</npc>

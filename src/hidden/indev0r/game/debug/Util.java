@@ -21,8 +21,9 @@ public class Util {
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                 Path relative = origin.relativize(file);
                 Path targetFile = target.resolve(relative);
-                if (!Files.exists(targetFile.getParent()))
-                    Files.createDirectory(targetFile.getParent());
+                if (!Files.exists(targetFile.getParent())) {
+                    Files.createDirectories(targetFile.getParent());
+                }
                 Files.copy(file, targetFile);
                 return FileVisitResult.CONTINUE;
             }
