@@ -22,7 +22,9 @@
             <wait for="1250" />
             <say interval="0" duration="1000">Oh sorry...</say>
             <IF check="$PLAYER_POSITION" operation="equals" compare="10,16">
-                <move actor="$PLAYER" direction="DOWN" steps="1" />
+                <move actor="$PLAYER" x="11" y="17" />
+                <wait for="1000" />
+                <facing actor="$PLAYER" direction="UP" />
             </IF>
             <wait for="1000" />
 
