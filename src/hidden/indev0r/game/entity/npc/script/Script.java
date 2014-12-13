@@ -45,13 +45,6 @@ public class Script implements CommandBlock {
             }
         },
 
-        $PLAYER {
-            @Override
-            public Object getDefinition(Object... params) {
-                return MedievalLauncher.getInstance().getGameState().getPlayer();
-            }
-        },
-
         //A specific, referred NPC
         $NPC_REF {
             @Override
@@ -60,6 +53,22 @@ public class Script implements CommandBlock {
                 return NPCDatabase.get(refID);
             }
         },
+
+        $PLAYER {
+            @Override
+            public Object getDefinition(Object... params) {
+                return MedievalLauncher.getInstance().getGameState().getPlayer();
+            }
+        },
+
+        $PLAYER_POSITION {
+            @Override
+            public Object getDefinition(Object... params) {
+                Player player = MedievalLauncher.getInstance().getGameState().getPlayer();
+                return (int) player.getX() + "," + (int) player.getY();
+            }
+        },
+
 
         //Data from ScriptDataManagr
         $SCRIPT_DATA {
@@ -147,7 +156,7 @@ public class Script implements CommandBlock {
             return;
         }
         Command cmd = commandList.get(step);
-        System.out.println("    STEP: " + step + " - " + cmd.getKey());
+        System.out.println("    STEP: " + step + " - ");
         cmd.exec(actor, this);
     }
 

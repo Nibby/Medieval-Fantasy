@@ -10,4 +10,10 @@
 
     <stats>
     </stats>
+
+    <script type="interact">
+        <!--<camera trackObject="$ACTOR_REF" actorRef="dev_quarters_lobby.bartender" />-->
+        <!--<wait for="3000" />-->
+        <!--<camera trackObject="$PLAYER" />-->
+    </script>
 </npc>

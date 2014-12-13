@@ -41,6 +41,8 @@
             <content>
                 Changelist (continued):;;
 
+                - Huge change in scripting engine;
+                  framework. I love OOP!;
                 - NPC scripting framework fully;
                   functional, just need to add;
                   more commands.;

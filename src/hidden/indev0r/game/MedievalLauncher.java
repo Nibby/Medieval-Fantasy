@@ -49,7 +49,6 @@ public class MedievalLauncher extends StateBasedGame {
 
             //Initializing game data
 			Textures.Init();
-            Command.init();
             AI.init();
 
             TilesetDatabase.getDatabase().loadTilesets();

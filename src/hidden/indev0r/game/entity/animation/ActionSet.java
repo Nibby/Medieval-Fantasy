@@ -1,5 +1,7 @@
 package hidden.indev0r.game.entity.animation;
 
+import hidden.indev0r.game.map.MapDirection;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +16,9 @@ public class ActionSet {
     private long animTickTime = 0;
     private float animAlpha = 0.5f;
     private int animTick = 0;
+
+    private int animTrail = 0;
+    private List<MapDirection> animFrameFacing = new ArrayList<>();
 
 	private int id;
 
@@ -55,4 +60,20 @@ public class ActionSet {
     public int getID() {
 		return id;
 	}
+
+    public int getAnimTrail() {
+        return animTrail;
+    }
+
+    public void setAnimTrail(int animTrail) {
+        this.animTrail = animTrail;
+    }
+
+    public List<MapDirection> getAnimFrameFacing() {
+        return animFrameFacing;
+    }
+
+    public void setAnimFrameFacing(List<MapDirection> animFrameFacing) {
+        this.animFrameFacing = animFrameFacing;
+    }
 }
