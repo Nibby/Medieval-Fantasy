@@ -36,7 +36,7 @@ public class GGameOverlayMenu extends GMenu {
 		this.state = state;
 		addComponent(minimap);
 		addComponent(gauge);
-		addComponent(barDialog);
+//		addComponent(barDialog);
 	}
 
 	public void tick(GameContainer gc) {

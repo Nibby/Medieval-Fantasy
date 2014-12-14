@@ -10,19 +10,26 @@ import org.newdawn.slick.Input;
  */
 public abstract class GComponent$AbstractButton extends GComponent {
 
-	public GComponent$AbstractButton(Vector2f pos) {
+    private boolean enabled = true;
+
+    public GComponent$AbstractButton(Vector2f pos) {
 		super(pos);
 	}
 
 	public void tick(GameContainer gc) {
+        if(!enabled) {
+            this.currentState = GStates.DISABLED;
+            return;
+        }
+
 		Input input = gc.getInput();
 		Vector2f mouse = new Vector2f(input.getMouseX(), input.getMouseY());
 
 		if (
-		mouse.x > this.position.x + interactBounds.getX() &&
-		mouse.x < (this.position.x + interactBounds.getWidth()) &&
-		mouse.y > this.position.y + interactBounds.getY() &&
-		(mouse.y < this.position.y + interactBounds.getHeight()))
+            mouse.x > this.position.x + interactBounds.getX() &&
+            mouse.x < (this.position.x + interactBounds.getWidth()) &&
+            mouse.y > this.position.y + interactBounds.getY() &&
+            (mouse.y < this.position.y + interactBounds.getHeight()))
 		{
 			if (currentState.equals(GStates.DISABLED)) return;
 
@@ -64,4 +71,13 @@ public abstract class GComponent$AbstractButton extends GComponent {
 			Cursor.releaseInteractInstance(this);
 		}
 	}
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+        if(enabled) currentState = GStates.NORMAL;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
 }

@@ -62,6 +62,11 @@ public class GDialog$NPC$Paged extends GComponent$Dialog {
         buttonPgRight.addListener(this);
         buttonPgRight.setIcon(Textures.Icons.ARROW_RIGHT);
         addComponent(buttonPgRight);
+
+        if(contents.length <= 1) {
+            buttonPgLeft.setVisible(false);
+            buttonPgRight.setVisible(false);
+        }
     }
 
     public void render(Graphics g) {

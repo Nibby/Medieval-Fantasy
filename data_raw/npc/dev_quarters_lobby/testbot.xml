@@ -1,0 +1,73 @@
+<npc hostile="false" faction="HUMAN" actionSet="100"
+     width="1" height="1" name="TestBot" facing="LEFT"
+     nameColor="CYAN" minimapColor="WHITE">
+
+    <location>
+        <map>dev_quarters_lobby</map>
+        <pos>10,12</pos>
+    </location>
+
+    <ai type="NONE" />
+
+    <stats>
+        <stat type="HEALTH" value="100" />
+        <stat type="HEALTH_MAX" value="100" />
+    </stats>
+
+    <script type="interact">
+        <dialog type="2" title="Testing New Features">
+            <content>
+                Welcome welcome! I will demonstrate;
+                the latest and greatest features;
+                that was coded into the game!;;
+                What would you like to see?
+            </content>
+
+            <option type="0" text="Camera Shake">
+                <dialog type="0" title="Camera Shake Test">
+                    <content>
+                        Pressing 'Okay' will initiate;
+                        a camera shake with attributes:;
+                        ;
+                        Amplitude: 5;
+                        Intensity: 20;
+                        Duration: 2000ms;
+                    </content>
+                </dialog>
+
+                <camera action="SHAKE" amplitude="5" intensity="20" duration="2000" />
+            </option>
+
+            <option type="0" text="Camera Pan">
+                <dialog type="0" title="Camera Shake Test">
+                    <content>
+                        Pressing 'Okay' will initiate;
+                        a camera pan towards the bart;
+                        ender. The camera will return;
+                        to normal after 5 seconds.;
+                    </content>
+                </dialog>
+
+                <camera action="PAN" mode="TOWARDS_ACTOR" actor="$NPC_REF" actorRef="dev_quarters_lobby.bartender" />
+                <wait for="5000" />
+                <camera action="TRACK" actor="$PLAYER" />
+            </option>
+
+            <option type="0" text="Text Jittering">
+                <dialog type="0" title="Camera Shake Test">
+                    <content>
+                        Pressing 'Okay' will initiate;
+                        a spoken text of evil laughter.;
+                        ;
+                        This will last for 3 seconds.;
+                    </content>
+                </dialog>
+
+                <say duration="3000" color="RED" jitter="true">MUAHAHAHAHA!</say>
+                <wait for="3000" />
+            </option>
+        </dialog>
+
+        <say interval="0" duration="2000">Neat huh!</say>
+    </script>
+</npc>

@@ -20,6 +20,7 @@ public class Command$Camera extends Command implements CameraListener {
             void exec(Actor actor, Element cmdElement, CommandBlock block, Camera camera) {
                 Actor cameraTarget = (Actor) Script.translate(cmdElement.getAttribute("actor"), cmdElement.getAttribute("actorRef"));
                 camera.setTrackObject(cameraTarget);
+                block.executeNext(actor);
             }
         },
 
@@ -103,7 +104,6 @@ public class Command$Camera extends Command implements CameraListener {
         }
         this.actor = actor;
         camera = MedievalLauncher.getInstance().getGameState().getCamera();
-
         action.exec(getActor(), cmdElement, block, camera);
     }
 

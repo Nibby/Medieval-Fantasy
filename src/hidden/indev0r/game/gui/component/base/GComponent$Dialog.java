@@ -16,6 +16,7 @@ public class GComponent$Dialog extends GComponent$Frame implements GComponentLis
 	private String            title;
 
 	private boolean draggable;
+    private boolean closable = true;
 	private boolean closed;
 
 	private DialogInputHandler inputHandler;
@@ -40,6 +41,7 @@ public class GComponent$Dialog extends GComponent$Frame implements GComponentLis
 				Textures.UI.BUTTON_ROUND_RED_NORMAL,
 				Textures.UI.BUTTON_ROUND_RED_PRESSED,
 				Textures.UI.BUTTON_ROUND_RED_HOVERED,
+                Textures.UI.BUTTON_ROUND_GREY_NORMAL,
 				Textures.Icons.EXIT);
 		closeButton.addListener(this);
 		addComponent(closeButton);
@@ -90,6 +92,7 @@ public class GComponent$Dialog extends GComponent$Frame implements GComponentLis
 		Vector2f mouse = new Vector2f(input.getMouseX(), input.getMouseY());
 
 		if (mouse.x > this.position.x && mouse.x < (this.position.x + this.width) && mouse.y > this.position.y && (mouse.y < this.position.y + 32)) {
+            if(currentState == null) return;
 			if (currentState.equals(GStates.DISABLED)) return;
 			//Mouse click
 			if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
@@ -99,11 +102,18 @@ public class GComponent$Dialog extends GComponent$Frame implements GComponentLis
 		else {
 			currentState = GStates.NORMAL;
 		}
-
-
 	}
 
-	public void addDialogListener(GDialogListener l) {
+    public boolean isClosable() {
+        return closable;
+    }
+
+    public void setClosable(boolean closable) {
+        this.closable = closable;
+        closeButton.setEnabled(closable);
+    }
+
+    public void addDialogListener(GDialogListener l) {
 		dialogListeners.add(l);
 	}
 

@@ -1,0 +1,53 @@
+USAGES:
+
+    <camera action="$ACTION" ...
+
+        $ACTION         - Camera instruction mode, syntax varies depending on actions taken.
+                          Available actions:
+
+                          PAN           - Pans the Camera
+                          TRACK         - Sets a specific actor for the camera to track
+                          SHAKE         - Shakes the camera, duh.
+
+
+
+        > TRACKING:
+
+        <camera action="TRACK" actor="$ACTOR" actorRef="$ACTOR_REF" />
+
+        $ACTOR              - Actor to track, see ACTOR_REFERENCE for more info
+         - $ACTOR_REF       - If actor referred is NPC, this is where you specify the NPC identifier.
+                              Ignore it if actor is player.
+
+
+        > PANNING:
+
+            - Panning to an actor before trackign it:
+
+           <camera action="PAN" mode="TOWARDS_ACTOR" actor="$ACTOR" actorRef="$ACTOR_REF"
+               (o) speed="$SPEED" />
+
+                $ACTOR              - Actor to track, see ACTOR_REFERENCE for more info
+                 - $ACTOR_REF       - If actor referred is NPC, this is where you specify the NPC identifier.
+                                      Ignore it if actor is player.
+
+               $SPEED (optional)    - How quick camera pans, by default this set to 4 pixels per tick.
+
+
+           - Panning camera to center around a tile:
+
+           <camera action="PAN" mode="CENTER_TILE" tilePos="$TILE_POS"
+               (o) speed="$SPEED" />
+
+               $TILE_POS            - Position of tile, in format of 'x,y'.
+               $SPEED (optional)    - How quick camera pans.
+
+
+       > SHAKING:
+       Use it in dramatic events, not for too long or people will get dizzy.
+
+       <camera action="SHAKE" amplitude="$AMPLITUDE" intensity="$INTENSITY" duration="$DURATION" />
+
+       $AMPLITUDE       - How much the camera shakes (greater amplitude = wider shake), recommend value is 5
+       $INTENSITY       - How fast the shaking occurs, recommend value is 20
+       $DURATION        - How long, in ms, the shaking will last

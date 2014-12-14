@@ -81,7 +81,7 @@ public class BitFont {
             Image glyph = fontSheet.getSprite(index % FONT_GLYPH_ROW_WIDTH, index / FONT_GLYPH_ROW_WIDTH);
             glyph.setAlpha(alpha);
             if (color == Color.white) {
-                g.drawImage((size != FONT_GLYPH_SIZE) ? glyph.getScaledCopy((int) fontWidth + 2, (int) fontHeight) : glyph, drawX + 1, drawY + ((jitter) ? jitterY : 0) + 1, Color.black);
+                g.drawImage((size != FONT_GLYPH_SIZE) ? glyph.getScaledCopy((int) fontWidth + 2, (int) fontHeight) : glyph, drawX + ((size / 8 <= 1) ? 1 : 2), drawY + ((jitter) ? jitterY : 0) + ((size / 8 <= 1) ? 1 : 2), Color.black);
             }
             g.drawImage((size != FONT_GLYPH_SIZE) ? glyph.getScaledCopy((int) fontWidth + 2, (int) fontHeight) : glyph, drawX, drawY + ((jitter) ? jitterY : 0), color);
             drawX += fontWidth;

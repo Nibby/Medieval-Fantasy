@@ -90,7 +90,7 @@ public class Camera {
 			float dx = forcePanPoint.x;
 			float dy = forcePanPoint.y;
 			if (cx != dx || cy != dy) {
-				if (cx > dx) {
+                if (cx > dx) {
 					setOffset(cx - panSpeed, cy);
 				} else if (cx < dx) {
 					setOffset(cx + panSpeed, cy);

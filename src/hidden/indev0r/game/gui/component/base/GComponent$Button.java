@@ -11,6 +11,7 @@ public class GComponent$Button extends GComponent$AbstractButton {
 	private Image button;
 	private Image buttonPressed;
 	private Image buttonHovered;
+    private Image buttonDisabled;
 	private Image icon;
 
     private String text;
@@ -29,16 +30,26 @@ public class GComponent$Button extends GComponent$AbstractButton {
 	}
 
 	public GComponent$Button(Vector2f pos, Image button, Image buttonPressed, Image buttonHovered, Image icon) {
-		super(pos);
-		this.button = button;
-		this.buttonPressed = buttonPressed;
-		this.buttonHovered = buttonHovered;
+		this(pos, button, buttonPressed, buttonHovered, null, icon);
 		this.icon = icon;
 
         setSize(button.getWidth(), button.getHeight());
 
 		currentState = GStates.NORMAL;
 	}
+
+    public GComponent$Button(Vector2f pos, Image button, Image buttonPressed, Image buttonHovered, Image buttonDisabled, Image icon) {
+        super(pos);
+        this.button = button;
+        this.buttonPressed = buttonPressed;
+        this.buttonHovered = buttonHovered;
+        this.buttonDisabled = buttonDisabled;
+        this.icon = icon;
+
+        setSize(button.getWidth(), button.getHeight());
+
+        currentState = GStates.NORMAL;
+    }
 
     public Image getIcon() {
         return icon;
@@ -85,6 +96,10 @@ public class GComponent$Button extends GComponent$AbstractButton {
 
 				if (icon != null) icon.draw(position.x + width / 2 - 4, position.y + height / 2 - 4);
 				break;
+            case DISABLED:
+                if (buttonDisabled != null) buttonDisabled.draw(position.x, position.y);
+                if (icon != null) icon.draw(position.x + width / 2 - 4, position.y + width / 2 - 4);
+                break;
 			case NORMAL:
 			default:
 				if (button != null) button.draw(position.x, position.y);

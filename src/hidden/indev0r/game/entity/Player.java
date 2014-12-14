@@ -59,6 +59,15 @@ public class Player extends Actor implements GStatsSupplier {
             }
         }
 
+        if(input.isKeyDown(Input.KEY_W) || input.isKeyDown(Input.KEY_UP)) {
+            setMoveDestination(getX(), getY() - 1);
+        } else if(input.isKeyDown(Input.KEY_A) || input.isKeyDown(Input.KEY_LEFT)) {
+            setMoveDestination(getX() - 1, getY());
+        } else if(input.isKeyDown(Input.KEY_S) || input.isKeyDown(Input.KEY_DOWN)) {
+            setMoveDestination(getX(), getY() + 1);
+        } else if(input.isKeyDown(Input.KEY_D) || input.isKeyDown(Input.KEY_RIGHT)) {
+            setMoveDestination(getX() + 1, getY());
+        }
 
         //Debug
         {

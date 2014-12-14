@@ -46,7 +46,7 @@ public class NestedCommandBlock implements CommandBlock {
             return;
         }
         if (commandList.isEmpty()) {
-            System.out.println("empty");
+            finish(actor);
             return;
         }
         if (cmdStep > commandList.size() - 1) {
