@@ -78,7 +78,7 @@ public class GDialog$NPC$Paged extends GComponent$Dialog {
         if(showTip) {
             g.setColor(Color.black);
             String pageHint = "Page "  + (currentPage + 1) + " of " + contents.length;
-            g.fillRoundRect(position.x + tileWidth * stdImageWidth / 6 + 24, position.y + tileHeight * stdImageHeight - 12, BitFont.widthOf(pageHint, 16), 24, 5);
+            g.fillRoundRect(position.x + tileWidth * stdImageWidth / 6 + 24, position.y + height - 12, BitFont.widthOf(pageHint, 16), 24, 5);
             BitFont.render(g, pageHint, (int) (position.x + tileWidth * stdImageWidth / 6 + 28), (int) (position.y + tileHeight * stdImageHeight - 8));
         }
     }

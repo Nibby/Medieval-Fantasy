@@ -60,7 +60,6 @@ public class Cursor {
         if(instance == null) {
             MedievalLauncher.getInstance().setCursor(NORMAL);
         }
-
     }
 
     public static void render(Graphics g) {

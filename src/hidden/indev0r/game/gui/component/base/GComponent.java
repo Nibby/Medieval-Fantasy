@@ -47,8 +47,8 @@ public abstract class GComponent {
 	protected boolean firedHoverEvent;
 
     protected boolean wasClicked;
-    protected boolean wasInteractInstance = false;
-    protected boolean visible = true;
+    protected boolean wasInteractInstance;// = false;
+    protected boolean visible;// = true;
     protected GStates currentState;
 
 	//Listeners
@@ -58,6 +58,8 @@ public abstract class GComponent {
 		this.position = pos;
 		firedHoverEvent = false;
 		wasClicked = false;
+		wasInteractInstance = false;
+		visible = false;
 		componentListeners = new ArrayList<>(0);
 	}
 
@@ -87,6 +89,7 @@ public abstract class GComponent {
 
     public void setVisible(boolean visible) {
         this.visible = visible;
+	    Cursor.setInteractInstance(null);
     }
 
     public boolean isVisible() { return visible; }

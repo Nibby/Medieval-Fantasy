@@ -10,52 +10,58 @@ import org.newdawn.slick.Input;
  */
 public abstract class GComponent$AbstractButton extends GComponent {
 
-    public GComponent$AbstractButton(Vector2f pos) {
-        super(pos);
-    }
+	public GComponent$AbstractButton(Vector2f pos) {
+		super(pos);
+	}
 
-    public void tick(GameContainer gc) {
-        Input input = gc.getInput();
-        Vector2f mouse = new Vector2f(input.getMouseX(), input.getMouseY());
+	public void tick(GameContainer gc) {
+		Input input = gc.getInput();
+		Vector2f mouse = new Vector2f(input.getMouseX(), input.getMouseY());
 
-        if (mouse.x > this.position.x && mouse.x < (this.position.x + this.width) && mouse.y > this.position.y && (mouse.y < this.position.y + this.height)) {
-            if (!currentState.equals(GStates.DISABLED)) {
-                if(Cursor.INTERACT_INSTANCE != null) {
-                    if(!Cursor.INTERACT_INSTANCE.equals(this)) return;
-                }
+		if (
+		mouse.x > this.position.x + interactBounds.getX() &&
+		mouse.x < (this.position.x + interactBounds.getWidth()) &&
+		mouse.y > this.position.y + interactBounds.getY() &&
+		(mouse.y < this.position.y + interactBounds.getHeight()))
+		{
+			if (currentState.equals(GStates.DISABLED)) return;
 
-                if (!input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
-                    currentState = GStates.HOVERED;
-                    if (!firedHoverEvent) {
-                        fireHoverEvent();
-                        firedHoverEvent = true;
+			if (Cursor.INTERACT_INSTANCE != null && !(Cursor.INTERACT_INSTANCE instanceof GComponent$Frame)) {
+				if (!Cursor.INTERACT_INSTANCE.equals(this)) return;
+			}
 
-                        if(Cursor.INTERACT_INSTANCE == null) {
-                            Cursor.setInteractInstance(this);
-                        }
-                    }
-                } else {
-                    currentState = GStates.PRESSED;
-                    wasClicked = true;
-                }
+			if (!input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+				currentState = GStates.HOVERED;
+				if (!firedHoverEvent) {
+					fireHoverEvent();
+					firedHoverEvent = true;
 
-                //Mouse click
-                if (wasClicked && !input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
-                    firePressEvent();
-                    wasClicked = false;
+					if (Cursor.INTERACT_INSTANCE == null && !(Cursor.INTERACT_INSTANCE instanceof GComponent$Frame)) {
+						Cursor.setInteractInstance(this);
+					}
+				}
+			} else {
+				currentState = GStates.PRESSED;
+				wasClicked = true;
+			}
 
-                    if(Cursor.INTERACT_INSTANCE != null) {
-                        Cursor.releaseInteractInstance(this);
-                    }
-                }
-            }
+			//Mouse click
+			if (wasClicked && !input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+				firePressEvent();
+				wasClicked = false;
 
-        }//END OF MOUSE BOUNDS
-        else {
-            currentState = GStates.NORMAL;
-            firedHoverEvent = false;
-            wasClicked = false;
-            Cursor.releaseInteractInstance(this);
-        }
-    }
+				if (Cursor.INTERACT_INSTANCE != null && !(Cursor.INTERACT_INSTANCE instanceof GComponent$Frame)) {
+					Cursor.releaseInteractInstance(this);
+				}
+			}
+
+
+		}//END OF MOUSE BOUNDS
+		else {
+			currentState = GStates.NORMAL;
+			firedHoverEvent = false;
+			wasClicked = false;
+			Cursor.releaseInteractInstance(this);
+		}
+	}
 }
