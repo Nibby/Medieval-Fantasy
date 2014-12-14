@@ -36,10 +36,10 @@ public class GComponent$Frame extends GComponent {
 
 	//Components to render on frame;
 	protected ArrayList<GComponent> internalComponents;
-    protected ArrayList<GDialogListener> dialogListeners = new ArrayList<>(0);
+	protected ArrayList<GDialogListener> dialogListeners = new ArrayList<>(0);
 
-    //Frame properties
-    protected boolean disposed = false;
+	//Frame properties
+	protected boolean disposed = false;
 
 	public GComponent$Frame(Vector2f pos, int tileWidth, int tileHeight) {
 		super(pos);
@@ -48,7 +48,6 @@ public class GComponent$Frame extends GComponent {
 		this.tileWidth = tileWidth;
 		this.tileHeight = tileHeight;
 		this.scale = 1f;
-		this.frames = new Image[tileWidth * tileHeight];
 
 		this.stdImageWidth = Textures.UI.FRAME_MIDDLE.getWidth();
 		this.stdImageHeight = Textures.UI.FRAME_MIDDLE.getWidth();
@@ -64,12 +63,13 @@ public class GComponent$Frame extends GComponent {
 
 		this.width = tileWidth * stdImageWidth;
 		this.height = tileHeight * stdImageHeight;
+		setSize(width, height);
 		internalComponents = new ArrayList<>(0);
 	}
 
 	protected void fillFrames() {
+		this.frames = new Image[tileWidth * tileHeight];
 		Arrays.fill(frames, Textures.UI.FRAME_MIDDLE);
-
 		for (int x = 0; x < tileWidth; x++) {
 			for (int y = 0; y < tileHeight; y++) {
 				if (y == 0) frames[x + y * tileWidth] = this.TOP_MIDDLE_FRAME;//Textures.UI.FRAME_TOP_MIDDLE;
@@ -87,7 +87,7 @@ public class GComponent$Frame extends GComponent {
 
 	@Override
 	public void render(Graphics g) {
-        super.render(g);
+		super.render(g);
 		g.pushTransform();
 		g.scale(scale, scale);
 		for (int x = 0; x < tileWidth; x++)
@@ -103,13 +103,13 @@ public class GComponent$Frame extends GComponent {
 
 	@Override
 	public void tick(GameContainer gc) {
-        super.tick(gc);
+		super.tick(gc);
 		Input input = gc.getInput();
 		Vector2f mouse = new Vector2f(input.getMouseX(), input.getMouseY());
 		if ((mouse.x > position.x) &&
-				(mouse.x < (position.x + (stdImageWidth * tileWidth * scale))) &&
+				(mouse.x < (position.x + (width * scale))) &&
 				(mouse.y > position.y) &&
-				(mouse.y < (position.y + (stdImageHeight * tileHeight * scale)))
+				(mouse.y < (position.y + (height * scale)))
 				) {
 
 			if (!firedHoverEvent) {
@@ -130,36 +130,42 @@ public class GComponent$Frame extends GComponent {
 		internalComponents.add(gc);
 	}
 
-    public void dispose() {
-        disposed = true;
-        visible = false;
+	public void dispose() {
+		disposed = true;
+		visible = false;
 
-        fireDialogCloseEvent();
-    }
+		fireDialogCloseEvent();
+	}
 
-    protected void fireTitleBarClickedEvent() {
-        for (GDialogListener g : dialogListeners) g.titleBarClicked(this);
-    }
+	public void updateComponentPositions() {
+		for (GComponent c : internalComponents)
+			c.setPosition(new Vector2f(position.x + c.getPosition().x, position.y + c.getPosition().y));
 
-    protected void fireDialogCloseEvent() {
-        for (GDialogListener g : dialogListeners) g.dialogClosed(this);
-    }
+	}
 
-    public boolean isDisposed() {
-        return disposed;
-    }
+	protected void fireTitleBarClickedEvent() {
+		for (GDialogListener g : dialogListeners) g.titleBarClicked(this);
+	}
 
-    public void onAdd(GMenu menu) {
-        super.onAdd(menu);
-        visible = true;
-    }
+	protected void fireDialogCloseEvent() {
+		for (GDialogListener g : dialogListeners) g.dialogClosed(this);
+	}
 
-    public void onRemove() {
-        super.onRemove();
-        visible = false;
-    }
+	public boolean isDisposed() {
+		return disposed;
+	}
 
-    public static Vector2f alignToCenter(int frameWidth, int frameHeight) {
-        return new Vector2f(References.GAME_WIDTH / 2 - frameWidth / 2, References.GAME_HEIGHT / 2 - frameHeight / 2);
-    }
+	public void onAdd(GMenu menu) {
+		super.onAdd(menu);
+		visible = true;
+	}
+
+	public void onRemove() {
+		super.onRemove();
+		visible = false;
+	}
+
+	public static Vector2f alignToCenter(int frameWidth, int frameHeight) {
+		return new Vector2f(References.GAME_WIDTH / 2 - frameWidth / 2, References.GAME_HEIGHT / 2 - frameHeight / 2);
+	}
 }

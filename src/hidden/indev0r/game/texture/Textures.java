@@ -25,7 +25,6 @@ public class Textures {
 
 
 		static {
-
             ResourceManager.loadSpriteSheet(ENTITY_STATIC_IMAGE_PATH + "mon00.png", 32, 32);
             ResourceManager.loadSpriteSheet(ENTITY_STATIC_IMAGE_PATH + "mon01.png", 32, 32);
             ResourceManager.loadSpriteSheet(ENTITY_STATIC_IMAGE_PATH + "mon02.png", 32, 32);
@@ -115,6 +114,17 @@ public class Textures {
         public static final SpriteSheet BUTTON_LONG_WOODEN = ResourceManager.loadSpriteSheet(UI_GAME_ELEMENT_PATH + "buttons/LONG_ROUNDED_WOODEN.png", 96, 24);
         public static final SpriteSheet BUTTON_LONG_BLUE   = ResourceManager.loadSpriteSheet(UI_GAME_ELEMENT_PATH + "buttons/LONG_ROUNDED_BLUE.png", 96, 24);
         public static final SpriteSheet BUTTON_ROUND_SLOTTED   = ResourceManager.loadSpriteSheet(UI_GAME_ELEMENT_PATH + "buttons/ROUND_SLOTTED.png", 24, 24);
+
+		public static final Image BAR_LEFT = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "bar/BAR_LEFT.png");
+		public static final Image BAR_CENTER = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "bar/BAR_CENTER.png");
+		public static final Image BAR_RIGHT = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "bar/BAR_RIGHT.png");
+		public static final Image BAR_SPACER_LEFT = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "bar/BAR_SPACER_LEFT.png");
+		public static final Image BAR_SPACER_RIGHT = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "bar/BAR_SPACER_RIGHT.png");
+		public static final Image BAR_BUTTON_NORMAL = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "bar/BAR_BUTTON_NORMAL.png");
+		public static final Image BAR_BUTTON_HOVERED = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "bar/BAR_BUTTON_HOVERED.png");
+		public static final Image BAR_BUTTON_PUSHED = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "bar/BAR_BUTTON_PUSHED.png");
+		public static final Image BAR_BUTTON_DISABLED = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "bar/BAR_BUTTON_DISABLED.png");
+
 	}
 
 

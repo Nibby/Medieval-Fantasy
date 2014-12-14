@@ -18,7 +18,8 @@ public enum Colors {
     CYAN(Color.cyan),
     BLACK(Color.black),
     DARK_GRAY(Color.darkGray),
-    LIGHT_GRAY(Color.lightGray)
+    LIGHT_GRAY(Color.lightGray),
+	PURPLE(new Color(113,34,169)),
     ;
 
     private Color color;

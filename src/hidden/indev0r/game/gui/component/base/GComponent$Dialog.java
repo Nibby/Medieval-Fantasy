@@ -12,11 +12,11 @@ import org.newdawn.slick.util.InputAdapter;
 
 public class GComponent$Dialog extends GComponent$Frame implements GComponentListener {
 
-	public GComponent$Button closeButton;
+	public  GComponent$Button closeButton;
 	private String            title;
 
-	private boolean draggable = true;
-	private boolean closed    = false;
+	private boolean draggable;
+	private boolean closed;
 
 	private DialogInputHandler inputHandler;
 
@@ -24,16 +24,19 @@ public class GComponent$Dialog extends GComponent$Frame implements GComponentLis
 		this(null, pos, width, height);
 	}
 
-	public GComponent$Dialog(String title, Vector2f pos, int width, int height) {
-		super(pos, width, height);
+	public GComponent$Dialog(String title, Vector2f pos, int tileWidth, int tileHeight) {
+		super(pos, tileWidth, tileHeight);
+		draggable = true;
+		closed = false;
+
 		this.topHeight = Textures.UI.FRAME_TOP_MIDDLE_DIALOG.getHeight();
 		this.topRightHeight = Textures.UI.FRAME_TOP_RIGHT_DIALOG.getHeight();
 		this.TOP_RIGHT_FRAME = Textures.UI.FRAME_TOP_RIGHT_DIALOG;
 		this.TOP_MIDDLE_FRAME = Textures.UI.FRAME_TOP_MIDDLE_DIALOG;
 		this.TOP_LEFT_FRAME = Textures.UI.FRAME_TOP_LEFT_DIALOG;
 
-		closeButton = new GComponent$Button (
-				new Vector2f((stdImageWidth * width) - 32, -28),
+		closeButton = new GComponent$Button(
+				new Vector2f((stdImageWidth * tileWidth) - 32, -28),
 				Textures.UI.BUTTON_ROUND_RED_NORMAL,
 				Textures.UI.BUTTON_ROUND_RED_PRESSED,
 				Textures.UI.BUTTON_ROUND_RED_HOVERED,
@@ -41,8 +44,8 @@ public class GComponent$Dialog extends GComponent$Frame implements GComponentLis
 		closeButton.addListener(this);
 		addComponent(closeButton);
 		setTitle(title);
-        setSize(width * tileWidth,height * tileHeight - 64);
-        setInteractBounds(0, 32,width * tileWidth,height * tileHeight - 64);
+		//setSize(width * this.tileWidth, height * this.tileHeight - 64);
+		setInteractBounds(0, 32, tileWidth * this.tileWidth, tileHeight * this.tileHeight - 64);
 
 		MedievalLauncher.getInstance().getGameContainer().getInput().addListener((inputHandler = new DialogInputHandler()));
 		fillFrames();
@@ -86,13 +89,13 @@ public class GComponent$Dialog extends GComponent$Frame implements GComponentLis
 		Input input = gc.getInput();
 		Vector2f mouse = new Vector2f(input.getMouseX(), input.getMouseY());
 
-        if (mouse.x > this.position.x && mouse.x < (this.position.x + this.width) && mouse.y > this.position.y && (mouse.y < this.position.y + 32)) {
-            if (currentState.equals(GStates.DISABLED)) return;
-            //Mouse click
-            if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-                fireTitleBarClickedEvent();
-            }
-        }//END OF MOUSE BOUNDS
+		if (mouse.x > this.position.x && mouse.x < (this.position.x + this.width) && mouse.y > this.position.y && (mouse.y < this.position.y + 32)) {
+			if (currentState.equals(GStates.DISABLED)) return;
+			//Mouse click
+			if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+				fireTitleBarClickedEvent();
+			}
+		}//END OF MOUSE BOUNDS
 		else {
 			currentState = GStates.NORMAL;
 		}
@@ -143,15 +146,15 @@ public class GComponent$Dialog extends GComponent$Frame implements GComponentLis
 		MedievalLauncher.getInstance().getGameContainer().getInput().removeListener(inputHandler);
 	}
 
-    public String getTitle() {
-        return title;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public void setTitle(String title) {
-        this.title = (title != null ? title : "");
-    }
+	public void setTitle(String title) {
+		this.title = (title != null ? title : "");
+	}
 
-    class DialogInputHandler extends InputAdapter {
+	class DialogInputHandler extends InputAdapter {
 		boolean wasDragging = false;
 
 		private boolean isDialogDragInstance() {
@@ -172,7 +175,7 @@ public class GComponent$Dialog extends GComponent$Frame implements GComponentLis
 		//Dragging frames = moving
 		@Override
 		public void mouseDragged(int oldx, int oldy, int newx, int newy) {
-            if(!draggable) return;
+			if (!draggable) return;
 
 			//Check cursor's current drag instance to prevent multi-dragging
 			if (wasDragging || newx > position.x && newx < position.x + width && newy > position.y && newy < position.y + 32) {
