@@ -35,14 +35,19 @@ public class Command$If extends Command {
         super.exec(actor, block);
 
         //Checking script data
-        if(ifElement.hasAttribute("scriptDataParam")) {
-            dataBeingChecked = (String) Script.translate(ifElement.getAttribute("check"), ifElement.getAttribute("scriptDataParam"));
+        if(ifElement.hasAttribute("scriptDataParam1")) {
+            dataBeingChecked = (String) Script.translate(ifElement.getAttribute("check"), ifElement.getAttribute("scriptDataParam1"));
         }
         else {
             dataBeingChecked = (String) Script.translate(ifElement.getAttribute("check"));
         }
         checkOperation = ifElement.getAttribute("operation");
-        dataBeingCompared = ifElement.getAttribute("compare");
+        if(ifElement.hasAttribute("scriptDataParam2")) {
+            dataBeingCompared = (String) Script.translate(ifElement.getAttribute("compare"), ifElement.getAttribute("scriptDataParam2"));
+        }
+        else {
+            dataBeingCompared = (String) Script.translate(ifElement.getAttribute("compare"));
+        }
 
         int checkVar, compareVar;
 
@@ -69,6 +74,22 @@ public class Command$If extends Command {
                 compareVar = Integer.parseInt(dataBeingCompared);
 
                 if(checkVar <= compareVar) {
+                    nestedBlock.execute(actor);
+                } else block.executeNext(actor);
+                break;
+            case "<":
+                checkVar = Integer.parseInt(dataBeingChecked);
+                compareVar = Integer.parseInt(dataBeingCompared);
+
+                if(checkVar < compareVar) {
+                    nestedBlock.execute(actor);
+                } else block.executeNext(actor);
+                break;
+            case ">":
+                checkVar = Integer.parseInt(dataBeingChecked);
+                compareVar = Integer.parseInt(dataBeingCompared);
+
+                if(checkVar > compareVar) {
                     nestedBlock.execute(actor);
                 } else block.executeNext(actor);
                 break;

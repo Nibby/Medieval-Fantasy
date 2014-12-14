@@ -94,6 +94,7 @@ public class AI implements Cloneable {
             private long lastTick = 0;
 
             public AI make(Actor actor, Element aiElement) {
+
                 setInterval = aiElement.hasAttribute("interval");
                 if(!setInterval) {
                     intervalMin = Integer.parseInt(aiElement.getAttribute("intervalMin"));

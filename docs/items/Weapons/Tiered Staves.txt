@@ -1,0 +1,33 @@
+Below are a list of weapon names that are tiered, and is listed from least valuable to most valuable.
+Only a handful will be selected for final implementation. These are just ideas.
+
+Training Staff
+Magic Rod
+Apprentice Staff
+Cedarwood Staff
+Great Staff
+Spirit Staff
+Shaman Rod
+Arcane Staff
+Staff of Wisdom
+Greatstaff
+Twisted Sceptre
+Crystal Staff
+Wizard Staff
+Dire Bone Sceptre
+Warden's Staff
+Infused Scythe
+Tidecaller Sceptre
+Staff of the Chancellor
+Windbreaker Wand
+Demonic Greatstaff
+Staff of Ferocious Maelstrom
+Infinity Sceptre
+Staff of the Occult
+Micah's Greatstaff
+Ethereal Branch
+Stalk of Corruption
+Spellbinder
+Eye of the Seeker
+Staff of Enlightenment
+St. Jeremiah's Sceptre

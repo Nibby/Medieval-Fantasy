@@ -12,8 +12,10 @@
     </stats>
 
     <script type="interact">
-        <!--<camera trackObject="$ACTOR_REF" actorRef="dev_quarters_lobby.bartender" />-->
-        <!--<wait for="3000" />-->
-        <!--<camera trackObject="$PLAYER" />-->
+        <!--<camera action="PAN" mode="TOWARDS_ACTOR" actor="$NPC_REF" actorRef="dev_quarters_lobby.bartender" /> -->
+        <!--<camera action="PAN" mode="CENTER_TILE" tilePos="7,12" />-->
+        <say duration="3000" jitter="true" color="RED">MUAHAHA!</say>
+        <wait for="3000" />
+        <camera action="SHAKE" intensity="10" amplitude="5" duration="2000" />
     </script>
 </npc>

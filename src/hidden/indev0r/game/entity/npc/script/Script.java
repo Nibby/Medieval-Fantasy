@@ -77,6 +77,20 @@ public class Script implements CommandBlock {
                 String refKey = (String) params[0];
                 return ScriptDataManager.getManager().getValue(refKey);
             }
+        },
+
+        $RANDOM_NUMBER {
+            @Override
+            public Object getDefinition(Object... params) {
+                if(params != null && params.length == 1) {
+                    String[] bounds = ((String) params[0]).split("-");
+                    int lower = Integer.parseInt(bounds[0]);
+                    int upper = Integer.parseInt(bounds[1]);
+                    return (int) (Math.random() * (upper - lower) + lower) + "";
+                } else {
+                    return "0";
+                }
+            }
         }
 
         ;

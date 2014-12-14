@@ -1,0 +1,9 @@
+USAGE:
+
+    <scriptData key="$DATA_KEY"
+                value="$DATA_VALUE" />
+
+    $DATA_KEY       - Data key of the variable
+    $DATA_VALUE     - Data value of the variable
+
+    This command sets a switch in the ScriptDataManager

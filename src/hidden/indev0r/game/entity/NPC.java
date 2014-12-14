@@ -20,7 +20,7 @@ public class NPC extends Actor {
     private String name;
     private Faction faction;
     private boolean hostile;
-    private Color nameColor;
+    private Color nameColor, minimapColor;
 
     private boolean wasMouseFocused = false;
     private boolean postInteraction = false;
@@ -83,6 +83,14 @@ public class NPC extends Actor {
 
     private void interact(Player player) {
         executeScript(Script.Type.interact);
+    }
+
+    public Color getMinimapColor() {
+        return minimapColor;
+    }
+
+    public void setMinimapColor(Color minimapColor) {
+        this.minimapColor = minimapColor;
     }
 
     public void setNameColor(Color color) {

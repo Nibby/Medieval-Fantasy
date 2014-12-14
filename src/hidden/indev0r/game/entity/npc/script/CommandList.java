@@ -66,9 +66,21 @@ public enum CommandList {
         public Command newInstance() {
             return new Command$Wait();
         }
+    },
+
+    stats {
+        @Override
+        public Command newInstance() {
+            return new Command$Stats();
+        }
+    },
+
+    camera {
+        @Override
+        public Command newInstance() {
+            return new Command$Camera();
+        }
     }
-
-
     ;
 
 

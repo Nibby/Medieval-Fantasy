@@ -4,6 +4,8 @@ import hidden.indev0r.game.entity.Entity;
 import hidden.indev0r.game.reference.References;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by MrDeathJockey on 14/12/3.
@@ -12,6 +14,8 @@ public class Camera {
 
 	private float offsetX = 0, offsetY = 0;
 	private Entity trackingEntity;
+
+    private List<CameraListener> cameraListeners = new ArrayList<>();
 
 	/*
 	 * When panning, it will disable any attempts to setStat
@@ -22,7 +26,12 @@ public class Camera {
 	private int   forcePanInterval;
 	private Point forcePanPoint;
 	private static int   panSpeed = References.DRAW_SCALE;
-	private        float rotation = 0f;
+
+    private boolean shaking = false;
+    private int shakeTime, shakeAmplitude, shakeInterval;
+    private float shakeX = 0, originalX = 0, originalY = 0;
+    private long shakeTimer, shakeStartTime;
+
 
 	public Camera(float initialOffsetX, float initialOffsetY) {
 		this.offsetX = initialOffsetX;
@@ -43,7 +52,23 @@ public class Camera {
 	}
 
 	public void tick() {
-		//Updates track
+		if(shaking) {
+            if(System.currentTimeMillis() - shakeStartTime > shakeTime) {
+                shaking = false;
+                setOffset(originalX, originalY);
+                fireShakeFinishEvent();
+            }
+            if(System.currentTimeMillis() - shakeTimer > shakeInterval) {
+                if(getOffsetX() > originalX) shakeX = -shakeAmplitude;
+                if(getOffsetX() < originalX) shakeX = shakeAmplitude;
+                setOffset(getOffsetX() + shakeX, getOffsetY());
+                shakeTimer = System.currentTimeMillis();
+            }
+            return;
+        } else {
+            shakeX = 0;
+        }
+
 		if (trackingEntity != null) {
 			if (!forcePan) {
 				setOffset(-(trackingEntity.getPosition().x - (References.GAME_WIDTH / 2 / References.DRAW_SCALE) + trackingEntity.getWidth() / 2),
@@ -78,6 +103,7 @@ public class Camera {
 				}
 			} else {
 				forcePan = false;
+                firePanFinishEvent();
 			}
 			forcePanTime += forcePanInterval;
 		}
@@ -86,6 +112,22 @@ public class Camera {
 	public void setTrackObject(Entity entity) {
 		trackingEntity = entity;
 	}
+
+    public void addListener(CameraListener listener) {
+        cameraListeners.add(listener);
+    }
+
+    private void firePanFinishEvent() {
+        for(int i = 0; i < cameraListeners.size(); i++) {
+            cameraListeners.get(i).panFinished(this);
+        }
+    }
+
+    private void fireShakeFinishEvent() {
+        for(int i = 0; i < cameraListeners.size(); i++) {
+            cameraListeners.get(i).shakeFinished(this);
+        }
+    }
 
 	/**
 	 * In contrast to setOffset method, pan brings a much slower and smoother camera
@@ -97,11 +139,24 @@ public class Camera {
 	 * @param spd - Speed of pan
 	 */
 	public void pan(int x, int y, int spd) {
-		forcePanPoint = new Point(x - x % References.DRAW_SCALE, y - y % References.DRAW_SCALE);
-		forcePanInterval = spd;
+        panSpeed = spd;
+        forcePanPoint = new Point(x - x % panSpeed, y - y % panSpeed);
+        forcePanInterval = 10;
 		forcePanTime = System.currentTimeMillis();
 		forcePan = true;
 
 		trackingEntity = null;
 	}
+
+    public void shake(int shakeAmplitude, int shakeInterval, int shakeLength) {
+        shaking = true;
+        originalX = getOffsetX();
+        originalY = getOffsetY();
+        shakeX = shakeAmplitude;
+        this.shakeInterval = shakeInterval;
+        shakeTimer = System.currentTimeMillis();
+        shakeStartTime = System.currentTimeMillis();
+        shakeTime = shakeLength;
+        this.shakeAmplitude = shakeAmplitude;
+    }
 }

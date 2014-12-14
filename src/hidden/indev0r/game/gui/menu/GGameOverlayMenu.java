@@ -80,10 +80,10 @@ public class GGameOverlayMenu extends GMenu {
         addComponent(scrollComponent);
     }
 
-    public void showSpeechBubble(Actor actor, String text, int duration, Color textCol) {
+    public void showSpeechBubble(Actor actor, String text, int duration, Color textCol, boolean jitter) {
         GComponent$SpeechBubble bubble = new GComponent$SpeechBubble(
                 text, new Vector2f(actor.getPosition().x + actor.getWidth() / 2 - BitFont.widthOf(text, 16) / 2,
-                                   actor.getPosition().y - 48), duration, textCol);
+                                   actor.getPosition().y - 48), duration, textCol, jitter);
         bubble.onAdd();
         addComponent(bubble);
     }

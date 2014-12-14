@@ -18,29 +18,29 @@ it radiates a special holy aura capable of healing those near the user, as well 
     > Angelic Chasuble (Robe, Wizard)
 
         A feathery light robe skillfully woven in purified white ether-silk by the angels in heavenly
-        realms. It's energetic belt bears the insignia of Holy Saint Martyr and shimmers with a faint blue glow.
+        realms. It's energetic belt bears the insignia of Holy Saint Raymond and shimmers with a faint blue glow.
 
         It is the Church's symbol of divinity.
 
     > Angelic Chainmail (Armour, Warrior)
 
         A high quality armour forged in the heavenly realms with great precision and skill. The magically
-        enchanted white plates bears the insignia of Holy Saint Martyr and shimmers with a faint blue glow.
+        enchanted white plates bears the insignia of Holy Saint Raymond and shimmers with a faint blue glow.
 
         It is the Church's symbol of divinity.
 
 2. Weapons
 
-    > Angelic Sabre    (Sword, Warrior)
+    > Holy Excalibur    (Sword, Warrior)
 
-        A legendary weapon crafted by Martyr and used in the war against the demons centuries ago.
-        It's magically enchanted aqua blade emanates holiness and it's attacks are able to purify the evil.
+        A legendary weapon of unimaginably destructive power forged in the ethereal realms.
+        It's magically enchanted aqua blade emanates holiness and seals all evil.
 
         It is the Church's symbol of justice.
 
     > Angelic Sceptre  (Staff, Wizard)
 
-        A long white rod made of luxurious white gold topped with an age-old aqua crystal fostered in
+        A long white rod made of luxurious white gold topped with a centuries-old aqua crystal fostered in
         the heavens. It overflows with the power of gods and is able to blast evil with celestial beams.
 
         It is the Church's symbol of justice.

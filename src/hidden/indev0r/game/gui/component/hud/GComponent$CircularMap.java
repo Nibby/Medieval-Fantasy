@@ -118,7 +118,9 @@ public class GComponent$CircularMap extends GComponent {
                         boolean isEnemy = FactionUtil.isEnemy(centerActor.getFaction(), ((NPC) e).getFaction());
                         boolean isAlly = FactionUtil.isAlly(centerActor.getFaction(), ((NPC) e).getFaction());
 
-                        if(isEnemy) {
+                        if(((NPC) e).getMinimapColor() != null) {
+                            mapG.setColor(((NPC) e).getMinimapColor());
+                        } else if(isEnemy) {
                             mapG.setColor(COLOR_ENEMY);
                         } else {
                             mapG.setColor(COLOR_FRIENDLY);

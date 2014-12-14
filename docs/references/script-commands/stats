@@ -1,0 +1,28 @@
+USAGE:
+
+    <stats action="$ACTION"
+           stat="$STAT"
+           value="$VALUE"
+
+       (o) actor="$ACTOR"
+        -  actorRef="$ACTOR_REFERENCE" />
+
+
+        $ACTION         - The means of altering the stat:
+                            ADD: Adds the $VALUE value based on existing
+                            DEDUCT: Deducts the $VALUE from the existing amount
+                            SET: Overrides existing values and replaces them with $VALUE
+
+        $STAT           - The stat to change. See Actor.Stats enum for values.
+        $VALUE          - A numerical value. Random value is allowed:
+
+                          <stats ... value="$RANDOM_NUMBER" randomParams="1-10"> for example
+
+
+        (o) Optional Fields
+
+        $ACTOR          - The specified actor to perform this action, see ACTOR_REFERENCES
+        $ACTOR_REFERENCE- The referred actor (if npc)
+
+
+

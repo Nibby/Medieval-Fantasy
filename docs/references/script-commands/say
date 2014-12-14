@@ -1,0 +1,22 @@
+USAGE:
+
+    <say (o) duration="$DURATION"
+         (o) interval="$INTERVAL"
+         (o) color="$COLOR"
+         (o( jitter="$JITTER">
+         Text
+    </say>
+
+    (o)         - Optional attribute
+
+    $DURATION   - The time, in ms, the speech bubble will stay on-screen
+    $INTERVAL   - Delay, in ms, before the bubble will show again.
+                  By convention, if this is empty (as in, not provided),
+                  the default interval is 0ms (no delays).
+
+                  Leave this empty if command is executed in the
+                  "interact" script type.
+
+    $COLOR      - Color of the spoken text, for values see Colors enum.
+    $JITTER     - Whether or not the said text shakes, combine with red color
+                  for evil MUAHAHAs.

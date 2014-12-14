@@ -15,6 +15,7 @@ public class Command$Say extends Command {
     private String text = "";
     private int duration = 0;
     private int interval = 0;
+    private boolean jitter = false;
 
     private long lastTime;
 
@@ -33,6 +34,11 @@ public class Command$Say extends Command {
             interval = Integer.parseInt(e.getAttribute("interval"));
         else interval = 0;
 
+        if(e.hasAttribute("jitter"))
+            jitter = Boolean.parseBoolean(e.getAttribute("jitter"));
+        else
+            jitter = false;
+
         lastTime = 0;
 
         return generateCommand(this);
@@ -42,7 +48,7 @@ public class Command$Say extends Command {
     public void exec(Actor actor, final CommandBlock block) {
         super.exec(actor, block);
         if(System.currentTimeMillis() - lastTime > interval) {
-            MedievalLauncher.getInstance().getGameState().getMenuOverlay().showSpeechBubble(getActor(), text, duration, color);
+            MedievalLauncher.getInstance().getGameState().getMenuOverlay().showSpeechBubble(getActor(), text, duration, color, jitter);
             lastTime = System.currentTimeMillis();
 
         }

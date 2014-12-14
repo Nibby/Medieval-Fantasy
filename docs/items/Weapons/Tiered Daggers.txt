@@ -1,0 +1,38 @@
+Below are a list of weapon names that are tiered, and is listed from least valuable to most valuable.
+Only a handful will be selected for final implementation. These are just ideas.
+
+Training Dagger
+Rat's Claw
+Bronze Dagger
+Iron Dagger
+Steel Dagger
+Gold Dagger
+Fiery Dagger
+Ebonblade
+Ivory Guardian
+Mithril Fang
+Adamantite Dagger
+Ravenclaw
+Heartpiece
+Demonic Shard
+Roaring Kriss
+Forsaken Shortclaw
+Bayonet of Lakith
+Stinger
+Wrathful Shard
+Shadowsteel
+Malice
+Night's Bane
+Malevolent Shiv
+Dirk of Ronus
+Twilight's Edge
+Faithkeeper
+Spectre's Grasp
+Forsaken Claw
+Heartslicer
+Dirk of Eternal Sorrow
+Zargoleptica
+Time's Edge
+Ravenous Claw
+Phantom Reaper
+Lazarus

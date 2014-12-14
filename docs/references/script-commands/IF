@@ -1,0 +1,41 @@
+USAGE:
+
+    > General Logic
+
+        <if check="$DATA_CHECKED" operation="$LOGIC_OPERATION" compare="$COMPARE_VALUE">
+            ... block of code executed if statement was true
+        </if>
+
+
+        $DATA_CHECKED           - The value of the data being checked.
+                                    If check data value is a ScriptData
+                                        check="$SCRIPT_DATA" scriptDataParam="Script_Data_Key" ...
+                                    If check data value is a position
+                                        check="$PLAYER_POSITION" ...
+
+
+        $LOGIC_OPERATION        - Operation to compare.
+                                    ==  - Numerical equals
+                                    >=  - Grater than or equal to
+                                    <=  - Less than or equal to
+                                    >   - Greater than
+                                    <   - Less than
+                                    equals - String value comparison (same as .equals())
+
+        $COMPARE_VALUE          - Value being compared, referral flags are allowed here also
+
+
+    NOTE: If statements can be nested. Careful when checking same variables:
+    e.g.
+        <if check="$SCRIPT_DATA" scriptDataParam="var" operation="==" compare="0">
+            ... other command
+            <scriptType key="var" value="1" />
+        </if>
+
+        <if check="$SCRIPT_DATA" scriptDataParam="var" operation="==" compare="1">
+            ... commands
+        </if>
+
+    This will cause both statements to be executed, since second block will be executed
+        at the end of the first block. To avoid this problem, place the blocks where checked
+        values won't be altered above ones that will alter check values.

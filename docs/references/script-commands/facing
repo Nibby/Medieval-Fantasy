@@ -1,0 +1,20 @@
+USAGES:
+
+    <facing object="$FACING_OBJECT"
+        (o) actor="$ACTOR"
+            - actorRef="$ACTOR_REF" />
+
+        $FACING_OBJECT          - The referred actor to face, see ACTOR_REFERENCES
+
+        $ACTOR                  - Specified actor to perform this command, see ACTOR_REFERENCES
+        $ACTOR_REF              - Referenced actor (if it is an NPC)
+
+    <facing direction="$FACING_DIRECTION"
+        (o) actor="$ACTOR"
+             - actorRef="$ACTOR_REF" />
+
+        $FACING_DIRECTION       - The direction to face, see MapDirections enum for values.
+
+        $ACTOR                  - Specified actor to perform this command, see ACTOR_REFERENCES
+        $ACTOR_REF              - Referenced actor (if it is an NPC)
+

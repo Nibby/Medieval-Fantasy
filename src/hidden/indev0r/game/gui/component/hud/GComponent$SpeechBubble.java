@@ -21,16 +21,17 @@ public class GComponent$SpeechBubble extends GComponent {
     private long tickTime;
     private int duration;
     private boolean expired = false;
-
+    private boolean jitter = false;
     private String text;
     private Color color;
 
-    public GComponent$SpeechBubble(String text, Vector2f pos, int duration, Color color) {
+    public GComponent$SpeechBubble(String text, Vector2f pos, int duration, Color color, boolean jitter) {
         super(pos);
 
         this.duration = duration;
         this.text = text;
         this.color = color;
+        this.jitter = jitter;
         setSize(BitFont.widthOf(text, 16), 28);
     }
 
@@ -53,7 +54,7 @@ public class GComponent$SpeechBubble extends GComponent {
         g.drawImage(bRight, position.x + fWidth + camera.getOffsetX(), position.y - 4 + camera.getOffsetY());
         g.drawImage(center2, position.x + fWidth / 2 - center2.getWidth() / 2 + camera.getOffsetX(), position.y - 4 + camera.getOffsetY());
 
-        BitFont.render(g, text, (int) (position.x + camera.getOffsetX()), (int) (position.y + camera.getOffsetY()), color);
+        BitFont.render(g, text, (int) (position.x + camera.getOffsetX()), (int) (position.y + camera.getOffsetY()), color, 16, 1f, jitter, 1);
     }
 
     public void tick(GameContainer gc) {

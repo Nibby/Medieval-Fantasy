@@ -1,0 +1,24 @@
+USAGE:
+
+    <move direction="$DIRECTION"
+          steps="$STEPS"
+      (o) actor="$ACTOR"
+        - actorRef="$ACTOR_REFERENCE" />
+
+        $DIRECTION      - Move direction, see MapDirections for values
+        $STEPS          - The number of steps to take in the given direction
+        $ACTOR          - The specified actor to perform this action, see ACTOR_REFERENCES
+        $ACTOR_REFERENCE- The referred actor (if npc)
+
+    <move x="$POS_X" y="$POS_Y"
+      (o) actor="$ACTOR"
+        - actorRef="$ACTOR_REFERENCE" />
+
+        $POS_X          - Absolute x co-ordinate, in terms of tiles
+        $POS_Y          - Absolute y co-ordinate, in terms of tiles
+        $ACTOR          - The specified actor to perform this action, see ACTOR_REFERENCES
+        $ACTOR_REFERENCE- The referred actor (if npc)
+
+
+    NOTE: Script engine will not wait for this action to be done before executing the
+          next. For waiting effects, use this in conjunction with <wait for="..." /> command.

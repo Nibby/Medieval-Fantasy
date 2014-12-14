@@ -1,13 +1,38 @@
 Below are a list of weapon names that are tiered, and is listed from least valuable to most valuable.
+Only a handful will be selected for final implementation. These are just ideas.
 
- 1.     Bronze Sword
- 2.     Iron Sword
- 3.     Steel Sword
- 5.     Double-edged Sword
- 4.     Enchanted Sword
- 6.     Sword of Valor
- 5.     Death-duel Rapier
- 6.     Blazing Greatsword
- 7.     Majestic Blade
- 8.     Claymore
- 9.     Fate Blade
+Training Stick
+Wooden Sword
+Reinforced Sword
+Bronze Sword
+Arched Sword
+Iron Sword
+Steel Sword
+Scimitar
+Golden Sword
+Swiftblade
+Enchanted Scimitar
+Double-edged Sword
+Bastard Sword
+Infused Rapier
+Sword of Valor
+Purifier
+Adamantite Greatsword
+Gladius
+Death-duel Rapier
+Fiery Greatsword
+Majestic Blade
+Vindicator Sword
+Claymore
+Fate Blade
+Blade of Malicious Deeds
+Shadowbane
+Willbreaker
+Soul Reaver
+Thorn of Torment
+Might of the Gladiator
+Heartbleed
+Crusador's Blade
+Soulrapier
+Demonic Spellblade
+Holy Excalibur

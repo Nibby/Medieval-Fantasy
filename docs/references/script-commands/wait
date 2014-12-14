@@ -1,0 +1,6 @@
+USAGE:
+
+    <wait for="$TIME" />
+
+
+    $TIME   - Time to wait for, in ms

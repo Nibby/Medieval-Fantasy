@@ -1,0 +1,26 @@
+USAGES:
+
+    <dialog type="$DIALOG_TYPE"
+            title="$DIALOG_TITLE">
+        (o) width="$DIALOG_WIDTH"
+        (o) height="$DIALOG_HEIGHT">
+       <content>
+        Text goes here...
+       </content>
+
+       ... multiple <content> blocks are allowed in some dialog types
+    </dialog>
+
+
+
+    $DIALOG_TYPE        - The type of dialog:
+                            0: Normal, single-paged dialog with OK button
+                            1: Normal, multi-paged dialog allowing multiple
+                                        <content> blocks
+
+
+    $DIALOG_TITLE       - The title of the dialog, NPC name reference is allowed
+                          by calling $NPC_NAME
+
+    $DIALOG_WIDTH       - Width of dialog, in terms of grids
+    $DIALOG_HEIGHT      - Height of dialog, in terms of grids

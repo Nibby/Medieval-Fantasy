@@ -21,7 +21,7 @@ public class Command$Random extends Command {
         randomCommands = ScriptParser.parse(e.getTagName(), block, actor, e);
 
         if(e.hasAttribute("interval")) {
-            interval = Integer.parseInt(e.getAttribute("interval"));
+            interval = Integer.parseInt((String) Script.translate(e.getAttribute("interval"), e.getAttribute("randomParams")));
         } else interval = 0;
 
         return generateCommand(this);
@@ -30,7 +30,7 @@ public class Command$Random extends Command {
     @Override
     public void exec(Actor actor, final CommandBlock block) {
         super.exec(actor, block);
-
+        
         if(System.currentTimeMillis() - randomTick > interval) {
             int size = randomCommands.size();
             if(size <= 0) {
@@ -40,6 +40,9 @@ public class Command$Random extends Command {
             int random = (int) (Math.random() * size);
             randomCommands.get(random).exec(actor, block);
             randomTick = System.currentTimeMillis();
+
+            if(cmdElement.hasAttribute("interval"))
+                interval = Integer.parseInt((String) Script.translate(cmdElement.getAttribute("interval"), cmdElement.getAttribute("randomParams")));
         }
         block.executeNext(actor);
     }

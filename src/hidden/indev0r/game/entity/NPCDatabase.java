@@ -5,6 +5,7 @@ import hidden.indev0r.game.entity.animation.ActionSet;
 import hidden.indev0r.game.entity.animation.ActionSetDatabase;
 import hidden.indev0r.game.entity.npc.script.Script;
 import hidden.indev0r.game.entity.npc.script.ScriptParser;
+import hidden.indev0r.game.gui.component.hud.GComponent$CircularMap;
 import hidden.indev0r.game.map.MapDirection;
 import hidden.indev0r.game.map.Tile;
 import hidden.indev0r.game.map.TileMap;
@@ -118,6 +119,12 @@ public class NPCDatabase {
                 if(color != null)
                     npc.setNameColor(color.getColor());
             }
+
+            if(root.hasAttribute("minimapColor")) {
+                Colors color = Colors.valueOf(root.getAttribute("minimapColor"));
+                if(color != null)
+                    npc.setMinimapColor(color.getColor());
+            } else npc.setMinimapColor(null);
 
             if(root.hasAttribute("facing")) {
                 MapDirection direction = MapDirection.valueOf(root.getAttribute("facing"));

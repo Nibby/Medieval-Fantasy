@@ -1,0 +1,20 @@
+USAGE:
+
+    <actAction type="$ACTION_TYPE"
+           (o) wait="$TIME"
+           (o) actor="$ACTOR"
+               - actorRef="$ACTOR_REFERENCE"
+    />
+
+
+    (o)                 - Optional attribute
+        -               - Must be included if you use THAT optional attribute
+
+    $ACTION_TYPE        - The action to act by the actor
+    $TIME               - true or false, whether or not to wait for the action to be
+                          performed completely before proceeding to the next command.
+
+    $ACTOR              - The actor to perform this action.
+                          For details, read on 'actor_references.txt'
+
+    $ACTOR_REFERENCE    - The actor you want to refer to

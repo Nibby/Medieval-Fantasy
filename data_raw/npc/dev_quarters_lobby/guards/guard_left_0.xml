@@ -12,10 +12,10 @@
     </stats>
 
     <script type="interact">
-        <IF check="$SCRIPT_DATA" scriptDataParam="guard_left_0.spoken" operation="==" compare="1">
+        <IF check="$SCRIPT_DATA" scriptDataParam1="guard_left_0.spoken" operation="==" compare="1">
             <say interval="0" duration="1000">*yawn*</say>
         </IF>
-        <IF check="$SCRIPT_DATA" scriptDataParam="guard_left_0.spoken" operation="==" compare="0">
+        <IF check="$SCRIPT_DATA" scriptDataParam1="guard_left_0.spoken" operation="==" compare="0">
             <say interval="0" duration="2000">This job sucks...</say>
             <wait for="2000" />
             <say actor="$NPC_REF" actorRef="dev_quarters_lobby.guards.guard_right_0" interval="0" duration="1000">Aye</say>

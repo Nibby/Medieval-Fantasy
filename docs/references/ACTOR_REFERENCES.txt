@@ -1,0 +1,11 @@
+To refer to an NPC in-script (for commands that support actor references):
+
+    <cmd ... actor="$NPC_REF"
+             actorRef="npc.identifier.name" />
+
+             This will refer to an NPC of the given identifier
+
+
+    <cmd ... actor="$PLAYER" />
+
+             This will refer to the player

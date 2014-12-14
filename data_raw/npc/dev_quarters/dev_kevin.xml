@@ -1,5 +1,6 @@
 <npc hostile="false" faction="HUMAN" actionSet="10"
-     width="1" height="1" name="Kevin Yang" identifier="kevin" facing="LEFT" nameColor="MAGENTA">
+     width="1" height="1" name="Kevin Yang" facing="LEFT"
+     nameColor="MAGENTA" minimapColor="WHITE">
 
     <location>
         <map>dev_quarters</map>
