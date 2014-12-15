@@ -1,0 +1,6 @@
+USAGE:
+
+    <runScript script="$SCRIPT_REF" />
+
+
+    $SCRIPT_REF         - External script key

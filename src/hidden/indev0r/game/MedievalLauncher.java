@@ -4,7 +4,7 @@ import hidden.indev0r.game.debug.DataPublisher;
 import hidden.indev0r.game.entity.NPCDatabase;
 import hidden.indev0r.game.entity.AI;
 import hidden.indev0r.game.entity.animation.ActionSetDatabase;
-import hidden.indev0r.game.entity.npc.script.Command;
+import hidden.indev0r.game.entity.npc.script.ScriptDatabase;
 import hidden.indev0r.game.gui.Cursor;
 import hidden.indev0r.game.map.TileMapDatabase;
 import hidden.indev0r.game.map.TilesetDatabase;
@@ -46,7 +46,6 @@ public class MedievalLauncher extends StateBasedGame {
             DataPublisher.publishContents();
             System.gc();
 
-
             //Initializing game data
 			Textures.Init();
             AI.init();
@@ -54,8 +53,8 @@ public class MedievalLauncher extends StateBasedGame {
             TilesetDatabase.getDatabase().loadTilesets();
 			TileMapDatabase.getDatabase().loadMaps();
 			ActionSetDatabase.getDatabase().loadActionSets();
+            ScriptDatabase.getDatabase().loadScripts();
             NPCDatabase.getDatabase().loadNPCs();
-
 		} catch (Exception e) {
             e.printStackTrace();
         }

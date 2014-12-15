@@ -15,13 +15,21 @@ import java.util.List;
  */
 public class ScriptParser {
 
+    public static final Script parse(Element scriptElement) {
+        return parse(null, scriptElement);
+    }
+
     public static final Script parse(Actor actor, Element scriptElement) {
-        if(actor == null || scriptElement == null) return null;
+        if(scriptElement == null) return null;
         if(!scriptElement.getTagName().equals("script")) return null;
 
         //Obtains the type of script
-        Script.Type scriptType = Script.Type.valueOf(scriptElement.getAttribute("type"));
-        Script script = new Script(scriptType, actor);
+        Script script = new Script();
+        if(scriptElement.hasAttribute("type")){
+            Script.Type scriptType = Script.Type.valueOf(scriptElement.getAttribute("type"));
+            if(actor != null)
+                actor.addScript(scriptType, script);
+        }
 
         List<Command> scriptCommands = new ArrayList<>();
 

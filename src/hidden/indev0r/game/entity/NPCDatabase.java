@@ -177,9 +177,7 @@ public class NPCDatabase {
                 Element eScript = (Element) scriptList.item(i);
 
                 Script script = ScriptParser.parse(npc, eScript);
-                if(script != null)
-                    npc.addScript(script);
-                else
+                if(script == null)
                     JOptionPane.showMessageDialog(null, "Cannot create script '" + eScript.getAttribute("type") + "' for NPC '" + npcName + "'!",
                             "Internal Error", JOptionPane.ERROR_MESSAGE);
             }

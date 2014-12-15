@@ -20,7 +20,6 @@ import java.util.List;
 public class GComponent$CircularMap extends GComponent {
 
     private static int MAP_PIXEL_SIZE = 3;
-
     private static final Color COLOR_ENEMY = Color.red;
     private static final Color COLOR_SELF = Color.green;
     private static final Color COLOR_FRIENDLY = new Color(0, 138, 255);
@@ -30,7 +29,8 @@ public class GComponent$CircularMap extends GComponent {
 
     private static final Color COLOR_CLEAR = Color.black;
     private static final Color COLOR_NULL_TILE = Color.black;
-    private static final Color COLOR_BLOCKED_TILE = Color.lightGray;
+    private static final Color COLOR_BLOCKED_FLOOR_TILE = Color.lightGray;
+    private static final Color COLOR_BLOCKED_DECOR_TILE = new Color(189, 120, 75);
     private static final Color COLOR_NON_BLOCKED_TILE = Color.darkGray;
     private static final Color COLOR_CENTER_ENTITY = Color.white;
     private static final Color COLOR_HOSTILE_ENTITY = Color.red;
@@ -86,13 +86,17 @@ public class GComponent$CircularMap extends GComponent {
                     for(int y = miy; y < may; y++) {
                         if (x < 0 || x > mapTiles[0].length - 1 || y < 0 || y > mapTiles[0][0].length - 1) continue;
 
-                        if(mapSupplier.isNullTile(new Vector2f(x, y))) {
-                            mapG.setColor(COLOR_NULL_TILE);
-                        } else if(mapSupplier.blockedAt(new Vector2f(x, y))) {
-                            mapG.setColor(COLOR_BLOCKED_TILE);
-                        } else {
-                            mapG.setColor(COLOR_NON_BLOCKED_TILE);
+                        for(int l = 0; l < mapTiles.length; l++) {
+                            Tile tile = Tile.getTile(mapTiles[l][x][y]);
+                            if(mapSupplier.isNullTile(new Vector2f(x, y))) {
+                                mapG.setColor(COLOR_NULL_TILE);
+                            } else if(tile != null && tile.isSolid()) {
+                                mapG.setColor((l <= 1) ? COLOR_BLOCKED_FLOOR_TILE : COLOR_BLOCKED_DECOR_TILE);
+                            } else if(tile != null && !tile.isSolid()) {
+                                mapG.setColor(COLOR_NON_BLOCKED_TILE);
+                            }
                         }
+
                         
                         for(int l = 0; l < mapTiles.length; l++) {
                             Tile tile = Tile.getTile(mapTiles[l][x][y]);
@@ -128,7 +132,7 @@ public class GComponent$CircularMap extends GComponent {
                     }
 
                     if(e.isVisibleOnScreen())
-                        mapG.fillOval(e.getX() * MAP_PIXEL_SIZE + offsetX, e.getY() * MAP_PIXEL_SIZE + offsetY,
+                        mapG.fillRect(e.getX() * MAP_PIXEL_SIZE + offsetX, e.getY() * MAP_PIXEL_SIZE + offsetY,
                             MAP_PIXEL_SIZE * e.getWidth() / Tile.TILE_SIZE, MAP_PIXEL_SIZE * e.getHeight() / Tile.TILE_SIZE);
                 }
             }

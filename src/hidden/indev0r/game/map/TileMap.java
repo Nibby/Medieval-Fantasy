@@ -95,8 +95,7 @@ public class TileMap implements TileBasedMap {
                     Tile tile = Tile.getTile(tileData[layer][x][y]);
                     if (tile != null) {
                         tile.render(g,
-                                x * Tile.TILE_SIZE + camera.getOffsetX(),
-                                (layer == 2) ? y * Tile.TILE_SIZE + camera.getOffsetY() - Tile.TILE_SIZE / 4 : y * Tile.TILE_SIZE + camera.getOffsetY());
+                                x * Tile.TILE_SIZE + camera.getOffsetX(), y * Tile.TILE_SIZE + camera.getOffsetY());
                     }
                 }
 			}
@@ -138,7 +137,7 @@ public class TileMap implements TileBasedMap {
             Vector2f[] blockedTiles = e.getBlockedTiles();
             for(Vector2f pos : blockedTiles) {
                 if(pos == null) continue;
-                if(!e.equals(reference) && pos.x == x && pos.y == y) return true;
+                if(!e.equals(reference) && e.isSolid() && pos.x == x && pos.y == y) return true;
             }
         }
         return false;

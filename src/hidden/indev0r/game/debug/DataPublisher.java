@@ -21,12 +21,14 @@ import java.nio.file.Paths;
 public class DataPublisher {
 
     private static final Path NPC_DATA = Paths.get("data_raw").resolve("npc");
+    private static final Path SCRIPT_DATA = Paths.get("data_raw").resolve("scripts");
 
     /*
         BE EXTRA CAREFUL ABOUT SPECIFYING PATHS, OR ELSE WE WILL LOSE FOLDERS!!
      */
     public static void publishContents() throws Exception {
         publish(NPC_DATA, References.NPC_PATH);
+        publish(SCRIPT_DATA, References.SCRIPT_PATH);
     }
 
     public static void publish(Path origin, Path target) throws Exception {

@@ -1,8 +1,12 @@
 package hidden.indev0r.game.map;
 
+import hidden.indev0r.game.entity.Door;
+import hidden.indev0r.game.entity.Entity;
 import hidden.indev0r.game.reference.References;
 import hidden.indev0r.game.util.CipherEngine;
 import hidden.indev0r.game.util.XMLParser;
+import org.lwjgl.util.vector.Vector2f;
+import org.newdawn.slick.Animation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -16,6 +20,7 @@ import java.nio.charset.Charset;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -92,6 +97,7 @@ public class TileMapDatabase {
 
 		Element tileData = (Element) root.getElementsByTagName("tileData").item(0);
 		NodeList tileLayers = tileData.getElementsByTagName("tileLayer");
+        java.util.List<Entity> mapSpecialEntities = new ArrayList<>();
 
         //Map loading is done in layers
 		for (int i = 0; i < tileLayers.getLength(); i++) {
@@ -108,7 +114,22 @@ public class TileMapDatabase {
 					y = 0;
 					x++;
 				}
-				mapTiles[layerNum][x][y] = Integer.parseInt(layerRaw[j]);
+                int tileID = Integer.parseInt(layerRaw[j]);
+                Tile tile = Tile.getTile(tileID);
+                if(tile != null) {
+                    //Check for unique tiles
+                    if(tile.propertyExists("door")) {
+                        //Parse door tile separately
+                        boolean doorClosed = tile.getProperty("doorType").equals("closed");
+                        Animation doorOpenSprite = Tile.getTile(Integer.parseInt(tile.getProperty("doorOpen"))).getTexture();
+                        Animation doorClosedSprite = Tile.getTile(Integer.parseInt(tile.getProperty("doorClosed"))).getTexture();
+
+                        Door door = new Door(new Vector2f(x, y), doorOpenSprite, doorClosedSprite, doorClosed);
+                        mapSpecialEntities.add(door);
+                        tileID = 0; //Nullify the tile, and add a door entity instead
+                    }
+                }
+				mapTiles[layerNum][x][y] = tileID;
 				y++;
 			}
 		}
@@ -159,6 +180,11 @@ public class TileMapDatabase {
 			MapWarpPoint warp = new MapWarpPoint(target, new Point(ox, oy), new Point(tx, ty));
 			map.addWarpPoint(warp);
 		}
+
+        //Add all unique entities to map
+        for(Entity entity : mapSpecialEntities) {
+            map.addEntity(entity);
+        }
 
 		return map;
 	}

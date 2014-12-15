@@ -3,6 +3,7 @@ package hidden.indev0r.game.gui;
 import hidden.indev0r.game.BitFont;
 import hidden.indev0r.game.Camera;
 import hidden.indev0r.game.MedievalLauncher;
+import hidden.indev0r.game.entity.Door;
 import hidden.indev0r.game.entity.FactionUtil;
 import hidden.indev0r.game.entity.NPC;
 import hidden.indev0r.game.entity.Player;
@@ -54,7 +55,11 @@ public class Cursor {
         INTERACT_INSTANCE = instance;
 
         if(instance instanceof NPC || instance  instanceof GComponent) {
-            MedievalLauncher.getInstance().setCursor(INTERACT);
+            MedievalLauncher.getInstance().setCursor(INTERACT_2);
+        }
+
+        if(instance instanceof Door) {
+            MedievalLauncher.getInstance().setCursor(INTERACT_2);
         }
 
         if(instance == null) {

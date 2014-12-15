@@ -23,6 +23,11 @@
                 What would you like to see?
             </content>
 
+            <option type="1" text="External Script">
+                <runScript script="scriptTest" />
+                <wait for="3000" />
+            </option>
+
             <option type="0" text="Camera Shake">
                 <dialog type="0" title="Camera Shake Test">
                     <content>

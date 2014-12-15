@@ -111,16 +111,8 @@ public class Script implements CommandBlock {
     private int step = 0;
 
     private boolean finished = true;
-    private Type type;
-    //Associated actor this script is made for
-    private Actor actor;
 
-    public Script(Type type, Actor actor) {
-        if(actor instanceof Player)
-            throw new IllegalArgumentException("Player cannot be assigned scripts!");
-
-        this.type = type;
-        this.actor = actor;
+    public Script() {
     }
 
     //This will translate a $REFERENCE to actual values, by utilizing ConstantDictionary enum
@@ -156,7 +148,7 @@ public class Script implements CommandBlock {
     @Override
     public void execute(Actor actor) {
         if(!finished) return;
-        System.out.println("SCRIPT STARTED Type." + type + " [" + actor + "]");
+        System.out.println("SCRIPT STARTED [" + actor + "]");
         step = 0;
         finished = false;
         scriptStore = new HashMap<>();
@@ -193,10 +185,6 @@ public class Script implements CommandBlock {
         finished = true;
         step = 0;
         System.out.println("SCRIPT ENDED\n");
-    }
-
-    public Type getType() {
-        return type;
     }
 
     @Override

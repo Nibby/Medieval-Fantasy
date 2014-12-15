@@ -45,6 +45,7 @@ public abstract class Entity {
 	protected              boolean drawShadow  = true;
 	protected static final Color   shadowColor = new Color(0f, 0f, 0f, 0.6f);
     private boolean sunken;
+    protected int lightRadius = 3;
 
     protected Vector2f moveDestination = new Vector2f(0, 0);
 
@@ -115,7 +116,7 @@ public abstract class Entity {
 
 	private float getRenderY() {
 		Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
-        float y = position.y + camera.getOffsetY() - Tile.TILE_SIZE / 5;
+        float y = position.y + camera.getOffsetY();
         if(sunken) y += height / 4;
 		return y;
 	}
@@ -181,15 +182,14 @@ public abstract class Entity {
 		if (Math.abs(moveX - position.x) < targetMoveSpeed) position.x = moveX;
 		if (Math.abs(moveY - position.y) < targetMoveSpeed) position.y = moveY;
 		if (position.y == moveY && position.x == moveX) {
-			moving = false;
-
-            if(actionMap != null && getX() == moveDestination.x && getY() == moveDestination.y) {
+            if(!moving && actionMap != null && getX() == moveDestination.x && getY() == moveDestination.y) {
                 if (currentDirection.equals(MapDirection.LEFT)) action = ActionType.STATIC_LEFT;
                 if (currentDirection.equals(MapDirection.RIGHT)) action = ActionType.STATIC_RIGHT;
                 if (currentDirection.equals(MapDirection.UP)) action = ActionType.STATIC_UP;
                 if (currentDirection.equals(MapDirection.DOWN)) action = ActionType.STATIC_DOWN;
             }
-		}
+            moving = false;
+        }
 	}
 
 	public void move(int x, int y) {
@@ -211,24 +211,6 @@ public abstract class Entity {
         map.stepOn(this, oldX, oldY, x, y);
     }
 
-	public void setMotion(ActionType action) {
-		this.action = action;
-        switch(action) {
-            case STATIC_DOWN: case WALK_DOWN:
-                currentDirection = MapDirection.DOWN;
-                break;
-            case STATIC_UP: case WALK_UP:
-                currentDirection = MapDirection.UP;
-                break;
-            case STATIC_LEFT: case WALK_LEFT:
-                currentDirection = MapDirection.LEFT;
-                break;
-            case STATIC_RIGHT: case WALK_RIGHT:
-                currentDirection = MapDirection.RIGHT;
-                break;
-        }
-	}
-
 	public void setSize(int width, int height) {
 		this.width = width;
 		this.height = height;
@@ -249,6 +231,14 @@ public abstract class Entity {
         Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
         return (getPosition().x + width + camera.getOffsetX() > 0 && getPosition().y + camera.getOffsetY() + height > 0 &&
                 getPosition().x + width + camera.getOffsetX() < References.GAME_WIDTH && getPosition().y + height + camera.getOffsetY() < References.GAME_HEIGHT);
+    }
+
+    public int getLightRadius() {
+        return lightRadius;
+    }
+
+    public void setLightRadius(int lightRadius) {
+        this.lightRadius = lightRadius;
     }
 
     public Vector2f getMoveDestination() {

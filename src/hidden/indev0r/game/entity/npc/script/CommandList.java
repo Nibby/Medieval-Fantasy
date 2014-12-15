@@ -80,6 +80,13 @@ public enum CommandList {
         public Command newInstance() {
             return new Command$Camera();
         }
+    },
+
+    runScript {
+        @Override
+        public Command newInstance() {
+            return new Command$RunScript();
+        }
     }
     ;
 

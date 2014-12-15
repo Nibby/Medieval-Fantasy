@@ -38,26 +38,8 @@
                     <content>
                         Changes made while you were gone:;;
 
-                        - W,A,S,D and arrow key movement is;
-                          back again as requested.;
-                        - Dialogue boxes with multiple;
-                          custom buttons and scripts!;
-                        - Camera panning &amp; shaking via;
-                          script.;
-                        - Broadened the use of script;
-                          dynamic;
-                    </content>
-                    <content>
-                        Changelist (continued):;;
-
-                        - Documented all the existing script;
-                          commands;
-                        - Text jittering in BitFont.;
-                        - Fixed 'if' script glitches.;
-                        - Some weapon name ideas.;
-                        - Added 'disable' state on buttons.;;
-
-                        To check out things, talk to TestBot.;
+                        - Doors! Left click to open them.;
+                        - Minimap blocked layer separation;
                     </content>
                 </dialog>
             </option>
@@ -68,7 +50,6 @@
                         A few things on my mind:;;
 
                         - The ability to read a sign;
-                        - Doors, many ways we can do this;
                         - New tile assets, what we have is;
                         no way near enough.;
                         - Monsters + combat! Fun fun.

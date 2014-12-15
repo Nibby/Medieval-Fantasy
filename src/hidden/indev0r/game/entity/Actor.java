@@ -31,8 +31,7 @@ public class Actor extends Entity {
 
     }
 
-    //TODO: AI Object
-    private static final int INTERACT_TILE_DISTANCE = 2;
+    protected int INTERACT_TILE_DISTANCE = 2;
     /*
         Actor scripts are kept here rather than solely stored in NPC class
         because certain special monsters will have scripts also.
@@ -107,14 +106,14 @@ public class Actor extends Entity {
         this.ai = ai;
     }
 
-    public void addScript(Script script) {
-        if(scripts.get(script.getType()) != null) {
-            JOptionPane.showMessageDialog(null, "'" + script.getType() + "' script already exists for actor!",
+    public void addScript(Script.Type type, Script script) {
+        if(scripts.get(type) != null) {
+            JOptionPane.showMessageDialog(null, "'" + type + "' script already exists for actor!",
                     "Internal Error", JOptionPane.ERROR_MESSAGE);
             throw new IllegalArgumentException("Script already exists!");
         }
 
-        scripts.put(script.getType(), script);
+        scripts.put(type, script);
     }
 
     public void executeScript(Script.Type scriptType) {
