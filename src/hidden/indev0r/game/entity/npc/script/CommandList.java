@@ -122,6 +122,13 @@ public enum CommandList {
         public Command newInstance() {
             return new Command$CinematicText();
         }
+    },
+
+    bgm {
+        @Override
+        public Command newInstance() {
+            return new Command$BGM();
+        }
     }
     ;
 

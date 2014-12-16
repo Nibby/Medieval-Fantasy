@@ -9,6 +9,7 @@ import hidden.indev0r.game.gui.Cursor;
 import hidden.indev0r.game.map.TileMapDatabase;
 import hidden.indev0r.game.map.TilesetDatabase;
 import hidden.indev0r.game.reference.References;
+import hidden.indev0r.game.sound.BGM;
 import hidden.indev0r.game.state.GameStateID;
 import hidden.indev0r.game.state.MainGameState;
 import hidden.indev0r.game.state.MainMenuState;

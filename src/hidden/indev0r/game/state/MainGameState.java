@@ -2,7 +2,6 @@ package hidden.indev0r.game.state;
 
 
 import hidden.indev0r.game.Camera;
-import hidden.indev0r.game.Colors;
 import hidden.indev0r.game.entity.Actor;
 import hidden.indev0r.game.entity.Entity;
 import hidden.indev0r.game.entity.Player;
@@ -15,6 +14,8 @@ import hidden.indev0r.game.map.TileMap;
 import hidden.indev0r.game.map.TileMapDatabase;
 import hidden.indev0r.game.map.WarpType;
 import hidden.indev0r.game.reference.References;
+import hidden.indev0r.game.sound.BGM;
+import hidden.indev0r.game.sound.SoundPlayer;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -41,6 +42,8 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
 	private GMenuManager     menuMgr;
 	private GGameOverlayMenu menuOverlay;
 
+    private SoundPlayer soundPlayer;
+
     private long fadeTick = 0;
     private Color fadeHue = new Color(0f, 0f, 0f, 0f);
     private float fadeTickAlpha = 0f, fadeTickInterval = 0f;
@@ -55,13 +58,14 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+        soundPlayer = new SoundPlayer();
 
 		camera = new Camera(0, 0);
-		player = new Player(Actor.Faction.GLYSIA, Player.Job.MAGE, 11, 18);
+		player = new Player(Actor.Faction.GLYSIA, Player.Job.MAGE, 3, 4);
 		player.setLevel(1);
 		camera.setTrackObject(player);
 
-		map = TileMapDatabase.getTileMap("dev_quarters_lobby");
+		map = TileMapDatabase.getTileMap("storyteller");
 		map.addEntity(player);
 
 		menuMgr = new GMenuManager();
@@ -69,10 +73,8 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
 		menuMgr.addMenu((menuOverlay = new GGameOverlayMenu(this, player, this)));
 		menuMgr.setTickTopMenuOnly(false);
 
-
 		announceName(map.getName());
-		getMenuOverlay().showHint("Click the NPC!", 3000, Color.white, 0);
-	}
+    }
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
@@ -219,5 +221,9 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
 	public Player getPlayer() {
 		return player;
 	}
+
+    public SoundPlayer getSoundPlayer() {
+        return soundPlayer;
+    }
 }
 

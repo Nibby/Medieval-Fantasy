@@ -84,6 +84,7 @@ public class NPC extends Actor {
     }
 
     private void interact(Player player) {
+        player.setFacingDirection(MapDirection.turnToFace(player, this));
         executeScript(Script.Type.interact);
     }
 

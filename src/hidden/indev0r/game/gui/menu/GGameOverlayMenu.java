@@ -10,6 +10,7 @@ import hidden.indev0r.game.gui.component.hud.*;
 import hidden.indev0r.game.gui.component.interfaces.GMapSupplier;
 import hidden.indev0r.game.gui.component.interfaces.GStatsSupplier;
 import hidden.indev0r.game.reference.References;
+import hidden.indev0r.game.sound.BGM;
 import hidden.indev0r.game.state.MainGameState;
 import hidden.indev0r.game.texture.Textures;
 import org.lwjgl.util.vector.Vector2f;
@@ -78,6 +79,11 @@ public class GGameOverlayMenu extends GMenu {
 		addComponent(hint);
 	}
 
+    public void showBGMTrackInfo(BGM bgm) {
+        GComponent$BGMTrackInfo trackInfo = new GComponent$BGMTrackInfo(bgm.getTitle(), bgm.getComposer());
+        addComponent(trackInfo);
+    }
+
 	@Override
 	public void componentClicked(GComponent c) {
 		System.out.println("CLICKED");
@@ -91,7 +97,7 @@ public class GGameOverlayMenu extends GMenu {
 	public boolean isComponentEmpty() {
 		for (GComponent c : components) {
 			if (!(c == minimap || c == gauge || c == scrollComponent || c instanceof GComponent$SpeechBubble
-					|| c instanceof GComponent$Hint)) {
+					|| c instanceof GComponent$Hint || c instanceof GComponent$BGMTrackInfo)) {
 				return false;
 			}
 		}

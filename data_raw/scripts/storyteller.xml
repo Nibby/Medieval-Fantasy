@@ -1,0 +1,123 @@
+<script>
+    <bgm action="PLAY" bgm="BGM_0" />
+    <cinematicText type="0" duration="15000">
+        YELLOW|ELYSIA 970AD;;
+        Horrors from the royal chambers echoed;
+        in the hallway.;;
+        The unexplained death of King Arthus;
+        led to a series of power struggles;
+        between his heirs, prince Edward and;
+        Pegasus.;
+    </cinematicText>
+    <wait for="15500" />
+
+    <cinematicText type="0" duration="12000">
+        The fragile kingdom fractured under;
+        the rising tension between the two;
+        prince.;;
+
+        Elysia was thus split into Glysia;
+        in the south and Naya in the north.
+    </cinematicText>
+    <wait for="12500" />
+
+    <cinematicText type="0" duration="10000">
+        Masked by greed and corrupted by;
+        power, humanity failed to recognize;
+        the rise of a third opponent:;;
+
+        CYAN|The Undead Legion
+    </cinematicText>
+    <wait for="11000" />
+
+    <cinematicText type="0" duration="15000">
+        YELLOW|GLYSIA 977AD;;
+        Overwhelming forces of undead poured into;
+        the city gates.;
+        ;
+        With meagre understanding;
+        of their magic, language, weaknesses and;
+        origins, their menacing weapons seek to;
+        crush all hope.;
+        ;
+    </cinematicText>
+    <wait for="15500" />
+
+    <cinematicText type="0" duration="3000">
+        Great magis were slaughtered one after another...
+    </cinematicText>
+    <wait for="3500" />
+
+    <cinematicText type="0" duration="3000">
+        Great priests were slaughtered one after another...
+    </cinematicText>
+    <wait for="3500" />
+
+    <cinematicText type="0" duration="3000">
+        Cities fallen one after another...
+    </cinematicText>
+    <wait for="3500" />
+
+    <cinematicText type="0" duration="5000">
+        The land of Glysia was gradually consumed;
+        by fear, chaos and darkness...
+    </cinematicText>
+    <wait for="5500" />
+
+    <cinematicText type="0" duration="15000">
+        GREEN|NAYA 978AD;;
+
+        Knowing the terror that plagues Glysia,;
+        they strike.;
+        ;
+        Bands of wizards, assassins, warriors,;
+        rangers marched from the north.;;
+        Refuge towns captured, robbed, looted,;
+        razed...;;
+
+        The barbarians return home with;
+        carts packed with resources;
+        ..robbed from others...
+    </cinematicText>
+    <wait for="15500" />
+
+    <cinematicText type="0" duration="6000">
+        Little did they know, the mysteriously;
+        cursed stolen goods attracted a wave of;
+        new foes in the northern caverns...;
+    </cinematicText>
+    <wait for="6500" />
+
+    <cinematicText type="0" duration="6000">
+        RED|The Infernos.
+    </cinematicText>
+    <wait for="6500" />
+
+    <cinematicText type="0" duration="6000">
+        Such is the story of our world...;
+        The world of Saya...
+    </cinematicText>
+    <wait for="6500" />
+
+    <cinematicText type="0" duration="6000">
+        Will you survive or die trying,;
+        the answer resides in your choices...;
+    </cinematicText>
+    <wait for="6500" />
+
+    <cinematicText type="0" duration="4500">
+        ... and perhaps a bit of luck...
+    </cinematicText>
+    <wait for="5000" />
+
+    <cinematicText type="0" duration="4500">
+        Good luck, young lad.
+    </cinematicText>
+    <wait for="5000" />
+
+    <screen mode="FADE_OUT" duration="4000" />
+    <bgm action="STOP" duration="4000" />
+    <wait for="4000" />
+    <freezeControls flag="false" />
+    <cinematicMode flag="false" />
+</script>

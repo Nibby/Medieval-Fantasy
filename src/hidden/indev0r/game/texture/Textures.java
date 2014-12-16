@@ -143,6 +143,7 @@ public class Textures {
 		public static final Image SCROLL_BIG    = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/icons/SCROLL.png");
 		public static final Image MENU_BIG      = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "buttons/icons/MENU.png");
 
+        public static final Image BGM_TRACK     = ResourceManager.loadImage(UI_GAME_ELEMENT_PATH + "icons/music.png");
 	}
 
 
