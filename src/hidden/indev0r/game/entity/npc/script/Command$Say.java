@@ -20,8 +20,8 @@ public class Command$Say extends Command {
     private long lastTime;
 
     @Override
-    public Command make(CommandBlock block, Actor actor, Element e) {
-        onMake(block, actor, e);
+    public void make(CommandBlock block, Actor actor, Element e) {
+        super.make(block, actor, e);
         if(e.hasAttribute("color"))
             color = Colors.valueOf(e.getAttribute("color")).getColor();
         text = e.getTextContent();
@@ -40,8 +40,6 @@ public class Command$Say extends Command {
             jitter = false;
 
         lastTime = 0;
-
-        return generateCommand(this);
     }
 
     @Override

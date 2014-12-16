@@ -13,11 +13,10 @@ public class Command$ScriptData extends Command {
     private String setValue;
 
     @Override
-    public Command make(CommandBlock block, Actor actor, Element e) {
-        onMake(block, actor, e);
+    public void make(CommandBlock block, Actor actor, Element e) {
+        super.make(block, actor, e);
         setKey = e.getAttribute("key");
         setValue = (String) Script.translate(e.getAttribute("value"));
-        return generateCommand(this);
     }
 
     @Override

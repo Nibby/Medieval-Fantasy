@@ -73,6 +73,34 @@ public class Command$Camera extends Command implements CameraListener {
                 int shakeIntensity = Integer.parseInt(cmdElement.getAttribute("intensity"));
                 camera.shake(shakeAmplitude, shakeIntensity, shakeDuration);
             }
+        },
+
+        SNAP_TO {
+            @Override
+            void exec(Actor executor, Element cmdElement, CommandBlock block, Camera camera) {
+                String mode = cmdElement.getAttribute("mode");
+                int cameraX, cameraY;
+                switch(mode) {
+                    case "ACTOR":
+                        camera.setTrackObject(null);
+                        Actor actor = (Actor) Script.translate(cmdElement.getAttribute("actor"), cmdElement.getAttribute("actorRef"));
+                        cameraX = -((int) actor.getPosition().x - References.GAME_WIDTH / 2 / References.DRAW_SCALE + actor.getWidth() / 2);
+                        cameraY = -((int) actor.getPosition().y - References.GAME_HEIGHT / 2 / References.DRAW_SCALE + actor.getHeight() / 2);
+                        camera.setOffset(cameraX, cameraY);
+                        break;
+                    case "TILE":
+                        camera.setTrackObject(null);
+                        String[] tileXY = cmdElement.getAttribute("tilePos").split(",");
+                        int tileX = Integer.parseInt(tileXY[0]) * Tile.TILE_SIZE;
+                        int tileY = Integer.parseInt(tileXY[1]) * Tile.TILE_SIZE;
+
+                        cameraX = -(tileX - References.GAME_WIDTH / 2 / References.DRAW_SCALE + Tile.TILE_SIZE / 2);
+                        cameraY = -(tileY - References.GAME_HEIGHT / 2 / References.DRAW_SCALE + Tile.TILE_SIZE / 2);
+
+                        camera.setOffset(cameraX, cameraY);
+                        break;
+                }
+            }
         }
 
         ;
@@ -83,20 +111,23 @@ public class Command$Camera extends Command implements CameraListener {
     private boolean isListening = false;
     private CommandBlock block;
     private CameraAction action;
-    private Actor target;
+    private Actor actor;
     private Camera camera;
 
+    private boolean requireListener = false;
+
     @Override
-    public Command make(CommandBlock block, Actor actor, Element e) {
-        onMake(block, actor, e);
+    public void make(CommandBlock block, Actor actor, Element e) {
+        super.make(block, actor, e);
         action = CameraAction.valueOf(e.getAttribute("action"));
-        return generateCommand(this);
+        if(action.equals(CameraAction.SHAKE) || action.equals(CameraAction.PAN))
+            requireListener = true;
     }
 
     @Override
     public void exec(Actor actor, final CommandBlock block) {
 //        super.exec(actor, block);
-        if(!isListening) {
+        if(requireListener && !isListening) {
             camera = MedievalLauncher.getInstance().getGameState().getCamera();
             camera.addListener(this);
             this.block = block;
@@ -105,6 +136,8 @@ public class Command$Camera extends Command implements CameraListener {
         this.actor = actor;
         camera = MedievalLauncher.getInstance().getGameState().getCamera();
         action.exec(getActor(), cmdElement, block, camera);
+        if(!requireListener)
+            block.executeNext(actor);
     }
 
     @Override
@@ -115,5 +148,9 @@ public class Command$Camera extends Command implements CameraListener {
     @Override
     public void shakeFinished(Camera camera) {
         block.executeNext(actor);
+    }
+
+    public Actor getCommandActor() {
+        return actor;
     }
 }

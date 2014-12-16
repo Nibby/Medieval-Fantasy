@@ -1,0 +1,14 @@
+USAGES:
+
+    <screen mode="FADE_IN"
+            (o) duration="$FADE_DURATION"
+            (o) color="$FADE_COLOR" />
+
+            $FADE_DURATION          - How long, in ms, the fade-in takes, default is 2500
+            $FADE_COLOR             - Optional, what color to fade into, default is black
+
+
+    <screen mode="FADE_OUT"
+            (o) duration="$FADE_DURATION" />
+
+            $FADE_DURATION          - Optional, How long, in ms, the fade-out takes, default is 2500

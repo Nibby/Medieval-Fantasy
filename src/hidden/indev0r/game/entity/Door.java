@@ -27,7 +27,7 @@ public class Door extends Actor {
         this.closed = closed;
         this.openAnim = openAnim;
         this.closeAnim = closeAnim;
-        INTERACT_TILE_DISTANCE = 1;
+        interactRange = 1;
         setSize(32, 32);
         updateDoorProperties();
     }

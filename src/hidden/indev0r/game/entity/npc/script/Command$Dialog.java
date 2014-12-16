@@ -40,8 +40,8 @@ public class Command$Dialog extends Command implements GComponentListener {
     private boolean listenerAssigned = false;
 
     @Override
-    public Command make(final CommandBlock block, final Actor actor, Element e) {
-        onMake(block, actor, e);
+    public void make(final CommandBlock block, final Actor actor, Element e) {
+        super.make(block, actor, e);
         dialogType      = Integer.parseInt(e.getAttribute("type"));
         dialogTitle     = (String) Script.translate(e.getAttribute("title"), actor);
 
@@ -58,7 +58,7 @@ public class Command$Dialog extends Command implements GComponentListener {
 
         for(int i = 0; i < dialogContent.length; i++) {
             Element eContent = (Element) contentList.item(i);
-            dialogContent[i] = eContent.getTextContent().replace("    ", "");
+            dialogContent[i] = eContent.getTextContent().replace("    ", "").replace("\t", "");
         }
 
         //Custom option dialog
@@ -103,8 +103,6 @@ public class Command$Dialog extends Command implements GComponentListener {
                 dialogOptionButtonList.add(button);
             }
         }
-
-        return generateCommand(this);
     }
 
     @Override

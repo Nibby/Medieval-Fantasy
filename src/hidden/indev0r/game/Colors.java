@@ -20,6 +20,7 @@ public enum Colors {
     DARK_GRAY(Color.darkGray),
     LIGHT_GRAY(Color.lightGray),
 	PURPLE(new Color(113,34,169)),
+    NONE(new Color(0f, 0f, 0f, 0f))
     ;
 
     private Color color;

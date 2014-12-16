@@ -29,7 +29,6 @@ public class GComponent$AnimatedScroll extends GComponent {
     private int expandWidth = 0, expandMaxWidth = 182;
 
     private int phase = 0;
-    private boolean active = false;
 
     public GComponent$AnimatedScroll(String text, int duration) {
         super(new Vector2f(215, 15));
@@ -42,7 +41,6 @@ public class GComponent$AnimatedScroll extends GComponent {
         super.onAdd(parent);
         phase = 0;
         phaseTick = System.currentTimeMillis();
-        active = true;
     }
 
     @Override
@@ -123,15 +121,11 @@ public class GComponent$AnimatedScroll extends GComponent {
             case PHASE_FINAL_FADE_OUT:
                 if(System.currentTimeMillis() - phaseTick > 10) {
                     if(scrollAlpha > 0f) scrollAlpha -= 0.05f;
-                    else active = false;
+                    else setRemoved(true);
 
                     phaseTick = System.currentTimeMillis();
                 }
                 break;
         }
-    }
-
-    public boolean isActive() {
-        return active;
     }
 }

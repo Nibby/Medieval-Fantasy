@@ -16,12 +16,10 @@ public class Command$Wait extends Command {
     private int delay;
 
     @Override
-    public Command make(CommandBlock block, Actor actor, Element e) {
+    public void make(CommandBlock block, Actor actor, Element e) {
         defineActor(actor, e);
 
         delay = Integer.parseInt(e.getAttribute("for"));
-
-        return generateCommand(this);
     }
 
     @Override

@@ -2,10 +2,10 @@ package hidden.indev0r.game.state;
 
 
 import hidden.indev0r.game.Camera;
+import hidden.indev0r.game.Colors;
 import hidden.indev0r.game.entity.Actor;
 import hidden.indev0r.game.entity.Entity;
 import hidden.indev0r.game.entity.Player;
-import hidden.indev0r.game.gui.component.base.GComponent$Bar;
 import hidden.indev0r.game.gui.component.interfaces.GMapSupplier;
 import hidden.indev0r.game.gui.menu.GGameOverlayMenu;
 import hidden.indev0r.game.gui.menu.GMapTransitionOverlay;
@@ -14,7 +14,7 @@ import hidden.indev0r.game.map.Tile;
 import hidden.indev0r.game.map.TileMap;
 import hidden.indev0r.game.map.TileMapDatabase;
 import hidden.indev0r.game.map.WarpType;
-import hidden.indev0r.game.texture.Textures;
+import hidden.indev0r.game.reference.References;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -41,6 +41,12 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
 	private GMenuManager     menuMgr;
 	private GGameOverlayMenu menuOverlay;
 
+    private long fadeTick = 0;
+    private Color fadeHue = new Color(0f, 0f, 0f, 0f);
+    private float fadeTickAlpha = 0f, fadeTickInterval = 0f;
+    public static final int FADE_IN = 0, FADE_OUT = 1;
+    private int fadeType;
+    private boolean fading = false;
 
 	@Override
 	public int getID() {
@@ -65,14 +71,17 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
 
 
 		announceName(map.getName());
-		getMenuOverlay().showHint("Left click the map to move around", 3000, Color.white);
+		getMenuOverlay().showHint("Click the NPC!", 3000, Color.white, 0);
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		map.render(g, camera);
-		menuMgr.render(g);
 
+        g.setColor(fadeHue);
+        g.fillRect(0, 0, References.GAME_WIDTH, References.GAME_HEIGHT);
+
+        menuMgr.render(g);
 	}
 
 
@@ -84,7 +93,33 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
 			map.tick(gameContainer);
 		}
 
-		menuMgr.tick(gameContainer);
+        if(fading) {
+            if(System.currentTimeMillis() - fadeTick > fadeTickInterval) {
+                switch(fadeType) {
+                    case FADE_IN:
+                        if(fadeHue.a < 1f) {
+                            fadeHue.a += fadeTickAlpha;
+                        }
+                        else {
+                            fading = false;
+                            if(fadeHue.a > 1f) fadeHue.a = 1f;
+                        }
+                        break;
+                    case FADE_OUT:
+                        if(fadeHue.a > 0f) {
+                            fadeHue.a -= fadeTickAlpha;
+                        }
+                        else {
+                            fading = false;
+                            if(fadeHue.a < 0f) fadeHue.a = 0f;
+                        }
+                        break;
+                }
+                fadeTick = System.currentTimeMillis();
+            }
+        }
+
+        menuMgr.tick(gameContainer);
 	}
 
 	public void levelTransition(Entity entity, TileMap targetMap, int x, int y, WarpType type) {
@@ -110,6 +145,27 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
 		targetMap.addEntity(entity);
 	}
 
+    public void fadeIn(Color color, int duration) {
+        this.fadeHue = new Color(color.r, color.g, color.b, 0f);
+        this.fadeTick = System.currentTimeMillis();
+        this.fadeTickAlpha = (1 - fadeHue.a) / 100;
+        fadeTickInterval = duration / 100;
+        fadeType = FADE_IN;
+        fading = true;
+    }
+
+    public void fadeOut(int duration) {
+        fading = true;
+        fadeTick = System.currentTimeMillis();
+        this.fadeTickAlpha = fadeHue.a / 100;
+        fadeTickInterval = duration / 100;
+        fadeType = FADE_OUT;
+    }
+
+    public void setFadeHue(Color fadeHue) {
+        this.fadeHue = fadeHue;
+    }
+
 	public void announceName(String text) {
 		getMenuOverlay().showAnimatedScroll(text, text.split(" ").length * 750);
 	}
@@ -126,7 +182,7 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
 		return menuMgr;
 	}
 
-	@Override
+    @Override
 	public List<Entity> getEntitiesOnMap() {
 		if (map == null) return null;
 		return map.getEntities();

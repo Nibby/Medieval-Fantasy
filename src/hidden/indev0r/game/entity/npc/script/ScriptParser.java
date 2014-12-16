@@ -48,7 +48,8 @@ public class ScriptParser {
                 //Creates command
                 Command command = Command.getCommand(commandElement.getTagName());
                 if(command != null) {
-                    scriptCommands.add(command.make(script, actor, commandElement));
+                    command.make(script, actor, commandElement);
+                    scriptCommands.add(command);
                 }
             }
         }
@@ -77,9 +78,10 @@ public class ScriptParser {
 
                 //Creates command
                 Command cmd = Command.getCommand(commandElement.getTagName());
-                cmd.setParentBlock(block);
+                cmd.make(block, actor, commandElement);
                 if(cmd != null) {
-                    blockCommands.add(cmd.make(block, actor, commandElement));
+                    cmd.setParentBlock(block);
+                    blockCommands.add(cmd);
                 }
             }
         }

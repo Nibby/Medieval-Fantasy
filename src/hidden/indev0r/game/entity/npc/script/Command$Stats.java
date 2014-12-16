@@ -13,14 +13,12 @@ public class Command$Stats extends Command {
     private int statValue;
 
     @Override
-    public Command make(CommandBlock block, Actor actor, Element e) {
-        onMake(block, actor, e);
+    public void make(CommandBlock block, Actor actor, Element e) {
+        super.make(block, actor, e);
 
         statAction = e.getAttribute("action");
         stat = Actor.Stat.valueOf(e.getAttribute("stat"));
         statValue = Integer.parseInt((String) Script.translate(e.getAttribute("value"), e.getAttribute("randomParams")));
-
-        return generateCommand(this);
     }
 
     @Override

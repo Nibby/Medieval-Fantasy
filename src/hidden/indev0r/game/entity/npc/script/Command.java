@@ -13,7 +13,7 @@ import java.util.Map;
  * This cannot be put into an enum because enums cannot be cloned, and must be
  * singleton, whereas individual commands must be cloned for individual blocks.
  */
-public abstract class Command implements Cloneable {
+public abstract class Command {
 
     protected CommandBlock parentBlock;
     protected org.w3c.dom.Element cmdElement;
@@ -21,25 +21,12 @@ public abstract class Command implements Cloneable {
 
     public Command() {}
 
-    public Command make(CommandBlock block, Actor actor, Element e) {
-        return null;
-    }
-
-    protected void onMake(CommandBlock block, Actor actor, Element e) {
+    public void make(CommandBlock block, Actor actor, Element e) {
         this.cmdElement = e;
     }
 
     public void exec(Actor actor, CommandBlock block) {
         defineActor(actor, cmdElement);
-    }
-
-    public static final Command generateCommand(Command command) {
-        try {
-            return (Command) command.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public void setParentBlock(CommandBlock parentBlock) {

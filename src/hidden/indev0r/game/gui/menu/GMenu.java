@@ -2,6 +2,7 @@ package hidden.indev0r.game.gui.menu;
 
 import hidden.indev0r.game.entity.Player;
 import hidden.indev0r.game.gui.component.base.GComponent;
+import hidden.indev0r.game.gui.component.base.GComponent$BarDialog;
 import hidden.indev0r.game.gui.component.base.GComponent$Dialog;
 import hidden.indev0r.game.gui.component.base.GComponent$Frame;
 import hidden.indev0r.game.gui.component.interfaces.GComponentListener;
@@ -30,7 +31,7 @@ public abstract class GMenu implements GComponentListener {
 	public void tick(GameContainer gamec) {
 		int removed = 0;
 		//for (GComponent gc : components) gc.tick(gamec);
-		for (int i = 0; i < components.size() - removed; i++) {
+		for (int i = 0 - removed; i < components.size(); i++) {
 			GComponent c = components.get(i);
 			c.tick(gamec);
 
@@ -41,6 +42,19 @@ public abstract class GMenu implements GComponentListener {
 					removed++;
 				}
 			}
+
+            if (c instanceof GComponent$BarDialog) {
+                GComponent$BarDialog bd = (GComponent$BarDialog) c;
+                if(!bd.isVisible()){
+                    removeComponent(bd);
+                    removed++;
+                }
+            }
+
+            if(c.isRemoved()) {
+                removeComponent(c);
+                removed++;
+            }
 		}
 	}
 

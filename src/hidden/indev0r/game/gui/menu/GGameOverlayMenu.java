@@ -1,6 +1,7 @@
 package hidden.indev0r.game.gui.menu;
 
 import hidden.indev0r.game.BitFont;
+import hidden.indev0r.game.Colors;
 import hidden.indev0r.game.entity.Actor;
 import hidden.indev0r.game.gui.component.base.GComponent;
 import hidden.indev0r.game.gui.component.base.GComponent$BarDialog;
@@ -10,10 +11,9 @@ import hidden.indev0r.game.gui.component.interfaces.GMapSupplier;
 import hidden.indev0r.game.gui.component.interfaces.GStatsSupplier;
 import hidden.indev0r.game.reference.References;
 import hidden.indev0r.game.state.MainGameState;
+import hidden.indev0r.game.texture.Textures;
 import org.lwjgl.util.vector.Vector2f;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Input;
+import org.newdawn.slick.*;
 
 public class GGameOverlayMenu extends GMenu {
 
@@ -23,67 +23,40 @@ public class GGameOverlayMenu extends GMenu {
 	private MainGameState             state;
 	private GComponent$AnimatedScroll scrollComponent;
 
-	private GComponent$BarDialog barDialog;
+    private boolean cinematicMode = false;
 
 	public GGameOverlayMenu(MainGameState state, GStatsSupplier supplierStats, GMapSupplier supplierMap) {
 		minimap = new GComponent$Minimap(new Vector2f(References.GAME_WIDTH - 138, 10), supplierMap, 5);
 		gauge = new GComponent$PlayerStatusGauge(new Vector2f(10, 10), supplierStats);
 
-		barDialog = new GComponent$BarDialog(new Vector2f(100, 150), 6);
-
-
 		scrollComponent = new GComponent$AnimatedScroll("", 1);
 		this.state = state;
 		addComponent(minimap);
 		addComponent(gauge);
-//		addComponent(barDialog);
 	}
 
+    public void render(Graphics g) {
+        for(int i = 0; i < components.size(); i++) {
+            GComponent c = components.get(i);
+            if(cinematicMode) {
+                if(c instanceof GComponent$Minimap
+                        || c instanceof GComponent$PlayerStatusGauge)
+                    continue;
+            }
+
+            c.render(g);
+        }
+    }
+
 	public void tick(GameContainer gc) {
-		int removed = 0;
-		for (int i = 0; i < components.size() - removed; i++) {
-			GComponent c = components.get(i);
-			c.tick(gc);
+		super.tick(gc);
 
-			if (c instanceof GComponent$Frame) {
-				GComponent$Frame dialog = (GComponent$Frame) c;
-				if (dialog.isDisposed()) {
-					removeComponent(c);
-					removed++;
-				}
-			}
-
-			if (c instanceof GComponent$SpeechBubble) {
-				if (((GComponent$SpeechBubble) c).isExpired()) {
-					removeComponent(c);
-				}
-			}
-
-			if (c instanceof GComponent$Hint) {
-				if (((GComponent$Hint) c).isFinished()) {
-					removeComponent(c);
-				}
-			}
-
-			if (c instanceof GComponent$BarDialog) {
-				GComponent$BarDialog bd = (GComponent$BarDialog) c;
-				if(!bd.isVisible()){
-					removeComponent(bd);
-					removed++;
-				}
-			}
-		}
-
-		if (!scrollComponent.isActive()) {
-			removeComponent(scrollComponent);
-		}
-
-
-		Input input = gc.getInput();
-		if (input.isKeyPressed(Input.KEY_ESCAPE)) {
-			state.getMenuManager().addMenu(new GGameOverlayMenu$OptionMenu());
-		}
-
+        if(!isCinematicMode()) {
+            Input input = gc.getInput();
+            if (input.isKeyPressed(Input.KEY_ESCAPE)) {
+                state.getMenuManager().addMenu(new GGameOverlayMenu$OptionMenu());
+            }
+        }
 	}
 
 	public void showAnimatedScroll(String text, int duration) {
@@ -100,10 +73,9 @@ public class GGameOverlayMenu extends GMenu {
         addComponent(bubble);
     }
 
-	public void showHint(String text, int duration, Color color) {
-		GComponent$Hint hint = new GComponent$Hint(text, color, duration);
+	public void showHint(String text, int duration, Color color, int type) {
+		GComponent$Hint hint = new GComponent$Hint(text, color, duration, type);
 		addComponent(hint);
-
 	}
 
 	@Override
@@ -125,4 +97,12 @@ public class GGameOverlayMenu extends GMenu {
 		}
 		return true;
 	}
+
+    public boolean isCinematicMode() {
+        return cinematicMode;
+    }
+
+    public void setCinematicMode(boolean cinematicMode) {
+        this.cinematicMode = cinematicMode;
+    }
 }

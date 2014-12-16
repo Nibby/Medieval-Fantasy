@@ -132,6 +132,14 @@ public class NPCDatabase {
                     npc.setFacingDirection(direction);
             }
 
+            if(root.hasAttribute("interactRange")) {
+                npc.setInteractRange(Integer.parseInt(root.getAttribute("interactRange")));
+            }
+
+            if(root.hasAttribute("approachRange")) {
+                npc.setApproachRange(Integer.parseInt(root.getAttribute("approachRange")));
+            }
+
             //Loads location
             Element eLocation = (Element) root.getElementsByTagName("location").item(0);
             String npcAssignedMap = (eLocation.getElementsByTagName("map").item(0)).getTextContent();

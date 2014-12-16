@@ -50,6 +50,7 @@ public abstract class GComponent {
     protected boolean wasInteractInstance;// = false;
     protected boolean visible;// = true;
     protected GStates currentState;
+    protected boolean removed = false;
 
 	//Listeners
 	protected ArrayList<GComponentListener> componentListeners;
@@ -68,6 +69,7 @@ public abstract class GComponent {
     }
 
 	public void tick(GameContainer gc) {
+        if(isRemoved()) setVisible(false);
         if(!isVisible()) return;
         Input input = gc.getInput();
         int mx = input.getMouseX();
@@ -146,6 +148,14 @@ public abstract class GComponent {
 
     public void setInteractBounds(int x, int y, int w, int h) {
         interactBounds = new Rectangle(x, y, w, h);
+    }
+
+    public boolean isRemoved() {
+        return removed;
+    }
+
+    public void setRemoved(boolean removed) {
+        this.removed = removed;
     }
 }
 

@@ -33,19 +33,18 @@ public abstract class Entity {
 	protected Stack<ActionType>       actionPlayStack = new Stack<>();        //A stack of animation which the entity is forced to act out
 	protected ActionType              action          = null;
 	protected Vector2f position;
-	protected float    moveX, moveY;
-	protected boolean moving    = false;
+	protected float moveX, moveY;
+	protected boolean stopMoving = false, moving = false;
 	protected float targetMoveSpeed = 2f, actualMoveSpeed = targetMoveSpeed;
-    protected boolean solid     = true;
+    protected boolean solid = true;
 
 	protected TileMap map;
 
 	protected Image sprite, spriteFlipped;
 	protected int width, height; //In terms of pixels
-	protected              boolean drawShadow  = true;
-	protected static final Color   shadowColor = new Color(0f, 0f, 0f, 0.6f);
+	protected boolean drawShadow  = true;
+	protected static final Color shadowColor = new Color(0f, 0f, 0f, 0.6f);
     private boolean sunken;
-    protected int lightRadius = 3;
 
     protected Vector2f moveDestination = new Vector2f(0, 0);
 
@@ -104,11 +103,10 @@ public abstract class Entity {
                 }
 
             }
-
             if (actionPlayStack.isEmpty()) {
                 motion = actionMap.get(action);
                 if (motion != null) {
-                    motion.render(g, this, x, y, moving);
+                    motion.render(g, this, x, y, true);
                 }
             }
         }
@@ -231,14 +229,6 @@ public abstract class Entity {
         Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
         return (getPosition().x + width + camera.getOffsetX() > 0 && getPosition().y + camera.getOffsetY() + height > 0 &&
                 getPosition().x + width + camera.getOffsetX() < References.GAME_WIDTH && getPosition().y + height + camera.getOffsetY() < References.GAME_HEIGHT);
-    }
-
-    public int getLightRadius() {
-        return lightRadius;
-    }
-
-    public void setLightRadius(int lightRadius) {
-        this.lightRadius = lightRadius;
     }
 
     public Vector2f getMoveDestination() {

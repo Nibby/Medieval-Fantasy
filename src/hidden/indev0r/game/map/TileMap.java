@@ -212,7 +212,7 @@ public class TileMap implements TileBasedMap {
         if(entity instanceof Player) {
             for(Entity e : entities) {
                 if(e instanceof Actor) {
-                    boolean near = ((Actor) e).withinInteractRange((Player) entity);
+                    boolean near = ((Actor) e).withinApproachRange((Player) entity);
                     if(near)
                         ((Actor) e).executeScript(Script.Type.approach);
                 }

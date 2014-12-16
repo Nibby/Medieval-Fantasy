@@ -14,12 +14,9 @@ import org.newdawn.slick.*;
 
 import javax.swing.*;
 
-/*
-    I hope you don't mind me testing some of my own code.
-    Although we might be branching soon by the looks of the progress ^_^
- */
 public class Player extends Actor implements GStatsSupplier {
 
+    private boolean controllable = true;
     private Job job;
 
     public Player(Faction faction, Job job, int x, int y) {
@@ -36,17 +33,18 @@ public class Player extends Actor implements GStatsSupplier {
 	}
 
 	@Override
-	public void tick(GameContainer gc) {
+	public void tick
+            (GameContainer gc) {
 		super.tick(gc);
 
         if(getStat(Stat.EXPERIENCE) >= getStat(Stat.EXPERIENCE_MAX)) {
             setLevel(getLevel() + 1);
         }
 
-
         Input input = gc.getInput();
 
-        if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON) && MedievalLauncher.getInstance().getGameState().getMenuOverlay().isComponentEmpty()) {
+        if(controllable &&
+                input.isMousePressed(Input.MOUSE_LEFT_BUTTON) && MedievalLauncher.getInstance().getGameState().getMenuOverlay().isComponentEmpty()) {
             int mx = input.getMouseX();
             int my = input.getMouseY();
             Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
@@ -59,7 +57,7 @@ public class Player extends Actor implements GStatsSupplier {
             }
         }
 
-        if(!moving) {
+        if(!moving && controllable) {
             if (input.isKeyDown(Input.KEY_W) || input.isKeyDown(Input.KEY_UP)) {
                 setMoveDestination(getX(), getY() - 1);
             } else if (input.isKeyDown(Input.KEY_A) || input.isKeyDown(Input.KEY_LEFT)) {
@@ -145,6 +143,14 @@ public class Player extends Actor implements GStatsSupplier {
 	public void move(int x, int y) {
 		super.move(x, y);
 	}
+
+    public boolean isControllable() {
+        return controllable;
+    }
+
+    public void setControllable(boolean controllable) {
+        this.controllable = controllable;
+    }
 
     @Override
     public Image getPreviewImage() {

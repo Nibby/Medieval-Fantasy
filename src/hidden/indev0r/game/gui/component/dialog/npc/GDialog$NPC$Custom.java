@@ -31,7 +31,9 @@ public class GDialog$NPC$Custom extends GComponent$Dialog {
 
         for(int i = 0; i < buttons.size(); i++) {
             GComponent$Button button = buttons.get(i);
-            button.setPosition(new Vector2f(width * Tile.TILE_SIZE / 6 * 5 - ((i == 0) ? 48 : 48 + (i) * 96), height * Tile.TILE_SIZE - 42));
+            button.setPosition(new Vector2f(
+                    width * Tile.TILE_SIZE / 6 * 5 - ((i == 0) ? 48 : 48 + (i) * 96) + ((i / 4 > 0) ? (4 * 96) : 0),
+                    height * Tile.TILE_SIZE - 42 + (i / 4) * 30));
             addComponent(button);
         }
     }

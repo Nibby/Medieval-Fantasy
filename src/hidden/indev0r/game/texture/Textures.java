@@ -60,7 +60,6 @@ public class Textures {
 
 	public static final class Images {
 		public static final Image EMPTY        = ResourceManager.loadImage("res/empty.png");
-		public static final Image DUNGEON_MASK = ResourceManager.loadImage("res/hud/mask.png");
 	}
 
 
@@ -154,6 +153,7 @@ public class Textures {
 		public static final Image POINTER_BLACK       = ResourceManager.loadImage(CURSOR_IMAGE_PATH + "POINTER_BLACK.png");
 		public static final Image POINTER_WHITE       = ResourceManager.loadImage(CURSOR_IMAGE_PATH + "POINTER_WHITE.png");
 		public static final Image POINTER_YELLOW      = ResourceManager.loadImage(CURSOR_IMAGE_PATH + "POINTER_YELLOW.png");
+        public static final Image EMPTY               = ResourceManager.loadImage(CURSOR_IMAGE_PATH + "empty.png");
 		public static final Image POINTER_DARK_YELLOW = ResourceManager.loadImage(CURSOR_IMAGE_PATH + "POINTER_DARK_YELLOW.png");
 
         public static final SpriteSheet INERACT_ANIMATION = ResourceManager.loadSpriteSheet(CURSOR_IMAGE_PATH + "INTERACT_TALK.png", 32, 32);

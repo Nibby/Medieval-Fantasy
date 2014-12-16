@@ -14,8 +14,8 @@ public class Command$Facing extends Command {
     private MapDirection direction;
 
     @Override
-    public Command make(CommandBlock block, Actor actor, Element e) {
-        onMake(block, actor, e);
+    public void make(CommandBlock block, Actor actor, Element e) {
+        super.make(block, actor, e);
         hasTarget = e.hasAttribute("object");
 
         if(e.hasAttribute("object")) {
@@ -25,8 +25,6 @@ public class Command$Facing extends Command {
         else if(e.hasAttribute("direction")) {
             direction = MapDirection.valueOf(e.getAttribute("direction"));
         }
-
-        return generateCommand(this);
     }
 
     @Override

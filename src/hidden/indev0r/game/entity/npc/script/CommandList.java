@@ -87,6 +87,41 @@ public enum CommandList {
         public Command newInstance() {
             return new Command$RunScript();
         }
+    },
+
+    freezeControls {
+        @Override
+        public Command newInstance() {
+            return new Command$FreezeControls();
+        }
+    },
+
+    cinematicMode {
+        @Override
+        public Command newInstance() {
+            return new Command$CinematicMode();
+        }
+    },
+
+    showTip {
+        @Override
+        public Command newInstance() {
+            return new Command$ShowTip();
+        }
+    },
+
+    screen {
+        @Override
+        public Command newInstance() {
+            return new Command$Screen();
+        }
+    },
+
+    cinematicText {
+        @Override
+        public Command newInstance() {
+            return new Command$CinematicText();
+        }
     }
     ;
 

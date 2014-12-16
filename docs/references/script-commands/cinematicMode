@@ -1,0 +1,5 @@
+USAGE:
+
+    <cinematicMode flag="$FLAG" />
+
+    $FLAG       - Whether or not to show cinematic mode.

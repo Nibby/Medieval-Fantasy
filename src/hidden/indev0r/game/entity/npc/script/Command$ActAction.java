@@ -19,14 +19,11 @@ public class Command$ActAction extends Command {
     private boolean wait = false;
 
     @Override
-    public Command make(CommandBlock block, Actor actor, Element e) {
-        onMake(block, actor, e);
-
+    public void make(CommandBlock block, Actor actor, Element e) {
+        super.make(block, actor, e);
         type = ActionType.valueOf(e.getAttribute("type"));
 
         if(e.hasAttribute("wait")) wait = Boolean.parseBoolean(e.getAttribute("wait"));
-
-        return generateCommand(this);
     }
 
     @Override

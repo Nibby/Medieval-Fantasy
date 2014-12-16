@@ -31,7 +31,7 @@ public class Actor extends Entity {
 
     }
 
-    protected int INTERACT_TILE_DISTANCE = 2;
+    protected int interactRange = 2, approachRange = 2;
     /*
         Actor scripts are kept here rather than solely stored in NPC class
         because certain special monsters will have scripts also.
@@ -57,8 +57,6 @@ public class Actor extends Entity {
 	@Override
 	public void tick(GameContainer gc) {
 		super.tick(gc);
-        if(!(this instanceof Player))
-            ai.tick(map, this);
 
         if(getX() != moveDestination.x || getY() != moveDestination.y) {
             AStarPathFinder aStar = new AStarPathFinder(map, 16, false);
@@ -74,8 +72,8 @@ public class Actor extends Entity {
         calculateStats();
 
         if(isAlive){
-            //AI.create();
-            //AI.tick();
+            if(!(this instanceof Player))
+                ai.tick(map, this);
         } else {
             if(actionMap != null && action != ActionType.DEATH) {
                 forceActAction(ActionType.DEATH);
@@ -90,11 +88,36 @@ public class Actor extends Entity {
 
     public boolean withinInteractRange(Actor actor) {
 
-        Rectangle bounds = new Rectangle(getX() - INTERACT_TILE_DISTANCE  + 1, getY() - INTERACT_TILE_DISTANCE + 1,
-                                         getWidth() / Tile.TILE_SIZE + INTERACT_TILE_DISTANCE, getHeight() / Tile.TILE_SIZE + INTERACT_TILE_DISTANCE);
+        Rectangle bounds = new Rectangle(getX() - interactRange + 1, getY() - interactRange + 1,
+                                         getWidth() / Tile.TILE_SIZE + interactRange, getHeight() / Tile.TILE_SIZE + interactRange);
         Rectangle other  = new Rectangle(actor.getX(), actor.getY(), actor.getWidth() / Tile.TILE_SIZE, actor.getHeight() / Tile.TILE_SIZE);
 
         return other.intersects(bounds);
+    }
+
+    public boolean withinApproachRange(Actor actor) {
+
+        Rectangle bounds = new Rectangle(getX() - approachRange + 1, getY() - approachRange + 1,
+                getWidth() / Tile.TILE_SIZE - 1 + approachRange * 2, getHeight() / Tile.TILE_SIZE - 1 + approachRange * 2);
+        Rectangle other  = new Rectangle(actor.getX(), actor.getY(), actor.getWidth() / Tile.TILE_SIZE, actor.getHeight() / Tile.TILE_SIZE);
+
+        return other.intersects(bounds);
+    }
+
+    public int getInteractRange() {
+        return interactRange;
+    }
+
+    public void setInteractRange(int interactRange) {
+        this.interactRange = interactRange;
+    }
+
+    public int getApproachRange() {
+        return approachRange;
+    }
+
+    public void setApproachRange(int approachRange) {
+        this.approachRange = approachRange;
     }
 
     @Override

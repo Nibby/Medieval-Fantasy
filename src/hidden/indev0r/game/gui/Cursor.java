@@ -26,6 +26,7 @@ import org.newdawn.slick.*;
  */
 public class Cursor {
 
+    public static final Cursor NONE = new Cursor(Textures.Cursors.EMPTY, 0, 0);
     public static final Cursor NORMAL = new Cursor(Textures.Cursors.POINTER_YELLOW, 0, 0);
     public static final Cursor ENEMY_TARGET = new Cursor(Textures.Cursors.POINTER_RED, 0, 0);
     public static final Cursor INTERACT = new Cursor(Textures.Cursors.FINGER, 0, 0);
@@ -70,7 +71,6 @@ public class Cursor {
     }
 
     public static void render(Graphics g) {
-
         if(INTERACT_INSTANCE instanceof NPC && !((NPC) INTERACT_INSTANCE).isPostInteraction()) {
             NPC npc = (NPC) INTERACT_INSTANCE;
             Player player = MedievalLauncher.getInstance().getGameState().getPlayer();

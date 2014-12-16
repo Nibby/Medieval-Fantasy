@@ -1,0 +1,25 @@
+USAGE:
+
+    <cinematicText duration="$DURATION"
+                   type="$TYPE">
+
+                   Text ;
+                   $COLOR|2nd line text  ;
+                   </cinematicText>
+
+
+    $DURATION       - How long, in milliseconds, the text will last for on screen (minus entrance and exit times if it is a fading text)
+    $TYPE           - Type of cinematic text:
+                        0:  Fading cinematic
+
+
+    $COLOR          - Color of the text on that line, see Colours enum for values.
+
+
+    example usage:
+
+        <cinematicText duration="5000" type="0">
+            YELLOW|Saya 1000 AD;
+            ;
+            3rd line text
+        </cinematicText>

@@ -18,16 +18,13 @@ public class Command$If extends Command {
     private String dataBeingCompared;
 
     @Override
-    public Command make(CommandBlock block, Actor actor, Element e) {
-        onMake(block, actor, e);
-
+    public void make(CommandBlock block, Actor actor, Element e) {
+        super.make(block, actor, e);
         nestedBlock = new NestedCommandBlock(block);
         List<Command> childCommands = ScriptParser.parse("IF", nestedBlock, actor, e);
         nestedBlock.setCommandList(childCommands);
 
         ifElement = e;
-
-        return generateCommand(this);
     }
 
     @Override

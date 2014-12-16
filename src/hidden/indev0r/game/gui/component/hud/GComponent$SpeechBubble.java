@@ -20,7 +20,6 @@ public class GComponent$SpeechBubble extends GComponent {
 
     private long tickTime;
     private int duration;
-    private boolean expired = false;
     private boolean jitter = false;
     private String text;
     private Color color;
@@ -60,11 +59,7 @@ public class GComponent$SpeechBubble extends GComponent {
     public void tick(GameContainer gc) {
         super.tick(gc);
         if(System.currentTimeMillis() - tickTime > duration) {
-            expired = true;
+            setRemoved(true);
         }
-    }
-
-    public boolean isExpired() {
-        return expired;
     }
 }

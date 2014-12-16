@@ -56,18 +56,20 @@ public class NPC extends Actor {
                 mx < position.x + width + camera.getOffsetX() && my < position.y + height + camera.getOffsetY()) {
 
             Player player = MedievalLauncher.getInstance().getGameState().getPlayer();
-            if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-                //To interact, player must be 2 tiles or less away from the NPC
-                if(withinInteractRange(player)) {
-                    interact(MedievalLauncher.getInstance().getGameState().getPlayer());
-                    postInteraction = true;
+            if(player.isControllable()) {
+                if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+                    //To interact, player must be 2 tiles or less away from the NPC
+                    if (withinInteractRange(player)) {
+                        interact(MedievalLauncher.getInstance().getGameState().getPlayer());
+                        postInteraction = true;
+                    }
                 }
-            }
 
-            if(withinInteractRange(player)) {
-                if(Cursor.INTERACT_INSTANCE == null) {
-                    Cursor.setInteractInstance(this);
-                    wasMouseFocused = true;
+                if (withinInteractRange(player)) {
+                    if (Cursor.INTERACT_INSTANCE == null) {
+                        Cursor.setInteractInstance(this);
+                        wasMouseFocused = true;
+                    }
                 }
             }
 

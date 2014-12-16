@@ -15,8 +15,8 @@ public class Command$Move extends Command {
     private boolean absMove = false;
 
     @Override
-    public Command make(CommandBlock block, Actor actor, Element e) {
-        onMake(block, actor, e);
+    public void make(CommandBlock block, Actor actor, Element e) {
+        super.make(block, actor, e);
 
         if(e.hasAttribute("direction")) {
             int steps = Integer.parseInt(e.getAttribute("steps"));
@@ -47,8 +47,6 @@ public class Command$Move extends Command {
             ry = 0;
             absMove = true;
         }
-
-        return generateCommand(this);
     }
 
     @Override

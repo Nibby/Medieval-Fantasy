@@ -13,10 +13,9 @@ public class Command$RunScript extends Command {
     private String scriptID;
 
     @Override
-    public Command make(CommandBlock block, Actor actor, Element e) {
-        onMake(block, actor, e);
+    public void make(CommandBlock block, Actor actor, Element e) {
+        super.make(block, actor, e);
         scriptID = e.getAttribute("script");
-        return generateCommand(this);
     }
 
     @Override

@@ -59,7 +59,7 @@
             </option>
 
             <option type="0" text="Text Jittering">
-                <dialog type="0" title="Camera Shake Test">
+                <dialog type="0" title="Camera Panning Test">
                     <content>
                         Pressing 'Okay' will initiate;
                         a spoken text of evil laughter.;
@@ -71,8 +71,48 @@
                 <say duration="3000" color="RED" jitter="true">MUAHAHAHAHA!</say>
                 <wait for="3000" />
             </option>
-        </dialog>
 
-        <say interval="0" duration="2000">Neat huh!</say>
+            <option type="0" text="Cinematic Mode">
+                <dialog type="0" title="Cinematic Mode Test">
+                    <content>
+                        Pressing 'Okay' will lock controls;
+                        and disable menu rendering for 5;
+                        seconds, while setting the cinema-;
+                        tic mood...;
+                    </content>
+                </dialog>
+
+                <freezeControls flag="true" />
+                <cinematicMode flag="true" />
+                <screen mode="FADE_IN" duration="3000" />
+                <wait for="3000" />
+                <cinematicText duration="2000" type="0">
+                    Cinematic Moment...;
+                    YELLOW|Yellow Text;
+                </cinematicText>
+                <wait for="2500" />
+                <screen mode="FADE_OUT" duration="3000" />
+                <wait for="3000" />
+                <freezeControls flag="false" />
+                <cinematicMode flag="false" />
+            </option>
+
+            <option type="0" text="Camera Snapping">
+                <dialog type="0" title="Camera Snapping Test">
+                    <content>
+                        Pressing 'Ok' will rapidly snap;
+                        the camera towards the bartender.;
+                        ;
+                        This will last for 5 seconds;
+                    </content>
+                </dialog>
+
+                <camera action="SNAP_TO" mode="ACTOR" actor="$NPC_REF" actorRef="dev_quarters_lobby.bartender" />
+                <wait for="5000" />
+                <camera action="TRACK" actor="$PLAYER" />
+            </option>
+
+            <say interval="0" duration="2000">Neat huh!</say>
+        </dialog>
     </script>
 </npc>

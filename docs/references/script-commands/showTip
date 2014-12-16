@@ -1,0 +1,18 @@
+USAGE:
+
+    <showTip (o) type="$TIP_TYPE"
+             (o) color="$TEXT_COLOR"
+             (o) duration="$TIP_DURATION">
+
+             tip text....</showTip>
+
+
+    $TIP_TYPE       - The display type of the tip:
+                        0: Normal text
+                        1: Jittering text
+
+    $TEXT_COLOR     - The color of the displayed tip
+    $TIP_DURATION   - How long the tip will last on screen in milliseconds
+
+    e.g.
+        <showTip color="YELLOW">Mission Complete!</showTip>

@@ -44,10 +44,27 @@ USAGES:
 
 
        > SHAKING:
-       Use it in dramatic events, not for too long or people will get dizzy.
+           Use it in dramatic events, not for too long or people will get dizzy.
 
-       <camera action="SHAKE" amplitude="$AMPLITUDE" intensity="$INTENSITY" duration="$DURATION" />
+           <camera action="SHAKE" amplitude="$AMPLITUDE" intensity="$INTENSITY" duration="$DURATION" />
 
-       $AMPLITUDE       - How much the camera shakes (greater amplitude = wider shake), recommend value is 5
-       $INTENSITY       - How fast the shaking occurs, recommend value is 20
-       $DURATION        - How long, in ms, the shaking will last
+           $AMPLITUDE       - How much the camera shakes (greater amplitude = wider shake), recommend value is 5
+           $INTENSITY       - How fast the shaking occurs, recommend value is 20
+           $DURATION        - How long, in ms, the shaking will last
+
+       > SNAPPING
+           Like panning, except without the fluid scrolling. Rather, it instantly snaps to a certain
+           location...
+
+            <camera action="SNAP_TO" mode="ACTOR" actor="$NPC_REF" actorRef="$NPC_REF_KEY" />
+
+                $NPC_REF    - Leave it as is
+                $NPC_REF_KEY- The key of the NPC called. See ACTOR_REFERENCES.txt
+
+                This will snap the camera to center THAT actor. Will lose current tracking object...
+
+            <camera action="SNAP_TO" mode="TILE" tilePos="$TILE_POSITION" />
+
+                $TILE_POSITION  - Co-ordinate of the tile, in terms of x,y.
+
+                This will center the camera on that tile immediately. Will lose current tracking object...

@@ -15,16 +15,14 @@ public class Command$Random extends Command {
     private int interval = 0;
 
     @Override
-    public Command make(CommandBlock block, Actor actor, Element e) {
-        onMake(block, actor, e);
+    public void make(CommandBlock block, Actor actor, Element e) {
+        super.make(block, actor, e);
 
         randomCommands = ScriptParser.parse(e.getTagName(), block, actor, e);
 
         if(e.hasAttribute("interval")) {
             interval = Integer.parseInt((String) Script.translate(e.getAttribute("interval"), e.getAttribute("randomParams")));
         } else interval = 0;
-
-        return generateCommand(this);
     }
 
     @Override

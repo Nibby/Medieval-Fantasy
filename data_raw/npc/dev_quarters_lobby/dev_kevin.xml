@@ -1,6 +1,6 @@
 <npc hostile="false" faction="HUMAN" actionSet="10"
      width="1" height="1" name="Kevin Yang" facing="LEFT"
-     nameColor="MAGENTA" minimapColor="WHITE">
+     nameColor="MAGENTA" minimapColor="WHITE" approachRange="7">
 
     <location>
         <map>dev_quarters_lobby</map>
@@ -40,6 +40,11 @@
 
                         - Doors! Left click to open them.;
                         - Minimap blocked layer separation;
+                        - Numerous additions in cinematic;
+                          related scripts.;
+                        - Separated NPC interact range and;
+                          approach range. Guards may benef-;
+                          it from this.
                     </content>
                 </dialog>
             </option>
@@ -49,10 +54,10 @@
                     <content>
                         A few things on my mind:;;
 
-                        - The ability to read a sign;
                         - New tile assets, what we have is;
                         no way near enough.;
                         - Monsters + combat! Fun fun.
+                        - Inventory system
                     </content>
                     <content>
                         Goals in the the grand scheme...;;

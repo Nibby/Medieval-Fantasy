@@ -107,7 +107,11 @@ public class BitFont {
 
 	}
 
-	private static class FontSpacing {
+    public static int heightOf(String[] strings) {
+        return strings.length * 20;
+    }
+
+    private static class FontSpacing {
 
 		private String affectedGlyphs;
 		private int    glyphWidth;

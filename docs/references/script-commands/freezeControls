@@ -1,0 +1,7 @@
+USAGE:
+
+    <freezeControls flag="$FLAG" />
+
+
+    $FLAG       - true or false, whether or not to disable the ability for players to
+                  control their characters.
