@@ -62,7 +62,7 @@ public class GDialog$NPC$Standard extends GComponent$Dialog {
         }
         //Render close button
         BitFont.render(g, title, (int) position.x + actor.getWidth() + 10, (int) position.y + 3, Color.white);
-        actor.render(g, position.x + 5, position.y - 12);
+        actor.render(g, position.x + 5, position.y - 12, actor.getTextureColor());
         for (GComponent gc : internalComponents) gc.render(g);
         g.popTransform();
 

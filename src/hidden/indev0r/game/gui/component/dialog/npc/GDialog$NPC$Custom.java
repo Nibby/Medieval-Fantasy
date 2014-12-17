@@ -47,7 +47,7 @@ public class GDialog$NPC$Custom extends GComponent$Dialog {
         }
 
         BitFont.render(g, this.title, (int) position.x + actor.getWidth() + 10, (int) position.y + 3, Color.white);
-        actor.render(g, position.x + 5, position.y - 12);
+        actor.render(g, position.x + 5, position.y - 12, actor.getTextureColor());
     }
 
     public void tick(GameContainer gc) {

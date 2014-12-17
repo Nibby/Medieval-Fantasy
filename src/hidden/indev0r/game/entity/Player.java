@@ -5,6 +5,9 @@ import hidden.indev0r.game.MedievalLauncher;
 import hidden.indev0r.game.entity.animation.ActionSet;
 import hidden.indev0r.game.entity.animation.ActionSetDatabase;
 import hidden.indev0r.game.entity.animation.ActionType;
+import hidden.indev0r.game.entity.combat.AttackType;
+import hidden.indev0r.game.entity.combat.DamageModel;
+import hidden.indev0r.game.entity.combat.phase.AbstractCombatChannelPhase;
 import hidden.indev0r.game.gui.Cursor;
 import hidden.indev0r.game.gui.component.interfaces.GStatsSupplier;
 import hidden.indev0r.game.map.MapDirection;
@@ -205,6 +208,11 @@ public class Player extends Actor implements GStatsSupplier {
             public int getSpeedAtLevel(int level) {
                 return 0;
             }
+
+            @Override
+            public AttackType getDefaultAttackType() {
+                return AttackType.normal_mage;
+            }
         },
 
         WARRIOR(1, "Warrior") {
@@ -241,6 +249,11 @@ public class Player extends Actor implements GStatsSupplier {
             @Override
             public int getSpeedAtLevel(int level) {
                 return 15 + (level - 1) / 3;
+            }
+
+            @Override
+            public AttackType getDefaultAttackType() {
+                return AttackType.normal_warrior;
             }
         },
 
@@ -279,10 +292,16 @@ public class Player extends Actor implements GStatsSupplier {
             public int getSpeedAtLevel(int level) {
                 return 0;
             }
+
+            @Override
+            public AttackType getDefaultAttackType() {
+                return AttackType.normal_rogue;
+            }
         };
 
         private ActionSet actionSet;
         private String    name;
+
         private Job(int actionSetID, String name) {
             this.actionSet = ActionSetDatabase.get(actionSetID);
             this.name = name;
@@ -296,6 +315,8 @@ public class Player extends Actor implements GStatsSupplier {
         public abstract int getDexterityAtLevel(int level);
         public abstract int getIntelligenceAtLevel(int level);
         public abstract int getSpeedAtLevel(int level);
+
+        public abstract AttackType getDefaultAttackType();
 
         public static int getRequiredEXPAtLevel(int level) {
             switch(level) {

@@ -76,6 +76,7 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
         map.addEntity(mon);
 
 		announceName(map.getName());
+        getMenuOverlay().showHint("Right click to attack!", 2500, Color.white, 0);
     }
 
 	@Override

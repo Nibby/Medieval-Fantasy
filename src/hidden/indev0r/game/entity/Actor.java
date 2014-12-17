@@ -2,18 +2,25 @@ package hidden.indev0r.game.entity;
 
 import hidden.indev0r.game.entity.ai.AI;
 import hidden.indev0r.game.entity.animation.ActionType;
+import hidden.indev0r.game.entity.combat.AttackType;
+import hidden.indev0r.game.entity.combat.DamageModel;
+import hidden.indev0r.game.entity.combat.DamageType;
+import hidden.indev0r.game.entity.combat.phase.*;
 import hidden.indev0r.game.entity.npc.script.Script;
 import hidden.indev0r.game.gui.Cursor;
 import hidden.indev0r.game.map.Tile;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.util.pathfinding.AStarPathFinder;
 import org.newdawn.slick.util.pathfinding.Path;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public abstract class Actor extends Entity {
@@ -33,6 +40,12 @@ public abstract class Actor extends Entity {
     protected Color nameColor, minimapColor;
     protected boolean isAlive;
 
+    /* MAYBE A PLACEHOLDER */
+    protected AttackType attackType = AttackType.normal_warrior;
+    protected Actor combatTarget;
+
+    protected List<CombatPhase> combatPhaseList = new ArrayList<>();
+
     public Actor(Faction faction, Vector2f position) {
 		super(position);
 		propertyMap = new HashMap<>(0);
@@ -42,6 +55,40 @@ public abstract class Actor extends Entity {
         nameColor = Color.white;
         minimapColor = Color.blue;
 	}
+
+    public void render(Graphics g) {
+        super.render(g);
+        boolean shouldRender = true;
+        if(!combatPhaseList.isEmpty()) {
+            for(int i = 0; i < combatPhaseList.size(); i++) {
+                CombatPhase phase = combatPhaseList.get(i);
+
+                if(phase.isInitiator(this) && phase.overrideInitiatorRender()) {
+                    phase.renderInitiator(g, this);
+                    shouldRender = false;
+                }
+
+                if(phase instanceof CombatHitPhase && ((CombatHitPhase) phase).isTarget(this)) {
+                    if(((CombatHitPhase) phase).overrideTargetRender())
+                        ((CombatHitPhase) phase).renderTarget(g, this);
+                    ((CombatHitPhase) phase).renderHitEffects(g, this);
+                    shouldRender = false;
+                }
+            }
+        }
+
+        if(shouldRender) {
+            super.render(g);
+            for(int i = 0; i < combatPhaseList.size(); i++) {
+                CombatPhase phase = combatPhaseList.get(i);
+
+                if(phase instanceof CombatHitPhase && ((CombatHitPhase) phase).isTarget(this)) {
+                    ((CombatHitPhase) phase).renderHitEffects(g, this);
+                }
+            }
+        }
+    }
+
 	@Override
 	public void tick(GameContainer gc) {
 		super.tick(gc);
@@ -59,6 +106,18 @@ public abstract class Actor extends Entity {
 
         calculateStats();
 
+        if(!combatPhaseList.isEmpty()) {
+            for(int i = 0; i < combatPhaseList.size(); i++) {
+                CombatPhase phase = combatPhaseList.get(i);
+
+                phase.tick(gc, this);
+
+                if(phase.isExpired()) {
+                    removeCombatPhase(phase);
+                }
+            }
+        }
+
         if(isAlive){
             if(!(this instanceof Player))
                 ai.tick(map, this);
@@ -70,10 +129,62 @@ public abstract class Actor extends Entity {
 
 	}
 
+    public Actor getCombatTarget() {
+        return combatTarget;
+    }
+
+    public void setCombatTarget(Actor combatTarget) {
+        this.combatTarget = combatTarget;
+    }
+
+    public void combatStart(Actor target) {
+        this.combatTarget = target;
+        combatChannelStart(attackType);
+
+    }
+
+    public void combatChannelStart(AttackType type) {
+        AbstractCombatChannelPhase channelPhase = type.getChannelPhase(this);
+        addCombatPhase(channelPhase);
+    }
+
+    public void combatChannelEnd(AttackType type) {
+        //计算战斗信息，包括玩家双手 VS 单手武器等。。。
+
+        DamageModel model = new DamageModel();
+        //2 is how many attacks actor will deal
+        for(int i = 0; i < 2; i++) {
+            int damage = getStat(Stat.ATTACK_DAMAGE) + getStat(Stat.ATTACK_DAMAGE_BONUS) / 2
+                    + (int) (Math.random() * (getStat(Stat.ATTACK_DAMAGE_BONUS) / 2))
+                    + getStat(Stat.STRENGTH_BONUS)
+                    + (int) (Math.random() * (getStat(Stat.STRENGTH) / 2) + getStat(Stat.STRENGTH) / 2);
+            model.addHit(DamageType.normal, damage);
+        }
+
+        AbstractCombatHitPhase hitPhase = type.getHitPhase(this, combatTarget);
+        hitPhase.setDamageModel(model);
+        addCombatPhase(hitPhase);
+    }
+
+    public void combatHurt(Actor dmgDealer, int currentHit, DamageModel model) {
+        deductStat(Stat.HEALTH, model.getDamage(currentHit));
+        System.out.println(getStat(Stat.HEALTH));
+    }
+
+    public void combatEnd() {
+    }
+
     protected void calculateStats() {
         targetMoveSpeed = (getStat(Stat.SPEED) + getStat(Stat.SPEED_BONUS)) / 7;
     }
 
+    public void addCombatPhase(CombatPhase phase) {
+        combatPhaseList.add(phase);
+    }
+
+    public void removeCombatPhase(CombatPhase phase) {
+        combatPhaseList.remove(phase);
+    }
 
     public boolean withinRange(Actor actor, int range) {
         int boundWidth = getWidth() / Tile.TILE_SIZE - 1 + range;
@@ -230,7 +341,7 @@ public abstract class Actor extends Entity {
         this.faction = faction;
     }
 
-	public enum Stat {
+    public enum Stat {
 		HEALTH(1),
         HEALTH_MAX(1),
         HEALTH_MAX_BONUS(0),

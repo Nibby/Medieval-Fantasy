@@ -29,9 +29,9 @@ public abstract class Entity {
 	 * <p/>
 	 * By default, the entity uses static sprites. This map is null (i.e. not used) if entity has no motion map.
 	 */
-	protected Map<ActionType, Action> actionMap       = null; //The map of all entity actions
-	protected Stack<ActionType>       actionPlayStack = new Stack<>();        //A stack of animation which the entity is forced to act out
-	protected ActionType              action          = null;
+	protected Map<ActionType, Action> actionMap = null; //The map of all entity actions
+	protected ActionType forceActAction = null;
+	protected ActionType action = null;
 	protected Vector2f position;
 	protected float moveX, moveY;
 	protected boolean stopMoving = false, moving = false;
@@ -70,10 +70,14 @@ public abstract class Entity {
     }
 
     public void render(Graphics g) {
-		render(g, getRenderX(), getRenderY());
+		render(g, getRenderX(), getRenderY(), textureColor);
 	}
 
-    public void render(Graphics g, float x, float y) {
+    public void render(Graphics g, Color tint) {
+        render(g, getRenderX(), getRenderY(), tint);
+    }
+
+    public void render(Graphics g, float x, float y, Color tint) {
         //If entity is not using a motion map
         if (actionMap == null) {
             if (sprite != null) {
@@ -81,33 +85,28 @@ public abstract class Entity {
                 Image renderImg = (currentDirection == MapDirection.RIGHT) ? sprite : spriteFlipped;
                 renderImg = renderImg.getScaledCopy(width, height);
                 if(sunken) renderImg = renderImg.getSubImage(0, 0, renderImg.getWidth(), renderImg.getHeight() / 4 * 3);
-                g.drawImage(renderImg, x, y, textureColor);
+                g.drawImage(renderImg, x, y, tint);
             }
         }
 
         //Otherwise
         else {
             renderShadow(g);
-
-            Action motion = null;
             //If entity is forced to act out an animation, do so
-            if (!actionPlayStack.isEmpty()) {
-                motion = actionMap.get(actionPlayStack.peek());
-                if (motion != null) {
-                    if (!motion.hasEnded()) {
-                        motion.renderForced(g, this, textureColor, x, y);
-                    } else {
-                        actionPlayStack.pop();
-                    }
-                } else {
-                    actionPlayStack.pop();
+            if(forceActAction != null) {
+                Action action = actionMap.get(forceActAction);
+                if(action != null) {
+                    if(!action.hasEnded())
+                        action.renderForced(g, this, tint, x, y);
+                    else
+                        forceActAction = null;
                 }
-
             }
-            if (actionPlayStack.isEmpty()) {
-                motion = actionMap.get(action);
-                if (motion != null) {
-                    motion.render(g, this, x, y, textureColor, true);
+
+            if(forceActAction == null) {
+                Action act = actionMap.get(action);
+                if (act != null) {
+                    act.render(g, this, x, y, tint, true);
                 }
             }
         }
@@ -218,7 +217,7 @@ public abstract class Entity {
 		Action action = actionMap.get(id);
 		if (action == null) return;
 		action.restart();
-		actionPlayStack.add(0, id);
+		this.forceActAction = id;
 	}
 
     public boolean isVisibleOnScreen() {
@@ -238,6 +237,10 @@ public abstract class Entity {
         }
         moveDestination.x = x;
         moveDestination.y = y;
+    }
+
+    public Color getTextureColor() {
+        return textureColor;
     }
 
 	/**
@@ -311,7 +314,7 @@ public abstract class Entity {
 
     public void setFacingDirection(MapDirection direction) {
         currentDirection = direction;
-        if(actionPlayStack.isEmpty()) {
+        if(forceActAction == null) {
             if(!moving) {
                 switch(direction) {
                     case UP:

@@ -82,7 +82,8 @@ public class Monster extends Actor implements Cloneable {
 
     //Combat...
     private void interact(Player player) {
-
+        player.setFacingDirection(MapDirection.turnToFace(player, this));
+        player.combatStart(this);
     }
 
     public static Monster generateInstance(Monster monster) {
