@@ -8,8 +8,9 @@
       <root url="jar://$PROJECT_DIR$/dep/lib/tween-engine-api.jar!/" />
       <root url="jar://$PROJECT_DIR$/dep/lib/sound/CodecJOrbis.jar!/" />
       <root url="jar://$PROJECT_DIR$/dep/lib/sound/CodecWav.jar!/" />
-      <root url="jar://$PROJECT_DIR$/dep/lib/sound/LibraryJavaSound.jar!/" />
       <root url="jar://$PROJECT_DIR$/dep/lib/sound/SoundSystem.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dep/lib/sound/LibraryLWJGLOpenAL.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dep/lib/sound/LibraryJavaSound.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

@@ -357,4 +357,8 @@ public abstract class Entity {
     public Map<ActionType, Action> getActionMap() {
         return actionMap;
     }
+
+    public TileMap getMap() {
+        return map;
+    }
 }

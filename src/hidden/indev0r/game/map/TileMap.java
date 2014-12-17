@@ -10,15 +10,15 @@ import hidden.indev0r.game.reference.References;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.util.pathfinding.AStarPathFinder;
+import org.newdawn.slick.util.pathfinding.Path;
 import org.newdawn.slick.util.pathfinding.PathFindingContext;
 import org.newdawn.slick.util.pathfinding.TileBasedMap;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 /**
  * A TileMap is a map on which actors and other instances are able to move and interact with.
@@ -112,7 +112,7 @@ public class TileMap implements TileBasedMap {
 		}
 	}
 
-	public void addEntity(Entity e) {
+    public void addEntity(Entity e) {
 		if (e == null) return;
 		entities.add(e);
 		e.setCurrentMap(this);

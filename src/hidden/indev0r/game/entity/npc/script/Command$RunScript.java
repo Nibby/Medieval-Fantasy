@@ -22,8 +22,8 @@ public class Command$RunScript extends Command {
     public void exec(Actor actor, final CommandBlock block) {
         super.exec(actor, block);
         Script script = ScriptDatabase.get(scriptID);
+        script.setParentBlock(block);
         script.execute(getActor());
-        block.executeNext(actor);
     }
 
 }

@@ -61,11 +61,11 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
         soundPlayer = new SoundPlayer();
 
 		camera = new Camera(0, 0);
-		player = new Player(Actor.Faction.GLYSIA, Player.Job.MAGE, 3, 4);
+		player = new Player(Actor.Faction.GLYSIA, Player.Job.MAGE, 11, 18);
 		player.setLevel(1);
 		camera.setTrackObject(player);
 
-		map = TileMapDatabase.getTileMap("storyteller");
+		map = TileMapDatabase.getTileMap("dev_quarters_lobby");
 		map.addEntity(player);
 
 		menuMgr = new GMenuManager();
@@ -74,6 +74,7 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
 		menuMgr.setTickTopMenuOnly(false);
 
 		announceName(map.getName());
+        getMenuOverlay().showBGMTrackInfo(BGM.BGM_0);
     }
 
 	@Override
@@ -122,6 +123,7 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
         }
 
         menuMgr.tick(gameContainer);
+//        soundPlayer.getSoundSystem().checkFadeVolumes();
 	}
 
 	public void levelTransition(Entity entity, TileMap targetMap, int x, int y, WarpType type) {

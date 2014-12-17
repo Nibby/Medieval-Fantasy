@@ -1,0 +1,11 @@
+USAGE:
+
+    <bgm action="PLAY" bgm="$BGM_NAME" />
+
+        $BGM_NAME       - The name of the background music, see BGM enum for full list.
+
+    <bgm action="STOP" bgm="$BGM_NAME"
+     (o) duration="$FADE_DURATION" />
+
+        $BGM_NAME       - The name of the background music, see BGM enum for full list.
+        $FADE_DURATION  - How long, in ms, the music will fade out for

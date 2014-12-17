@@ -7,6 +7,7 @@ import paulscode.sound.SoundSystemException;
 import paulscode.sound.codecs.CodecJOrbis;
 import paulscode.sound.codecs.CodecWav;
 import paulscode.sound.libraries.LibraryJavaSound;
+import paulscode.sound.libraries.LibraryLWJGLOpenAL;
 
 import java.net.MalformedURLException;
 
@@ -26,7 +27,15 @@ public class SoundPlayer {
     private boolean muted = false;
 
     public SoundPlayer() {
-        libraryType = LibraryJavaSound.class;
+        Class<? extends Library> compatibleLibrary = null;
+        if(SoundSystem.libraryCompatible(LibraryLWJGLOpenAL.class))
+            compatibleLibrary = LibraryLWJGLOpenAL.class;
+        else if(SoundSystem.libraryCompatible(LibraryJavaSound.class))
+            compatibleLibrary = LibraryJavaSound.class;
+        else
+            compatibleLibrary = Library.class;
+
+        libraryType = compatibleLibrary;
 
         try {
             SoundSystemConfig.setCodec("ogg", CodecJOrbis.class);
@@ -43,6 +52,9 @@ public class SoundPlayer {
         }
 
         try {
+            SoundSystemConfig.addLibrary(LibraryLWJGLOpenAL.class);
+            SoundSystemConfig.addLibrary(LibraryJavaSound.class);
+
             sys = new SoundSystem(libraryType);
         } catch (SoundSystemException e) {
             e.printStackTrace();
@@ -92,8 +104,14 @@ public class SoundPlayer {
 
     public void fadeOutBGM(BGM bgm, int duration) {
         if(isOggSupported()) {
+            sys.fadeOut(BACKGROUND_MUSIC, null, "", duration);
+        }
+    }
+
+    public void fadeOutInBGM(BGM newBGM, int durationEnd, int durationStart) {
+        if(isOggSupported()) {
             try {
-                sys.fadeOut(BACKGROUND_MUSIC, bgm.getResourceName().toUri().toURL(), bgm.getResourceName().toString(), duration);
+                sys.fadeOutIn(BACKGROUND_MUSIC, newBGM.getResourceName().toUri().toURL(), newBGM.toString(), durationEnd, durationStart);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }

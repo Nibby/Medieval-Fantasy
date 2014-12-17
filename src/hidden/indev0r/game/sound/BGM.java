@@ -9,8 +9,8 @@ import java.nio.file.Path;
  */
 public enum BGM {
 
-
     BGM_0(References.BGM_PATH.resolve("bgm0.ogg"), "Sarah", "DDRKirby(ISQ)"),
+
 
     ;
 

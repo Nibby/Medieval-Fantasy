@@ -1,5 +1,6 @@
 <script>
-    <bgm action="PLAY" bgm="BGM_0" />
+    <bgm action="PLAY" bgm="BGM_0"/>
+
     <cinematicText type="0" duration="15000">
         YELLOW|ELYSIA 970AD;;
         Horrors from the royal chambers echoed;
@@ -116,7 +117,7 @@
     <wait for="5000" />
 
     <screen mode="FADE_OUT" duration="4000" />
-    <bgm action="STOP" duration="4000" />
+    <bgm action="STOP" bgm="BGM_0" duration="4000" />
     <wait for="4000" />
     <freezeControls flag="false" />
     <cinematicMode flag="false" />

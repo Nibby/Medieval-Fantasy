@@ -1,9 +1,9 @@
 <npc hostile="false" faction="HUMAN" resource="res/textures/sprites/static/mon00.png" sprite="0,2" width="1" height="1"
-     name="Storyteller" facing="DOWN" nameColor="WHITE">
+     name="Storyteller" facing="RIGHT" nameColor="WHITE">
 
     <location>
-        <map>storyteller</map>
-        <pos>3,2</pos>
+        <map>dev_quarters_lobby</map>
+        <pos>16,11</pos>
     </location>
 
     <ai type="NONE" />

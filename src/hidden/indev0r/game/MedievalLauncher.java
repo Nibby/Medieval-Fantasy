@@ -107,7 +107,7 @@ public class MedievalLauncher extends StateBasedGame {
 			app.setDisplayMode(References.GAME_WIDTH, References.GAME_HEIGHT, false);
 			app.setAlwaysRender(false);
 			app.setUpdateOnlyWhenVisible(true);
-			app.setShowFPS(false);
+			app.setShowFPS(true);
 			app.setTargetFrameRate(60);
             app.setVerbose(false);
 			app.start();

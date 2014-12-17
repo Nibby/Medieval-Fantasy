@@ -11,8 +11,8 @@ import org.w3c.dom.Element;
 public class Command$BGM extends Command {
 
     private String mode;
-    private BGM bgm;
-    private int fadeDuration = 0;
+    private String bgmRef;
+    private int fadeDuration = 5000;
     private boolean playLooped = false;
 
     @Override
@@ -20,24 +20,25 @@ public class Command$BGM extends Command {
         super.make(block, actor, e);
 
         mode = e.getAttribute("action");
-        if(mode.equals("PLAY")) {
-            bgm = BGM.valueOf(e.getAttribute("bgm"));
+        bgmRef = e.getAttribute("bgm");
 
+        if(mode.equals("PLAY")) {
             if(e.hasAttribute("loop"))
                 playLooped = Boolean.parseBoolean(e.getAttribute("loop"));
 
-            if(e.hasAttribute("duration"))
-                fadeDuration = Integer.parseInt(e.getAttribute("duration"));
         }
+        if(e.hasAttribute("duration"))
+            fadeDuration = Integer.parseInt(e.getAttribute("duration"));
     }
 
     @Override
     public void exec(Actor actor, CommandBlock block) {
         super.exec(actor, block);
-
+        BGM bgm = BGM.valueOf(bgmRef);
         switch(mode) {
             case "PLAY":
                 MedievalLauncher.getInstance().getGameState().getSoundPlayer().playBGM(bgm, playLooped);
+                MedievalLauncher.getInstance().getGameState().getMenuOverlay().showBGMTrackInfo(bgm);
                 break;
             case "STOP":
                 if(fadeDuration > 0)

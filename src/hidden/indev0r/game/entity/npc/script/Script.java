@@ -100,6 +100,7 @@ public class Script implements CommandBlock {
 
     //The list of commands which will be executed in order
     private List<Command> commandList = new ArrayList<>();
+    private CommandBlock parentBlock;
 
     /*
         Certain commands register store content, such as recording dialog choices etc.
@@ -113,6 +114,19 @@ public class Script implements CommandBlock {
     private boolean finished = true;
 
     public Script() {
+        this(null);
+    }
+
+    public Script(CommandBlock parent) {
+        setParentBlock(parent);
+    }
+
+    public CommandBlock getParentBlock() {
+        return parentBlock;
+    }
+
+    public void setParentBlock(CommandBlock parentBlock) {
+        this.parentBlock = parentBlock;
     }
 
     //This will translate a $REFERENCE to actual values, by utilizing ConstantDictionary enum
@@ -185,6 +199,10 @@ public class Script implements CommandBlock {
         finished = true;
         step = 0;
         System.out.println("SCRIPT ENDED\n");
+        if(parentBlock != null) {
+            parentBlock.executeNext(actor);
+//            setParentBlock(null);
+        }
     }
 
     @Override
