@@ -7,6 +7,7 @@ import hidden.indev0r.game.entity.animation.ActionSetDatabase;
 import hidden.indev0r.game.entity.animation.ActionType;
 import hidden.indev0r.game.gui.Cursor;
 import hidden.indev0r.game.gui.component.interfaces.GStatsSupplier;
+import hidden.indev0r.game.map.MapDirection;
 import hidden.indev0r.game.map.Tile;
 import hidden.indev0r.game.texture.Textures;
 import org.lwjgl.util.vector.Vector2f;
@@ -43,8 +44,10 @@ public class Player extends Actor implements GStatsSupplier {
 
         Input input = gc.getInput();
 
-        if(controllable &&
-                input.isMousePressed(Input.MOUSE_LEFT_BUTTON) && MedievalLauncher.getInstance().getGameState().getMenuOverlay().isComponentEmpty()) {
+        if(controllable && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)
+                && MedievalLauncher.getInstance().getGameState().getMenuOverlay().isComponentEmpty()
+                && Cursor.INTERACT_INSTANCE == null) {
+
             int mx = input.getMouseX();
             int my = input.getMouseY();
             Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
@@ -118,6 +121,8 @@ public class Player extends Actor implements GStatsSupplier {
         this.job = job;
 
         setActionSet(job.actionSet);
+
+        setStat(Stat.ATTACK_RANGE, job.getAttackRange());
     }
 
     public Job getJob() {
@@ -137,6 +142,13 @@ public class Player extends Actor implements GStatsSupplier {
 
         setStat(Stat.EXPERIENCE, 0);
         setStat(Stat.EXPERIENCE_MAX, Job.getRequiredEXPAtLevel(level));
+
+        setStat(Stat.STRENGTH, job.getStrengthAtLevel(level));
+        setStat(Stat.DEXTERITY, job.getDexterityAtLevel(level));
+        setStat(Stat.INTELLIGENCE, job.getIntelligenceAtLevel(level));
+        setStat(Stat.SPEED, job.getSpeedAtLevel(level));
+
+        System.out.println(getStat(Stat.STRENGTH));
     }
 
 	@Override
@@ -168,6 +180,31 @@ public class Player extends Actor implements GStatsSupplier {
             public int getMaxMPAtLevel(int level) {
                 return 17 + level + (int) (Math.pow(level, 2) / 2);
             }
+
+            @Override
+            public int getAttackRange() {
+                return 5;
+            }
+
+            @Override
+            public int getStrengthAtLevel(int level) {
+                return 0;
+            }
+
+            @Override
+            public int getDexterityAtLevel(int level) {
+                return 0;
+            }
+
+            @Override
+            public int getIntelligenceAtLevel(int level) {
+                return 0;
+            }
+
+            @Override
+            public int getSpeedAtLevel(int level) {
+                return 0;
+            }
         },
 
         WARRIOR(1, "Warrior") {
@@ -179,6 +216,31 @@ public class Player extends Actor implements GStatsSupplier {
             @Override
             public int getMaxMPAtLevel(int level) {
                 return 9 + level + (level + (int) Math.pow(level, 2) / 13);
+            }
+
+            @Override
+            public int getAttackRange() {
+                return 1;
+            }
+
+            @Override
+            public int getStrengthAtLevel(int level) {
+                return 5 + (level - 1) / 2;
+            }
+
+            @Override
+            public int getDexterityAtLevel(int level) {
+                return 3 + (level - 1) / 3;
+            }
+
+            @Override
+            public int getIntelligenceAtLevel(int level) {
+                return 1 + (level - 2) / 4;
+            }
+
+            @Override
+            public int getSpeedAtLevel(int level) {
+                return 15 + (level - 1) / 3;
             }
         },
 
@@ -192,6 +254,31 @@ public class Player extends Actor implements GStatsSupplier {
             public int getMaxMPAtLevel(int level) {
                 return 10 + level + (int) Math.pow(level, 2) / 9;
             }
+
+            @Override
+            public int getAttackRange() {
+                return 1;
+            }
+
+            @Override
+            public int getStrengthAtLevel(int level) {
+                return 0;
+            }
+
+            @Override
+            public int getDexterityAtLevel(int level) {
+                return 0;
+            }
+
+            @Override
+            public int getIntelligenceAtLevel(int level) {
+                return 0;
+            }
+
+            @Override
+            public int getSpeedAtLevel(int level) {
+                return 0;
+            }
         };
 
         private ActionSet actionSet;
@@ -202,8 +289,14 @@ public class Player extends Actor implements GStatsSupplier {
         }
 
         public abstract int getMaxHPAtLevel(int level);
-
         public abstract int getMaxMPAtLevel(int level);
+
+        public abstract int getAttackRange();
+        public abstract int getStrengthAtLevel(int level);
+        public abstract int getDexterityAtLevel(int level);
+        public abstract int getIntelligenceAtLevel(int level);
+        public abstract int getSpeedAtLevel(int level);
+
         public static int getRequiredEXPAtLevel(int level) {
             switch(level) {
                 case 1:     return 100;

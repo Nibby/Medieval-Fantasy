@@ -1,15 +1,15 @@
 package hidden.indev0r.game;
 
 import hidden.indev0r.game.debug.DataPublisher;
+import hidden.indev0r.game.entity.MonsterDatabase;
 import hidden.indev0r.game.entity.NPCDatabase;
-import hidden.indev0r.game.entity.AI;
+import hidden.indev0r.game.entity.ai.AI;
 import hidden.indev0r.game.entity.animation.ActionSetDatabase;
 import hidden.indev0r.game.entity.npc.script.ScriptDatabase;
 import hidden.indev0r.game.gui.Cursor;
 import hidden.indev0r.game.map.TileMapDatabase;
 import hidden.indev0r.game.map.TilesetDatabase;
 import hidden.indev0r.game.reference.References;
-import hidden.indev0r.game.sound.BGM;
 import hidden.indev0r.game.state.GameStateID;
 import hidden.indev0r.game.state.MainGameState;
 import hidden.indev0r.game.state.MainMenuState;
@@ -49,11 +49,11 @@ public class MedievalLauncher extends StateBasedGame {
 
             //Initializing game data
 			Textures.Init();
-            AI.init();
 
             TilesetDatabase.getDatabase().loadTilesets();
 			TileMapDatabase.getDatabase().loadMaps();
 			ActionSetDatabase.getDatabase().loadActionSets();
+            MonsterDatabase.getDatabase().loadMonsters();
             ScriptDatabase.getDatabase().loadScripts();
             NPCDatabase.getDatabase().loadNPCs();
 		} catch (Exception e) {

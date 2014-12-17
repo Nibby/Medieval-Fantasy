@@ -74,7 +74,7 @@ public class GComponent$Minimap extends GComponent implements GComponentListener
 		for (int i = 0; i < numOfButton; i++) {
 			if (i == 0) {
 				GComponent$SidebarButton sb = new GComponent$SidebarButton(
-						new Vector2f(position.x + 84, position.y + 130),
+						new Vector2f(position.x + 84, position.y + 128),
 						Textures.UI.MINIMAP_BUTTON_NORMAL,
 						Textures.UI.MINIMAP_BUTTON_PRESSED);
 				sb.addListener(this);
@@ -83,7 +83,7 @@ public class GComponent$Minimap extends GComponent implements GComponentListener
 			}
 
 			GComponent$SidebarButton sb = new GComponent$SidebarButton(
-					new Vector2f((position.x + 84), (position.y + 130) + (i * Textures.UI.MINIMAP_BUTTON_NORMAL.getWidth()) + (4 * i)),
+					new Vector2f((position.x + 84), (position.y + 128) + (i * Textures.UI.MINIMAP_BUTTON_NORMAL.getWidth()) + (4 * i)),
 					Textures.UI.MINIMAP_BUTTON_NORMAL,
 					Textures.UI.MINIMAP_BUTTON_PRESSED);
 			sb.setConnectorImage(Textures.UI.MINIMAP_BUTTON_SEPERATOR);
@@ -118,7 +118,7 @@ public class GComponent$Minimap extends GComponent implements GComponentListener
 	public void render(Graphics g) {
 		mapView.render(g);
 		minimap.draw(position.x, position.y);
-		buttonAttach.draw(position.x + 97, position.y + 103);
+		buttonAttach.draw(position.x + 97, position.y + 101);
 		zoomInButton.render(g);
 		zoomOutButton.render(g);
 		bigMapButton.render(g);

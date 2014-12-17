@@ -6,7 +6,7 @@
         <pos>12,10</pos>
     </location>
 
-    <ai type="MOVE_RANDOM" intervalMin="8000" intervalMax="20000" />
+    <ai type="NPC_MOVE_RANDOM" intervalMin="8000" intervalMax="20000" />
 
     <stats>
     </stats>

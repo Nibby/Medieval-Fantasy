@@ -1,0 +1,12 @@
+<monster faction="UNDEAD"  name="Skeleton" width="1" height="1"
+         resource="res/textures/sprites/static/mon00.png" sprite="0,6" nameColor="CYAN">
+    <stats>
+
+    </stats>
+
+    <ai type="NONE" />
+
+    <dropList>
+
+    </dropList>
+</monster>

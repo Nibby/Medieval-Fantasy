@@ -44,6 +44,7 @@ public abstract class Entity {
 	protected int width, height; //In terms of pixels
 	protected boolean drawShadow  = true;
 	protected static final Color shadowColor = new Color(0f, 0f, 0f, 0.6f);
+    protected Color textureColor = new Color(1f, 1f, 1f, 1f);
     private boolean sunken;
 
     protected Vector2f moveDestination = new Vector2f(0, 0);
@@ -80,7 +81,7 @@ public abstract class Entity {
                 Image renderImg = (currentDirection == MapDirection.RIGHT) ? sprite : spriteFlipped;
                 renderImg = renderImg.getScaledCopy(width, height);
                 if(sunken) renderImg = renderImg.getSubImage(0, 0, renderImg.getWidth(), renderImg.getHeight() / 4 * 3);
-                g.drawImage(renderImg, x, y);
+                g.drawImage(renderImg, x, y, textureColor);
             }
         }
 
@@ -94,7 +95,7 @@ public abstract class Entity {
                 motion = actionMap.get(actionPlayStack.peek());
                 if (motion != null) {
                     if (!motion.hasEnded()) {
-                        motion.renderForced(g, this, x, y);
+                        motion.renderForced(g, this, textureColor, x, y);
                     } else {
                         actionPlayStack.pop();
                     }
@@ -106,7 +107,7 @@ public abstract class Entity {
             if (actionPlayStack.isEmpty()) {
                 motion = actionMap.get(action);
                 if (motion != null) {
-                    motion.render(g, this, x, y, true);
+                    motion.render(g, this, x, y, textureColor, true);
                 }
             }
         }
@@ -135,49 +136,44 @@ public abstract class Entity {
         }
         else actualMoveSpeed = targetMoveSpeed;
 
-		if (position.x != moveX) {
-			if (position.x > moveX) {
-				if (position.x - actualMoveSpeed < moveX) {
-					position.x = moveX;
-				} else {
-					position.x -= actualMoveSpeed;
-				}
+        Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
+        Entity e = camera.getTrackingEntity();
+        if (position.x != moveX) {
+
+            if (position.x > moveX) {
+                position.x -= actualMoveSpeed;
                 setFacingDirection(MapDirection.LEFT);
-				action = ActionType.WALK_LEFT;
-			}
-			if (position.x < moveX) {
-				if (position.x + actualMoveSpeed > moveX) {
-					position.x = actualMoveSpeed;
-				} else {
-					position.x += actualMoveSpeed;
-				}
+                action = ActionType.WALK_LEFT;
+            }
+            if (position.x < moveX) {
+                position.x += actualMoveSpeed;
                 setFacingDirection(MapDirection.RIGHT);
-				action = ActionType.WALK_RIGHT;
-			}
-		}
+                action = ActionType.WALK_RIGHT;
+            }
 
+            if(e != null && e.equals(this))
+                camera.tick();
+		}
 		if (position.y != moveY) {
-			if (position.y > moveY) {
-				if (position.y - actualMoveSpeed < moveY) {
-					position.y = moveY;
-				} else {
-					position.y -= actualMoveSpeed;
-				}
+
+
+            if (position.y > moveY) {
+                position.y -= actualMoveSpeed;
                 setFacingDirection(MapDirection.UP);
-				action = ActionType.WALK_UP;
-			}
-			if (position.y < moveY) {
-				if (position.y + actualMoveSpeed > moveY) {
-					position.y = moveY;
-				} else {
-					position.y += actualMoveSpeed;
-				}
+                action = ActionType.WALK_UP;
+            }
+            if (position.y < moveY) {
+                position.y += actualMoveSpeed;
                 setFacingDirection(MapDirection.DOWN);
-				action = ActionType.WALK_DOWN;
-			}
+                action = ActionType.WALK_DOWN;
+            }
+
+            if(e != null && e.equals(this))
+                camera.tick();
 		}
 
-		if (Math.abs(moveX - position.x) < targetMoveSpeed) position.x = moveX;
+
+            if (Math.abs(moveX - position.x) < targetMoveSpeed) position.x = moveX;
 		if (Math.abs(moveY - position.y) < targetMoveSpeed) position.y = moveY;
 		if (position.y == moveY && position.x == moveX) {
             if(!moving && actionMap != null && getX() == moveDestination.x && getY() == moveDestination.y) {

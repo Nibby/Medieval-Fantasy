@@ -1,11 +1,11 @@
 package hidden.indev0r.game.entity;
 
 import hidden.indev0r.game.Colors;
+import hidden.indev0r.game.entity.ai.AI;
 import hidden.indev0r.game.entity.animation.ActionSet;
 import hidden.indev0r.game.entity.animation.ActionSetDatabase;
 import hidden.indev0r.game.entity.npc.script.Script;
 import hidden.indev0r.game.entity.npc.script.ScriptParser;
-import hidden.indev0r.game.gui.component.hud.GComponent$CircularMap;
 import hidden.indev0r.game.map.MapDirection;
 import hidden.indev0r.game.map.Tile;
 import hidden.indev0r.game.map.TileMap;
@@ -196,7 +196,8 @@ public class NPCDatabase {
             String aiType = aiElement.getAttribute("type");
 
             AI ai = AI.getAI(aiType);
-            npc.setAI(ai.make(npc, aiElement));
+            ai.make(npc, aiElement);
+            npc.setAI(ai);
         } catch(Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "An error occurred while loading NPC '" + path + "'\n" + e,

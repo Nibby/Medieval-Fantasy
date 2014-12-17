@@ -85,7 +85,7 @@ public class GComponent$Button extends GComponent$AbstractButton {
 				} else {
 					button.draw(position.x, position.y);
 				}
-				if (icon != null) icon.draw(position.x + width / 2 - 3, position.y + height / 2 - 3);
+				if (icon != null) icon.draw(position.x + width / 2 - icon.getWidth() / 2 + 1, position.y + height / 2 - icon.getHeight() / 2 + 1);
 				break;
 			case HOVERED:
 				if (buttonHovered != null) {
@@ -94,16 +94,16 @@ public class GComponent$Button extends GComponent$AbstractButton {
 					button.draw(position.x, position.y);
 				}
 
-				if (icon != null) icon.draw(position.x + width / 2 - 4, position.y + height / 2 - 4);
+				if (icon != null) icon.draw(position.x + width / 2 - icon.getWidth() / 2, position.y + height / 2 - icon.getHeight() / 2);
 				break;
             case DISABLED:
                 if (buttonDisabled != null) buttonDisabled.draw(position.x, position.y);
-                if (icon != null) icon.draw(position.x + width / 2 - 4, position.y + width / 2 - 4);
+                if (icon != null) icon.draw(position.x + width / 2 - icon.getWidth() / 2, position.y + width / 2 - icon.getHeight() / 2);
                 break;
 			case NORMAL:
 			default:
 				if (button != null) button.draw(position.x, position.y);
-				if (icon != null) icon.draw(position.x + width / 2 - 4, position.y + width / 2 - 4);
+				if (icon != null) icon.draw(position.x + width / 2 - icon.getWidth() / 2, position.y + width / 2 - icon.getWidth() / 2);
 				break;
 		}
 

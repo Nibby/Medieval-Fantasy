@@ -26,7 +26,11 @@ public class Script implements CommandBlock {
     public enum Type {
         interact,
         approach,
-        death;
+        death,
+        hurt,
+        damage,
+        summon
+        ;
 
     }
 

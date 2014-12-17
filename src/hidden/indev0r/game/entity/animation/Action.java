@@ -27,14 +27,14 @@ public class Action {
             this.yShift = yShift;
         }
 
-        public void render(Graphics g, Entity e, float x, float y) {
+        public void render(Graphics g, Entity e, Color col, float x, float y) {
             x += xShift;
             y += yShift;
             Image renderFrame = frame;
             if(e.isSunken()) {
                 renderFrame = renderFrame.getSubImage(0, 0, renderFrame.getWidth(), renderFrame.getHeight() / 4 * 3);
             }
-            g.drawImage(renderFrame, x, y);
+            g.drawImage(renderFrame, x, y, col);
         }
 
     }
@@ -72,24 +72,24 @@ public class Action {
 		return Action.this;
 	}
 
-	public void render(Graphics g, Entity e, float x, float y, boolean animate) {
+	public void render(Graphics g, Entity e, float x, float y, Color col, boolean animate) {
         tick(false, animate);
 
 		if (animate) {
             animationStopped = false;
 
             ActionFrame frame = animation.get(animationFrame);
-			frame.render(g, e, x, y);
+			frame.render(g, e, col, x, y);
 		} else {
-			animation.get(0).render(g, e, x, y);
+			animation.get(0).render(g, e, col, x, y);
 		}
 
         //Special effects
         if(actionSet != null && (actionSet.getID() == 10 || actionSet.getID() == 6)) {
             Image frame = getCurrentFrame();
-            Color col = new Color(1f, 1f, 1f, actionSet.getAnimAlpha());
+            Color c = new Color(1f, 1f, 1f, actionSet.getAnimAlpha());
             frame = frame.getScaledCopy(1 + (float) actionSet.getAnimTick() / 15);
-            frame.draw(x - actionSet.getAnimTick(), y - actionSet.getAnimTick(), col);
+            frame.draw(x - actionSet.getAnimTick(), y - actionSet.getAnimTick(), c);
 
             if(System.currentTimeMillis() - actionSet.getAnimTickTime() > 25) {
                 actionSet.setAnimTick(actionSet.getAnimTick() + 1);
@@ -105,11 +105,11 @@ public class Action {
         }
 	}
     
-	public void renderForced(Graphics g, Entity e, float x, float y) {
+	public void renderForced(Graphics g, Entity e, Color col, float x, float y) {
         tick(true, true);
 
         ActionFrame frame = animation.get(animationFrame);
-        frame.render(g, e, x, y);
+        frame.render(g, e, col, x, y);
 	}
 
     private void tick(boolean forced,  boolean animated) {

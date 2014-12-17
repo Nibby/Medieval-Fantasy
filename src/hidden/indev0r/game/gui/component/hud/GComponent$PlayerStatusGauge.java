@@ -67,7 +67,7 @@ public class GComponent$PlayerStatusGauge extends GComponent {
         BitFont.render(g, expString, (int) position.x + 150 + greenExpBar.getWidth() / 2 - BitFont.widthOf(expString, 16) / 2, 85, Color.white, 16);
 
         String levelString =  eLevel + "";
-        BitFont.render(g, "Level", (int) position.x + 35, (int) position.y + 60, Color.white, 10);
+        BitFont.render(g, "LEVEL", (int) position.x + 35, (int) position.y + 60, Color.white, 10);
         BitFont.render(g, levelString, (int) position.x + 52 - BitFont.widthOf(levelString, 16) / 2, (int) position.y + 70, (eLevel < 35) ? Color.yellow : Color.cyan, 16);
     }
 

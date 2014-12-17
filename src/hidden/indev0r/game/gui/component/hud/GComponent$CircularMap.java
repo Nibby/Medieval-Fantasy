@@ -1,9 +1,6 @@
 package hidden.indev0r.game.gui.component.hud;
 
-import hidden.indev0r.game.entity.Actor;
-import hidden.indev0r.game.entity.Entity;
-import hidden.indev0r.game.entity.FactionUtil;
-import hidden.indev0r.game.entity.NPC;
+import hidden.indev0r.game.entity.*;
 import hidden.indev0r.game.gui.component.base.GComponent;
 import hidden.indev0r.game.gui.component.interfaces.GMapSupplier;
 import hidden.indev0r.game.map.Tile;
@@ -131,6 +128,10 @@ public class GComponent$CircularMap extends GComponent {
                         }
                     }
 
+                    if(e instanceof Monster) {
+                        mapG.setColor(((Monster) e).getMinimapColor());
+                    }
+
                     if(e.isVisibleOnScreen())
                         mapG.fillRect(e.getX() * MAP_PIXEL_SIZE + offsetX, e.getY() * MAP_PIXEL_SIZE + offsetY,
                             MAP_PIXEL_SIZE * e.getWidth() / Tile.TILE_SIZE, MAP_PIXEL_SIZE * e.getHeight() / Tile.TILE_SIZE);
@@ -146,7 +147,7 @@ public class GComponent$CircularMap extends GComponent {
             e.printStackTrace();
         }
 
-        g.drawImage(minimapImg, position.x + 1, position.y + 2);
+        g.drawImage(minimapImg, position.x + 5, position.y + 3);
 	}
 
 	@Override

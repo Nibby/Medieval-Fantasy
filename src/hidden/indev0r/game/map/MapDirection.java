@@ -28,10 +28,15 @@ public enum MapDirection {
 
     public static MapDirection turnToFace(Entity self, Entity facing) {
         int fx = (int) facing.getX();
+        int fy = (int) facing.getY();
         int sx = (int) self.getX();
+        int sy = (int) self.getY();
 
         if(sx > fx) return LEFT;
         if(sx < fx) return RIGHT;
-        else return self.getCurrentDirection();
+        if(sy > fy) return UP;
+        if(sy < fy) return DOWN;
+
+        return self.getCurrentDirection();
     }
 }

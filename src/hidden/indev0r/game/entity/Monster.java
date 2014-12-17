@@ -2,7 +2,6 @@ package hidden.indev0r.game.entity;
 
 import hidden.indev0r.game.Camera;
 import hidden.indev0r.game.MedievalLauncher;
-import hidden.indev0r.game.entity.npc.script.Script;
 import hidden.indev0r.game.gui.Cursor;
 import hidden.indev0r.game.map.MapDirection;
 import org.lwjgl.util.vector.Vector2f;
@@ -12,25 +11,26 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 
 /**
- * Created by MrDeathJockey on 14/12/8.
+ * Created by MrDeathJockey on 14/12/17.
  */
-public class NPC extends Actor {
+public class Monster extends Actor implements Cloneable {
 
-    private String identifier;
     private String name;
-    private boolean hostile;
-
     private boolean wasMouseFocused = false;
     private boolean postInteraction = false;
 
-    public NPC(Faction faction, String name, Vector2f position) {
-        super(faction, position);
+    public Monster(Faction faction, String name) {
+        super(faction, new Vector2f(0, 0));
         this.name = name;
-        this.faction = faction;
+        setAI(ai);
+        setSolid(true);
+        setFacingDirection(MapDirection.RIGHT);
+        setMinimapColor(Color.red);
     }
 
     public void render(Graphics g) {
         super.render(g);
+
     }
 
     public void tick(GameContainer gc) {
@@ -54,15 +54,15 @@ public class NPC extends Actor {
 
             Player player = MedievalLauncher.getInstance().getGameState().getPlayer();
             if(player.isControllable()) {
-                if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+                if (input.isMousePressed(Input.MOUSE_RIGHT_BUTTON)) {
                     //To interact, player must be 2 tiles or less away from the NPC
-                    if (withinRange(player, getInteractRange())) {
+                    if (withinRange(player, player.getAttackRange())) {
                         interact(MedievalLauncher.getInstance().getGameState().getPlayer());
                         postInteraction = true;
                     }
                 }
 
-                if (withinRange(player, getInteractRange())) {
+                if (withinRange(player, interactRange)) {
                     if (Cursor.INTERACT_INSTANCE == null) {
                         Cursor.setInteractInstance(this);
                         wasMouseFocused = true;
@@ -80,44 +80,21 @@ public class NPC extends Actor {
         }
     }
 
+    //Combat...
     private void interact(Player player) {
-        player.setFacingDirection(MapDirection.turnToFace(player, this));
-        executeScript(Script.Type.interact);
+
     }
 
-    public Color getMinimapColor() {
-        return minimapColor;
-    }
-
-    public void setMinimapColor(Color minimapColor) {
-        this.minimapColor = minimapColor;
-    }
-
-    public void setNameColor(Color color) {
-        this.nameColor = color;
-    }
-
-    public Color getNameColor() {
-        return nameColor;
-    }
-
-    public String getIdentifier() {
-        return identifier;
+    public static Monster generateInstance(Monster monster) {
+        try {
+            return (Monster) monster.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public String getName() {
         return name;
-    }
-
-    public boolean isPostInteraction() {
-        return postInteraction;
-    }
-
-    public boolean isHostile() {
-        return hostile;
-    }
-
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
     }
 }

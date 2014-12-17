@@ -3,10 +3,7 @@ package hidden.indev0r.game.gui;
 import hidden.indev0r.game.BitFont;
 import hidden.indev0r.game.Camera;
 import hidden.indev0r.game.MedievalLauncher;
-import hidden.indev0r.game.entity.Door;
-import hidden.indev0r.game.entity.FactionUtil;
-import hidden.indev0r.game.entity.NPC;
-import hidden.indev0r.game.entity.Player;
+import hidden.indev0r.game.entity.*;
 import hidden.indev0r.game.entity.npc.script.Script;
 import hidden.indev0r.game.gui.component.base.GComponent;
 import hidden.indev0r.game.texture.Textures;
@@ -96,6 +93,33 @@ public class Cursor {
             g.fillRoundRect(mx + 16 - BitFont.widthOf(renderText, 16) / 2,  my + 38, (BitFont.widthOf(renderText, 16)) + 16, 24, 5);
 
             BitFont.render(g, renderText, (mx + 24 - BitFont.widthOf(renderText, 16) / 2), my + 42, (!isEnemy) ? npc.getNameColor() : Color.red);
+        }
+
+        if(INTERACT_INSTANCE instanceof Monster) {
+            Monster mon = (Monster) INTERACT_INSTANCE;
+            Player player = MedievalLauncher.getInstance().getGameState().getPlayer();
+            boolean isEnemy = FactionUtil.isEnemy(player.getFaction(), mon.getFaction());
+
+            g.setColor(NAME_TAG_COLOR);
+            Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
+
+            if(!isEnemy && mon.hasScript(Script.Type.interact)) {
+                g.drawAnimation(INTERACT_TALK, mon.getPosition().x + camera.getOffsetX() + mon.getWidth() / 2 - 16,
+                        mon.getPosition().y + camera.getOffsetY() - 32);
+            }
+
+            if(isEnemy) MedievalLauncher.getInstance().setCursor(Cursor.ENEMY_TARGET);
+
+
+            GameContainer gc = MedievalLauncher.getInstance().getGameContainer();
+            Input input = gc.getInput();
+            int mx = input.getMouseX();
+            int my = input.getMouseY();
+
+            String renderText = mon.getName();
+            g.fillRoundRect(mx + 16 - BitFont.widthOf(renderText, 16) / 2,  my + 38, (BitFont.widthOf(renderText, 16)) + 16, 24, 5);
+
+            BitFont.render(g, renderText, (mx + 24 - BitFont.widthOf(renderText, 16) / 2), my + 42, (!isEnemy) ? mon.getNameColor() : Color.red);
         }
     }
 

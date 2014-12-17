@@ -1,10 +1,12 @@
 package hidden.indev0r.game.entity;
 
+import hidden.indev0r.game.entity.ai.AI;
 import hidden.indev0r.game.entity.animation.ActionType;
 import hidden.indev0r.game.entity.npc.script.Script;
 import hidden.indev0r.game.gui.Cursor;
 import hidden.indev0r.game.map.Tile;
 import org.lwjgl.util.vector.Vector2f;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.util.pathfinding.AStarPathFinder;
@@ -14,46 +16,32 @@ import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Actor extends Entity {
-
-    public enum Faction {
-
-        NEUTRAL,
-        GLYSIA,
-        NAYA,
-        UNDEAD,
-        DEMON,
-        HUMAN,
-
-        //Special entities like signs and event points
-        NONE
-        ;
-
-    }
+public abstract class Actor extends Entity {
 
     protected int interactRange = 2, approachRange = 2;
+
     /*
         Actor scripts are kept here rather than solely stored in NPC class
         because certain special monsters will have scripts also.
      */
     protected Map<Script.Type, Script> scripts = new HashMap<>();
-
+    protected Faction faction;
     // Actor Attributes
 	protected Map<Stat, Integer> propertyMap;
-    protected Faction faction;
     protected AI ai;
 
-    private boolean isAlive;
+    protected Color nameColor, minimapColor;
+    protected boolean isAlive;
 
-
-	public Actor(Faction faction, Vector2f position) {
+    public Actor(Faction faction, Vector2f position) {
 		super(position);
 		propertyMap = new HashMap<>(0);
 		for (Stat v : Stat.values()) propertyMap.put(v, v.getDefaultValue());
         this.faction = faction;
 		isAlive = true;
+        nameColor = Color.white;
+        minimapColor = Color.blue;
 	}
-
 	@Override
 	public void tick(GameContainer gc) {
 		super.tick(gc);
@@ -82,24 +70,26 @@ public class Actor extends Entity {
 
 	}
 
-    private void calculateStats() {
-        targetMoveSpeed = (getStat(Stat.SPEED) + getStat(Stat.SPEED_BONUS)) / 10;
+    protected void calculateStats() {
+        targetMoveSpeed = (getStat(Stat.SPEED) + getStat(Stat.SPEED_BONUS)) / 7;
     }
 
-    public boolean withinInteractRange(Actor actor) {
 
-        Rectangle bounds = new Rectangle(getX() - interactRange + 1, getY() - interactRange + 1,
-                                         getWidth() / Tile.TILE_SIZE + interactRange, getHeight() / Tile.TILE_SIZE + interactRange);
-        Rectangle other  = new Rectangle(actor.getX(), actor.getY(), actor.getWidth() / Tile.TILE_SIZE, actor.getHeight() / Tile.TILE_SIZE);
+    public boolean withinRange(Actor actor, int range) {
+        int boundWidth = getWidth() / Tile.TILE_SIZE - 1 + range;
+        if(boundWidth < 1) boundWidth = 1;
 
-        return other.intersects(bounds);
-    }
+        int boundHeight = getHeight() / Tile.TILE_SIZE - 1 + range;
+        if(boundHeight < 1) boundHeight = 1;
 
-    public boolean withinApproachRange(Actor actor) {
+        int otherWidth = actor.getWidth() / Tile.TILE_SIZE - 1;
+        if(otherWidth < 1) otherWidth = 1;
 
-        Rectangle bounds = new Rectangle(getX() - approachRange + 1, getY() - approachRange + 1,
-                getWidth() / Tile.TILE_SIZE - 1 + approachRange * 2, getHeight() / Tile.TILE_SIZE - 1 + approachRange * 2);
-        Rectangle other  = new Rectangle(actor.getX(), actor.getY(), actor.getWidth() / Tile.TILE_SIZE, actor.getHeight() / Tile.TILE_SIZE);
+        int otherHeight = actor.getHeight() / Tile.TILE_SIZE  - 1;
+        if(otherHeight < 1) otherHeight = 1;
+
+        Rectangle bounds = new Rectangle(getX() - range + 1, getY() - range + 1, boundWidth, boundHeight);
+        Rectangle other  = new Rectangle(actor.getX(), actor.getY(), otherWidth, otherHeight);
 
         return other.intersects(bounds);
     }
@@ -118,6 +108,10 @@ public class Actor extends Entity {
 
     public void setApproachRange(int approachRange) {
         this.approachRange = approachRange;
+    }
+
+    public int getAttackRange() {
+        return getStat(Stat.ATTACK_RANGE) + getStat(Stat.ATTACK_RANGE_BONUS);
     }
 
     @Override
@@ -152,6 +146,31 @@ public class Actor extends Entity {
             script.execute(this);
     }
 
+    public void die() {
+        setStat(Stat.HEALTH, 0);
+        isAlive = false;
+    }
+
+    public boolean isDead() {
+        return !isAlive;
+    }
+
+    public Color getMinimapColor() {
+        return minimapColor;
+    }
+
+    public void setMinimapColor(Color minimapColor) {
+        this.minimapColor = minimapColor;
+    }
+
+    public Color getNameColor() {
+        return nameColor;
+    }
+
+    public void setNameColor(Color nameColor) {
+        this.nameColor = nameColor;
+    }
+
     public boolean hasScript(Script.Type type) {
         return scripts.get(type) != null;
     }
@@ -165,7 +184,7 @@ public class Actor extends Entity {
 	}
 
 	public int getHealthMax() {
-		return getStat(Stat.HEALTH_MAX);
+		return getStat(Stat.HEALTH_MAX) + getStat(Stat.HEALTH_MAX_BONUS);
 	}
 
 	public int getMana() {
@@ -190,6 +209,14 @@ public class Actor extends Entity {
         propertyMap.put(stat, value);
     }
 
+    public void addStat(Stat stat, int value) {
+        setStat(stat, getStat(stat) + value);
+    }
+
+    public void deductStat(Stat stat, int value) {
+        setStat(stat, getStat(stat) - value);
+    }
+
     public Integer getStat(Stat stat) {
 
         return propertyMap.get(stat);
@@ -206,10 +233,15 @@ public class Actor extends Entity {
 	public enum Stat {
 		HEALTH(1),
         HEALTH_MAX(1),
-		MANA(0),
+        HEALTH_MAX_BONUS(0),
+
+        MANA(0),
         MANA_MAX(0),
-		EXPERIENCE(0),
+        MANA_MAX_BONUS(0),
+
+        EXPERIENCE(0),
         EXPERIENCE_MAX(1),
+
         LEVEL(1),
         GOLD(0),
 
@@ -243,11 +275,14 @@ public class Actor extends Entity {
         ACCURACY_BONUS(0),
 
         EVASION(0),
-        EVASION_BONUS(0)
+        EVASION_BONUS(0),
+
+        ATTACK_RANGE(1),
+        ATTACK_RANGE_BONUS(0)
         ;
 
-
 		private int defaultValue;
+
 
 		Stat(int standard) {
 			this.defaultValue = standard;
@@ -256,5 +291,21 @@ public class Actor extends Entity {
 		public int getDefaultValue() {
 			return defaultValue;
 		}
-	}
+
+    }
+
+    public enum Faction {
+
+        NEUTRAL,
+        GLYSIA,
+        NAYA,
+        UNDEAD,
+        DEMON,
+        HUMAN,
+
+        //Special entities like signs and event points
+        NONE
+        ;
+
+    }
 }

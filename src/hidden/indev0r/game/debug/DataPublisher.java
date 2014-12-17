@@ -21,6 +21,7 @@ import java.nio.file.Paths;
 public class DataPublisher {
 
     private static final Path NPC_DATA = Paths.get("data_raw").resolve("npc");
+    private static final Path MON_DATA = Paths.get("data_raw").resolve("mon");
     private static final Path SCRIPT_DATA = Paths.get("data_raw").resolve("scripts");
 
     /*
@@ -28,6 +29,7 @@ public class DataPublisher {
      */
     public static void publishContents() throws Exception {
         publish(NPC_DATA, References.NPC_PATH);
+        publish(MON_DATA, References.MONSTER_PATH);
         publish(SCRIPT_DATA, References.SCRIPT_PATH);
     }
 

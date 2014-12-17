@@ -56,13 +56,13 @@ public class Door extends Actor {
             Player player = MedievalLauncher.getInstance().getGameState().getPlayer();
             if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 //To interact, player must be 2 tiles or less away from the NPC
-                if(withinInteractRange(player)) {
+                if(withinRange(player, 1)) {
                     interact(MedievalLauncher.getInstance().getGameState().getPlayer());
                     postInteraction = true;
                 }
             }
 
-            if(withinInteractRange(player)) {
+            if(withinRange(player, 1)) {
                 if(Cursor.INTERACT_INSTANCE == null) {
                     Cursor.setInteractInstance(this);
                     wasMouseFocused = true;

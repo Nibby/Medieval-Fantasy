@@ -159,4 +159,8 @@ public class Camera {
         shakeTime = shakeLength;
         this.shakeAmplitude = shakeAmplitude;
     }
+
+    public Entity getTrackingEntity() {
+        return trackingEntity;
+    }
 }

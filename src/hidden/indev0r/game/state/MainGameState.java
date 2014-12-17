@@ -2,9 +2,7 @@ package hidden.indev0r.game.state;
 
 
 import hidden.indev0r.game.Camera;
-import hidden.indev0r.game.entity.Actor;
-import hidden.indev0r.game.entity.Entity;
-import hidden.indev0r.game.entity.Player;
+import hidden.indev0r.game.entity.*;
 import hidden.indev0r.game.gui.component.interfaces.GMapSupplier;
 import hidden.indev0r.game.gui.menu.GGameOverlayMenu;
 import hidden.indev0r.game.gui.menu.GMapTransitionOverlay;
@@ -61,11 +59,11 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
         soundPlayer = new SoundPlayer();
 
 		camera = new Camera(0, 0);
-		player = new Player(Actor.Faction.GLYSIA, Player.Job.MAGE, 11, 18);
+		player = new Player(Actor.Faction.GLYSIA, Player.Job.WARRIOR, 11, 18);
 		player.setLevel(1);
 		camera.setTrackObject(player);
 
-		map = TileMapDatabase.getTileMap("dev_quarters_lobby");
+		map = TileMapDatabase.getTileMap("battle_arena");
 		map.addEntity(player);
 
 		menuMgr = new GMenuManager();
@@ -73,8 +71,11 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
 		menuMgr.addMenu((menuOverlay = new GGameOverlayMenu(this, player, this)));
 		menuMgr.setTickTopMenuOnly(false);
 
+        Monster mon = MonsterDatabase.get("skeleton");
+        mon.setPosition(10, 18);
+        map.addEntity(mon);
+
 		announceName(map.getName());
-        getMenuOverlay().showBGMTrackInfo(BGM.BGM_0);
     }
 
 	@Override

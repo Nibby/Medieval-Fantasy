@@ -106,6 +106,7 @@ public class TileMap implements TileBasedMap {
                     if(e.getX() > mix && e.getX() < max && e.getY() > miy && e.getY() < may) {
                         //Depth sorting needed
                         e.render(g);
+
                     }
 				}
 			}
@@ -212,7 +213,7 @@ public class TileMap implements TileBasedMap {
         if(entity instanceof Player) {
             for(Entity e : entities) {
                 if(e instanceof Actor) {
-                    boolean near = ((Actor) e).withinApproachRange((Player) entity);
+                    boolean near = ((Actor) e).withinRange((Player) entity, ((Actor) e).getApproachRange());
                     if(near)
                         ((Actor) e).executeScript(Script.Type.approach);
                 }
