@@ -8,11 +8,13 @@ import hidden.indev0r.game.entity.combat.DamageType;
 import hidden.indev0r.game.entity.combat.phase.*;
 import hidden.indev0r.game.entity.npc.script.Script;
 import hidden.indev0r.game.gui.Cursor;
+import hidden.indev0r.game.map.MapDirection;
 import hidden.indev0r.game.map.Tile;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.util.pathfinding.AStarPathFinder;
 import org.newdawn.slick.util.pathfinding.Path;
@@ -57,7 +59,6 @@ public abstract class Actor extends Entity {
 	}
 
     public void render(Graphics g) {
-        super.render(g);
         boolean shouldRender = true;
         if(!combatPhaseList.isEmpty()) {
             for(int i = 0; i < combatPhaseList.size(); i++) {
@@ -71,6 +72,7 @@ public abstract class Actor extends Entity {
                 if(phase instanceof CombatHitPhase && ((CombatHitPhase) phase).isTarget(this)) {
                     if(((CombatHitPhase) phase).overrideTargetRender())
                         ((CombatHitPhase) phase).renderTarget(g, this);
+
                     ((CombatHitPhase) phase).renderHitEffects(g, this);
                     shouldRender = false;
                 }
@@ -87,6 +89,12 @@ public abstract class Actor extends Entity {
                 }
             }
         }
+    }
+
+    protected void calculateStats() {
+        targetMoveSpeed = (getStat(Stat.SPEED) + getStat(Stat.SPEED_BONUS)) / 7;
+
+        if(getHealth() < 0) die();
     }
 
 	@Override
@@ -153,12 +161,20 @@ public abstract class Actor extends Entity {
 
         DamageModel model = new DamageModel();
         //2 is how many attacks actor will deal
-        for(int i = 0; i < 2; i++) {
+        for(int i = 0; i < 1; i++) {
             int damage = getStat(Stat.ATTACK_DAMAGE) + getStat(Stat.ATTACK_DAMAGE_BONUS) / 2
                     + (int) (Math.random() * (getStat(Stat.ATTACK_DAMAGE_BONUS) / 2))
                     + getStat(Stat.STRENGTH_BONUS)
                     + (int) (Math.random() * (getStat(Stat.STRENGTH) / 2) + getStat(Stat.STRENGTH) / 2);
-            model.addHit(DamageType.normal, damage);
+
+
+            boolean critical = (int) (Math.random() * 100) < getStat(Stat.LUCK) / 4
+                    || (int) (Math.random() * 1000) < 3;
+
+            if(critical)
+                damage = (int) (damage * 1.8f);
+
+            model.addHit(DamageType.normal, damage, critical, "0");
         }
 
         AbstractCombatHitPhase hitPhase = type.getHitPhase(this, combatTarget);
@@ -168,14 +184,17 @@ public abstract class Actor extends Entity {
 
     public void combatHurt(Actor dmgDealer, int currentHit, DamageModel model) {
         deductStat(Stat.HEALTH, model.getDamage(currentHit));
-        System.out.println(getStat(Stat.HEALTH));
     }
 
     public void combatEnd() {
     }
 
-    protected void calculateStats() {
-        targetMoveSpeed = (getStat(Stat.SPEED) + getStat(Stat.SPEED_BONUS)) / 7;
+    public Image getCurrentImage() {
+        if(getActionMap() == null) {
+            return (getCurrentDirection().equals(MapDirection.LEFT)) ? spriteFlipped : sprite;
+        } else {
+            return getActionMap().get(action).getCurrentFrame();
+        }
     }
 
     public void addCombatPhase(CombatPhase phase) {

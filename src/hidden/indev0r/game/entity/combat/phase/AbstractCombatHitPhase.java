@@ -17,9 +17,9 @@ public abstract class AbstractCombatHitPhase implements CombatHitPhase {
     private DamageModel damageModel;
 
     public AbstractCombatHitPhase(Actor initiator, Actor target) {
+
         actInitiator = initiator;
         actTarget = target;
-
         actTarget.addCombatPhase(this);
     }
 

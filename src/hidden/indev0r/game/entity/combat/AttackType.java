@@ -4,7 +4,7 @@ import hidden.indev0r.game.entity.Actor;
 import hidden.indev0r.game.entity.combat.phase.AbstractCombatChannelPhase;
 import hidden.indev0r.game.entity.combat.phase.AbstractCombatHitPhase;
 import hidden.indev0r.game.entity.combat.phase.CombatChannelPhase$MeleeAttack;
-import hidden.indev0r.game.entity.combat.phase.CombatHitPhase$Melee;
+import hidden.indev0r.game.entity.combat.phase.CombatHitPhase$MeleeAttack;
 
 /**
  * Created by MrDeathJockey on 14/12/18.
@@ -19,7 +19,7 @@ public enum AttackType {
 
         @Override
         public AbstractCombatHitPhase getHitPhase(Actor initiator, Actor target) {
-            return new CombatHitPhase$Melee(initiator, target);
+            return new CombatHitPhase$MeleeAttack(initiator, target);
         }
     },
     normal_rogue {
@@ -30,7 +30,7 @@ public enum AttackType {
 
         @Override
         public AbstractCombatHitPhase getHitPhase(Actor initiator, Actor target) {
-            return null;
+            return new CombatHitPhase$MeleeAttack(initiator, target);
         }
     },
     normal_mage {

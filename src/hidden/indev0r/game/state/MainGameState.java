@@ -11,6 +11,7 @@ import hidden.indev0r.game.map.Tile;
 import hidden.indev0r.game.map.TileMap;
 import hidden.indev0r.game.map.TileMapDatabase;
 import hidden.indev0r.game.map.WarpType;
+import hidden.indev0r.game.particle.ParticleManager;
 import hidden.indev0r.game.reference.References;
 import hidden.indev0r.game.sound.BGM;
 import hidden.indev0r.game.sound.SoundPlayer;
@@ -85,6 +86,7 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
 
         g.setColor(fadeHue);
         g.fillRect(0, 0, References.GAME_WIDTH, References.GAME_HEIGHT);
+        ParticleManager.get().render(g);
 
         menuMgr.render(g);
 	}
@@ -96,6 +98,7 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
 		camera.tick();
 		if (!menuMgr.isTickingTopMenuOnly() || !menuMgr.hasMenus()) {
 			map.tick(gameContainer);
+            ParticleManager.get().tick(gameContainer);
 		}
 
         if(fading) {

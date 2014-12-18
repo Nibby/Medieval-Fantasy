@@ -73,6 +73,14 @@ public class TileMap implements TileBasedMap {
             Entity e = entities.get(i);
             if(e != null) {
                 e.tick(gc);
+
+                if(e instanceof Actor) {
+                    Actor actor = (Actor) e;
+
+                    if(actor.isDead()) {
+                        removeEntity(actor);
+                    }
+                }
             }
         }
 	}
@@ -106,7 +114,6 @@ public class TileMap implements TileBasedMap {
                     if(e.getX() > mix && e.getX() < max && e.getY() > miy && e.getY() < may) {
                         //Depth sorting needed
                         e.render(g);
-
                     }
 				}
 			}
@@ -300,6 +307,7 @@ public class TileMap implements TileBasedMap {
     }
 
     public void removeEntity(Entity entity) {
+        hidden.indev0r.game.gui.Cursor.releaseInteractInstance(entity);
         entities.remove(entity);
         
         if(entity instanceof Player) {

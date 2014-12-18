@@ -150,8 +150,6 @@ public class Player extends Actor implements GStatsSupplier {
         setStat(Stat.DEXTERITY, job.getDexterityAtLevel(level));
         setStat(Stat.INTELLIGENCE, job.getIntelligenceAtLevel(level));
         setStat(Stat.SPEED, job.getSpeedAtLevel(level));
-
-        System.out.println(getStat(Stat.STRENGTH));
     }
 
 	@Override

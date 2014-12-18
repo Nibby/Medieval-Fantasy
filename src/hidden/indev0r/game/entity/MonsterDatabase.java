@@ -14,6 +14,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
@@ -104,6 +105,19 @@ public class MonsterDatabase  {
 
         monster.setMinimapColor(monMinimapColor);
         monster.setNameColor(monNameColor);
+
+        //Loads properties
+        Element eStats = (Element) root.getElementsByTagName("stats").item(0);
+        NodeList statList = eStats.getElementsByTagName("stat");
+        for(int i = 0; i < statList.getLength(); i++) {
+            Element eStat = (Element) statList.item(i);
+
+            Actor.Stat stat = Actor.Stat.valueOf(eStat.getAttribute("type"));
+            String value = eStat.getAttribute("value");
+
+            monster.setStat(stat, Integer.parseInt(value));
+        }
+
 
         //AI
         Element aiElement = (Element) root.getElementsByTagName("ai").item(0);
