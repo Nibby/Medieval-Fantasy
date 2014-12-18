@@ -10,42 +10,42 @@ public enum DamageType {
 
     normal("Normal", Color.white) {
         @Override
-        int processDamage(DamageModel model, Actor hurt, Actor initiator) {
+        public int processDamage(DamageModel model, Actor hurt, Actor initiator) {
             return model.getDamage(0);
         }
     },
 
     holy("Holy", Color.white) {
         @Override
-        int processDamage(DamageModel model, Actor hurt, Actor initiator) {
+        public int processDamage(DamageModel model, Actor hurt, Actor initiator) {
             return model.getDamage(0);
         }
     },
 
     lightning("Static", Color.yellow) {
         @Override
-        int processDamage(DamageModel model, Actor hurt, Actor initiator) {
+        public int processDamage(DamageModel model, Actor hurt, Actor initiator) {
             return model.getDamage(0);
         }
     },
 
     undead("Necrotic", Color.magenta) {
         @Override
-        int processDamage(DamageModel model, Actor hurt, Actor initiator) {
+        public int processDamage(DamageModel model, Actor hurt, Actor initiator) {
             return model.getDamage(0);
         }
     },
 
     fire("Flame", Color.orange) {
         @Override
-        int processDamage(DamageModel model, Actor hurt, Actor initiator) {
+        public int processDamage(DamageModel model, Actor hurt, Actor initiator) {
             return model.getDamage(0);
         }
     },
 
     poison("Poison", Color.cyan) {
         @Override
-        int processDamage(DamageModel model, Actor hurt, Actor initiator) {
+        public int processDamage(DamageModel model, Actor hurt, Actor initiator) {
             return model.getDamage(0);
         }
     }
@@ -59,5 +59,5 @@ public enum DamageType {
         this.nameColor = nameColor;
     }
 
-    abstract int processDamage(DamageModel model, Actor hurt, Actor initiator);
+    public abstract int processDamage(DamageModel model, Actor hurt, Actor initiator);
 }

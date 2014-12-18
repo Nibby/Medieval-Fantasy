@@ -20,13 +20,13 @@ public class Action {
         private Image frame;
 
         private int xShift;
+
         private int yShift;
         private ActionFrame(Image frame, int xShift, int yShift) {
             this.frame = frame;
             this.xShift = xShift;
             this.yShift = yShift;
         }
-
         public void render(Graphics g, Entity e, Color col, float x, float y) {
             x += xShift;
             y += yShift;
@@ -38,22 +38,22 @@ public class Action {
         }
 
     }
-    private ActionSet actionSet;
 
+    private ActionSet actionSet;
 	private java.util.List<ActionFrame> animation = new ArrayList<>();
 
     private java.util.List<Integer> animationDelay = new ArrayList<>();
+
     private long animationTick;
-
     private int animationFrame = 0;
-    private boolean animationStopped = false;
-	private ActionType actionType;
 
+    private boolean animationStopped = false;
+    private ActionType actionType;
     private int xShift = 0, yShift = 0;
-	public Action(ActionType id) {
+
+    public Action(ActionType id) {
 		this(id, 0, 0);
 	}
-
 	public Action(ActionType id, int xShift, int yShift) {
 		this.actionType = id;
 		this.xShift = xShift;
@@ -104,7 +104,7 @@ public class Action {
             }
         }
 	}
-    
+
 	public void renderForced(Graphics g, Entity e, Color col, float x, float y) {
         tick(true, true);
 
@@ -137,6 +137,10 @@ public class Action {
             time += delay;
         }
         return time;
+    }
+
+    public Image getLastFrame() {
+        return animation.get(animation.size() - 1).frame;
     }
 
     public Image getCurrentFrame() {

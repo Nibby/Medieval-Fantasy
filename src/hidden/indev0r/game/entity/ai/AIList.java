@@ -31,6 +31,13 @@ public enum AIList {
         public AI getInstance() {
             return new AI$NPC$MoveRandom();
         }
+    },
+
+    MONSTER_MELEE_BASIC {
+        @Override
+        public AI getInstance() {
+            return new AI$MON$MeleeBasic();
+        }
     }
 
     ;

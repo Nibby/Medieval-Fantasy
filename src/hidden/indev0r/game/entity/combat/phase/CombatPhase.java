@@ -12,7 +12,9 @@ import org.newdawn.slick.Graphics;
 public interface CombatPhase {
 
     public int getDuration();
-    public void tick(GameContainer gc, Actor initiator);
+
+    public void render(Graphics g);
+    public void tick(GameContainer gc);
 
     //Whether or not to replace default rendering model and use this one temporarily for special effects
     public boolean overrideInitiatorRender();

@@ -21,6 +21,7 @@ public final class References {
     public static final Path NPC_PATH                = DATA_PATH.resolve("npc");
     public static final Path SCRIPT_PATH             = DATA_PATH.resolve("scripts");
     public static final Path BGM_PATH                = DATA_PATH.resolve("bgm");
+    public static final Path SE_PATH                = DATA_PATH.resolve("se");
 	public static final Path TILESET_DEFINITION_PATH = MAP_PATH.resolve("tileset.ts");
 
 	public static final Path ACTION_SET_DATABASE_PATH = DATA_PATH.resolve("asdb.dat");

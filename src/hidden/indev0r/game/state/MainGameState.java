@@ -3,6 +3,7 @@ package hidden.indev0r.game.state;
 
 import hidden.indev0r.game.Camera;
 import hidden.indev0r.game.entity.*;
+import hidden.indev0r.game.entity.combat.phase.CombatPhaseManager;
 import hidden.indev0r.game.gui.component.interfaces.GMapSupplier;
 import hidden.indev0r.game.gui.menu.GGameOverlayMenu;
 import hidden.indev0r.game.gui.menu.GMapTransitionOverlay;
@@ -13,7 +14,7 @@ import hidden.indev0r.game.map.TileMapDatabase;
 import hidden.indev0r.game.map.WarpType;
 import hidden.indev0r.game.particle.ParticleManager;
 import hidden.indev0r.game.reference.References;
-import hidden.indev0r.game.sound.BGM;
+import hidden.indev0r.game.sound.SE;
 import hidden.indev0r.game.sound.SoundPlayer;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
@@ -60,7 +61,7 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
         soundPlayer = new SoundPlayer();
 
 		camera = new Camera(0, 0);
-		player = new Player(Actor.Faction.GLYSIA, Player.Job.WARRIOR, 11, 18);
+		player = new Player(Actor.Faction.GLYSIA, ActorJob.WARRIOR, 11, 13);
 		player.setLevel(1);
 		camera.setTrackObject(player);
 
@@ -72,21 +73,31 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
 		menuMgr.addMenu((menuOverlay = new GGameOverlayMenu(this, player, this)));
 		menuMgr.setTickTopMenuOnly(false);
 
-        Monster mon = MonsterDatabase.get("skeleton");
-        mon.setPosition(10, 18);
-        map.addEntity(mon);
+        for(int i = 0; i < 100; i++) {
+            int spawnX, spawnY;
+            do {
+                spawnX = (int) (Math.random() * 48);
+                spawnY = (int) (Math.random() * 48);
+            } while(map.isBlocked(null, spawnX, spawnY));
+
+            Monster mon = MonsterDatabase.get("skeleton");
+            mon.setPosition(spawnX, spawnY);
+            map.addEntity(mon);
+        }
 
 		announceName(map.getName());
-        getMenuOverlay().showHint("Right click to attack!", 2500, Color.white, 0);
+        getMenuOverlay().showHint("W,A,S,D to move, left click to attack!", 3500, Color.white, 0);
     }
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		map.render(g, camera);
 
+        CombatPhaseManager.get().render(g);
+        ParticleManager.get().render(g);
+
         g.setColor(fadeHue);
         g.fillRect(0, 0, References.GAME_WIDTH, References.GAME_HEIGHT);
-        ParticleManager.get().render(g);
 
         menuMgr.render(g);
 	}
@@ -98,6 +109,7 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
 		camera.tick();
 		if (!menuMgr.isTickingTopMenuOnly() || !menuMgr.hasMenus()) {
 			map.tick(gameContainer);
+            CombatPhaseManager.get().tick(gameContainer);
             ParticleManager.get().tick(gameContainer);
 		}
 

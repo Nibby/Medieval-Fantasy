@@ -1,8 +1,9 @@
-package hidden.indev0r.game.entity.combat.phase;
+package hidden.indev0r.game.entity.combat.phase.channel;
 
 import hidden.indev0r.game.entity.Actor;
 import hidden.indev0r.game.entity.combat.AttackType;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 
 /**
  * Created by MrDeathJockey on 14/12/18.
@@ -17,14 +18,23 @@ public abstract class AbstractCombatChannelPhase implements CombatChannelPhase {
     protected AttackType attackType;
 
     public AbstractCombatChannelPhase(AttackType type, Actor actor) {
+        actor.addCombatPhase(this);
+
         this.actInitiator = actor;
         this.attackType = type;
     }
 
     @Override
-    public void tick(GameContainer gc, Actor initiator) {
+    public void render(Graphics g) {
+        if(overrideInitiatorRender())
+            renderInitiator(g, actInitiator);
+    }
+
+    @Override
+    public void tick(GameContainer gc) {
         if(!started) {
             startTime = System.currentTimeMillis();
+            init();
             started = true;
         }
 
@@ -33,6 +43,8 @@ public abstract class AbstractCombatChannelPhase implements CombatChannelPhase {
             actInitiator.combatChannelEnd(attackType);
         }
     }
+
+    protected abstract void init();
 
     @Override
     public boolean isInitiator(Actor actor) {

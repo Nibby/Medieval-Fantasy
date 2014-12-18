@@ -28,7 +28,7 @@ public class Particle$CombatHitDebris extends Particle {
         setColor(color);
 
         dx = (float) (Math.random() * 1f) - .5f;
-        dy = 1.1f;
+        dy = 1.4f;
     }
 
     @Override

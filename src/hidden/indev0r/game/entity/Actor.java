@@ -5,17 +5,23 @@ import hidden.indev0r.game.entity.animation.ActionType;
 import hidden.indev0r.game.entity.combat.AttackType;
 import hidden.indev0r.game.entity.combat.DamageModel;
 import hidden.indev0r.game.entity.combat.DamageType;
-import hidden.indev0r.game.entity.combat.phase.*;
+import hidden.indev0r.game.entity.combat.phase.CombatPhase;
+import hidden.indev0r.game.entity.combat.phase.CombatPhaseManager;
+import hidden.indev0r.game.entity.combat.phase.channel.AbstractCombatChannelPhase;
+import hidden.indev0r.game.entity.combat.phase.death.DeathType;
+import hidden.indev0r.game.entity.combat.phase.hit.AbstractCombatHitPhase;
+import hidden.indev0r.game.entity.combat.phase.hit.CombatHitPhase;
 import hidden.indev0r.game.entity.npc.script.Script;
 import hidden.indev0r.game.gui.Cursor;
 import hidden.indev0r.game.map.MapDirection;
 import hidden.indev0r.game.map.Tile;
+import hidden.indev0r.game.sound.SoundSet;
+import hidden.indev0r.game.util.Util;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.util.pathfinding.AStarPathFinder;
 import org.newdawn.slick.util.pathfinding.Path;
 
@@ -45,8 +51,32 @@ public abstract class Actor extends Entity {
     /* MAYBE A PLACEHOLDER */
     protected AttackType attackType = AttackType.normal_warrior;
     protected Actor combatTarget;
-
     protected List<CombatPhase> combatPhaseList = new ArrayList<>();
+    protected DeathType deathType = DeathType.crumble;
+    protected SoundSet soundSet;
+    protected boolean running = false;
+    protected long combatLastSwing = 0;
+
+    //Cloning purposes
+    public Actor(Actor a) {
+        super(a);
+
+        this.interactRange = a.interactRange;
+        this.approachRange = a.approachRange;
+        this.scripts = a.scripts;
+        this.faction = a.faction;
+        this.propertyMap = Util.cloneStatMap(a.propertyMap);
+        this.ai = AI.getCloned(a.ai);
+        this.nameColor = a.nameColor;
+        this.minimapColor = a.minimapColor;
+        this.isAlive = a.isAlive;
+        this.attackType = a.attackType;
+        this.combatTarget = a.combatTarget;
+        this.combatPhaseList = a.combatPhaseList;
+        this.deathType = a.deathType;
+        this.running = a.running;
+        this.soundSet = a.soundSet;
+    }
 
     public Actor(Faction faction, Vector2f position) {
 		super(position);
@@ -60,41 +90,35 @@ public abstract class Actor extends Entity {
 
     public void render(Graphics g) {
         boolean shouldRender = true;
+
         if(!combatPhaseList.isEmpty()) {
             for(int i = 0; i < combatPhaseList.size(); i++) {
                 CombatPhase phase = combatPhaseList.get(i);
-
                 if(phase.isInitiator(this) && phase.overrideInitiatorRender()) {
-                    phase.renderInitiator(g, this);
                     shouldRender = false;
+                    break;
                 }
 
-                if(phase instanceof CombatHitPhase && ((CombatHitPhase) phase).isTarget(this)) {
-                    if(((CombatHitPhase) phase).overrideTargetRender())
-                        ((CombatHitPhase) phase).renderTarget(g, this);
-
-                    ((CombatHitPhase) phase).renderHitEffects(g, this);
+                if(phase instanceof CombatHitPhase &&
+                        phase.overrideInitiatorRender() && ((CombatHitPhase) phase).isTarget(this)) {
                     shouldRender = false;
+                    break;
                 }
             }
         }
 
-        if(shouldRender) {
+        if(shouldRender && isAlive) {
             super.render(g);
-            for(int i = 0; i < combatPhaseList.size(); i++) {
-                CombatPhase phase = combatPhaseList.get(i);
-
-                if(phase instanceof CombatHitPhase && ((CombatHitPhase) phase).isTarget(this)) {
-                    ((CombatHitPhase) phase).renderHitEffects(g, this);
-                }
-            }
+        } else {
+            if(actionMap != null)
+                getActionMap().get(ActionType.DEATH).getLastFrame().draw(getRenderX(), getRenderY());
         }
     }
 
     protected void calculateStats() {
         targetMoveSpeed = (getStat(Stat.SPEED) + getStat(Stat.SPEED_BONUS)) / 7;
 
-        if(getHealth() < 0) die();
+        if(getHealth() <= 0) die();
     }
 
 	@Override
@@ -114,25 +138,9 @@ public abstract class Actor extends Entity {
 
         calculateStats();
 
-        if(!combatPhaseList.isEmpty()) {
-            for(int i = 0; i < combatPhaseList.size(); i++) {
-                CombatPhase phase = combatPhaseList.get(i);
-
-                phase.tick(gc, this);
-
-                if(phase.isExpired()) {
-                    removeCombatPhase(phase);
-                }
-            }
-        }
-
         if(isAlive){
             if(!(this instanceof Player))
                 ai.tick(map, this);
-        } else {
-            if(actionMap != null && action != ActionType.DEATH) {
-                forceActAction(ActionType.DEATH);
-            }
         }
 
 	}
@@ -147,13 +155,21 @@ public abstract class Actor extends Entity {
 
     public void combatStart(Actor target) {
         this.combatTarget = target;
-        combatChannelStart(attackType);
+
+        int combatHitInterval =
+                1200 - (getStat(Stat.DEXTERITY) + getStat(Stat.DEXTERITY_BONUS)) * 25;
+
+        if(System.currentTimeMillis() - combatLastSwing > combatHitInterval) {
+            combatChannelStart(attackType);
+            combatLastSwing = System.currentTimeMillis();
+        }
 
     }
 
     public void combatChannelStart(AttackType type) {
         AbstractCombatChannelPhase channelPhase = type.getChannelPhase(this);
-        addCombatPhase(channelPhase);
+
+        CombatPhaseManager.get().addCombatPhase(channelPhase);
     }
 
     public void combatChannelEnd(AttackType type) {
@@ -179,14 +195,25 @@ public abstract class Actor extends Entity {
 
         AbstractCombatHitPhase hitPhase = type.getHitPhase(this, combatTarget);
         hitPhase.setDamageModel(model);
-        addCombatPhase(hitPhase);
+
+        CombatPhaseManager.get().addCombatPhase(hitPhase);
     }
 
-    public void combatHurt(Actor dmgDealer, int currentHit, DamageModel model) {
-        deductStat(Stat.HEALTH, model.getDamage(currentHit));
+    public void combatHurt(Actor dmgDealer, int currentHit, DamageModel model, int damage) {
+        executeScript(Script.Type.hurt);
+        deductStat(Stat.HEALTH, damage);
     }
 
     public void combatEnd() {
+    }
+
+    public void die() {
+        CombatPhaseManager.get().addCombatPhase(deathType.newInstance(this));
+        playSound(deathType);
+
+        executeScript(Script.Type.death);
+        isAlive = false;
+        setStat(Stat.HEALTH, 0);
     }
 
     public Image getCurrentImage() {
@@ -206,22 +233,28 @@ public abstract class Actor extends Entity {
     }
 
     public boolean withinRange(Actor actor, int range) {
-        int boundWidth = getWidth() / Tile.TILE_SIZE - 1 + range;
-        if(boundWidth < 1) boundWidth = 1;
 
-        int boundHeight = getHeight() / Tile.TILE_SIZE - 1 + range;
-        if(boundHeight < 1) boundHeight = 1;
+        return
+            (actor.getX() >= getX() - range
+          && actor.getX() + actor.getWidth() / Tile.TILE_SIZE <= getX() + getWidth() / Tile.TILE_SIZE + range
+          && actor.getY() >= getY() - range
+          && actor.getY() + actor.getHeight() / Tile.TILE_SIZE <= getY() + getHeight() / Tile.TILE_SIZE + range);
+    }
 
-        int otherWidth = actor.getWidth() / Tile.TILE_SIZE - 1;
-        if(otherWidth < 1) otherWidth = 1;
+    public boolean isRunning() {
+        return running;
+    }
 
-        int otherHeight = actor.getHeight() / Tile.TILE_SIZE  - 1;
-        if(otherHeight < 1) otherHeight = 1;
+    public void setRunning(boolean running) {
+        this.running = running;
+    }
 
-        Rectangle bounds = new Rectangle(getX() - range + 1, getY() - range + 1, boundWidth, boundHeight);
-        Rectangle other  = new Rectangle(actor.getX(), actor.getY(), otherWidth, otherHeight);
+    public DeathType getDeathType() {
+        return deathType;
+    }
 
-        return other.intersects(bounds);
+    public void setDeathType(DeathType deathType) {
+        this.deathType = deathType;
     }
 
     public int getInteractRange() {
@@ -276,9 +309,17 @@ public abstract class Actor extends Entity {
             script.execute(this);
     }
 
-    public void die() {
-        setStat(Stat.HEALTH, 0);
-        isAlive = false;
+    public void playSound(Object key) {
+        if(soundSet == null) return;
+        soundSet.getRandomSound(key).play(this);
+    }
+
+    public SoundSet getSoundSet() {
+        return soundSet;
+    }
+
+    public void setSoundSet(SoundSet soundSet) {
+        this.soundSet = soundSet;
     }
 
     public boolean isDead() {

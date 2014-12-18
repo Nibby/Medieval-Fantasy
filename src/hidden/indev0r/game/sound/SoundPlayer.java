@@ -1,5 +1,7 @@
 package hidden.indev0r.game.sound;
 
+import hidden.indev0r.game.entity.Actor;
+import org.lwjgl.util.vector.Vector2f;
 import paulscode.sound.Library;
 import paulscode.sound.SoundSystem;
 import paulscode.sound.SoundSystemConfig;
@@ -121,6 +123,34 @@ public class SoundPlayer {
     public void stopBGM() {
         if(isOggSupported()) {
             sys.stop(BACKGROUND_MUSIC);
+        }
+    }
+
+    Vector2f listenerPosition = new Vector2f(0, 0);
+    public void setListenerPosition(float x, float y) {
+        sys.setListenerPosition(x, y, 0);
+        listenerPosition.x = x;
+        listenerPosition.y = y;
+    }
+
+    public void playSound(SE sound) {
+        playSound(sound, listenerPosition.x, listenerPosition.y);
+    }
+
+    public void playSound(SE sound, Actor source) {
+        playSound(sound, source.getX(), source.getY());
+    }
+
+    public void playSound(SE sound, float sx, float sy) {
+        try {
+            sys.quickPlay(false,
+                    sound.getResource().toUri().toURL(),
+                    sound.getResource().toString(),
+                    false, sx, sy, 0,
+                    SoundSystemConfig.ATTENUATION_ROLLOFF,
+                    SoundSystemConfig.getDefaultRolloff());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
         }
     }
 }

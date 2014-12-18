@@ -1,6 +1,7 @@
-package hidden.indev0r.game.entity.combat.phase;
+package hidden.indev0r.game.entity.combat.phase.hit;
 
 import hidden.indev0r.game.entity.Actor;
+import hidden.indev0r.game.entity.combat.phase.CombatPhase;
 import org.newdawn.slick.Graphics;
 
 /**

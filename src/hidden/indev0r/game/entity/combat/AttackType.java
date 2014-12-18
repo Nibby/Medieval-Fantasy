@@ -1,10 +1,10 @@
 package hidden.indev0r.game.entity.combat;
 
 import hidden.indev0r.game.entity.Actor;
-import hidden.indev0r.game.entity.combat.phase.AbstractCombatChannelPhase;
-import hidden.indev0r.game.entity.combat.phase.AbstractCombatHitPhase;
-import hidden.indev0r.game.entity.combat.phase.CombatChannelPhase$MeleeAttack;
-import hidden.indev0r.game.entity.combat.phase.CombatHitPhase$MeleeAttack;
+import hidden.indev0r.game.entity.combat.phase.channel.AbstractCombatChannelPhase;
+import hidden.indev0r.game.entity.combat.phase.hit.AbstractCombatHitPhase;
+import hidden.indev0r.game.entity.combat.phase.channel.CombatChannelPhase$MeleeAttack;
+import hidden.indev0r.game.entity.combat.phase.hit.CombatHitPhase$MeleeAttack;
 
 /**
  * Created by MrDeathJockey on 14/12/18.

@@ -49,6 +49,30 @@ public abstract class Entity {
 
     protected Vector2f moveDestination = new Vector2f(0, 0);
 
+    public Entity(Entity e) {
+        this.actionMap = e.actionMap;
+        this.forceActAction = e.forceActAction;
+        this.action = e.action;
+        this.position = e.position;
+        this.moveX = e.moveX;
+        this.moveY = e.moveY;
+        this.stopMoving = e.stopMoving;
+        this.moving = e.moving;
+        this.targetMoveSpeed = e.targetMoveSpeed;
+        this.actualMoveSpeed = e.actualMoveSpeed;
+        this.solid = e.solid;
+
+        this.map = e.map;
+        this.sprite = e.sprite;
+        this.spriteFlipped = e.spriteFlipped;
+        this.width = e.width;
+        this.height = e.height;
+        this.drawShadow = e.drawShadow;
+        this.textureColor = e.textureColor;
+        this.sunken = e.sunken;
+        this.moveDestination = e.moveDestination;
+    }
+
     public Entity() {
 		this(0, 0);
 	}
@@ -112,14 +136,14 @@ public abstract class Entity {
         }
     }
 
-	private float getRenderY() {
+	public float getRenderY() {
 		Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
         float y = position.y + camera.getOffsetY();
         if(sunken) y += height / 4;
 		return y;
 	}
 
-	private float getRenderX() {
+	public float getRenderX() {
 		Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
         float x = position.x + camera.getOffsetX();
 		return x;
@@ -229,6 +253,7 @@ public abstract class Entity {
     public Vector2f getMoveDestination() {
         return moveDestination;
     }
+
 
     public void setMoveDestination(float x, float y) {
         if(moveDestination == null) {

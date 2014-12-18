@@ -2,6 +2,7 @@ package hidden.indev0r.game.entity;
 
 import hidden.indev0r.game.Camera;
 import hidden.indev0r.game.MedievalLauncher;
+import hidden.indev0r.game.entity.combat.DamageModel;
 import hidden.indev0r.game.gui.Cursor;
 import hidden.indev0r.game.map.MapDirection;
 import org.lwjgl.util.vector.Vector2f;
@@ -13,11 +14,19 @@ import org.newdawn.slick.Input;
 /**
  * Created by MrDeathJockey on 14/12/17.
  */
-public class Monster extends Actor implements Cloneable {
+public class Monster extends Actor {
 
     private String name;
     private boolean wasMouseFocused = false;
     private boolean postInteraction = false;
+
+    public Monster(Monster monster) {
+        super(monster);
+
+        this.name = monster.name;
+        this.wasMouseFocused = false;
+        this.postInteraction = false;
+    }
 
     public Monster(Faction faction, String name) {
         super(faction, new Vector2f(0, 0));
@@ -54,7 +63,7 @@ public class Monster extends Actor implements Cloneable {
 
             Player player = MedievalLauncher.getInstance().getGameState().getPlayer();
             if(player.isControllable()) {
-                if (input.isMousePressed(Input.MOUSE_RIGHT_BUTTON)) {
+                if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                     //To interact, player must be 2 tiles or less away from the NPC
                     if (withinRange(player, player.getAttackRange())) {
                         interact(MedievalLauncher.getInstance().getGameState().getPlayer());
@@ -84,15 +93,6 @@ public class Monster extends Actor implements Cloneable {
     private void interact(Player player) {
         player.setFacingDirection(MapDirection.turnToFace(player, this));
         player.combatStart(this);
-    }
-
-    public static Monster generateInstance(Monster monster) {
-        try {
-            return (Monster) monster.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public String getName() {

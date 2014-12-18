@@ -4,8 +4,12 @@ import hidden.indev0r.game.Colors;
 import hidden.indev0r.game.entity.ai.AI;
 import hidden.indev0r.game.entity.animation.ActionSet;
 import hidden.indev0r.game.entity.animation.ActionSetDatabase;
+import hidden.indev0r.game.entity.combat.phase.death.DeathType;
+import hidden.indev0r.game.entity.npc.script.Script;
+import hidden.indev0r.game.entity.npc.script.ScriptParser;
 import hidden.indev0r.game.map.Tile;
 import hidden.indev0r.game.reference.References;
+import hidden.indev0r.game.sound.SoundSet;
 import hidden.indev0r.game.texture.ResourceManager;
 import hidden.indev0r.game.util.CipherEngine;
 import hidden.indev0r.game.util.XMLParser;
@@ -32,7 +36,7 @@ import java.util.Map;
  */
 public class MonsterDatabase  {
 
-    private static final Map<String, Monster> monsterMap = new HashMap<>();
+    private static Map<String, Monster> monsterMap = new HashMap<>();
 
     public void loadMonsters() throws Exception {
         Path monFolder = References.MONSTER_PATH;
@@ -100,6 +104,14 @@ public class MonsterDatabase  {
             monMinimapColor = Colors.valueOf(root.getAttribute("minimapColor")).getColor();
         }
 
+        if(root.hasAttribute("deathType")) {
+            monster.setDeathType(DeathType.valueOf(root.getAttribute("deathType")));
+        }
+
+        if(root.hasAttribute("soundSet")) {
+            monster.setSoundSet(SoundSet.valueOf(root.getAttribute("soundSet")));
+        }
+
         monster.setSize(Integer.parseInt(root.getAttribute("width")) * Tile.TILE_SIZE,
                         Integer.parseInt(root.getAttribute("height")) * Tile.TILE_SIZE);
 
@@ -118,6 +130,16 @@ public class MonsterDatabase  {
             monster.setStat(stat, Integer.parseInt(value));
         }
 
+        //Load scripts
+        NodeList scriptList = root.getElementsByTagName("script");
+        for(int i = 0; i < scriptList.getLength(); i++) {
+            Element eScript = (Element) scriptList.item(i);
+
+            Script script = ScriptParser.parse(monster, eScript);
+            if(script == null)
+                JOptionPane.showMessageDialog(null, "Cannot create script '" + eScript.getAttribute("type") + "' for MON '" + monName + "'!",
+                        "Internal Error", JOptionPane.ERROR_MESSAGE);
+        }
 
         //AI
         Element aiElement = (Element) root.getElementsByTagName("ai").item(0);
@@ -153,6 +175,7 @@ public class MonsterDatabase  {
     }
 
     public static final Monster get(String monsterKey) {
-        return Monster.generateInstance(monsterMap.get(monsterKey));
+        Monster monster = new Monster(monsterMap.get(monsterKey));
+        return monster;
     }
 }
