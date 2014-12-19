@@ -46,9 +46,11 @@ public class AI$MON$MeleeBasic extends AI {
     public void tick(TileMap map) {
         this.map = map;
         if(!actHost.isMoving() && target != null) {
+            boolean inTargetAttackRange = actHost.withinRange(target, actHost.getStat(Actor.Stat.ATTACK_RANGE) + actHost.getStat(Actor.Stat.ATTACK_RANGE_BONUS));
+
             if(movePath == null) {
-                if(System.currentTimeMillis() - aiTickTimer > 50) {
-                    Vector2f adjacent = map.getVacantAdjacentTile(target, true);
+                if(!inTargetAttackRange && System.currentTimeMillis() - aiTickTimer > 50) {
+                    Vector2f adjacent = map.getVacantAdjacentTile(target, actHost, true);
                     if(adjacent != null) {
                         movePath = new AStarPathFinder(map, 24, false)
                                 .findPath(null, (int) actHost.getX(), (int) actHost.getY(), (int) adjacent.x, (int) adjacent.y);
@@ -56,6 +58,10 @@ public class AI$MON$MeleeBasic extends AI {
                     aiTickTimer = System.currentTimeMillis();
                 }
             } else {
+                if(target.isDead()) {
+                    target = null;
+                    return;
+                }
                 if(movePath.getLength() > 0) {
                     Path.Step step = movePath.getStep(1);
                     actHost.setMoveDestination(step.getX(), step.getY());
@@ -63,8 +69,9 @@ public class AI$MON$MeleeBasic extends AI {
                 }
             }
 
-            if (actHost.withinRange(target, actHost.getStat(Actor.Stat.ATTACK_RANGE) + actHost.getStat(Actor.Stat.ATTACK_RANGE_BONUS))) {
+            if (inTargetAttackRange) {
                 actHost.combatStart(target);
+                movePath = null;
             }
         } else {
             //If no predefined target, go to wander mode
@@ -92,7 +99,8 @@ public class AI$MON$MeleeBasic extends AI {
     @Override
     public void onApproach(Actor actor) {
         if(FactionUtil.isEnemy(actHost.getFaction(), actor.getFaction())) {
-            this.target = actor;
+            if(this.target == null)
+                this.target = actor;
         }
     }
 

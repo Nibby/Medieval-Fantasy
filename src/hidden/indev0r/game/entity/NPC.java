@@ -28,6 +28,8 @@ public class NPC extends Actor {
         super(faction, aiBlock, position);
         this.name = name;
         this.faction = faction;
+
+        combatHPColor = new Color(0, 174, 239);
     }
 
     public void render(Graphics g) {

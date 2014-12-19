@@ -32,6 +32,7 @@ public abstract class AbstractCombatDeathPhase implements CombatDeathPhase {
 
         if(System.currentTimeMillis() - startTime > getDuration()) {
             expired = true;
+            actInitiator.removeCombatPhase(this);
         }
     }
 

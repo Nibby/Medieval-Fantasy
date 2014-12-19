@@ -1,6 +1,6 @@
 <monster faction="UNDEAD"  name="Skeleton" width="1" height="1"
          resource="res/textures/sprites/static/mon00.png" sprite="0,6"
-         deathType="crumble" soundSet="mon_0" approachRange="8">
+         deathType="crumble" soundSet="mon_0" approachRange="1">
     <stats>
         <stat type="HEALTH" value="8" />
         <stat type="HEALTH_MAX" value="8" />

@@ -1,0 +1,4 @@
+- Sound Engine is messy, needs tidy up
+- Big monster Melee Basic AI fix (will only wander top left corner)
+- Slide-stepping monster's attack needs to be addressed
+- On-hit animation conflicts with channel animation at times - needs attention

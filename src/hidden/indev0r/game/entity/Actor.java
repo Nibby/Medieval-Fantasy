@@ -1,5 +1,7 @@
 package hidden.indev0r.game.entity;
 
+import hidden.indev0r.game.Camera;
+import hidden.indev0r.game.MedievalLauncher;
 import hidden.indev0r.game.entity.ai.AI;
 import hidden.indev0r.game.entity.ai.AIList;
 import hidden.indev0r.game.entity.animation.ActionType;
@@ -24,7 +26,9 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.util.pathfinding.AStarPathFinder;
+import org.newdawn.slick.util.pathfinding.Mover;
 import org.newdawn.slick.util.pathfinding.Path;
 import org.w3c.dom.Element;
 
@@ -34,7 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class Actor extends Entity {
+public abstract class Actor extends Entity implements Mover {
 
     protected int interactRange = 2, approachRange = 2;
 
@@ -61,6 +65,13 @@ public abstract class Actor extends Entity {
     protected SoundSet soundSet;
     protected boolean running = false;
     protected long combatLastSwing = 0;
+    protected long deathTime;
+
+    public boolean combatHurt = false;
+    public long combatHurtTick = System.currentTimeMillis();
+    public Color combatHPColor = new Color(1f, 0f, 0f, 1f);
+    public Color combatHPLaceColor = new Color(1f, 0.5f, 0f, 1f);
+    public int combatHPLaceLength, combatHPBarLength;
 
     //Cloning purposes
     public Actor(Actor a) {
@@ -84,6 +95,7 @@ public abstract class Actor extends Entity {
         this.deathType = a.deathType;
         this.running = a.running;
         this.soundSet = a.soundSet;
+        this.deathTime = a.deathTime;
     }
 
     public Actor(Faction faction, Element aiBlock, Vector2f position) {
@@ -116,6 +128,13 @@ public abstract class Actor extends Entity {
             }
         }
 
+//        Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
+//        g.setColor(Color.white);
+//        g.drawRect((int) (getX() - 1)  * Tile.TILE_SIZE + camera.getOffsetX(),
+//                (int) (getY() - 1) * Tile.TILE_SIZE + camera.getOffsetY(),
+//                (int) ((1 + getWidth() / Tile.TILE_SIZE) * Tile.TILE_SIZE),
+//                (int) ((1 + getHeight() / Tile.TILE_SIZE) * Tile.TILE_SIZE));
+
         if(shouldRender && isAlive) {
             super.render(g);
         } else {
@@ -145,6 +164,18 @@ public abstract class Actor extends Entity {
             }
         }
 
+        if(combatHurt && !(this instanceof Player)) {
+            if(System.currentTimeMillis() - combatHurtTick > 50) {
+                if(combatHPLaceLength > combatHPBarLength) {
+                    combatHPLaceLength -= 2;
+                    combatHurtTick = System.currentTimeMillis();
+                }
+                else {
+                    if(System.currentTimeMillis() - combatHurtTick > 1500) combatHurt = false;
+                }
+            }
+        }
+
         calculateStats();
 
         if(isAlive){
@@ -163,6 +194,8 @@ public abstract class Actor extends Entity {
     }
 
     public void combatStart(Actor target) {
+        if(!withinRange(target, getStat(Stat.ATTACK_RANGE) + getStat(Stat.ATTACK_RANGE_BONUS)))
+            return;
         this.combatTarget = target;
 
         int combatHitInterval =
@@ -183,8 +216,6 @@ public abstract class Actor extends Entity {
     }
 
     public void combatChannelEnd(AttackType type) {
-        //计算战斗信息，包括玩家双手 VS 单手武器等。。。
-
         DamageModel model = new DamageModel();
         //2 is how many attacks actor will deal
         for(int i = 0; i < 1; i++) {
@@ -210,18 +241,34 @@ public abstract class Actor extends Entity {
     }
 
     public void combatHurt(Actor dmgDealer, int currentHit, DamageModel model, int damage) {
+
+        combatHurt = true;
+        combatHurtTick = System.currentTimeMillis();
+
+        int totalLength = getWidth();
+        float percentageBefore = (float) getHealth() / (float) getHealthMax();
+        combatHPLaceLength = (int) ((float) totalLength * percentageBefore);
+        if(combatHPLaceLength < 0) combatHPLaceLength = 0;
+
+        float percentageAfter = (float) (getHealth() - damage) / (float) getHealthMax();
+        combatHPBarLength = (int) ((float) totalLength * percentageAfter);
+        if(combatHPBarLength < 0) combatHPBarLength = 0;
+
         executeScript(Script.Type.hurt);
         deductStat(Stat.HEALTH, damage);
+        if(getStat(Stat.HEALTH) < 0) setStat(Stat.HEALTH, 0);
     }
 
     public void combatEnd() {
     }
 
     public void die() {
+
         CombatPhaseManager.get().addCombatPhase(deathType.newInstance(this));
         playSound(deathType);
 
         executeScript(Script.Type.death);
+        deathTime = System.currentTimeMillis();
         isAlive = false;
         setStat(Stat.HEALTH, 0);
     }
@@ -243,12 +290,25 @@ public abstract class Actor extends Entity {
     }
 
     public boolean withinRange(Actor actor, int range) {
-
-        return
-            (actor.getX() >= getX() - range
-          && actor.getX() + actor.getWidth() / Tile.TILE_SIZE <= getX() + getWidth() / Tile.TILE_SIZE + range
-          && actor.getY() >= getY() - range
-          && actor.getY() + actor.getHeight() / Tile.TILE_SIZE <= getY() + getHeight() / Tile.TILE_SIZE + range);
+//        if (actor.getX() >= getX() - range
+//          && actor.getX() < getX() + getWidth() / Tile.TILE_SIZE + range
+//          && actor.getY() >= getY() - range
+//          && actor.getY() < getY() + getHeight() / Tile.TILE_SIZE + range) {
+//            return true;
+//        } else {
+            return new Rectangle(
+                    getPosition().x - (range - 1) * Tile.TILE_SIZE,
+                    getPosition().y - (range - 1) * Tile.TILE_SIZE,
+                    getWidth() + (range - 1) * Tile.TILE_SIZE,
+                    getHeight() + (range - 1) * Tile.TILE_SIZE
+            ).intersects(new Rectangle(
+                    actor.getPosition().x,
+                    actor.getPosition().y,
+                    actor.getWidth(),
+                    actor.getHeight()
+            ));
+//            return false;
+//        }
     }
 
     public boolean isRunning() {
@@ -416,6 +476,10 @@ public abstract class Actor extends Entity {
 
     public void setFaction(Faction faction) {
         this.faction = faction;
+    }
+
+    public long getDeathTime() {
+        return deathTime;
     }
 
     public enum Stat {

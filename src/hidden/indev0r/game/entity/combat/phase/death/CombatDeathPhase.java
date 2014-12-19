@@ -8,3 +8,5 @@ import hidden.indev0r.game.entity.combat.phase.CombatPhase;
 public interface CombatDeathPhase extends CombatPhase {
 
 }
+
+

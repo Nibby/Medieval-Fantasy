@@ -21,13 +21,16 @@ public class CombatDeathPhase$Crumble extends AbstractCombatDeathPhase{
         super(actor);
 
         Image texture = actor.getCurrentImage();
-        texturePieces = new Particle$TexturePiece[texture.getWidth() / partSize * texture.getHeight() / partSize];
+        partSize = 4 * (actor.getWidth() / 32);
+        int tw = texture.getWidth() / partSize;
+        int th = texture.getHeight() / partSize;
+        texturePieces = new Particle$TexturePiece[tw * th];
 
-        for(int x = 0; x < texture.getWidth() / partSize; x++) {
-            for(int y = 0; y < texture.getHeight() / partSize; y++) {
+        for(int x = 0; x < tw; x++) {
+            for(int y = 0; y < th; y++) {
                 Particle$TexturePiece particle = new Particle$TexturePiece(
                         new Vector2f(actor.getPosition().x + x * partSize, actor.getPosition().y + y * partSize),
-                        true, texture, x * partSize, y * partSize, partSize) {
+                        true, texture, x * 4, y * 4, partSize) {
 
                     float rotationDelta;
                     float crumbleX, crumbleY;

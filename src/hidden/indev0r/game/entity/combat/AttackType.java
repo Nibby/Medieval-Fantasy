@@ -2,6 +2,8 @@ package hidden.indev0r.game.entity.combat;
 
 import hidden.indev0r.game.entity.Actor;
 import hidden.indev0r.game.entity.combat.phase.channel.AbstractCombatChannelPhase;
+import hidden.indev0r.game.entity.combat.phase.death.AbstractCombatDeathPhase;
+import hidden.indev0r.game.entity.combat.phase.death.CombatDeathPhase$Crumble;
 import hidden.indev0r.game.entity.combat.phase.hit.AbstractCombatHitPhase;
 import hidden.indev0r.game.entity.combat.phase.channel.CombatChannelPhase$MeleeAttack;
 import hidden.indev0r.game.entity.combat.phase.hit.CombatHitPhase$MeleeAttack;
@@ -21,6 +23,11 @@ public enum AttackType {
         public AbstractCombatHitPhase getHitPhase(Actor initiator, Actor target) {
             return new CombatHitPhase$MeleeAttack(initiator, target);
         }
+
+        @Override
+        public AbstractCombatDeathPhase getDeathPhase(Actor target) {
+            return null;
+        }
     },
     normal_rogue {
         @Override
@@ -31,6 +38,11 @@ public enum AttackType {
         @Override
         public AbstractCombatHitPhase getHitPhase(Actor initiator, Actor target) {
             return new CombatHitPhase$MeleeAttack(initiator, target);
+        }
+
+        @Override
+        public AbstractCombatDeathPhase getDeathPhase(Actor target) {
+            return null;
         }
     },
     normal_mage {
@@ -43,11 +55,17 @@ public enum AttackType {
         public AbstractCombatHitPhase getHitPhase(Actor initiator, Actor target) {
             return null;
         }
+
+        @Override
+        public AbstractCombatDeathPhase getDeathPhase(Actor target) {
+            return null;
+        }
     },
 
     ;
 
     public abstract AbstractCombatChannelPhase getChannelPhase(Actor initiator);
     public abstract AbstractCombatHitPhase     getHitPhase(Actor initiator, Actor target);
+    public abstract AbstractCombatDeathPhase   getDeathPhase(Actor target);
 
 }

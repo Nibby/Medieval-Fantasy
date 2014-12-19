@@ -236,6 +236,7 @@ public abstract class Entity {
 
 		if (sprite != null) {
 			sprite = sprite.getScaledCopy(width, height);
+            spriteFlipped = sprite.getFlippedCopy(true, false);
 		}
 	}
 

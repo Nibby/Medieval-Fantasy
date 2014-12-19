@@ -1,0 +1,20 @@
+<monster faction="UNDEAD"  name="Lich" width="2" height="2"
+         resource="res/textures/sprites/static/mon00.png" sprite="4,6"
+         deathType="crumble" soundSet="mon_0" approachRange="4">
+    <stats>
+        <stat type="HEALTH" value="50" />
+        <stat type="HEALTH_MAX" value="50" />
+        <stat type="ATTACK_DAMAGE" value="3" />
+        <stat type="SPEED" value="25" />
+    </stats>
+
+    <ai type="MONSTER_MELEE_BASIC" wanderInterval="$RANDOM_NUMBER" randomParams="3000-8000" />
+
+    <dropList>
+
+    </dropList>
+
+    <script type="death">
+        <stats actor="$PLAYER" action="ADD" stat="EXPERIENCE" value="50" />
+    </script>
+</monster>

@@ -96,16 +96,16 @@ public class Cursor {
         }
 
         if(INTERACT_INSTANCE instanceof Monster) {
-            Monster mon = (Monster) INTERACT_INSTANCE;
+            Monster actor = (Monster) INTERACT_INSTANCE;
             Player player = MedievalLauncher.getInstance().getGameState().getPlayer();
-            boolean isEnemy = FactionUtil.isEnemy(player.getFaction(), mon.getFaction());
+            boolean isEnemy = FactionUtil.isEnemy(player.getFaction(), actor.getFaction());
 
             g.setColor(NAME_TAG_COLOR);
             Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
 
-            if(!isEnemy && mon.hasScript(Script.Type.interact)) {
-                g.drawAnimation(INTERACT_TALK, mon.getPosition().x + camera.getOffsetX() + mon.getWidth() / 2 - 16,
-                        mon.getPosition().y + camera.getOffsetY() - 32);
+            if(!isEnemy && actor.hasScript(Script.Type.interact)) {
+                g.drawAnimation(INTERACT_TALK, actor.getPosition().x + camera.getOffsetX() + actor.getWidth() / 2 - 16,
+                        actor.getPosition().y + camera.getOffsetY() - 32);
             }
 
             if(isEnemy) MedievalLauncher.getInstance().setCursor(Cursor.ENEMY_TARGET);
@@ -116,10 +116,27 @@ public class Cursor {
             int mx = input.getMouseX();
             int my = input.getMouseY();
 
-            String renderText = mon.getName();
+            String renderText = actor.getName();
             g.fillRoundRect(mx + 16 - BitFont.widthOf(renderText, 16) / 2,  my + 38, (BitFont.widthOf(renderText, 16)) + 16, 24, 5);
 
-            BitFont.render(g, renderText, (mx + 24 - BitFont.widthOf(renderText, 16) / 2), my + 42, (!isEnemy) ? mon.getNameColor() : Color.red);
+            BitFont.render(g, renderText, (mx + 24 - BitFont.widthOf(renderText, 16) / 2), my + 42, (!isEnemy) ? actor.getNameColor() : Color.red);
+        }
+
+        if(INTERACT_INSTANCE instanceof Actor) {
+            Actor actor = (Actor) INTERACT_INSTANCE;
+            if(actor.combatHurt) {
+                int barLength = actor.getWidth();
+                int barHeight = 4;
+
+                g.setColor(Color.black);
+                g.fillRect(actor.getRenderX() - 2, actor.getRenderY() - 14, barLength + 4, barHeight + 4);
+
+                g.setColor(actor.combatHPLaceColor);
+                g.fillRect(actor.getRenderX(), actor.getRenderY() - 12, actor.combatHPLaceLength, barHeight);
+
+                g.setColor(actor.combatHPColor);
+                g.fillRect(actor.getRenderX(), actor.getRenderY() - 12, actor.combatHPBarLength, barHeight);
+            }
         }
     }
 

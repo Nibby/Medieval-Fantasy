@@ -7,10 +7,7 @@ import hidden.indev0r.game.entity.combat.phase.death.DeathType;
 import hidden.indev0r.game.gui.component.interfaces.GStatsSupplier;
 import hidden.indev0r.game.sound.SoundSet;
 import org.lwjgl.util.vector.Vector2f;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
+import org.newdawn.slick.*;
 
 public class Player extends Actor implements GStatsSupplier {
 
@@ -19,6 +16,8 @@ public class Player extends Actor implements GStatsSupplier {
 
     public Player(Faction faction, ActorJob job, int x, int y) {
         super(faction, null, new Vector2f(x, y));
+
+        combatHPColor = new Color(57, 181, 74);
 
         setSoundSet(SoundSet.player_warrior);
         setJob(job);

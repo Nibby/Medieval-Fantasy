@@ -12,7 +12,6 @@ public class Particle$CombatHitDebris extends Particle {
 
     private Image sprite;
     private float dx, dy;
-    private int ticks = 0;
 
     public Particle$CombatHitDebris(Vector2f position, Image sprite, int size) {
         super(position, false, Color.white, size, size);

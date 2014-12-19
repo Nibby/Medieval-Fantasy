@@ -4,6 +4,7 @@ import hidden.indev0r.game.Camera;
 import hidden.indev0r.game.MedievalLauncher;
 import hidden.indev0r.game.entity.Actor;
 import hidden.indev0r.game.entity.Entity;
+import hidden.indev0r.game.entity.Monster;
 import hidden.indev0r.game.entity.Player;
 import hidden.indev0r.game.entity.npc.script.Script;
 import hidden.indev0r.game.reference.References;
@@ -77,7 +78,7 @@ public class TileMap implements TileBasedMap {
                 if(e instanceof Actor) {
                     Actor actor = (Actor) e;
 
-                    if(actor.isDead()) {
+                    if(actor.isDead() ) {
                         removeEntity(actor);
                     }
                 }
@@ -332,8 +333,12 @@ public class TileMap implements TileBasedMap {
 
     @Override
     public boolean blocked(PathFindingContext context, int x, int y) {
+        boolean tileBlock = tileBlocked(x, y);
+        boolean entityBlock = entityBlocked(null, x, y);
 
-        return isBlocked(null, x, y);
+        if(context.getMover() != null
+            && context.getMover() instanceof Monster) return tileBlock;
+        else return tileBlock || entityBlock;
     }
 
     @Override
@@ -345,16 +350,16 @@ public class TileMap implements TileBasedMap {
         return Math.abs((int) ((origin.getX() + origin.getY()) - (end.getX() + end.getY())));
     }
 
-    public Vector2f getVacantAdjacentTile(Actor actor, boolean allowLiquid) {
-        return getVacantAdjacentTile((int) actor.getX(), (int) actor.getY(), allowLiquid);
+    public Vector2f getVacantAdjacentTile(Actor actor, Actor self, boolean allowLiquid) {
+        return getVacantAdjacentTile((int) actor.getX(), (int) actor.getY(), self, allowLiquid);
     }
 
-    public Vector2f getVacantAdjacentTile(int x, int y, boolean allowLiquid) {
+    public Vector2f getVacantAdjacentTile(int x, int y, Actor self, boolean allowLiquid) {
         for(int i = x - 1; i < x + 1; i++) {
             outer:
             for(int j = y - 1; j < y + i; j++) {
                 if(i < 0 || i > tileData[0].length - 1 || j < 0 || j > tileData[0][0].length - 1) return null;
-                boolean isSolid = tileBlocked(x, y);
+                boolean isSolid = isBlocked(self, i, j);
                 if(!isSolid && !allowLiquid) {
                     for(int l = 0; l < tileData.length; l++) {
                         Tile tile = Tile.getTile(tileData[l][i][j]);

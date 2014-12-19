@@ -103,7 +103,7 @@ public class CombatHitPhase$MeleeAttack extends AbstractCombatHitPhase {
                     new Vector2f(actTarget.getPosition().x + actTarget.getWidth() / 2 + camera.getOffsetX() - 4,
                             actTarget.getPosition().y + actTarget.getHeight() / 2 + camera.getOffsetY()),
                     actTarget.getCurrentImage(),
-                    (int) (Math.random() * 4) + 1
+                    actTarget.getWidth() / 32 * 4 + (int) (Math.random() * 2)
             );
             ParticleManager.get().addParticle(p);
         }
@@ -177,7 +177,7 @@ public class CombatHitPhase$MeleeAttack extends AbstractCombatHitPhase {
 
     @Override
     public int getDuration() {
-        return (actTarget.isDead() ? 0 : 500 + HIT_DELAY) * getDamageModel().getHits();
+        return (actTarget.isDead() ? 0 : 100 + HIT_DELAY) * getDamageModel().getHits();
     }
 
     @Override
