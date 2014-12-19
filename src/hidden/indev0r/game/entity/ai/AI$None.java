@@ -1,6 +1,7 @@
 package hidden.indev0r.game.entity.ai;
 
 import hidden.indev0r.game.entity.Actor;
+import hidden.indev0r.game.entity.combat.DamageModel;
 import hidden.indev0r.game.map.TileMap;
 import org.w3c.dom.Element;
 
@@ -9,9 +10,27 @@ import org.w3c.dom.Element;
  */
 public class AI$None extends AI {
 
-    @Override
-    public void make(Actor actor, Element aiElement) {}
+    public AI$None(Actor host) {
+        super(host);
+    }
 
     @Override
-    public void tick(TileMap map, Actor actor) {}
+    public void make(Element aiElement) {
+
+    }
+
+    @Override
+    public void tick(TileMap map) {
+
+    }
+
+    @Override
+    public void onApproach(Actor actor) {
+
+    }
+
+    @Override
+    public void onHurt(Actor initiator, DamageModel model) {
+
+    }
 }

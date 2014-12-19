@@ -10,6 +10,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
+import org.w3c.dom.Element;
 
 /**
  * Created by MrDeathJockey on 14/12/17.
@@ -28,8 +29,8 @@ public class Monster extends Actor {
         this.postInteraction = false;
     }
 
-    public Monster(Faction faction, String name) {
-        super(faction, new Vector2f(0, 0));
+    public Monster(Faction faction, String name, Element aiElement) {
+        super(faction, aiElement, new Vector2f(0, 0));
         this.name = name;
         setAI(ai);
         setSolid(true);
@@ -93,6 +94,18 @@ public class Monster extends Actor {
     private void interact(Player player) {
         player.setFacingDirection(MapDirection.turnToFace(player, this));
         player.combatStart(this);
+    }
+
+    @Override
+    public void combatHurt(Actor dmgDealer, int currentHit, DamageModel model, int damage) {
+        super.combatHurt(dmgDealer, currentHit, model, damage);
+        ai.onHurt(dmgDealer, model);
+    }
+
+    @Override
+    public void onApproach(Actor actor) {
+        super.onApproach(actor);
+        ai.onApproach(actor);
     }
 
     public String getName() {

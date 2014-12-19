@@ -10,6 +10,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
+import org.w3c.dom.Element;
 
 /**
  * Created by MrDeathJockey on 14/12/8.
@@ -23,8 +24,8 @@ public class NPC extends Actor {
     private boolean wasMouseFocused = false;
     private boolean postInteraction = false;
 
-    public NPC(Faction faction, String name, Vector2f position) {
-        super(faction, position);
+    public NPC(Faction faction, String name, Element aiBlock, Vector2f position) {
+        super(faction, aiBlock, position);
         this.name = name;
         this.faction = faction;
     }

@@ -121,8 +121,7 @@ public class CombatChannelPhase$MeleeAttack extends AbstractCombatChannelPhase {
 
     @Override
     public void renderInitiator(Graphics g, Actor initiator) {
-        Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
-        initiator.render(g, initiator.getPosition().x + camera.getOffsetX() + shiftX,
-                initiator.getPosition().y + camera.getOffsetY() + shiftY, new Color(1f, 1f, 1f, 1f));
+        initiator.render(g, actInitiator.getRenderX() + shiftX,
+                actInitiator.getRenderY() + shiftY, new Color(1f, 1f, 1f, 1f));
     }
 }

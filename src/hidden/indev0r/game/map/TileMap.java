@@ -71,7 +71,7 @@ public class TileMap implements TileBasedMap {
 	public void tick(GameContainer gc) {
         for(int i = 0; i < entities.size(); i++) {
             Entity e = entities.get(i);
-            if(e != null) {
+            if(e != null && e.isVisibleOnScreen()) {
                 e.tick(gc);
 
                 if(e instanceof Actor) {
@@ -216,16 +216,16 @@ public class TileMap implements TileBasedMap {
                 }
             }
         }
+        for(Entity e : entities) {
+            if(e instanceof Actor) {
 
-        if(entity instanceof Player) {
-            for(Entity e : entities) {
-                if(e instanceof Actor) {
-                    boolean near = ((Actor) e).withinRange((Player) entity, ((Actor) e).getApproachRange());
-                    if(near)
+                boolean near = ((Actor) e).withinRange((Actor) entity, ((Actor) e).getApproachRange());
+                if(near) {
+                    if(entity instanceof Player)
                         ((Actor) e).executeScript(Script.Type.approach);
+                    ((Actor) e).onApproach((Actor) entity);
                 }
             }
-
         }
 
         for(String zoneKey : mapZones.keySet()) {
@@ -332,11 +332,38 @@ public class TileMap implements TileBasedMap {
 
     @Override
     public boolean blocked(PathFindingContext context, int x, int y) {
+
         return isBlocked(null, x, y);
     }
 
     @Override
     public float getCost(PathFindingContext context, int x, int y) {
         return 0;
+    }
+
+    public int getActorDistance(Actor origin, Actor end) {
+        return Math.abs((int) ((origin.getX() + origin.getY()) - (end.getX() + end.getY())));
+    }
+
+    public Vector2f getVacantAdjacentTile(Actor actor, boolean allowLiquid) {
+        return getVacantAdjacentTile((int) actor.getX(), (int) actor.getY(), allowLiquid);
+    }
+
+    public Vector2f getVacantAdjacentTile(int x, int y, boolean allowLiquid) {
+        for(int i = x - 1; i < x + 1; i++) {
+            outer:
+            for(int j = y - 1; j < y + i; j++) {
+                if(i < 0 || i > tileData[0].length - 1 || j < 0 || j > tileData[0][0].length - 1) return null;
+                boolean isSolid = tileBlocked(x, y);
+                if(!isSolid && !allowLiquid) {
+                    for(int l = 0; l < tileData.length; l++) {
+                        Tile tile = Tile.getTile(tileData[l][i][j]);
+                        if(tile != null && tile.propertyExists("liquid")) continue outer;
+                    }
+                } else if(!isSolid && allowLiquid) return new Vector2f(i, j);
+            }
+        }
+
+        return null;
     }
 }

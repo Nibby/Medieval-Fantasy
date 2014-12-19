@@ -52,8 +52,6 @@ public class CombatHitPhase$MeleeAttack extends AbstractCombatHitPhase {
         if(System.currentTimeMillis() - fxTick > 8) {
             fx -= 0.6f * fxTicks;
             fy += 0.6f * fxTicks;
-            fw -= 3f;
-            fh -= 3f;
             textColor.a -= 0.035f;
             fxTicks++;
             if(fxTicks < 10) fxColor.a += 0.09f;
@@ -143,11 +141,12 @@ public class CombatHitPhase$MeleeAttack extends AbstractCombatHitPhase {
 
             if (System.currentTimeMillis() - bulgeTickTime > 25) {
                 bulgeTick++;
-                bulgeAlpha -= 0.02f;
+                fw += 1.2f;
+                fh += 1.2f;
+                bulgeAlpha -= 0.05f;
                 if (bulgeAlpha <= 0f) {
                     bulgeTick = 0;
-                    bulgeAlpha = 0.5f;
-                    bulgeTickTime += 2000;
+                    bulgeTickTime += 1000;
                     return;
                 }
                 bulgeTickTime = System.currentTimeMillis();

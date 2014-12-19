@@ -1,6 +1,7 @@
 package hidden.indev0r.game.entity.ai;
 
 import hidden.indev0r.game.entity.Actor;
+import hidden.indev0r.game.entity.combat.DamageModel;
 import hidden.indev0r.game.map.MapDirection;
 import hidden.indev0r.game.map.TileMap;
 import org.w3c.dom.Element;
@@ -16,8 +17,12 @@ public class AI$NPC$LookOrdered extends AI {
     private long lastTick = 0;
     private int currentStep = 0;
 
+    public AI$NPC$LookOrdered(Actor host) {
+        super(host);
+    }
+
     @Override
-    public void make(Actor actor, Element aiElement) {
+    public void make(Element aiElement) {
         interval = Integer.parseInt(aiElement.getAttribute("interval"));
 
         NodeList params = aiElement.getElementsByTagName("param");
@@ -32,15 +37,25 @@ public class AI$NPC$LookOrdered extends AI {
     }
 
     @Override
-    public void tick(TileMap map, Actor actor) {
+    public void tick(TileMap map) {
         if(System.currentTimeMillis() - lastTick > interval) {
             if(currentStep < directions.length - 1) currentStep++;
             else currentStep = 0;
 
             MapDirection direction = directions[currentStep];
-            actor.setFacingDirection(direction);
+            actHost.setFacingDirection(direction);
 
             lastTick = System.currentTimeMillis();
         }
+    }
+
+    @Override
+    public void onApproach(Actor actor) {
+
+    }
+
+    @Override
+    public void onHurt(Actor initiator, DamageModel model) {
+
     }
 }

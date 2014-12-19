@@ -92,8 +92,8 @@ public abstract class AbstractCombatHitPhase implements CombatHitPhase {
     }
 
     protected void hurtTarget() {
+        int actualDamage = getDamageModel().getDamageType(currentHit).processDamage(getDamageModel(), actTarget, actInitiator);
         if(!(actTarget instanceof Player)) {
-            int actualDamage = getDamageModel().getDamageType(currentHit).processDamage(getDamageModel(), actTarget, actInitiator);
 
             combatHurt = true;
             combatHurtTick = System.currentTimeMillis();
@@ -106,15 +106,15 @@ public abstract class AbstractCombatHitPhase implements CombatHitPhase {
             float percentageAfter = (float) (actTarget.getHealth() - actualDamage) / (float) actTarget.getHealthMax();
             combatHPBarLength = (int) ((float) totalLength * percentageAfter);
             if(combatHPBarLength < 0) combatHPBarLength = 0;
+        }
 
-            actTarget.combatHurt(actInitiator, currentHit, getDamageModel(), actualDamage);
-            if(actTarget.isDead()) {
-                expired = true;
-                actInitiator.combatEnd();
-                actInitiator.removeCombatPhase(this);
-                actTarget.combatEnd();
-                actTarget.removeCombatPhase(this);
-            }
+        actTarget.combatHurt(actInitiator, currentHit, getDamageModel(), actualDamage);
+        if(actTarget.isDead()) {
+            expired = true;
+            actInitiator.combatEnd();
+            actInitiator.removeCombatPhase(this);
+            actTarget.combatEnd();
+            actTarget.removeCombatPhase(this);
         }
     }
 

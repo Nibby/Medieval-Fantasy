@@ -23,7 +23,7 @@ public class Door extends Actor {
     private boolean wasMouseFocused = false;
 
     public Door(Vector2f position, Animation openAnim, Animation closeAnim, boolean closed) {
-        super(Faction.NONE, position);
+        super(Faction.NONE, null, position);
         this.closed = closed;
         this.openAnim = openAnim;
         this.closeAnim = closeAnim;

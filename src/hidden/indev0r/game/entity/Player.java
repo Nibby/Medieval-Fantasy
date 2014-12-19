@@ -1,5 +1,6 @@
 package hidden.indev0r.game.entity;
 
+import hidden.indev0r.game.BitFont;
 import hidden.indev0r.game.MedievalLauncher;
 import hidden.indev0r.game.entity.animation.ActionType;
 import hidden.indev0r.game.entity.combat.phase.death.DeathType;
@@ -17,7 +18,7 @@ public class Player extends Actor implements GStatsSupplier {
     private ActorJob job;
 
     public Player(Faction faction, ActorJob job, int x, int y) {
-        super(faction, new Vector2f(x, y));
+        super(faction, null, new Vector2f(x, y));
 
         setSoundSet(SoundSet.player_warrior);
         setJob(job);
@@ -29,7 +30,15 @@ public class Player extends Actor implements GStatsSupplier {
 	@Override
 	public void render(Graphics g) {
 		super.render(g);
-	}
+
+        //Debug
+        BitFont.render(g, (int) getX() + ", " + (int) getY(), 10, 140);
+//        int i =0;
+//        for(Stat stat : propertyMap.keySet()) {
+//            BitFont.render(g, stat.name() + ": " + getStat(stat), 10, 160 + i * 20);
+//            i++;
+//        }
+    }
 
 	@Override
 	public void tick

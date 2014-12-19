@@ -1,6 +1,7 @@
 package hidden.indev0r.game.entity;
 
 import hidden.indev0r.game.entity.ai.AI;
+import hidden.indev0r.game.entity.ai.AIList;
 import hidden.indev0r.game.entity.animation.ActionType;
 import hidden.indev0r.game.entity.combat.AttackType;
 import hidden.indev0r.game.entity.combat.DamageModel;
@@ -15,6 +16,7 @@ import hidden.indev0r.game.entity.npc.script.Script;
 import hidden.indev0r.game.gui.Cursor;
 import hidden.indev0r.game.map.MapDirection;
 import hidden.indev0r.game.map.Tile;
+import hidden.indev0r.game.sound.SE;
 import hidden.indev0r.game.sound.SoundSet;
 import hidden.indev0r.game.util.Util;
 import org.lwjgl.util.vector.Vector2f;
@@ -24,6 +26,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.util.pathfinding.AStarPathFinder;
 import org.newdawn.slick.util.pathfinding.Path;
+import org.w3c.dom.Element;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -43,7 +46,9 @@ public abstract class Actor extends Entity {
     protected Faction faction;
     // Actor Attributes
 	protected Map<Stat, Integer> propertyMap;
+
     protected AI ai;
+    private Element aiBlock;
 
     protected Color nameColor, minimapColor;
     protected boolean isAlive;
@@ -66,21 +71,25 @@ public abstract class Actor extends Entity {
         this.scripts = a.scripts;
         this.faction = a.faction;
         this.propertyMap = Util.cloneStatMap(a.propertyMap);
-        this.ai = AI.getCloned(a.ai);
+        this.aiBlock = a.aiBlock;
+        this.ai = AIList.valueOf(aiBlock.getAttribute("type")).getInstance(this);
+        this.ai.make(aiBlock);
         this.nameColor = a.nameColor;
         this.minimapColor = a.minimapColor;
         this.isAlive = a.isAlive;
         this.attackType = a.attackType;
         this.combatTarget = a.combatTarget;
         this.combatPhaseList = a.combatPhaseList;
+        this.combatLastSwing = a.combatLastSwing;
         this.deathType = a.deathType;
         this.running = a.running;
         this.soundSet = a.soundSet;
     }
 
-    public Actor(Faction faction, Vector2f position) {
+    public Actor(Faction faction, Element aiBlock, Vector2f position) {
 		super(position);
 		propertyMap = new HashMap<>(0);
+        this.aiBlock = aiBlock;
 		for (Stat v : Stat.values()) propertyMap.put(v, v.getDefaultValue());
         this.faction = faction;
 		isAlive = true;
@@ -140,7 +149,7 @@ public abstract class Actor extends Entity {
 
         if(isAlive){
             if(!(this instanceof Player))
-                ai.tick(map, this);
+                ai.tick(map);
         }
 
 	}
@@ -160,6 +169,7 @@ public abstract class Actor extends Entity {
                 1200 - (getStat(Stat.DEXTERITY) + getStat(Stat.DEXTERITY_BONUS)) * 25;
 
         if(System.currentTimeMillis() - combatLastSwing > combatHitInterval) {
+            setFacingDirection(MapDirection.turnToFace(this, target));
             combatChannelStart(attackType);
             combatLastSwing = System.currentTimeMillis();
         }
@@ -190,7 +200,7 @@ public abstract class Actor extends Entity {
             if(critical)
                 damage = (int) (damage * 1.8f);
 
-            model.addHit(DamageType.normal, damage, critical, "0");
+            model.addHit(DamageType.normal, damage, false, "0");
         }
 
         AbstractCombatHitPhase hitPhase = type.getHitPhase(this, combatTarget);
@@ -311,7 +321,14 @@ public abstract class Actor extends Entity {
 
     public void playSound(Object key) {
         if(soundSet == null) return;
-        soundSet.getRandomSound(key).play(this);
+
+        SE se = soundSet.getRandomSound(key);
+        if(se != null)
+            se.play(this);
+    }
+
+    public void onApproach(Actor actor) {
+
     }
 
     public SoundSet getSoundSet() {

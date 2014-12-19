@@ -91,8 +91,16 @@ public class NPCDatabase {
             int npcHeight = Integer.parseInt(root.getAttribute("height"));
             String npcName = root.getAttribute("name");
 
-            NPC npc = new NPC(npcFaction, npcName, new Vector2f(0, 0));
+            //Load AI
+            Element aiElement = (Element) root.getElementsByTagName("ai").item(0);
+
+            NPC npc = new NPC(npcFaction, npcName, aiElement, new Vector2f(0, 0));
             npc.setSize(npcWidth * Tile.TILE_SIZE, npcHeight * Tile.TILE_SIZE);
+
+            String aiType = aiElement.getAttribute("type");
+            AI ai = AI.getAI(npc, aiType);
+            ai.make(aiElement);
+            npc.setAI(ai);
 
             if(root.hasAttribute("resource") && root.hasAttribute("sprite")) {
                 SpriteSheet resource = (SpriteSheet) ResourceManager.get("spritesheet:" + root.getAttribute("resource"));
@@ -189,15 +197,6 @@ public class NPCDatabase {
                     JOptionPane.showMessageDialog(null, "Cannot create script '" + eScript.getAttribute("type") + "' for NPC '" + npcName + "'!",
                             "Internal Error", JOptionPane.ERROR_MESSAGE);
             }
-
-
-            //Load AI
-            Element aiElement = (Element) root.getElementsByTagName("ai").item(0);
-            String aiType = aiElement.getAttribute("type");
-
-            AI ai = AI.getAI(aiType);
-            ai.make(npc, aiElement);
-            npc.setAI(ai);
         } catch(Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "An error occurred while loading NPC '" + path + "'\n" + e,

@@ -74,7 +74,15 @@ public class MonsterDatabase  {
         //Load root tag info
         String monName = root.getAttribute("name");
         Actor.Faction monFaction = Actor.Faction.valueOf(root.getAttribute("faction"));
-        Monster monster = new Monster(monFaction, monName);
+
+        //AI
+        Element aiElement = (Element) root.getElementsByTagName("ai").item(0);
+
+        Monster monster = new Monster(monFaction, monName, aiElement);
+        AI ai = AI.getAI(monster, aiElement.getAttribute("type"));
+        ai.make(aiElement);
+        monster.setAI(ai);
+
         if(root.hasAttribute("resource") && root.hasAttribute("sprite")) {
             SpriteSheet resource = (SpriteSheet) ResourceManager.get("spritesheet:" + root.getAttribute("resource"));
             if(resource != null) {
@@ -106,6 +114,10 @@ public class MonsterDatabase  {
 
         if(root.hasAttribute("deathType")) {
             monster.setDeathType(DeathType.valueOf(root.getAttribute("deathType")));
+        }
+
+        if(root.hasAttribute("approachRange")) {
+            monster.setApproachRange(Integer.parseInt(root.getAttribute("approachRange")));
         }
 
         if(root.hasAttribute("soundSet")) {
@@ -141,13 +153,6 @@ public class MonsterDatabase  {
                         "Internal Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        //AI
-        Element aiElement = (Element) root.getElementsByTagName("ai").item(0);
-        AI ai  = AI.getAI(aiElement.getAttribute("type"));
-        ai.make(monster, aiElement);
-        monster.setAI(ai);
-
-        //
         Path relative = References.MONSTER_PATH.relativize(path);
         String key = "";
         for(int i = 0; i < relative.getNameCount() - 1; i++) {

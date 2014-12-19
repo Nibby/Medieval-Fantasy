@@ -1,6 +1,7 @@
 package hidden.indev0r.game.entity.ai;
 
 import hidden.indev0r.game.entity.Actor;
+import hidden.indev0r.game.entity.combat.DamageModel;
 import hidden.indev0r.game.map.MapDirection;
 import hidden.indev0r.game.map.TileMap;
 import org.w3c.dom.Element;
@@ -12,24 +13,25 @@ import java.util.Map;
 /**
  * Created by MrDeathJockey on 14/12/11.
  */
-public abstract class AI implements Cloneable {
+public abstract class AI {
+
+    protected Actor actHost;
+
+    public AI(Actor host) {
+        this.actHost = host;
+    }
 
     private static final Map<String, AI> aiDatabase = new HashMap<>();
 
-    public abstract void make(Actor actor, Element aiElement);
+    public abstract void make(Element aiElement);
 
-    public abstract void tick(TileMap map, Actor actor);
+    public abstract void tick(TileMap map);
 
-    public static final AI getAI(String key) {
-        return AIList.valueOf(key).getInstance();
-    }
+    public abstract void onApproach(Actor actor);
 
-    public static AI getCloned(AI ai) {
-        try {
-            return (AI) ai.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public abstract void onHurt(Actor initiator, DamageModel model);
+
+    public static final AI getAI(Actor actor, String key) {
+        return AIList.valueOf(key).getInstance(actor);
     }
 }

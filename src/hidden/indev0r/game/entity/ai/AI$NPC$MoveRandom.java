@@ -1,6 +1,7 @@
 package hidden.indev0r.game.entity.ai;
 
 import hidden.indev0r.game.entity.Actor;
+import hidden.indev0r.game.entity.combat.DamageModel;
 import hidden.indev0r.game.map.MapDirection;
 import hidden.indev0r.game.map.TileMap;
 import org.w3c.dom.Element;
@@ -15,8 +16,12 @@ public class AI$NPC$MoveRandom extends AI {
     private int thisInterval = 0;
     private long lastTick = 0;
 
+    public AI$NPC$MoveRandom(Actor host) {
+        super(host);
+    }
+
     @Override
-    public void make(Actor actor, Element aiElement) {
+    public void make(Element aiElement) {
         setInterval = aiElement.hasAttribute("interval");
         if(!setInterval) {
             intervalMin = Integer.parseInt(aiElement.getAttribute("intervalMin"));
@@ -28,30 +33,40 @@ public class AI$NPC$MoveRandom extends AI {
     }
 
     @Override
-    public void tick(TileMap map, Actor actor) {
+    public void tick(TileMap map) {
         if(System.currentTimeMillis() - lastTick > thisInterval) {
             if(setInterval) thisInterval = interval;
             else thisInterval = (int) (Math.random() * (intervalMax - intervalMin) + intervalMin);
 
             MapDirection[] directions = MapDirection.values();
             MapDirection random = directions[(int) (Math.random() * directions.length)];
-            int x = (int) actor.getX(), y = (int) actor.getY();
+            int x = (int) actHost.getX(), y = (int) actHost.getY();
             switch(random) {
                 case UP:
-                    actor.setMoveDestination(x, y - 1);
+                    actHost.setMoveDestination(x, y - 1);
                     break;
                 case DOWN:
-                    actor.setMoveDestination(x, y + 1);
+                    actHost.setMoveDestination(x, y + 1);
                     break;
                 case LEFT:
-                    actor.setMoveDestination(x - 1, y);
+                    actHost.setMoveDestination(x - 1, y);
                     break;
                 case RIGHT:
-                    actor.setMoveDestination(x + 1, y);
+                    actHost.setMoveDestination(x + 1, y);
                     break;
             }
 
             lastTick = System.currentTimeMillis();
         }
+    }
+
+    @Override
+    public void onApproach(Actor actor) {
+
+    }
+
+    @Override
+    public void onHurt(Actor initiator, DamageModel model) {
+
     }
 }

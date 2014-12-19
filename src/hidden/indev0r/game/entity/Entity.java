@@ -53,7 +53,7 @@ public abstract class Entity {
         this.actionMap = e.actionMap;
         this.forceActAction = e.forceActAction;
         this.action = e.action;
-        this.position = e.position;
+        this.position = new Vector2f(e.position);
         this.moveX = e.moveX;
         this.moveY = e.moveY;
         this.stopMoving = e.stopMoving;
@@ -61,6 +61,7 @@ public abstract class Entity {
         this.targetMoveSpeed = e.targetMoveSpeed;
         this.actualMoveSpeed = e.actualMoveSpeed;
         this.solid = e.solid;
+        this.currentDirection = e.currentDirection;
 
         this.map = e.map;
         this.sprite = e.sprite;
@@ -68,9 +69,9 @@ public abstract class Entity {
         this.width = e.width;
         this.height = e.height;
         this.drawShadow = e.drawShadow;
-        this.textureColor = e.textureColor;
+        this.textureColor = new Color(e.textureColor);
         this.sunken = e.sunken;
-        this.moveDestination = e.moveDestination;
+        this.moveDestination = new Vector2f(e.moveDestination);
     }
 
     public Entity() {
@@ -210,6 +211,7 @@ public abstract class Entity {
 	}
 
 	public void move(int x, int y) {
+        if(map == null) return;
         if(map.isBlocked(this, x, y)) return;
 
         int oldX = (int) (moveX / Tile.TILE_SIZE);
@@ -384,5 +386,9 @@ public abstract class Entity {
 
     public TileMap getMap() {
         return map;
+    }
+
+    public boolean isMoving() {
+        return moving;
     }
 }

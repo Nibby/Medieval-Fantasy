@@ -40,6 +40,7 @@ public abstract class AbstractCombatChannelPhase implements CombatChannelPhase {
 
         if(started && !expired && System.currentTimeMillis() - startTime > getDuration()) {
             expired = true;
+            actInitiator.removeCombatPhase(this);
             actInitiator.combatChannelEnd(attackType);
         }
     }
