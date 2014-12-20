@@ -339,9 +339,9 @@ public class TileMap {
         int sx = -1, sy = -1;
         int sd = 9999;
 
-        for(int i = (int) actor.getX() - (self.getWidth() / Tile.TILE_SIZE); i < actor.getX() + (self.getWidth() / Tile.TILE_SIZE); i+= 1) {
+        for(int i = (int) actor.getX() - (self.getWidth() / Tile.TILE_SIZE); i < actor.getX() + (self.getWidth() / Tile.TILE_SIZE) + 1; i+= 1) {
             if(i < 0 || i > tileData[0].length - 1) continue;
-            for(int j = (int) actor.getY() - (self.getHeight() / Tile.TILE_SIZE); j < actor.getY() + (self.getHeight() / Tile.TILE_SIZE); j+= 1) {
+            for(int j = (int) actor.getY() - (self.getHeight() / Tile.TILE_SIZE); j < actor.getY() + (self.getHeight() / Tile.TILE_SIZE) + 1; j+= 1) {
                 if(j < 0 || j > tileData[0][0].length - 1) continue;
 
                 int d = getActorDistance(self, actor);

@@ -20,6 +20,7 @@ import hidden.indev0r.game.map.MapDirection;
 import hidden.indev0r.game.map.Tile;
 import hidden.indev0r.game.sound.SE;
 import hidden.indev0r.game.sound.SoundSet;
+import hidden.indev0r.game.sound.SoundType;
 import hidden.indev0r.game.util.Util;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
@@ -238,23 +239,25 @@ public abstract class Actor extends Entity implements Mover {
     }
 
     public void combatHurt(Actor dmgDealer, int currentHit, DamageModel model, int damage) {
-        combatHurt = true;
-        combatHurtTick = System.currentTimeMillis();
+        if(damage > 0) {
+            combatHurt = true;
+            combatHurtTick = System.currentTimeMillis();
 
-        int totalLength = getWidth();
-        float percentageBefore = (float) getHealth() / (float) getHealthMax();
-        combatHPLaceLength = (int) ((float) totalLength * percentageBefore);
-        if(combatHPLaceLength < 0) combatHPLaceLength = 0;
+            int totalLength = getWidth();
+            float percentageBefore = (float) getHealth() / (float) getHealthMax();
+            combatHPLaceLength = (int) ((float) totalLength * percentageBefore);
+            if (combatHPLaceLength < 0) combatHPLaceLength = 0;
 
-        float percentageAfter = (float) (getHealth() - damage) / (float) getHealthMax();
-        combatHPBarLength = (int) ((float) totalLength * percentageAfter);
-        if(combatHPBarLength < 0) combatHPBarLength = 0;
+            float percentageAfter = (float) (getHealth() - damage) / (float) getHealthMax();
+            combatHPBarLength = (int) ((float) totalLength * percentageAfter);
+            if (combatHPBarLength < 0) combatHPBarLength = 0;
 
-        executeScript(Script.Type.hurt);
-        if(ai != null)
-            ai.onHurt(dmgDealer, model);
-        deductStat(Stat.HEALTH, damage);
-        if(getStat(Stat.HEALTH) < 0) setStat(Stat.HEALTH, 0);
+            executeScript(Script.Type.hurt);
+            if (ai != null)
+                ai.onHurt(dmgDealer, model);
+            deductStat(Stat.HEALTH, damage);
+            if (getStat(Stat.HEALTH) < 0) setStat(Stat.HEALTH, 0);
+        }
     }
 
     public void combatEnd() {
@@ -262,7 +265,7 @@ public abstract class Actor extends Entity implements Mover {
 
     public void die() {
         CombatPhaseManager.get().addCombatPhase(deathType.newInstance(this));
-        playSound(deathType);
+        playSound(deathType.getSound());
         this.combatTarget = null;
         executeScript(Script.Type.death);
         deathTime = System.currentTimeMillis();
@@ -376,7 +379,7 @@ public abstract class Actor extends Entity implements Mover {
             script.execute(this);
     }
 
-    public void playSound(Object key) {
+    public void playSound(SoundType key) {
         if(soundSet == null) return;
 
         SE se = soundSet.getRandomSound(key);

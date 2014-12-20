@@ -1,6 +1,7 @@
 package hidden.indev0r.game.entity.combat;
 
 import hidden.indev0r.game.entity.Actor;
+import hidden.indev0r.game.sound.SoundType;
 import org.newdawn.slick.Color;
 
 /**
@@ -13,12 +14,32 @@ public enum DamageType {
         public int processDamage(DamageModel model, Actor hurt, Actor initiator) {
             return model.getDamage(0);
         }
+
+        @Override
+        public SoundType getSwingSound() {
+            return SoundType.attack_normal_swing;
+        }
+
+        @Override
+        public SoundType getHurtSound() {
+            return SoundType.attack_normal_hurt;
+        }
     },
 
     holy("Holy", Color.white) {
         @Override
         public int processDamage(DamageModel model, Actor hurt, Actor initiator) {
             return model.getDamage(0);
+        }
+
+        @Override
+        public SoundType getSwingSound() {
+            return null;
+        }
+
+        @Override
+        public SoundType getHurtSound() {
+            return null;
         }
     },
 
@@ -27,12 +48,32 @@ public enum DamageType {
         public int processDamage(DamageModel model, Actor hurt, Actor initiator) {
             return model.getDamage(0);
         }
+
+        @Override
+        public SoundType getSwingSound() {
+            return null;
+        }
+
+        @Override
+        public SoundType getHurtSound() {
+            return null;
+        }
     },
 
     undead("Necrotic", Color.magenta) {
         @Override
         public int processDamage(DamageModel model, Actor hurt, Actor initiator) {
             return model.getDamage(0);
+        }
+
+        @Override
+        public SoundType getSwingSound() {
+            return null;
+        }
+
+        @Override
+        public SoundType getHurtSound() {
+            return null;
         }
     },
 
@@ -41,12 +82,32 @@ public enum DamageType {
         public int processDamage(DamageModel model, Actor hurt, Actor initiator) {
             return model.getDamage(0);
         }
+
+        @Override
+        public SoundType getSwingSound() {
+            return null;
+        }
+
+        @Override
+        public SoundType getHurtSound() {
+            return null;
+        }
     },
 
     poison("Poison", Color.cyan) {
         @Override
         public int processDamage(DamageModel model, Actor hurt, Actor initiator) {
             return model.getDamage(0);
+        }
+
+        @Override
+        public SoundType getSwingSound() {
+            return null;
+        }
+
+        @Override
+        public SoundType getHurtSound() {
+            return null;
         }
     }
     ;
@@ -60,4 +121,7 @@ public enum DamageType {
     }
 
     public abstract int processDamage(DamageModel model, Actor hurt, Actor initiator);
+
+    public abstract SoundType getSwingSound();
+    public abstract SoundType getHurtSound();
 }

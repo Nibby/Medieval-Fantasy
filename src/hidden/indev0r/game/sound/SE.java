@@ -13,11 +13,15 @@ public enum SE {
 
     HIT_0(References.SE_PATH.resolve("hit").resolve("hit0.wav")),
     HIT_1(References.SE_PATH.resolve("hit").resolve("hit1.wav")),
+    HIT_2(References.SE_PATH.resolve("hit").resolve("hit2.wav")),
 
     CRUMBLE_0(References.SE_PATH.resolve("crumble").resolve("crumble0.wav")),
     CRUMBLE_1(References.SE_PATH.resolve("crumble").resolve("crumble1.wav")),
 
-    HURT_0(References.SE_PATH.resolve("hurt").resolve("hurt0.wav"))
+    HURT_0(References.SE_PATH.resolve("hurt").resolve("hurt0.wav")),
+    HURT_1(References.SE_PATH.resolve("hurt").resolve("hurt1.wav")),
+
+    PARRY_0(References.SE_PATH.resolve("parry").resolve("parry0.wav"))
     ;
 
     private Path resource;

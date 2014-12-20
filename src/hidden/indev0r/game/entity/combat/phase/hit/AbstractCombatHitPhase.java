@@ -20,6 +20,7 @@ public abstract class AbstractCombatHitPhase implements CombatHitPhase {
     protected boolean started = false, expired = false;
     protected DamageModel damageModel;
     protected int currentHit = 0;
+    protected int actualDamage = 0;
 
 
     public AbstractCombatHitPhase(Actor initiator, Actor target) {
@@ -73,8 +74,8 @@ public abstract class AbstractCombatHitPhase implements CombatHitPhase {
     }
 
     protected void hurtTarget() {
-        int actualDamage = getDamageModel().getDamageType(currentHit).processDamage(getDamageModel(), actTarget, actInitiator);
-
+        actualDamage = getDamageModel().getDamageType(currentHit).processDamage(getDamageModel(), actTarget, actInitiator);
+        if(actualDamage < 0) actualDamage = 0;
         actTarget.combatHurt(actInitiator, currentHit, getDamageModel(), actualDamage);
         if(actTarget.isDead()) {
             expired = true;

@@ -1,12 +1,9 @@
 package hidden.indev0r.game.entity.combat.phase.channel;
 
-import hidden.indev0r.game.Camera;
-import hidden.indev0r.game.MedievalLauncher;
 import hidden.indev0r.game.entity.Actor;
 import hidden.indev0r.game.entity.animation.Action;
 import hidden.indev0r.game.entity.animation.ActionType;
 import hidden.indev0r.game.entity.combat.AttackType;
-import hidden.indev0r.game.entity.combat.DamageModel;
 import hidden.indev0r.game.entity.combat.DamageType;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -91,7 +88,7 @@ public class CombatChannelPhase$MeleeAttack extends AbstractCombatChannelPhase {
 
             } else {
                 if(!playedSound) {
-                    actInitiator.playSound(DamageType.normal + "_hit");
+                    actInitiator.playSound(DamageType.normal.getSwingSound());
                     playedSound = true;
                 }
             }
@@ -100,7 +97,7 @@ public class CombatChannelPhase$MeleeAttack extends AbstractCombatChannelPhase {
         if(mode == MODE_ACTION_SET &&
                 System.currentTimeMillis() - startTime > getDuration() - 200) {
             if(!playedSound) {
-                actInitiator.playSound(DamageType.normal + "_hit");
+                actInitiator.playSound(DamageType.normal.getSwingSound());
                 playedSound = true;
             }
         }

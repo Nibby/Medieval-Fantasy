@@ -6,6 +6,7 @@ import hidden.indev0r.game.MedievalLauncher;
 import hidden.indev0r.game.entity.Actor;
 import hidden.indev0r.game.particle.Particle$CombatHitDebris;
 import hidden.indev0r.game.particle.ParticleManager;
+import hidden.indev0r.game.sound.SoundType;
 import hidden.indev0r.game.texture.Textures;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -36,27 +37,33 @@ public class CombatHitPhase$MeleeAttack extends AbstractCombatHitPhase {
 
     public CombatHitPhase$MeleeAttack(Actor initiator, Actor target) {
         super(initiator, target);
+
     }
 
     @Override
     public void tick(GameContainer gc) {
         super.tick(gc);
 
-        if(System.currentTimeMillis() - textureTintTick > 10) {
+        if(System.currentTimeMillis() - textureTintTick > 2) {
             if(hurtTint.a < 1f) hurtTint.a += 0.05f;
             if(hurtTint.r < 1f) hurtTint.r += 0.05f;
             if(hurtTint.g < 1f) hurtTint.g += 0.05f;
             if(hurtTint.b < 1f) hurtTint.b += 0.05f;
+            textureTintTick = System.currentTimeMillis();
         }
 
-        if(System.currentTimeMillis() - fxTick > 8) {
+        if(System.currentTimeMillis() - fxTick > 2) {
             fx -= 0.6f * fxTicks;
             fy += 0.6f * fxTicks;
             textColor.a -= 0.035f;
             fxTicks++;
-            if(fxTicks < 10) fxColor.a += 0.09f;
+            if(fxTicks < 10) {
+                fxColor.a += fxTicks / 100;
+                if(fxColor.a > 0.7f) fxColor.a = 0.7f;
+            }
             else {
-                fxColor.a -= 0.2f;
+                fxColor.a -= Math.pow(fxTicks / 4, 2) / 20;
+                if(fxColor.a < 0) fxColor.a = 0;
             }
             fxTick = System.currentTimeMillis();
         }
@@ -66,13 +73,15 @@ public class CombatHitPhase$MeleeAttack extends AbstractCombatHitPhase {
                 currentHit++;
                 parseFx();
                 hurtTarget();
-                updateHitInfo();
+                if(actualDamage > 0) {
+                    updateHitInfo();
 
-                hurtTint = new Color(1f, 0f, 0f, 0.5f);
-                fxColor = new Color(1f, 1f, 1f, 0f);
-                fxTicks = 0;
-                fx = 16;
-                fy = -16;
+                    hurtTint = new Color(1f, 0f, 0f, 0.5f);
+                    fxColor = new Color(1f, 1f, 1f, 0f);
+                    fxTicks = 0;
+                    fx = 16;
+                    fy = -16;
+                }
             } else {
                 fxTexture = null;
             }
@@ -94,19 +103,22 @@ public class CombatHitPhase$MeleeAttack extends AbstractCombatHitPhase {
             bulgeTick = 0;
         }
 
-        actTarget.playSound(getDamageModel().getDamageType(currentHit) + "_hurt");
+        if(actualDamage > 0) {
+            actTarget.playSound(getDamageModel().getDamageType(currentHit).getHurtSound());
 
-        Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
-        for(int i = 0; i < 10; i++) {
+            Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
+            for (int i = 0; i < 10; i++) {
 
-            Particle$CombatHitDebris p = new Particle$CombatHitDebris(
-                    new Vector2f(actTarget.getPosition().x + actTarget.getWidth() / 2 + camera.getOffsetX() - 4,
-                            actTarget.getPosition().y + actTarget.getHeight() / 2 + camera.getOffsetY()),
-                    actTarget.getCurrentImage(),
-                    actTarget.getWidth() / 32 * 4 + (int) (Math.random() * 2)
-            );
-            ParticleManager.get().addParticle(p);
-        }
+                Particle$CombatHitDebris p = new Particle$CombatHitDebris(
+                        new Vector2f(actTarget.getPosition().x + actTarget.getWidth() / 2 + camera.getOffsetX() - 4,
+                                actTarget.getPosition().y + actTarget.getHeight() / 2 + camera.getOffsetY()),
+                        actTarget.getCurrentImage(),
+                        actTarget.getWidth() / 32 * 4 + (int) (Math.random() * 2)
+                );
+                ParticleManager.get().addParticle(p);
+            }
+        } else
+            actTarget.playSound(SoundType.parry);
     }
 
     private void parseFx() {
@@ -122,6 +134,9 @@ public class CombatHitPhase$MeleeAttack extends AbstractCombatHitPhase {
         bulgeTickTime = System.currentTimeMillis();
 
         hurtTarget();
+        if(actualDamage <= 0)
+            hurtTint = new Color(1f, 1f, 1f, 1f);
+
         parseFx();
         updateHitInfo();
     }
@@ -153,7 +168,7 @@ public class CombatHitPhase$MeleeAttack extends AbstractCombatHitPhase {
             }
         }
 
-        String text = "-" + getDamageModel().getDamage(currentHit);
+        String text = (actualDamage > 0) ? "-" + actualDamage : "PARRY";
         BitFont.render(g, text, (int) (target.getPosition().x + target.getWidth() / 2 - BitFont.widthOf(text, 16) / 2 + camera.getOffsetX()),
                 (int) (target.getPosition().y + camera.getOffsetY() - 28 - fxTicks), textColor, 16);
     }
@@ -171,7 +186,8 @@ public class CombatHitPhase$MeleeAttack extends AbstractCombatHitPhase {
             Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
             g.drawImage(fxTexture,
                     target.getPosition().x + target.getWidth() / 2 - 16 + camera.getOffsetX() + fx,
-                    target.getPosition().y + target.getHeight() / 2 - 16 + camera.getOffsetY() + fy, fxColor);
+                    target.getPosition().y + target.getHeight() / 2 - 16 + camera.getOffsetY() + fy,
+                    fxColor);
         }
     }
 

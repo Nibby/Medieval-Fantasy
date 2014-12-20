@@ -4,7 +4,7 @@
     <stats>
         <stat type="HEALTH" value="8" />
         <stat type="HEALTH_MAX" value="8" />
-        <stat type="ATTACK_DAMAGE" value="0" />
+        <stat type="ATTACK_DAMAGE" value="1" />
     </stats>
 
     <ai type="MONSTER_MELEE_BASIC" wanderInterval="$RANDOM_NUMBER" randomParams="3000-8000" />
