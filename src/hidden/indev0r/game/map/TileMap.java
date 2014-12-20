@@ -11,10 +11,7 @@ import hidden.indev0r.game.reference.References;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.util.pathfinding.AStarPathFinder;
-import org.newdawn.slick.util.pathfinding.Path;
-import org.newdawn.slick.util.pathfinding.PathFindingContext;
-import org.newdawn.slick.util.pathfinding.TileBasedMap;
+import org.newdawn.slick.util.pathfinding.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,7 +24,7 @@ import java.util.List;
  *
  * Created by MrDeathJockey on 14/12/3.
  */
-public class TileMap implements TileBasedMap {
+public class TileMap {
 
 	//Each map houses a series of 'zones' or 'regions' denoted with a special ID
 	private Map<String, TileMapZone> mapZones      = new HashMap<>();
@@ -43,6 +40,7 @@ public class TileMap implements TileBasedMap {
 	private String name, identifierName;
 	private int width, height, layers;
 	private int[][][] tileData;
+    private PathFindingMap pathMap;
 
 	/**
 	 * Each tiled map instance is a playable map
@@ -59,6 +57,7 @@ public class TileMap implements TileBasedMap {
 		layers = tileData.length;
 		width = tileData[0].length;
 		height = tileData[0][0].length;
+        pathMap = new PathFindingMap(this);
 
 		//Assigning properties
 		String[] propertySegments = property.split(";");
@@ -78,7 +77,7 @@ public class TileMap implements TileBasedMap {
                 if(e instanceof Actor) {
                     Actor actor = (Actor) e;
 
-                    if(actor.isDead() ) {
+                    if(actor.isDead()) {
                         removeEntity(actor);
                     }
                 }
@@ -112,11 +111,13 @@ public class TileMap implements TileBasedMap {
 			//Second layer are where entities are rendered
 			if (layer == 1) {
 				for (Entity e : entities) {
-                    if(e.getX() > mix && e.getX() < max && e.getY() > miy && e.getY() < may) {
+                    if(e.isVisibleOnScreen() && !(e instanceof Player)) {
                         //Depth sorting needed
                         e.render(g);
                     }
 				}
+
+                player.render(g);
 			}
 		}
 	}
@@ -140,13 +141,23 @@ public class TileMap implements TileBasedMap {
 		return false;
 	}
 
-    private boolean entityBlocked(Entity reference, int x, int y) {
+    protected boolean entityBlocked(Entity reference, int x, int y) {
         if (x < 0 || x > tileData[0].length - 1 || y < 0 || y > tileData[0][0].length - 1) return true;
         for(Entity e : entities) {
+            if(e.equals(reference)
+                    && x >= e.getX()
+                    && x < e.getX() + e.getWidth() / Tile.TILE_SIZE
+                    && y >= e.getY()
+                    && y < e.getY() + e.getHeight() / Tile.TILE_SIZE) {
+                return false;
+            }
+
             Vector2f[] blockedTiles = e.getBlockedTiles();
             for(Vector2f pos : blockedTiles) {
                 if(pos == null) continue;
-                if(!e.equals(reference) && e.isSolid() && pos.x == x && pos.y == y) return true;
+                if(e.isSolid() && pos.x == x && pos.y == y) {
+                    return true;
+                }
             }
         }
         return false;
@@ -219,12 +230,12 @@ public class TileMap implements TileBasedMap {
         }
         for(Entity e : entities) {
             if(e instanceof Actor) {
-
                 boolean near = ((Actor) e).withinRange((Actor) entity, ((Actor) e).getApproachRange());
                 if(near) {
                     if(entity instanceof Player)
                         ((Actor) e).executeScript(Script.Type.approach);
                     ((Actor) e).onApproach((Actor) entity);
+                    ((Actor) entity).onApproach((Actor) e);
                 }
             }
         }
@@ -316,34 +327,8 @@ public class TileMap implements TileBasedMap {
         }
     }
 
-    @Override
-    public int getWidthInTiles() {
-        return width;
-    }
-
-    @Override
-    public int getHeightInTiles() {
-        return height;
-    }
-
-    @Override
-    public void pathFinderVisited(int x, int y) {
-
-    }
-
-    @Override
-    public boolean blocked(PathFindingContext context, int x, int y) {
-        boolean tileBlock = tileBlocked(x, y);
-        boolean entityBlock = entityBlocked(null, x, y);
-
-        if(context.getMover() != null
-            && context.getMover() instanceof Monster) return tileBlock;
-        else return tileBlock || entityBlock;
-    }
-
-    @Override
-    public float getCost(PathFindingContext context, int x, int y) {
-        return 0;
+    public PathFindingMap getPathMap() {
+        return pathMap;
     }
 
     public int getActorDistance(Actor origin, Actor end) {
@@ -351,24 +336,42 @@ public class TileMap implements TileBasedMap {
     }
 
     public Vector2f getVacantAdjacentTile(Actor actor, Actor self, boolean allowLiquid) {
-        return getVacantAdjacentTile((int) actor.getX(), (int) actor.getY(), self, allowLiquid);
-    }
+        int sx = -1, sy = -1;
+        int sd = 9999;
 
-    public Vector2f getVacantAdjacentTile(int x, int y, Actor self, boolean allowLiquid) {
-        for(int i = x - 1; i < x + 1; i++) {
-            outer:
-            for(int j = y - 1; j < y + i; j++) {
-                if(i < 0 || i > tileData[0].length - 1 || j < 0 || j > tileData[0][0].length - 1) return null;
-                boolean isSolid = isBlocked(self, i, j);
-                if(!isSolid && !allowLiquid) {
-                    for(int l = 0; l < tileData.length; l++) {
-                        Tile tile = Tile.getTile(tileData[l][i][j]);
-                        if(tile != null && tile.propertyExists("liquid")) continue outer;
+        for(int i = (int) actor.getX() - (self.getWidth() / Tile.TILE_SIZE); i < actor.getX() + (self.getWidth() / Tile.TILE_SIZE); i+= 1) {
+            if(i < 0 || i > tileData[0].length - 1) continue;
+            for(int j = (int) actor.getY() - (self.getHeight() / Tile.TILE_SIZE); j < actor.getY() + (self.getHeight() / Tile.TILE_SIZE); j+= 1) {
+                if(j < 0 || j > tileData[0][0].length - 1) continue;
+
+                int d = getActorDistance(self, actor);
+                if(d < sd) {
+                    boolean isSolid = isBlocked(self, i, j);
+                    if(!isSolid && !allowLiquid) {
+                        for(int l = 0; l < tileData.length; l++) {
+                            Tile tile = Tile.getTile(tileData[l][i][j]);
+                            if(tile != null && tile.propertyExists("liquid")) continue;
+                        }
+                    } else if(!isSolid && allowLiquid) {
+                        sd = d;
+                        sx = i;
+                        sy = j;
                     }
-                } else if(!isSolid && allowLiquid) return new Vector2f(i, j);
+                }
             }
         }
 
-        return null;
+        if(sx < 0 || sy < 0) return null;
+        else return new Vector2f(sx, sy);
+    }
+
+    public List<Actor> getActorsNear(Actor center, int range) {
+        List<Actor> result = new ArrayList<>();
+        for(Entity e : entities) {
+            if(e instanceof Actor) {
+                if(((Actor) e).withinRange(center, range)) result.add((Actor) e);
+            }
+        }
+        return result;
     }
 }

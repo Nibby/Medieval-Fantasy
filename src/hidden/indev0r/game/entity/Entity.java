@@ -249,8 +249,10 @@ public abstract class Entity {
 
     public boolean isVisibleOnScreen() {
         Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
-        return (getPosition().x + width + camera.getOffsetX() > 0 && getPosition().y + camera.getOffsetY() + height > 0 &&
-                getPosition().x + width + camera.getOffsetX() < References.GAME_WIDTH && getPosition().y + height + camera.getOffsetY() < References.GAME_HEIGHT);
+        return (getPosition().x + width + camera.getOffsetX() + 2 * Tile.TILE_SIZE > 0
+                && getPosition().y + camera.getOffsetY() + height  + 2 * Tile.TILE_SIZE > 0 &&
+                getPosition().x + width + camera.getOffsetX() - 2 * Tile.TILE_SIZE < References.GAME_WIDTH
+                && getPosition().y + height + camera.getOffsetY() - 2 * Tile.TILE_SIZE < References.GAME_HEIGHT);
     }
 
     public Vector2f getMoveDestination() {
@@ -263,6 +265,7 @@ public abstract class Entity {
             moveDestination = new Vector2f(x, y);
             return;
         }
+        if(map != null && map.isBlocked(this, (int) x, (int) y)) return;
         moveDestination.x = x;
         moveDestination.y = y;
     }

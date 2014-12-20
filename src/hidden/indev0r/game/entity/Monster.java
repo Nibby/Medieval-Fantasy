@@ -99,13 +99,11 @@ public class Monster extends Actor {
     @Override
     public void combatHurt(Actor dmgDealer, int currentHit, DamageModel model, int damage) {
         super.combatHurt(dmgDealer, currentHit, model, damage);
-        ai.onHurt(dmgDealer, model);
     }
 
     @Override
     public void onApproach(Actor actor) {
         super.onApproach(actor);
-        ai.onApproach(actor);
     }
 
     public String getName() {

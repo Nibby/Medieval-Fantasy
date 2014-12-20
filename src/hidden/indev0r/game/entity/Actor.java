@@ -128,13 +128,6 @@ public abstract class Actor extends Entity implements Mover {
             }
         }
 
-//        Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
-//        g.setColor(Color.white);
-//        g.drawRect((int) (getX() - 1)  * Tile.TILE_SIZE + camera.getOffsetX(),
-//                (int) (getY() - 1) * Tile.TILE_SIZE + camera.getOffsetY(),
-//                (int) ((1 + getWidth() / Tile.TILE_SIZE) * Tile.TILE_SIZE),
-//                (int) ((1 + getHeight() / Tile.TILE_SIZE) * Tile.TILE_SIZE));
-
         if(shouldRender && isAlive) {
             super.render(g);
         } else {
@@ -146,7 +139,7 @@ public abstract class Actor extends Entity implements Mover {
     protected void calculateStats() {
         targetMoveSpeed = (getStat(Stat.SPEED) + getStat(Stat.SPEED_BONUS)) / 7;
 
-        if(getHealth() <= 0) die();
+        if(getHealth() <= 0 && !isDead()) die();
     }
 
 	@Override
@@ -154,8 +147,12 @@ public abstract class Actor extends Entity implements Mover {
 		super.tick(gc);
 
         if(getX() != moveDestination.x || getY() != moveDestination.y) {
-            AStarPathFinder aStar = new AStarPathFinder(map, 16, false);
-            Path path = aStar.findPath(null, (int) getX(), (int) getY(), (int) moveDestination.x, (int) moveDestination.y);
+            AStarPathFinder aStar = new AStarPathFinder(map.getPathMap(), 16, false);
+
+            map.getPathMap().setReferenceEntity(this);
+            Path path = aStar.findPath(this, (int) getX(), (int) getY(), (int) moveDestination.x, (int) moveDestination.y);
+            map.getPathMap().setReferenceEntity(null);
+
             if(path != null && path.getLength() > 0) {
                 Path.Step step = path.getStep(1);
                 if(!moving) move(step.getX(), step.getY());
@@ -241,7 +238,6 @@ public abstract class Actor extends Entity implements Mover {
     }
 
     public void combatHurt(Actor dmgDealer, int currentHit, DamageModel model, int damage) {
-
         combatHurt = true;
         combatHurtTick = System.currentTimeMillis();
 
@@ -255,6 +251,8 @@ public abstract class Actor extends Entity implements Mover {
         if(combatHPBarLength < 0) combatHPBarLength = 0;
 
         executeScript(Script.Type.hurt);
+        if(ai != null)
+            ai.onHurt(dmgDealer, model);
         deductStat(Stat.HEALTH, damage);
         if(getStat(Stat.HEALTH) < 0) setStat(Stat.HEALTH, 0);
     }
@@ -263,10 +261,9 @@ public abstract class Actor extends Entity implements Mover {
     }
 
     public void die() {
-
         CombatPhaseManager.get().addCombatPhase(deathType.newInstance(this));
         playSound(deathType);
-
+        this.combatTarget = null;
         executeScript(Script.Type.death);
         deathTime = System.currentTimeMillis();
         isAlive = false;
@@ -299,8 +296,8 @@ public abstract class Actor extends Entity implements Mover {
             return new Rectangle(
                     getPosition().x - (range - 1) * Tile.TILE_SIZE,
                     getPosition().y - (range - 1) * Tile.TILE_SIZE,
-                    getWidth() + (range - 1) * Tile.TILE_SIZE,
-                    getHeight() + (range - 1) * Tile.TILE_SIZE
+                    getWidth() - Tile.TILE_SIZE + (range * 2 - 1) * Tile.TILE_SIZE,
+                    getHeight() - Tile.TILE_SIZE + (range * 2 - 1) * Tile.TILE_SIZE
             ).intersects(new Rectangle(
                     actor.getPosition().x,
                     actor.getPosition().y,
@@ -388,7 +385,8 @@ public abstract class Actor extends Entity implements Mover {
     }
 
     public void onApproach(Actor actor) {
-
+        if(ai != null)
+            ai.onApproach(actor);
     }
 
     public SoundSet getSoundSet() {

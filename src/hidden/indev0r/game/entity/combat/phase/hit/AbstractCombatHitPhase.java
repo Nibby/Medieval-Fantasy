@@ -23,6 +23,8 @@ public abstract class AbstractCombatHitPhase implements CombatHitPhase {
 
 
     public AbstractCombatHitPhase(Actor initiator, Actor target) {
+        if(target == null) return;
+        if(initiator == null) return;
         target.addCombatPhase(this);
         initiator.addCombatPhase(this);
 
@@ -43,6 +45,15 @@ public abstract class AbstractCombatHitPhase implements CombatHitPhase {
 
     @Override
     public void tick(GameContainer gc) {
+        if(actTarget == null) {
+            expired = true;
+            return;
+        }
+        if(actInitiator == null) {
+            expired = true;
+            return;
+        }
+
         if(!started) {
             init();
             startTime = System.currentTimeMillis();
