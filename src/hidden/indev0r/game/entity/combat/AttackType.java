@@ -2,8 +2,8 @@ package hidden.indev0r.game.entity.combat;
 
 import hidden.indev0r.game.entity.Actor;
 import hidden.indev0r.game.entity.combat.phase.channel.AbstractCombatChannelPhase;
+import hidden.indev0r.game.entity.combat.phase.channel.CombatChannelPhase$CasterBasic;
 import hidden.indev0r.game.entity.combat.phase.death.AbstractCombatDeathPhase;
-import hidden.indev0r.game.entity.combat.phase.death.CombatDeathPhase$Crumble;
 import hidden.indev0r.game.entity.combat.phase.hit.AbstractCombatHitPhase;
 import hidden.indev0r.game.entity.combat.phase.channel.CombatChannelPhase$MeleeAttack;
 import hidden.indev0r.game.entity.combat.phase.hit.CombatHitPhase$MeleeAttack;
@@ -13,59 +13,61 @@ import hidden.indev0r.game.entity.combat.phase.hit.CombatHitPhase$MeleeAttack;
  */
 public enum AttackType {
 
-    normal_warrior {
+    melee_0 {
         @Override
-        public AbstractCombatChannelPhase getChannelPhase(Actor initiator) {
-            return new CombatChannelPhase$MeleeAttack(normal_warrior, initiator);
+        public AbstractCombatChannelPhase getChannelPhase(DamageModel model, Actor initiator, Actor target) {
+            return new CombatChannelPhase$MeleeAttack(model, melee_0, initiator, target);
         }
 
         @Override
-        public AbstractCombatHitPhase getHitPhase(Actor initiator, Actor target) {
-            return new CombatHitPhase$MeleeAttack(initiator, target);
+        public AbstractCombatHitPhase getHitPhase(DamageModel model, Actor initiator, Actor target, int hitIndex) {
+            return new CombatHitPhase$MeleeAttack(model, initiator, target, hitIndex);
         }
 
         @Override
-        public AbstractCombatDeathPhase getDeathPhase(Actor target) {
+        public AbstractCombatDeathPhase getDeathPhase(DamageModel model, Actor initiator, Actor target) {
             return null;
         }
     },
-    normal_rogue {
+
+    melee_1 {
         @Override
-        public AbstractCombatChannelPhase getChannelPhase(Actor initiator) {
-            return new CombatChannelPhase$MeleeAttack(normal_rogue, initiator);
+        public AbstractCombatChannelPhase getChannelPhase(DamageModel model, Actor initiator, Actor target) {
+            return new CombatChannelPhase$MeleeAttack(model, melee_1, initiator, target);
         }
 
         @Override
-        public AbstractCombatHitPhase getHitPhase(Actor initiator, Actor target) {
-            return new CombatHitPhase$MeleeAttack(initiator, target);
+        public AbstractCombatHitPhase getHitPhase(DamageModel model, Actor initiator, Actor target, int hitIndex) {
+            return new CombatHitPhase$MeleeAttack(model, initiator, target, hitIndex);
         }
 
         @Override
-        public AbstractCombatDeathPhase getDeathPhase(Actor target) {
+        public AbstractCombatDeathPhase getDeathPhase(DamageModel model, Actor initiator, Actor target) {
             return null;
         }
     },
-    normal_mage {
+
+    caster_0 {
         @Override
-        public AbstractCombatChannelPhase getChannelPhase(Actor initiator) {
-            return null;
+        public AbstractCombatChannelPhase getChannelPhase(DamageModel model, Actor initiator, Actor target) {
+            return new CombatChannelPhase$CasterBasic(model, caster_0, initiator, target);
         }
 
         @Override
-        public AbstractCombatHitPhase getHitPhase(Actor initiator, Actor target) {
-            return null;
+        public AbstractCombatHitPhase getHitPhase(DamageModel model, Actor initiator, Actor target, int hitIndex) {
+            return new CombatHitPhase$MeleeAttack(model, initiator, target, hitIndex);
         }
 
         @Override
-        public AbstractCombatDeathPhase getDeathPhase(Actor target) {
+        public AbstractCombatDeathPhase getDeathPhase(DamageModel model, Actor initiator, Actor target) {
             return null;
         }
     },
 
     ;
 
-    public abstract AbstractCombatChannelPhase getChannelPhase(Actor initiator);
-    public abstract AbstractCombatHitPhase     getHitPhase(Actor initiator, Actor target);
-    public abstract AbstractCombatDeathPhase   getDeathPhase(Actor target);
+    public abstract AbstractCombatChannelPhase getChannelPhase(DamageModel model, Actor initiator, Actor target);
+    public abstract AbstractCombatHitPhase     getHitPhase(DamageModel model, Actor initiator, Actor target, int hitIndex);
+    public abstract AbstractCombatDeathPhase   getDeathPhase(DamageModel model, Actor initiator, Actor target);
 
 }

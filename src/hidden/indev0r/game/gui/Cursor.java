@@ -6,6 +6,7 @@ import hidden.indev0r.game.MedievalLauncher;
 import hidden.indev0r.game.entity.*;
 import hidden.indev0r.game.entity.npc.script.Script;
 import hidden.indev0r.game.gui.component.base.GComponent;
+import hidden.indev0r.game.map.Tile;
 import hidden.indev0r.game.texture.Textures;
 import org.newdawn.slick.*;
 

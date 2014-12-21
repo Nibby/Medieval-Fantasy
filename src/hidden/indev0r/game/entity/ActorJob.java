@@ -3,6 +3,7 @@ package hidden.indev0r.game.entity;
 import hidden.indev0r.game.entity.animation.ActionSet;
 import hidden.indev0r.game.entity.animation.ActionSetDatabase;
 import hidden.indev0r.game.entity.combat.AttackType;
+import hidden.indev0r.game.sound.SoundSet;
 
 /**
  * Created by MrDeathJockey on 14/12/18.
@@ -26,47 +27,82 @@ public enum ActorJob {
 
         @Override
         public int getStrengthAtLevel(int level) {
-            return 0;
+            return (int) (2 + (level - 1) / 3.5f);
         }
 
         @Override
         public int getDexterityAtLevel(int level) {
-            return 0;
+            return (int) (3 + (level - 1) / 3.5f);
         }
 
         @Override
         public int getIntelligenceAtLevel(int level) {
-            return 0;
+            return (int) (5 + (level - 1) / 2.2f);
         }
 
         @Override
         public int getSpeedAtLevel(int level) {
-            return 0;
+            return (int) (14 + (level - 1) / 6.4f);
+        }
+
+        @Override
+        public int getAttackDamageAtLevel(int level) {
+            return (int) (0 + (level - 1) / 6.5f);
+        }
+
+        @Override
+        public int getDefenseAtLevel(int level) {
+            return (int) (0 + (level - 1) / 10);
+        }
+
+        @Override
+        public int getMagicDefenseAtLevel(int level) {
+            return (int) (0 + (level - 1) / 5);
         }
 
         @Override
         public int getSpeedMax() {
-            return 0;
+            return 25;
         }
 
         @Override
         public int getStrengthMax() {
-            return 0;
+            return 30;
         }
 
         @Override
         public int getDexterityMax() {
-            return 0;
+            return 30;
         }
 
         @Override
         public int getIntelligenceMax() {
-            return 0;
+            return 50;
+        }
+
+        @Override
+        public int getAttackDamageMax() {
+            return 20;
+        }
+
+        @Override
+        public int getDefenseMax() {
+            return 15;
+        }
+
+        @Override
+        public int getMagicDefenseMax() {
+            return 20;
+        }
+
+        @Override
+        public SoundSet getSoundSet() {
+            return SoundSet.player_caster;
         }
 
         @Override
         public AttackType getDefaultAttackType() {
-            return AttackType.normal_mage;
+            return AttackType.caster_0;
         }
     },
 
@@ -107,6 +143,21 @@ public enum ActorJob {
         }
 
         @Override
+        public int getAttackDamageAtLevel(int level) {
+            return 0 + (level - 1) / 3;
+        }
+
+        @Override
+        public int getDefenseAtLevel(int level) {
+            return 0 + (level - 1) / 4;
+        }
+
+        @Override
+        public int getMagicDefenseAtLevel(int level) {
+            return 0 + (level - 1) / 7;
+        }
+
+        @Override
         public int getSpeedMax() {
             return 25;
         }
@@ -127,8 +178,28 @@ public enum ActorJob {
         }
 
         @Override
+        public int getAttackDamageMax() {
+            return 35;
+        }
+
+        @Override
+        public int getDefenseMax() {
+            return 20;
+        }
+
+        @Override
+        public int getMagicDefenseMax() {
+            return 15;
+        }
+
+        @Override
+        public SoundSet getSoundSet() {
+            return SoundSet.player_warrior;
+        }
+
+        @Override
         public AttackType getDefaultAttackType() {
-            return AttackType.normal_warrior;
+            return AttackType.melee_0;
         }
     },
 
@@ -150,47 +221,82 @@ public enum ActorJob {
 
         @Override
         public int getStrengthAtLevel(int level) {
-            return 0;
+            return (int) (3 + (level - 1) / 2.5f);
         }
 
         @Override
         public int getDexterityAtLevel(int level) {
-            return 0;
+            return (int) (4 + (level - 1) / 2.5f);
         }
 
         @Override
         public int getIntelligenceAtLevel(int level) {
-            return 0;
+            return (int) (2 + (level - 1) / 5.5f);
         }
 
         @Override
         public int getSpeedAtLevel(int level) {
-            return 0;
+            return 17 + (level - 1) / 5;
+        }
+
+        @Override
+        public int getAttackDamageAtLevel(int level) {
+            return (int) (0 + (level - 1) / 4.5f);
+        }
+
+        @Override
+        public int getDefenseAtLevel(int level) {
+            return (int) (0 + (level - 1) / 12);
+        }
+
+        @Override
+        public int getMagicDefenseAtLevel(int level) {
+            return (int) (0 + (level - 1) / 7);
         }
 
         @Override
         public int getSpeedMax() {
-            return 0;
+            return 35;
         }
 
         @Override
         public int getStrengthMax() {
-            return 0;
+            return 40;
         }
 
         @Override
         public int getDexterityMax() {
-            return 0;
+            return 40;
         }
 
         @Override
         public int getIntelligenceMax() {
-            return 0;
+            return 25;
+        }
+
+        @Override
+        public int getAttackDamageMax() {
+            return 25;
+        }
+
+        @Override
+        public int getDefenseMax() {
+            return 18;
+        }
+
+        @Override
+        public int getMagicDefenseMax() {
+            return 18;
+        }
+
+        @Override
+        public SoundSet getSoundSet() {
+            return null;
         }
 
         @Override
         public AttackType getDefaultAttackType() {
-            return AttackType.normal_rogue;
+            return AttackType.melee_0;
         }
     };
 
@@ -210,12 +316,19 @@ public enum ActorJob {
     public abstract int getDexterityAtLevel(int level);
     public abstract int getIntelligenceAtLevel(int level);
     public abstract int getSpeedAtLevel(int level);
+    public abstract int getAttackDamageAtLevel(int level);
+    public abstract int getDefenseAtLevel(int level);
+    public abstract int getMagicDefenseAtLevel(int level);
 
     public abstract int getSpeedMax();
     public abstract int getStrengthMax();
     public abstract int getDexterityMax();
     public abstract int getIntelligenceMax();
+    public abstract int getAttackDamageMax();
+    public abstract int getDefenseMax();
+    public abstract int getMagicDefenseMax();
 
+    public abstract SoundSet getSoundSet();
     public abstract AttackType getDefaultAttackType();
 
     public static int getRequiredEXPAtLevel(int level) {

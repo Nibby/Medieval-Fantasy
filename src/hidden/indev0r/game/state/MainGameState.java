@@ -61,7 +61,7 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
         soundPlayer = new SoundPlayer();
 
 		camera = new Camera(0, 0);
-		player = new Player(Actor.Faction.GLYSIA, ActorJob.WARRIOR, 11, 13);
+		player = new Player(Actor.Faction.GLYSIA, ActorJob.MAGE, 11, 13);
 		player.setLevel(1);
 		camera.setTrackObject(player);
 
@@ -80,13 +80,13 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
                 spawnY = (int) (Math.random() * 48);
             } while(map.isBlocked(null, spawnX, spawnY));
 
-//            if(i == 5) {
-//                Monster mon2 = MonsterDatabase.get("skeleton_1");
-//                mon2.setPosition(spawnX, spawnY);
-//                mon2.setPosition(16, 16);
-//                map.addEntity(mon2);
-//                continue;
-//            }
+            if(i == 5) {
+                Monster mon2 = MonsterDatabase.get("skeleton_1");
+                mon2.setPosition(spawnX, spawnY);
+                mon2.setPosition(16, 16);
+                map.addEntity(mon2);
+                continue;
+            }
             Monster mon = MonsterDatabase.get("skeleton");
             mon.setPosition(spawnX, spawnY);
             map.addEntity(mon);

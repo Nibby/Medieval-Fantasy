@@ -9,10 +9,10 @@ import org.newdawn.slick.Color;
  */
 public enum DamageType {
 
-    normal("Normal", Color.white) {
+    normal("Normal", Color.red) {
         @Override
-        public int processDamage(DamageModel model, Actor hurt, Actor initiator) {
-            return model.getDamage(0);
+        public int processDamage(int damage, Actor hurt, Actor initiator) {
+            return damage;
         }
 
         @Override
@@ -28,8 +28,8 @@ public enum DamageType {
 
     holy("Holy", Color.white) {
         @Override
-        public int processDamage(DamageModel model, Actor hurt, Actor initiator) {
-            return model.getDamage(0);
+        public int processDamage(int damage, Actor hurt, Actor initiator) {
+            return damage;
         }
 
         @Override
@@ -45,8 +45,8 @@ public enum DamageType {
 
     lightning("Static", Color.yellow) {
         @Override
-        public int processDamage(DamageModel model, Actor hurt, Actor initiator) {
-            return model.getDamage(0);
+        public int processDamage(int damage, Actor hurt, Actor initiator) {
+            return damage;
         }
 
         @Override
@@ -62,8 +62,8 @@ public enum DamageType {
 
     undead("Necrotic", Color.magenta) {
         @Override
-        public int processDamage(DamageModel model, Actor hurt, Actor initiator) {
-            return model.getDamage(0);
+        public int processDamage(int damage, Actor hurt, Actor initiator) {
+            return damage;
         }
 
         @Override
@@ -79,8 +79,8 @@ public enum DamageType {
 
     fire("Flame", Color.orange) {
         @Override
-        public int processDamage(DamageModel model, Actor hurt, Actor initiator) {
-            return model.getDamage(0);
+        public int processDamage(int damage, Actor hurt, Actor initiator) {
+            return damage;
         }
 
         @Override
@@ -96,8 +96,8 @@ public enum DamageType {
 
     poison("Poison", Color.cyan) {
         @Override
-        public int processDamage(DamageModel model, Actor hurt, Actor initiator) {
-            return model.getDamage(0);
+        public int processDamage(int damage, Actor hurt, Actor initiator) {
+            return damage;
         }
 
         @Override
@@ -120,7 +120,8 @@ public enum DamageType {
         this.nameColor = nameColor;
     }
 
-    public abstract int processDamage(DamageModel model, Actor hurt, Actor initiator);
+    public abstract int processDamage(int damage, Actor hurt, Actor initiator);
+    public Color getColor() { return nameColor; }
 
     public abstract SoundType getSwingSound();
     public abstract SoundType getHurtSound();

@@ -1,13 +1,18 @@
 package hidden.indev0r.game.entity;
 
 import hidden.indev0r.game.BitFont;
+import hidden.indev0r.game.Camera;
 import hidden.indev0r.game.MedievalLauncher;
 import hidden.indev0r.game.entity.animation.ActionType;
 import hidden.indev0r.game.entity.combat.phase.death.DeathType;
 import hidden.indev0r.game.gui.component.interfaces.GStatsSupplier;
+import hidden.indev0r.game.map.MapDirection;
+import hidden.indev0r.game.map.Tile;
 import hidden.indev0r.game.sound.SoundSet;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.*;
+
+import java.util.List;
 
 public class Player extends Actor implements GStatsSupplier {
 
@@ -32,23 +37,39 @@ public class Player extends Actor implements GStatsSupplier {
 
         //Debug
         BitFont.render(g, (int) getX() + ", " + (int) getY(), 10, 140);
-//        int i =0;
-//        for(Stat stat : propertyMap.keySet()) {
-//            BitFont.render(g, stat.name() + ": " + getStat(stat), 10, 160 + i * 20);
-//            i++;
-//        }
+        int i =0;
+        for(Stat stat : propertyMap.keySet()) {
+            BitFont.render(g, stat.name() + ": " + getStat(stat), 10, 160 + i * 10, Color.white, 8);
+            i++;
+        }
     }
 
 	@Override
-	public void tick
-            (GameContainer gc) {
+	public void tick (GameContainer gc) {
 		super.tick(gc);
 
         if(getStat(Stat.EXPERIENCE) >= getStat(Stat.EXPERIENCE_MAX)) {
             setLevel(getLevel() + 1);
         }
 
+
+        //Basic attack empty adjacent squares (except for itself)
         Input input = gc.getInput();
+        if(input.isMousePressed(Input.MOUSE_RIGHT_BUTTON)) {
+            int mx = input.getMouseX();
+            int my = input.getMouseY();
+
+            Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
+            int tx = (int) (mx - camera.getOffsetX()) / Tile.TILE_SIZE;
+            int ty = (int) (my - camera.getOffsetY()) / Tile.TILE_SIZE;
+            if(!(tx == getX() && ty == getY())) {
+                if (withinRange(tx * Tile.TILE_SIZE, ty * Tile.TILE_SIZE, Tile.TILE_SIZE, Tile.TILE_SIZE, getAttackRange())) {
+                    setFacingDirection(MapDirection.turnToFace(this, tx, ty));
+                    combatStart(tx, ty);
+                }
+            }
+        }
+
 
         if(!moving && controllable && MedievalLauncher.getInstance().getGameState().getMenuOverlay().isComponentEmpty()) {
             if (input.isKeyDown(Input.KEY_W) || input.isKeyDown(Input.KEY_UP)) {
@@ -73,12 +94,24 @@ public class Player extends Actor implements GStatsSupplier {
 
         if(getStat(Stat.SPEED) > job.getSpeedMax())
             setStat(Stat.SPEED, job.getSpeedMax());
-        if(getStat(Stat.STRENGTH) > job.getSpeedMax())
-            setStat(Stat.STRENGTH, job.getSpeedMax());
-        if(getStat(Stat.DEXTERITY) > job.getSpeedMax())
-            setStat(Stat.DEXTERITY, job.getSpeedMax());
-        if(getStat(Stat.INTELLIGENCE) > job.getSpeedMax())
-            setStat(Stat.INTELLIGENCE, job.getSpeedMax());
+
+        if(getStat(Stat.STRENGTH) > job.getStrengthMax())
+            setStat(Stat.STRENGTH, job.getStrengthMax());
+
+        if(getStat(Stat.DEXTERITY) > job.getDexterityMax())
+            setStat(Stat.DEXTERITY, job.getDexterityMax());
+
+        if(getStat(Stat.INTELLIGENCE) > job.getIntelligenceMax())
+            setStat(Stat.INTELLIGENCE, job.getIntelligenceMax());
+
+        if(getStat(Stat.ATTACK_DAMAGE) > job.getAttackDamageMax())
+            setStat(Stat.ATTACK_DAMAGE, job.getAttackDamageMax());
+
+        if(getStat(Stat.DEFENSE) > job.getDefenseMax())
+            setStat(Stat.DEFENSE, job.getDefenseMax());
+
+        if(getStat(Stat.MAGIC_DEFENSE) > job.getMagicDefenseMax())
+            setStat(Stat.MAGIC_DEFENSE, job.getMagicDefenseMax());
 
     }
 
@@ -86,7 +119,8 @@ public class Player extends Actor implements GStatsSupplier {
         this.job = job;
 
         setActionSet(job.actionSet);
-
+        setSoundSet(job.getSoundSet());
+        setAttackType(job.getDefaultAttackType());
         setStat(Stat.ATTACK_RANGE, job.getAttackRange());
     }
 
@@ -112,6 +146,9 @@ public class Player extends Actor implements GStatsSupplier {
         setStat(Stat.DEXTERITY, job.getDexterityAtLevel(level));
         setStat(Stat.INTELLIGENCE, job.getIntelligenceAtLevel(level));
         setStat(Stat.SPEED, job.getSpeedAtLevel(level));
+        setStat(Stat.ATTACK_DAMAGE, job.getAttackDamageAtLevel(level));
+        setStat(Stat.DEFENSE, job.getDefenseAtLevel(level));
+        setStat(Stat.MAGIC_DEFENSE, job.getMagicDefenseAtLevel(level));
     }
 
 	@Override

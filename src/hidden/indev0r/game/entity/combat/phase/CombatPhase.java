@@ -11,8 +11,6 @@ import org.newdawn.slick.Graphics;
  */
 public interface CombatPhase {
 
-    public int getDuration();
-
     public void render(Graphics g);
     public void tick(GameContainer gc);
 
@@ -25,4 +23,7 @@ public interface CombatPhase {
     public boolean isInitiator(Actor actor);
 
     public boolean isExpired();
+
+    Actor getInitiator();
+    Actor getTarget();
 }

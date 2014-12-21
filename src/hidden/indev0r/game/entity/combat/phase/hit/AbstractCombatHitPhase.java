@@ -1,10 +1,7 @@
 package hidden.indev0r.game.entity.combat.phase.hit;
 
 import hidden.indev0r.game.entity.Actor;
-import hidden.indev0r.game.entity.NPC;
-import hidden.indev0r.game.entity.Player;
 import hidden.indev0r.game.entity.combat.DamageModel;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
@@ -19,16 +16,16 @@ public abstract class AbstractCombatHitPhase implements CombatHitPhase {
     protected long startTime;
     protected boolean started = false, expired = false;
     protected DamageModel damageModel;
-    protected int currentHit = 0;
-    protected int actualDamage = 0;
+    protected int currentHit;
+    protected int actualDamage;
 
-
-    public AbstractCombatHitPhase(Actor initiator, Actor target) {
+    public AbstractCombatHitPhase(DamageModel model, Actor initiator, Actor target, int currentHit) {
         if(target == null) return;
         if(initiator == null) return;
         target.addCombatPhase(this);
         initiator.addCombatPhase(this);
-
+        this.damageModel = model;
+        this.currentHit = currentHit;
         actInitiator = initiator;
         actTarget = target;
         actTarget.addCombatPhase(this);
@@ -61,10 +58,6 @@ public abstract class AbstractCombatHitPhase implements CombatHitPhase {
             started = true;
         }
 
-        if(started && !expired && System.currentTimeMillis() - startTime > getDuration()) {
-            expired = true;
-        }
-
         if(expired) {
             actInitiator.combatEnd();
             actInitiator.removeCombatPhase(this);
@@ -74,8 +67,9 @@ public abstract class AbstractCombatHitPhase implements CombatHitPhase {
     }
 
     protected void hurtTarget() {
-        actualDamage = getDamageModel().getDamageType(currentHit).processDamage(getDamageModel(), actTarget, actInitiator);
+        actualDamage = getDamageModel().getDamage(currentHit);
         if(actualDamage < 0) actualDamage = 0;
+        if(actTarget == null) return;
         actTarget.combatHurt(actInitiator, currentHit, getDamageModel(), actualDamage);
         if(actTarget.isDead()) {
             expired = true;
@@ -103,11 +97,17 @@ public abstract class AbstractCombatHitPhase implements CombatHitPhase {
         return expired;
     }
 
-    public void setDamageModel(DamageModel damageModel) {
-        this.damageModel = damageModel;
-    }
-
     public DamageModel getDamageModel() {
         return damageModel;
+    }
+
+    @Override
+    public Actor getInitiator() {
+        return actInitiator;
+    }
+
+    @Override
+    public Actor getTarget() {
+        return actTarget;
     }
 }

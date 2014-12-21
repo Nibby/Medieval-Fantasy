@@ -1,6 +1,7 @@
 package hidden.indev0r.game.entity.combat.phase.death;
 
 import hidden.indev0r.game.entity.Actor;
+import hidden.indev0r.game.entity.combat.DamageModel;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
@@ -10,11 +11,16 @@ import org.newdawn.slick.Graphics;
 public abstract class AbstractCombatDeathPhase implements CombatDeathPhase {
 
     protected Actor actInitiator;
+    protected Actor actTarget;
+
     protected boolean started = false, expired = false;
     protected long startTime;
+    protected DamageModel model;
 
-    public AbstractCombatDeathPhase(Actor actor) {
-        this.actInitiator = actor;
+    public AbstractCombatDeathPhase(DamageModel model, Actor initiator, Actor target) {
+        this.actInitiator = initiator;
+        this.actTarget = target;
+        this.model = model;
     }
 
     @Override
@@ -28,11 +34,6 @@ public abstract class AbstractCombatDeathPhase implements CombatDeathPhase {
             init();
             started = true;
             startTime = System.currentTimeMillis();
-        }
-
-        if(System.currentTimeMillis() - startTime > getDuration()) {
-            expired = true;
-            actInitiator.removeCombatPhase(this);
         }
     }
 
@@ -51,5 +52,15 @@ public abstract class AbstractCombatDeathPhase implements CombatDeathPhase {
     @Override
     public boolean isExpired() {
         return false;
+    }
+
+    @Override
+    public Actor getInitiator() {
+        return actInitiator;
+    }
+
+    @Override
+    public Actor getTarget() {
+        return actTarget;
     }
 }

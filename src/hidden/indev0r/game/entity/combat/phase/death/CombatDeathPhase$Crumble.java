@@ -1,13 +1,14 @@
 package hidden.indev0r.game.entity.combat.phase.death;
 
 import hidden.indev0r.game.entity.Actor;
+import hidden.indev0r.game.entity.combat.DamageModel;
 import hidden.indev0r.game.map.Tile;
 import hidden.indev0r.game.particle.Particle$TexturePiece;
 import hidden.indev0r.game.particle.ParticleManager;
+import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Vector2f;
 
 /**
  * Created by MrDeathJockey on 14/12/19.
@@ -17,8 +18,8 @@ public class CombatDeathPhase$Crumble extends AbstractCombatDeathPhase{
     private Particle$TexturePiece[] texturePieces;
     private int partSize = 4;
 
-    public CombatDeathPhase$Crumble(Actor actor) {
-        super(actor);
+    public CombatDeathPhase$Crumble(DamageModel model, Actor actor, Actor target) {
+        super(model, actor, target);
 
         Image texture = actor.getCurrentImage();
         partSize = 4 * (actor.getWidth() / 32);
@@ -76,13 +77,14 @@ public class CombatDeathPhase$Crumble extends AbstractCombatDeathPhase{
     }
 
     @Override
-    protected void init() {
-
+    public void tick(GameContainer gc) {
+        super.tick(gc);
+        if(System.currentTimeMillis() - startTime > 1500) expired = true;
     }
 
     @Override
-    public int getDuration() {
-        return 1500;
+    protected void init() {
+
     }
 
     @Override

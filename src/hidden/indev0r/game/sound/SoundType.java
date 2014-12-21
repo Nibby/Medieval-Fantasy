@@ -8,6 +8,7 @@ public enum SoundType {
     walk,
     run,
 
+    attack_normal_cast,
 
     attack_normal_swing,
     attack_normal_hurt,

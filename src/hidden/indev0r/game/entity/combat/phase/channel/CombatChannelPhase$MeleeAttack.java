@@ -4,8 +4,8 @@ import hidden.indev0r.game.entity.Actor;
 import hidden.indev0r.game.entity.animation.Action;
 import hidden.indev0r.game.entity.animation.ActionType;
 import hidden.indev0r.game.entity.combat.AttackType;
+import hidden.indev0r.game.entity.combat.DamageModel;
 import hidden.indev0r.game.entity.combat.DamageType;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -24,12 +24,12 @@ public class CombatChannelPhase$MeleeAttack extends AbstractCombatChannelPhase {
     private int shiftX = 0, shiftY = 0;
     private long hitTickTime;
 
-    public CombatChannelPhase$MeleeAttack(AttackType type, Actor actor) {
-        super(type, actor);
+    public CombatChannelPhase$MeleeAttack(DamageModel model, AttackType type, Actor initiator, Actor target) {
+        super(model, type, initiator, target);
 
-        Map<ActionType, Action> actorActionMap = actor.getActionMap();
+        Map<ActionType, Action> actorActionMap = initiator.getActionMap();
         if(actorActionMap != null) {
-            switch (actor.getCurrentDirection()) {
+            switch (initiator.getCurrentDirection()) {
                 case UP:
                     actionToPlay = ActionType.ATTACK_UP;
                     break;
@@ -46,37 +46,29 @@ public class CombatChannelPhase$MeleeAttack extends AbstractCombatChannelPhase {
 
             mode = MODE_ACTION_SET;
         } else {
-            Image sprite = actor.getCurrentImage();
+            Image sprite = initiator.getCurrentImage();
             if(sprite != null) {
-                switch(actor.getCurrentDirection()) {
+                switch(initiator.getCurrentDirection()) {
                     case UP:
-                        shiftY = -actor.getHeight() / 3;
+                        shiftY = -initiator.getHeight() / 3;
                         break;
                     case DOWN:
-                        shiftY = actor.getHeight() / 3;
+                        shiftY = initiator.getHeight() / 3;
                         break;
                     case LEFT:
-                        shiftX = -actor.getWidth() / 3;
+                        shiftX = -initiator.getWidth() / 3;
                         break;
                     case RIGHT:
-                        shiftX = actor.getWidth() / 3;
+                        shiftX = initiator.getWidth() / 3;
                         break;
                 }
             }
-
+            actInitiator.setRenderShift(shiftX, shiftY);
             mode = MODE_SPRITE;
         }
     }
 
-    @Override
-    public int getDuration() {
-        if(mode == MODE_ACTION_SET)
-            return actInitiator.getActionMap().get(actionToPlay).getPlayTime();
-        else
-            return 200;
-    }
-
-    private boolean playedSound = false;
+    private boolean didSwing = false;
     @Override
     public void tick(GameContainer gc) {
         super.tick(gc);
@@ -85,20 +77,59 @@ public class CombatChannelPhase$MeleeAttack extends AbstractCombatChannelPhase {
             if(System.currentTimeMillis() - hitTickTime > 200) {
                 shiftX = 0;
                 shiftY = 0;
+                actInitiator.setRenderShift(0, 0);
+                if(System.currentTimeMillis() - hitTickTime > 400) {
+                    didSwing = false;
+                    Image sprite = actInitiator.getCurrentImage();
+                    if(sprite != null) {
+                        switch(actInitiator.getCurrentDirection()) {
+                            case UP:
+                                shiftY = -actInitiator.getHeight() / 3;
+                                break;
+                            case DOWN:
+                                shiftY = actInitiator.getHeight() / 3;
+                                break;
+                            case LEFT:
+                                shiftX = -actInitiator.getWidth() / 3;
+                                break;
+                            case RIGHT:
+                                shiftX = actInitiator.getWidth() / 3;
+                                break;
+                        }
+                    }
+                    actInitiator.setRenderShift(shiftX, shiftY);
+                    currentHit++;
+                    if(currentHit > damageModel.getHits() - 1) {
+                        actInitiator.setRenderShift(0, 0);
+                        expired = true;
+                    }
 
+                    hitTickTime = System.currentTimeMillis();
+                }
             } else {
-                if(!playedSound) {
+                if(!didSwing) {
                     actInitiator.playSound(DamageType.normal.getSwingSound());
-                    playedSound = true;
+                    actInitiator.combatChannelEnd(damageModel, attackType, currentHit);
+                    didSwing = true;
                 }
             }
         }
 
-        if(mode == MODE_ACTION_SET &&
-                System.currentTimeMillis() - startTime > getDuration() - 200) {
-            if(!playedSound) {
+        if(mode == MODE_ACTION_SET && System.currentTimeMillis() - hitTickTime > 200) {
+            if(!didSwing) {
                 actInitiator.playSound(DamageType.normal.getSwingSound());
-                playedSound = true;
+                actInitiator.combatChannelEnd(damageModel, attackType, currentHit);
+                didSwing = true;
+            }
+
+            if(System.currentTimeMillis() - hitTickTime > 450) {
+                didSwing = false;
+                currentHit++;
+                if(currentHit > damageModel.getHits() - 1)
+                    expired = true;
+                else
+                    actInitiator.forceActAction(actionToPlay);
+                hitTickTime = System.currentTimeMillis();
             }
         }
     }
@@ -106,19 +137,16 @@ public class CombatChannelPhase$MeleeAttack extends AbstractCombatChannelPhase {
     @Override
     protected void init() {
         hitTickTime = System.currentTimeMillis();
-        if(mode == MODE_ACTION_SET) {
+        if(mode == MODE_ACTION_SET)
             actInitiator.forceActAction(actionToPlay);
-        }
     }
 
     @Override
     public boolean overrideInitiatorRender() {
-        return mode == MODE_SPRITE;
+        return false;
     }
 
     @Override
     public void renderInitiator(Graphics g, Actor initiator) {
-        initiator.render(g, actInitiator.getRenderX() + shiftX,
-                actInitiator.getRenderY() + shiftY, new Color(1f, 1f, 1f, 1f));
     }
 }

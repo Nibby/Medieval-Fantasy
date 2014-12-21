@@ -1,7 +1,5 @@
 package hidden.indev0r.game.entity;
 
-import hidden.indev0r.game.Camera;
-import hidden.indev0r.game.MedievalLauncher;
 import hidden.indev0r.game.entity.ai.AI;
 import hidden.indev0r.game.entity.ai.AIList;
 import hidden.indev0r.game.entity.animation.ActionType;
@@ -11,6 +9,7 @@ import hidden.indev0r.game.entity.combat.DamageType;
 import hidden.indev0r.game.entity.combat.phase.CombatPhase;
 import hidden.indev0r.game.entity.combat.phase.CombatPhaseManager;
 import hidden.indev0r.game.entity.combat.phase.channel.AbstractCombatChannelPhase;
+import hidden.indev0r.game.entity.combat.phase.death.CombatDeathPhase;
 import hidden.indev0r.game.entity.combat.phase.death.DeathType;
 import hidden.indev0r.game.entity.combat.phase.hit.AbstractCombatHitPhase;
 import hidden.indev0r.game.entity.combat.phase.hit.CombatHitPhase;
@@ -59,7 +58,7 @@ public abstract class Actor extends Entity implements Mover {
     protected boolean isAlive;
 
     /* MAYBE A PLACEHOLDER */
-    protected AttackType attackType = AttackType.normal_warrior;
+    protected AttackType attackType;
     protected Actor combatTarget;
     protected List<CombatPhase> combatPhaseList = new ArrayList<>();
     protected DeathType deathType = DeathType.crumble;
@@ -91,7 +90,7 @@ public abstract class Actor extends Entity implements Mover {
         this.isAlive = a.isAlive;
         this.attackType = a.attackType;
         this.combatTarget = a.combatTarget;
-        this.combatPhaseList = a.combatPhaseList;
+        this.combatPhaseList = new ArrayList<>();
         this.combatLastSwing = a.combatLastSwing;
         this.deathType = a.deathType;
         this.running = a.running;
@@ -191,54 +190,82 @@ public abstract class Actor extends Entity implements Mover {
         this.combatTarget = combatTarget;
     }
 
+    //Starts attacking a tile, and any entity that walk into it
+    public void combatStart(int x, int y) {
+        int combatHitInterval = 1200 - (getStat(Stat.DEXTERITY) + getStat(Stat.DEXTERITY_BONUS)) * 20;
+
+        if(System.currentTimeMillis() - combatLastSwing > combatHitInterval) {
+            Actor actor = map.getPotentialCombatActor(this, x, y);
+            if (actor != null) {
+
+                combatTarget = actor;
+                combatChannelStart(attackType);
+                combatLastSwing = System.currentTimeMillis();
+            }
+        }
+    }
+
     public void combatStart(Actor target) {
-        if(!withinRange(target, getStat(Stat.ATTACK_RANGE) + getStat(Stat.ATTACK_RANGE_BONUS)))
+        if (!withinRange(target, getAttackRange()))
             return;
         this.combatTarget = target;
 
-        int combatHitInterval =
-                1200 - (getStat(Stat.DEXTERITY) + getStat(Stat.DEXTERITY_BONUS)) * 25;
+        int combatHitInterval = 1200 - (getStat(Stat.DEXTERITY) + getStat(Stat.DEXTERITY_BONUS)) * 20;
 
         if(System.currentTimeMillis() - combatLastSwing > combatHitInterval) {
             setFacingDirection(MapDirection.turnToFace(this, target));
             combatChannelStart(attackType);
             combatLastSwing = System.currentTimeMillis();
         }
-
     }
 
     public void combatChannelStart(AttackType type) {
-        AbstractCombatChannelPhase channelPhase = type.getChannelPhase(this);
-
-        CombatPhaseManager.get().addCombatPhase(channelPhase);
-    }
-
-    public void combatChannelEnd(AttackType type) {
         DamageModel model = new DamageModel();
+
         //2 is how many attacks actor will deal
-        for(int i = 0; i < 1; i++) {
+        for(int i = 0; i < 2; i++) {
+            //PLACEHOLDER
+            DamageType damageType = DamageType.normal;
+
             int damage = getStat(Stat.ATTACK_DAMAGE) + getStat(Stat.ATTACK_DAMAGE_BONUS) / 2
                     + (int) (Math.random() * (getStat(Stat.ATTACK_DAMAGE_BONUS) / 2))
                     + getStat(Stat.STRENGTH_BONUS)
                     + (int) (Math.random() * (getStat(Stat.STRENGTH) / 2) + getStat(Stat.STRENGTH) / 2);
 
+            if(combatTarget != null) {
+                damage = damageType.processDamage(damage, combatTarget, this);
+
+                if (type.equals(DamageType.normal)) {
+                    damage -= combatTarget.getDefense();
+                } else {
+                    damage -= combatTarget.getMagicDefense();
+                }
+            }
 
             boolean critical = (int) (Math.random() * 100) < getStat(Stat.LUCK) / 4
                     || (int) (Math.random() * 1000) < 3;
 
-            if(critical)
+            if(critical) {
                 damage = (int) (damage * 1.8f);
+            }
 
-            model.addHit(DamageType.normal, damage, false, "0");
+            model.addHit(DamageType.normal, damage, critical, "0");
+
         }
 
-        AbstractCombatHitPhase hitPhase = type.getHitPhase(this, combatTarget);
-        hitPhase.setDamageModel(model);
+        AbstractCombatChannelPhase channelPhase = type.getChannelPhase(model, this, combatTarget);
+        CombatPhaseManager.get().addCombatPhase(channelPhase);
+    }
 
+    public void combatChannelEnd(DamageModel model, AttackType type, int hitIndex) {
+        if(combatTarget == null) return;
+
+        AbstractCombatHitPhase hitPhase = type.getHitPhase(model, this, combatTarget, hitIndex);
         CombatPhaseManager.get().addCombatPhase(hitPhase);
     }
 
     public void combatHurt(Actor dmgDealer, int currentHit, DamageModel model, int damage) {
+        if(dmgDealer == null) return;
         if(damage > 0) {
             combatHurt = true;
             combatHurtTick = System.currentTimeMillis();
@@ -252,21 +279,27 @@ public abstract class Actor extends Entity implements Mover {
             combatHPBarLength = (int) ((float) totalLength * percentageAfter);
             if (combatHPBarLength < 0) combatHPBarLength = 0;
 
-            executeScript(Script.Type.hurt);
-            if (ai != null)
-                ai.onHurt(dmgDealer, model);
             deductStat(Stat.HEALTH, damage);
-            if (getStat(Stat.HEALTH) < 0) setStat(Stat.HEALTH, 0);
+            if (getStat(Stat.HEALTH) < 0) {
+                setStat(Stat.HEALTH, 0);
+                CombatDeathPhase deathPhase = attackType.getDeathPhase(model, this, combatTarget);
+                if(deathPhase != null) {
+                    CombatPhaseManager.get().addCombatPhase(deathPhase);
+                }
+            }
         }
+
+        executeScript(Script.Type.hurt);
+        if (ai != null)
+            ai.onHurt(dmgDealer, model);
     }
 
     public void combatEnd() {
     }
 
     public void die() {
-        CombatPhaseManager.get().addCombatPhase(deathType.newInstance(this));
+        CombatPhaseManager.get().addCombatPhase(deathType.newInstance(null, this, combatTarget));
         playSound(deathType.getSound());
-        this.combatTarget = null;
         executeScript(Script.Type.death);
         deathTime = System.currentTimeMillis();
         isAlive = false;
@@ -289,26 +322,17 @@ public abstract class Actor extends Entity implements Mover {
         combatPhaseList.remove(phase);
     }
 
+    public boolean withinRange(float x, float y, float w, float h, int range) {
+        return new Rectangle(
+                getPosition().x - (range - 1) * Tile.TILE_SIZE,
+                getPosition().y - (range - 1) * Tile.TILE_SIZE,
+                getWidth() - Tile.TILE_SIZE + (range * 2 - 1) * Tile.TILE_SIZE,
+                getHeight() - Tile.TILE_SIZE + (range * 2 - 1) * Tile.TILE_SIZE
+        ).intersects(new Rectangle(x, y, w, h));
+    }
+
     public boolean withinRange(Actor actor, int range) {
-//        if (actor.getX() >= getX() - range
-//          && actor.getX() < getX() + getWidth() / Tile.TILE_SIZE + range
-//          && actor.getY() >= getY() - range
-//          && actor.getY() < getY() + getHeight() / Tile.TILE_SIZE + range) {
-//            return true;
-//        } else {
-            return new Rectangle(
-                    getPosition().x - (range - 1) * Tile.TILE_SIZE,
-                    getPosition().y - (range - 1) * Tile.TILE_SIZE,
-                    getWidth() - Tile.TILE_SIZE + (range * 2 - 1) * Tile.TILE_SIZE,
-                    getHeight() - Tile.TILE_SIZE + (range * 2 - 1) * Tile.TILE_SIZE
-            ).intersects(new Rectangle(
-                    actor.getPosition().x,
-                    actor.getPosition().y,
-                    actor.getWidth(),
-                    actor.getHeight()
-            ));
-//            return false;
-//        }
+        return withinRange(actor.getPosition().x, actor.getPosition().y, actor.getWidth(), actor.getHeight(), range);
     }
 
     public boolean isRunning() {
@@ -354,6 +378,10 @@ public abstract class Actor extends Entity implements Mover {
 
     public void setAI(AI ai) {
         this.ai = ai;
+    }
+
+    public void setAttackType(AttackType type) {
+        this.attackType = type;
     }
 
     public void addScript(Script.Type type, Script script) {
@@ -483,6 +511,30 @@ public abstract class Actor extends Entity implements Mover {
         return deathTime;
     }
 
+    public int getDefense() {
+        return getStat(Stat.DEFENSE) + getStat(Stat.DEFENSE_BONUS);
+    }
+
+    public int getAttackDamage() {
+        return getStat(Stat.ATTACK_DAMAGE) + getStat(Stat.ATTACK_DAMAGE_BONUS);
+    }
+
+    public int getAccuracy() {
+        return getStat(Stat.ACCURACY) + getStat(Stat.ACCURACY_BONUS);
+    }
+
+    public int getEvasion() {
+        return getStat(Stat.EVASION) + getStat(Stat.EVASION_BONUS);
+    }
+
+    public int getMagicDefense() {
+        return getStat(Stat.MAGIC_DEFENSE) + getStat(Stat.MAGIC_DEFENSE_BONUS);
+    }
+
+    public List<CombatPhase> getCombatPhaseList() {
+        return combatPhaseList;
+    }
+
     public enum Stat {
 		HEALTH(1),
         HEALTH_MAX(1),
@@ -503,6 +555,8 @@ public abstract class Actor extends Entity implements Mover {
         ATTACK_DAMAGE_BONUS(0),
         DEFENSE(0),
         DEFENSE_BONUS(0),
+        MAGIC_DEFENSE(0),
+        MAGIC_DEFENSE_BONUS(0),
 
         //Affects movement speed
         SPEED(10),

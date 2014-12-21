@@ -64,7 +64,7 @@ public class Monster extends Actor {
 
             Player player = MedievalLauncher.getInstance().getGameState().getPlayer();
             if(player.isControllable()) {
-                if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+                if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON) || input.isMousePressed(Input.MOUSE_RIGHT_BUTTON)) {
                     //To interact, player must be 2 tiles or less away from the NPC
                     if (withinRange(player, player.getAttackRange())) {
                         interact(MedievalLauncher.getInstance().getGameState().getPlayer());

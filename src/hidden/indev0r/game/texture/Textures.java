@@ -22,7 +22,8 @@ public class Textures {
 		}
 
 		public static final SpriteSheet UI_FONT = ResourceManager.loadSpriteSheet("res/font/font.png", 16, 20);
-        public static final SpriteSheet EFFECTS_WEAPON = ResourceManager.loadSpriteSheet("res/textures/effects/hit.png", 32, 32);
+        public static final SpriteSheet HIT_EFFECT_MELEE = ResourceManager.loadSpriteSheet("res/textures/effects/hit_melee.png", 32, 32);
+        public static final SpriteSheet HIT_EFFECT_CASTER = ResourceManager.loadSpriteSheet("res/textures/effects/hit_caster.png", 32, 32);
 
 		static {
             ResourceManager.loadSpriteSheet(ENTITY_STATIC_IMAGE_PATH + "mon00.png", 32, 32);

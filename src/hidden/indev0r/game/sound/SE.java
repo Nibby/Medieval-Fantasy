@@ -11,6 +11,9 @@ import java.nio.file.Path;
  */
 public enum SE {
 
+    CHANNEL_0(References.SE_PATH.resolve("channel").resolve("channel0.wav")),
+    CHANNEL_1(References.SE_PATH.resolve("channel").resolve("channel0.wav")),
+
     HIT_0(References.SE_PATH.resolve("hit").resolve("hit0.wav")),
     HIT_1(References.SE_PATH.resolve("hit").resolve("hit1.wav")),
     HIT_2(References.SE_PATH.resolve("hit").resolve("hit2.wav")),

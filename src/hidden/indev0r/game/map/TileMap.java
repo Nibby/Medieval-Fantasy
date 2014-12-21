@@ -2,10 +2,7 @@ package hidden.indev0r.game.map;
 
 import hidden.indev0r.game.Camera;
 import hidden.indev0r.game.MedievalLauncher;
-import hidden.indev0r.game.entity.Actor;
-import hidden.indev0r.game.entity.Entity;
-import hidden.indev0r.game.entity.Monster;
-import hidden.indev0r.game.entity.Player;
+import hidden.indev0r.game.entity.*;
 import hidden.indev0r.game.entity.npc.script.Script;
 import hidden.indev0r.game.reference.References;
 import org.lwjgl.util.vector.Vector2f;
@@ -117,7 +114,8 @@ public class TileMap {
                     }
 				}
 
-                player.render(g);
+                if(player != null)
+                    player.render(g);
 			}
 		}
 	}
@@ -144,11 +142,7 @@ public class TileMap {
     protected boolean entityBlocked(Entity reference, int x, int y) {
         if (x < 0 || x > tileData[0].length - 1 || y < 0 || y > tileData[0][0].length - 1) return true;
         for(Entity e : entities) {
-            if(e.equals(reference)
-                    && x >= e.getX()
-                    && x < e.getX() + e.getWidth() / Tile.TILE_SIZE
-                    && y >= e.getY()
-                    && y < e.getY() + e.getHeight() / Tile.TILE_SIZE) {
+            if(e.equals(reference) && (e.getWidth() / Tile.TILE_SIZE > 1 || e.getHeight() / Tile.TILE_SIZE > 1)) {
                 return false;
             }
 
@@ -311,6 +305,8 @@ public class TileMap {
         return entities;
     }
 
+
+
     public Tile getTile(int layer, Vector2f position) {
         if(layer < 0 || layer > tileData.length - 1) return null;
         if(position.x < 0 || position.x > tileData[0].length - 1 || position.y < 0 || position.y > tileData[0][0].length - 1) return null;
@@ -373,5 +369,80 @@ public class TileMap {
             }
         }
         return result;
+    }
+
+    public List<Actor> getActorsOnTile(Actor reference, int tx, int ty) {
+        List<Actor> result = new ArrayList<>();
+        for(Entity e : entities) {
+            if(e instanceof Actor) {
+                if(tx >= e.getX() && tx < e.getX() + e.getWidth() / Tile.TILE_SIZE &&
+                        ty >= e.getY() && ty < e.getY() + e.getHeight() / Tile.TILE_SIZE) {
+                    if(!e.equals(reference))
+                        result.add((Actor) e);
+                }
+            }
+        }
+        return result;
+    }
+
+    public Actor getPotentialCombatActor(Actor actor, int x, int y) {
+        //Function not available to actor with  range 2 or higher
+        int attackRange = actor.getAttackRange();
+
+        if(attackRange > 1) {
+            return null;
+        }
+        List<Actor> actorNear = getActorsOnTile(actor, x, y);
+        if(!actorNear.isEmpty()) {
+            return actorNear.get(0);
+        }
+
+        //Far search
+        MapDirection direction = actor.getCurrentDirection();
+        int sx = x, sy = y;
+        switch(direction) {
+            case UP:
+                sx = x;
+                sy = y - attackRange;
+                break;
+            case DOWN:
+                sx = x;
+                sy = y + attackRange;
+                break;
+            case LEFT:
+                sx = x - attackRange;
+                sy = y;
+                break;
+            case RIGHT:
+                sx = x + attackRange;
+                sy = y;
+                break;
+        }
+        int distance = 9999;
+        Actor candidate = null;
+        while(sx != x || sy != y) {
+            List<Actor> actors = getActorsOnTile(actor, sx, sy);
+            if(!actors.isEmpty()) {
+                for(Actor a : actors) {
+                    int d = getActorDistance(actor, a);
+                    if(d < distance) candidate = actor;
+
+                    if(a.isMoving()
+                            //Check if the other actor candidate is facing this actor
+                            && MapDirection.getOppositeOf(a.getCurrentDirection()).equals(actor.getCurrentDirection())
+                            && FactionUtil.isEnemy(actor.getFaction(), a.getFaction())) {
+                        candidate = a;
+                    }
+                }
+
+            }
+
+            if(sx < x) sx++;
+            if(sx > x) sx--;
+            if(sy < y) sy++;
+            if(sy > y) sy--;
+        }
+
+        return candidate;
     }
 }

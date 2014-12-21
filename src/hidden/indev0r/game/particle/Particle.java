@@ -2,10 +2,10 @@ package hidden.indev0r.game.particle;
 
 import hidden.indev0r.game.Camera;
 import hidden.indev0r.game.MedievalLauncher;
+import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.geom.Vector2f;
 
 /**
  * Created by MrDeathJockey on 14/12/18.

@@ -22,6 +22,17 @@ public enum SoundSet {
         }
     },
 
+    player_caster {
+        @Override
+        protected void initSoundBank() {
+            addSound(SoundType.attack_normal_cast, SE.CHANNEL_1);
+
+            addSound(SoundType.parry, SE.PARRY_0);
+
+            addSound(SoundType.attack_normal_hurt, SE.HURT_1);
+        }
+    },
+
 
     mon_0 {
         @Override

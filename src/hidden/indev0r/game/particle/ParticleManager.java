@@ -32,6 +32,7 @@ public class ParticleManager {
     }
 
     public void addParticle(Particle particle) {
+        particle.onSpawn();
         particles.add(particle);
     }
 
