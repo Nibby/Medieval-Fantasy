@@ -1,6 +1,6 @@
 <monster faction="UNDEAD"  name="Lich" width="2" height="2"
          resource="res/textures/sprites/static/mon00.png" sprite="4,6"
-         deathType="crumble" attackType="melee_0" soundSet="mon_0" approachRange="6">
+         deathType="crumble" attackType="melee_0" attackTypeParam="3" soundSet="mon_0" approachRange="6">
     <stats>
         <stat type="HEALTH" value="100" />
         <stat type="HEALTH_MAX" value="100" />

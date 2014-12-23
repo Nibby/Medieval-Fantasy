@@ -30,6 +30,8 @@ public class GComponent$PlayerStatusGauge extends GComponent {
 		redHealthBar = Textures.UI.STATS_GAGUE_RED;
 		blueManaBar = Textures.UI.STATS_GAGUE_BLUE;
 		greenExpBar = Textures.UI.STATS_GAGUE_GREEN;
+
+        setRequireFocus(false);
 	}
 
 	@Override

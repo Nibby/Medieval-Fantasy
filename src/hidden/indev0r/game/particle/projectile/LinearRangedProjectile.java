@@ -22,7 +22,7 @@ import java.util.Random;
 /**
  * Created by MrDeathJockey on 14/12/21.
  */
-public class CasterAttackProjectile extends Projectile {
+public class LinearRangedProjectile extends Projectile {
 
     private static final int MOVE_TICK = 20;
 
@@ -37,7 +37,7 @@ public class CasterAttackProjectile extends Projectile {
     private long trailTick;
     private List<Vector2f> trailPosition = new ArrayList<>();
 
-    public CasterAttackProjectile(Actor origin, Actor target, AttackType type, DamageModel model, Projectile.Type texture, int hitIndex, float speed) {
+    public LinearRangedProjectile(Actor origin, Actor target, AttackType type, DamageModel model, Projectile.Type texture, int hitIndex, float speed) {
         super(origin, target, type, model, texture, speed, hitIndex);
 
         //Origin position and target position

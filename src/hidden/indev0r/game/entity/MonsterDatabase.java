@@ -126,7 +126,8 @@ public class MonsterDatabase  {
         }
 
         if(root.hasAttribute("attackType")) {
-            monster.setAttackType(AttackType.melee_0);
+            monster.setAttackType(AttackType.valueOf(root.getAttribute("attackType")),
+                                  root.getAttribute("attackTypeParam"));
         }
 
         monster.setSize(Integer.parseInt(root.getAttribute("width")) * Tile.TILE_SIZE,

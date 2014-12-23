@@ -72,16 +72,19 @@ public class Player extends Actor implements GStatsSupplier {
             }
         }
 
-
         if(!moving && controllable && MedievalLauncher.getInstance().getGameState().getMenuOverlay().isComponentEmpty()) {
             if (input.isKeyDown(Input.KEY_W) || input.isKeyDown(Input.KEY_UP)) {
                 setMoveDestination(getX(), getY() - 1);
+                MedievalLauncher.getInstance().getGameState().getSoundPlayer().setListenerAngle(0);
             } else if (input.isKeyDown(Input.KEY_A) || input.isKeyDown(Input.KEY_LEFT)) {
                 setMoveDestination(getX() - 1, getY());
+                MedievalLauncher.getInstance().getGameState().getSoundPlayer().setListenerAngle(270);
             } else if (input.isKeyDown(Input.KEY_S) || input.isKeyDown(Input.KEY_DOWN)) {
                 setMoveDestination(getX(), getY() + 1);
+                MedievalLauncher.getInstance().getGameState().getSoundPlayer().setListenerAngle(180);
             } else if (input.isKeyDown(Input.KEY_D) || input.isKeyDown(Input.KEY_RIGHT)) {
                 setMoveDestination(getX() + 1, getY());
+                MedievalLauncher.getInstance().getGameState().getSoundPlayer().setListenerAngle(90);
             }
         }
 
@@ -122,7 +125,7 @@ public class Player extends Actor implements GStatsSupplier {
 
         setActionSet(job.actionSet);
         setSoundSet(job.getSoundSet());
-        setAttackType(job.getDefaultAttackType());
+        setAttackType(job.getDefaultAttackType(), job.getDefaultAttackTypeParam());
         setStat(Stat.ATTACK_RANGE, job.getAttackRange());
     }
 

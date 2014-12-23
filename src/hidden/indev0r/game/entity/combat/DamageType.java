@@ -26,6 +26,23 @@ public enum DamageType {
         }
     },
 
+    magic("Magic", Color.red) {
+        @Override
+        public int processDamage(int damage, Actor hurt, Actor initiator) {
+            return damage;
+        }
+
+        @Override
+        public SoundType getSwingSound() {
+            return SoundType.attack_magic_swing;
+        }
+
+        @Override
+        public SoundType getHurtSound() {
+            return SoundType.attack_magic_hurt;
+        }
+    },
+
     holy("Holy", Color.white) {
         @Override
         public int processDamage(int damage, Actor hurt, Actor initiator) {

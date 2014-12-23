@@ -101,6 +101,11 @@ public enum ActorJob {
         }
 
         @Override
+        public String getDefaultAttackTypeParam() {
+            return "bolt_attuned_star";
+        }
+
+        @Override
         public AttackType getDefaultAttackType() {
             return AttackType.caster_0;
         }
@@ -195,6 +200,11 @@ public enum ActorJob {
         @Override
         public SoundSet getSoundSet() {
             return SoundSet.player_warrior;
+        }
+
+        @Override
+        public String getDefaultAttackTypeParam() {
+            return "0";
         }
 
         @Override
@@ -295,6 +305,11 @@ public enum ActorJob {
         }
 
         @Override
+        public String getDefaultAttackTypeParam() {
+            return "0";
+        }
+
+        @Override
         public AttackType getDefaultAttackType() {
             return AttackType.melee_0;
         }
@@ -329,6 +344,8 @@ public enum ActorJob {
     public abstract int getMagicDefenseMax();
 
     public abstract SoundSet getSoundSet();
+
+    public abstract String getDefaultAttackTypeParam();
     public abstract AttackType getDefaultAttackType();
 
     public static int getRequiredEXPAtLevel(int level) {
@@ -395,5 +412,4 @@ public enum ActorJob {
             default:    return 1000000000;
         }
     }
-
 }

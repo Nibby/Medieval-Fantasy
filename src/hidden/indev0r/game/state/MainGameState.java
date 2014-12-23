@@ -68,7 +68,7 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
         soundPlayer = new SoundPlayer();
 
 		camera = new Camera(0, 0);
-		player = new Player(Actor.Faction.GLYSIA, ActorJob.MAGE, 11, 18);
+		player = new Player(Actor.Faction.GLYSIA, ActorJob.WARRIOR, 11, 18);
 		player.setLevel(1);
 		camera.setTrackObject(player);
 
@@ -88,20 +88,20 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
             } while(TileMapDatabase.getTileMap("infested_stage").isBlocked(null, spawnX, spawnY));
 
             if(i == 5) {
-                Monster mon2 = MonsterDatabase.get("skeleton_1");
+                Monster mon2 = MonsterDatabase.get("bone_lich");
                 mon2.setPosition(spawnX, spawnY);
                 mon2.setPosition(33, 18);
                 TileMapDatabase.getTileMap("infested_stage").addEntity(mon2);
                 continue;
             }
-            Monster mon = MonsterDatabase.get("skeleton");
+            Monster mon = MonsterDatabase.get("bone_caster");
             mon.setPosition(spawnX, spawnY);
             TileMapDatabase.getTileMap("infested_stage").addEntity(mon);
 
         }
 
 		announceName(map.getName());
-        getMenuOverlay().showHint("W,A,S,D to move, left click to attack!", 3500, Color.white, 0);
+        getMenuOverlay().showHintVerbose("W,A,S,D to move, left click to attack!", 3500, Color.white, 0);
     }
 
 	@Override

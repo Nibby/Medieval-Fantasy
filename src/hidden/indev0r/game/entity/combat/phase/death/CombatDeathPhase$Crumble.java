@@ -13,12 +13,12 @@ import org.newdawn.slick.Image;
 /**
  * Created by MrDeathJockey on 14/12/19.
  */
-public class CombatDeathPhase$Crumble extends AbstractCombatDeathPhase{
+public class CombatDeathPhase$Crumble extends AbstractCombatDeathPhase {
 
     private Particle$TexturePiece[] texturePieces;
     private int partSize = 4;
 
-    public CombatDeathPhase$Crumble(DamageModel model, Actor actor, Actor target) {
+    public CombatDeathPhase$Crumble(DamageModel model, final Actor actor, Actor target) {
         super(model, actor, target);
 
         Image texture = actor.getCurrentImage();
@@ -43,7 +43,8 @@ public class CombatDeathPhase$Crumble extends AbstractCombatDeathPhase{
                         super.randomize();
 
                         rotationDelta = 0;
-                        baseline = (int) position.y + (int) (Math.random() * (Tile.TILE_SIZE / 3)) + Tile.TILE_SIZE / 2;
+                        baseline = (int) position.y + (int) (Math.random() * (Tile.TILE_SIZE / 3))
+                                + (Tile.TILE_SIZE * (actor.getWidth() / Tile.TILE_SIZE)) / 3 * 2;
                         crumbleX = (float) (Math.random() * 0.06f) - 0.03f;
                         crumbleY = (float) (Math.random() * 0.75f) + 0.25f;
                         tickTime = System.currentTimeMillis();

@@ -2,10 +2,11 @@ package hidden.indev0r.game.entity.combat;
 
 import hidden.indev0r.game.entity.Actor;
 import hidden.indev0r.game.entity.combat.phase.channel.AbstractCombatChannelPhase;
-import hidden.indev0r.game.entity.combat.phase.channel.CombatChannelPhase$CasterBasic;
+import hidden.indev0r.game.entity.combat.phase.channel.CombatChannelPhase$RangedBasic;
 import hidden.indev0r.game.entity.combat.phase.death.AbstractCombatDeathPhase;
 import hidden.indev0r.game.entity.combat.phase.hit.AbstractCombatHitPhase;
 import hidden.indev0r.game.entity.combat.phase.channel.CombatChannelPhase$MeleeAttack;
+import hidden.indev0r.game.entity.combat.phase.hit.CombatHitPhase$RangedAttack;
 import hidden.indev0r.game.entity.combat.phase.hit.CombatHitPhase$MeleeAttack;
 
 /**
@@ -50,12 +51,12 @@ public enum AttackType {
     caster_0 {
         @Override
         public AbstractCombatChannelPhase getChannelPhase(DamageModel model, Actor initiator, Actor target) {
-            return new CombatChannelPhase$CasterBasic(model, caster_0, initiator, target);
+            return new CombatChannelPhase$RangedBasic(model, caster_0, initiator, target);
         }
 
         @Override
         public AbstractCombatHitPhase getHitPhase(DamageModel model, Actor initiator, Actor target, int hitIndex) {
-            return new CombatHitPhase$MeleeAttack(model, initiator, target, hitIndex);
+            return new CombatHitPhase$RangedAttack(model, initiator, target, hitIndex);
         }
 
         @Override

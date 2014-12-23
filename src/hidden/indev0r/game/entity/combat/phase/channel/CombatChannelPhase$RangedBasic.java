@@ -6,11 +6,12 @@ import hidden.indev0r.game.entity.animation.ActionType;
 import hidden.indev0r.game.entity.combat.AttackType;
 import hidden.indev0r.game.entity.combat.DamageModel;
 import hidden.indev0r.game.particle.ParticleManager;
-import hidden.indev0r.game.particle.projectile.CasterAttackProjectile;
+import hidden.indev0r.game.particle.projectile.LinearRangedProjectile;
 import hidden.indev0r.game.particle.projectile.Projectile;
 
 import java.util.Map;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
@@ -19,18 +20,20 @@ import org.newdawn.slick.Graphics;
  *
  * A ranged mage's basic attack
  */
-public class CombatChannelPhase$CasterBasic extends AbstractCombatChannelPhase {
+public class CombatChannelPhase$RangedBasic extends AbstractCombatChannelPhase {
 
     private static final int MODE_SPRITE = 0, MODE_ACTION_SET = 1;
     private int mode;
     private ActionType actionToPlay;
 
-    private CasterAttackProjectile projectile;
+    private Color tintColor = new Color(150, 217, 242, 220);
+
+    private LinearRangedProjectile projectile;
     private Projectile.Type projectileType = Projectile.Type.bolt_red_0;
 
     private long channelTickTime;
 
-    public CombatChannelPhase$CasterBasic(DamageModel model, AttackType type, Actor initiator, Actor target) {
+    public CombatChannelPhase$RangedBasic(DamageModel model, AttackType type, Actor initiator, Actor target) {
         super(model, type, initiator, target);
 
         Map<ActionType, Action> actionMap = initiator.getActionMap();
@@ -61,24 +64,34 @@ public class CombatChannelPhase$CasterBasic extends AbstractCombatChannelPhase {
     public void tick(GameContainer gc) {
         super.tick(gc);
 
-        if(mode == MODE_ACTION_SET) {
-            if (System.currentTimeMillis() - channelTickTime >
-                    getInitiator().getActionMap().get(actionToPlay).getPlayTime() + 50) {
-                if(currentHit < damageModel.getHits() - 1 && !actTarget.isDead()) {
-                    currentHit++;
-                    doChannel();
-                    didHit = false;
-                } else {
-                    expired = true;
-                }
-                channelTickTime = System.currentTimeMillis();
+        if(projectile.hasDecayed()) {
+            didHit = projectile.didHitTarget();
+
+            if(didHit) {
+                actInitiator.combatChannelEnd(damageModel, attackType, currentHit);
+            }
+
+            if(currentHit < damageModel.getHits() - 1 && !actTarget.isDead()) {
+                currentHit++;
+                doChannel();
+                didHit = false;
+            } else {
+                expired = true;
             }
         }
 
-        if(projectile.hasDecayed() && !didHit) {
-            actInitiator.combatChannelEnd(damageModel, attackType, currentHit);
-            didHit = true;
+        if(mode == MODE_SPRITE) {
+            if(System.currentTimeMillis() - channelTickTime > 50) {
+                if(tintColor.a < 1f) tintColor.a += 0.05f;
+                if(tintColor.r < 1f) tintColor.r += 0.05f;
+                if(tintColor.g < 1f) tintColor.g += 0.05f;
+                if(tintColor.b < 1f) tintColor.b += 0.05f;
+
+                channelTickTime += 50;
+            }
         }
+
+        if(actInitiator.isDead()) expired = true;
     }
 
     @Override
@@ -92,9 +105,9 @@ public class CombatChannelPhase$CasterBasic extends AbstractCombatChannelPhase {
             actInitiator.forceActAction(actionToPlay);
         }
         //TODO projectile type adapts with initiator equipment
-        projectileType = Projectile.Type.bolt_white_0;
-        projectile = new CasterAttackProjectile(actInitiator, actTarget, attackType, damageModel, projectileType, currentHit, 0.4f);
-        actInitiator.playSound(projectileType.getSound());
+        projectileType = Projectile.Type.valueOf(damageModel.getFxParam(currentHit));
+        projectile = new LinearRangedProjectile(actInitiator, actTarget, attackType, damageModel, projectileType, currentHit, 0.4f);
+        actInitiator.playSound(projectileType.getChannelSound());
         ParticleManager.get().addParticle(projectile);
     }
 
@@ -105,6 +118,6 @@ public class CombatChannelPhase$CasterBasic extends AbstractCombatChannelPhase {
 
     @Override
     public void renderInitiator(Graphics g, Actor initiator) {
-
+        initiator.render(g, tintColor);
     }
 }

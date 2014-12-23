@@ -1,0 +1,24 @@
+<monster faction="UNDEAD"  name="Bone Caster" width="1" height="1"
+         resource="res/textures/sprites/static/mon00.png" sprite="3,6"
+         deathType="crumble" attackType="caster_0" attackTypeParam="bolt_red_4"
+         soundSet="mon_0" approachRange="8">
+    <stats>
+        <stat type="HEALTH" value="10" />
+        <stat type="HEALTH_MAX" value="10" />
+        <stat type="ATTACK_DAMAGE" value="2" />
+        <stat type="DEFENSE" value="1" />
+        <stat type="MAGIC_DEFENSE" value="1" />
+        
+        <stat type="ATTACK_RANGE" value="4" />
+    </stats>
+
+    <ai type="MONSTER_MELEE_BASIC" wanderInterval="$RANDOM_NUMBER" randomParams="3000-8000" />
+
+    <dropList>
+
+    </dropList>
+
+    <script type="death">
+        <stats actor="$PLAYER" action="ADD" stat="EXPERIENCE" value="25" />
+    </script>
+</monster>

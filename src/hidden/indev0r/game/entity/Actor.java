@@ -1,5 +1,6 @@
 package hidden.indev0r.game.entity;
 
+import hidden.indev0r.game.MedievalLauncher;
 import hidden.indev0r.game.entity.ai.AI;
 import hidden.indev0r.game.entity.ai.AIList;
 import hidden.indev0r.game.entity.animation.ActionType;
@@ -57,8 +58,9 @@ public abstract class Actor extends Entity implements Mover {
     protected Color nameColor, minimapColor;
     protected boolean isAlive;
 
-    /* MAYBE A PLACEHOLDER */
     protected AttackType attackType;
+    protected String attackTypeParam;
+
     protected Actor combatTarget;
     protected List<CombatPhase> combatPhaseList = new ArrayList<>();
     protected DeathType deathType = DeathType.crumble;
@@ -72,6 +74,7 @@ public abstract class Actor extends Entity implements Mover {
     public Color combatHPColor = new Color(1f, 0f, 0f, 1f);
     public Color combatHPLaceColor = new Color(1f, 0.5f, 0f, 1f);
     public int combatHPLaceLength, combatHPBarLength;
+    public boolean showingCombatHPGauge = false;
 
     //Cloning purposes
     public Actor(Actor a) {
@@ -96,6 +99,7 @@ public abstract class Actor extends Entity implements Mover {
         this.running = a.running;
         this.soundSet = a.soundSet;
         this.deathTime = a.deathTime;
+        this.attackTypeParam = a.attackTypeParam;
     }
 
     public Actor(Faction faction, Element aiBlock, Vector2f position) {
@@ -248,7 +252,7 @@ public abstract class Actor extends Entity implements Mover {
                 damage = (int) (damage * 1.8f);
             }
 
-            model.addHit(DamageType.normal, damage, critical, "0");
+            model.addHit(DamageType.normal, damage, critical, attackTypeParam);
 
         }
 
@@ -280,13 +284,17 @@ public abstract class Actor extends Entity implements Mover {
             combatHPBarLength = (int) ((float) totalLength * percentageAfter);
             if (combatHPBarLength < 0) combatHPBarLength = 0;
 
-            deductStat(Stat.HEALTH, damage);
-            if (getStat(Stat.HEALTH) < 0) {
-                setStat(Stat.HEALTH, 0);
-                CombatDeathPhase deathPhase = attackType.getDeathPhase(model, this, combatTarget);
-                if(deathPhase != null) {
-                    CombatPhaseManager.get().addCombatPhase(deathPhase);
-                }
+            if(!showingCombatHPGauge && !(this instanceof Player)) {
+                MedievalLauncher.getInstance().getGameState().getMenuOverlay().showActorHPGauge(this);
+            }
+        }
+
+        deductStat(Stat.HEALTH, damage);
+        if (getStat(Stat.HEALTH) < 0) {
+            setStat(Stat.HEALTH, 0);
+            CombatDeathPhase deathPhase = attackType.getDeathPhase(model, this, combatTarget);
+            if(deathPhase != null) {
+                CombatPhaseManager.get().addCombatPhase(deathPhase);
             }
         }
 
@@ -381,8 +389,9 @@ public abstract class Actor extends Entity implements Mover {
         this.ai = ai;
     }
 
-    public void setAttackType(AttackType type) {
+    public void setAttackType(AttackType type, String param) {
         this.attackType = type;
+        this.attackTypeParam = param;
     }
 
     public void addScript(Script.Type type, Script script) {
@@ -497,6 +506,22 @@ public abstract class Actor extends Entity implements Mover {
     }
 
     public void deductStat(Stat stat, int value) {
+        deductStat(stat, value, true);
+    }
+
+    public void deductStat(Stat stat, int value, boolean verbose) {
+
+        if(verbose) {
+            Color col = stat.getColor();
+            String msg = "-" + value + " " + stat.getName();
+
+            if(stat.equals(Stat.HEALTH) && value <= 0) {
+                msg = "BLOCKED!";
+                col = Color.white;
+            }
+
+            MedievalLauncher.getInstance().getGameState().getMenuOverlay() .showStatusVerbose(this, col, msg, 10);
+        }
         setStat(stat, getStat(stat) - value);
     }
 
@@ -542,69 +567,85 @@ public abstract class Actor extends Entity implements Mover {
     }
 
     public enum Stat {
-		HEALTH(1),
-        HEALTH_MAX(1),
-        HEALTH_MAX_BONUS(0),
+		HEALTH(Color.red,"HP","Your current hit points",1),
+        HEALTH_MAX(Color.red,"HP Max","Your maximum hit points",1),
+        HEALTH_MAX_BONUS(Color.green,"","",0),
 
-        MANA(0),
-        MANA_MAX(0),
-        MANA_MAX_BONUS(0),
+        MANA(new Color(95, 205, 228),"MP","Your current magic points",0),
+        MANA_MAX(new Color(95, 205, 228),"MP Max","Your maximum magic points",0),
+        MANA_MAX_BONUS(Color.green,"","",0),
 
-        EXPERIENCE(0),
-        EXPERIENCE_MAX(1),
+        EXPERIENCE(Color.green,"EXP","Your current experience points;towards the next level",0),
+        EXPERIENCE_MAX(Color.green,"EXP Max","EXP required to attain;the next level",1),
 
-        LEVEL(1),
-        GOLD(0),
+        LEVEL(Color.white, "Level", "Your current level", 1),
+        GOLD(Color.yellow, "Gold", "How much gold in your possession", 0),
 
         //Affects damage dealt and taken
-        ATTACK_DAMAGE(0),
-        ATTACK_DAMAGE_BONUS(0),
-        DEFENSE(0),
-        DEFENSE_BONUS(0),
-        MAGIC_DEFENSE(0),
-        MAGIC_DEFENSE_BONUS(0),
+        ATTACK_DAMAGE(Color.white, "Attack", "Your current attack damage", 0),
+        ATTACK_DAMAGE_BONUS(Color.green, "", "", 0),
+        DEFENSE(Color.lightGray, "Defense", "Your current resistance to;physical damage", 0),
+        DEFENSE_BONUS(Color.green, "", "", 0),
+        MAGIC_DEFENSE(Color.cyan, "Magic Defense", "Your current resistance to;magical damage", 0),
+        MAGIC_DEFENSE_BONUS(Color.green, "", "", 0),
 
         //Affects movement speed
-        SPEED(10),
-        SPEED_BONUS(0),
+        SPEED(Color.white, "Speed", "Affects your movement speed", 10),
+        SPEED_BONUS(Color.green, "", "", 0),
 
         //Affects rate of attack
-        DEXTERITY(0),
-        DEXTERITY_BONUS(0),
+        DEXTERITY(Color.white, "Dexterity", "Affects your attack speed", 0),
+        DEXTERITY_BONUS(Color.green, "", "", 0),
 
         //Affects ability scaling (wizards)
-        INTELLIGENCE(0),
-        INTELLIGENCE_BONUS(0),
+        INTELLIGENCE(Color.white, "Intelligence", "Affects your magical combat;abilities and damage", 0),
+        INTELLIGENCE_BONUS(Color.green, "", "", 0),
 
         //Affects attack damage
-        STRENGTH(0),
-        STRENGTH_BONUS(0),
+        STRENGTH(Color.white, "Strength", "Affects your physical combat;abilities and damage", 0),
+        STRENGTH_BONUS(Color.green, "", "", 0),
 
         //Misc.
-        LUCK(0),
-        LUCK_BONUS(0),
+        LUCK(Color.magenta, "Luck", "???", 0),
+        LUCK_BONUS(Color.green, "", "", 0),
 
-        ACCURACY(0),
-        ACCURACY_BONUS(0),
+        ACCURACY(Color.white, "Accuracy", "Affects your chance successfully;deal damage", 0),
+        ACCURACY_BONUS(Color.green, "", "", 0),
 
-        EVASION(0),
-        EVASION_BONUS(0),
+        EVASION(Color.white, "Evasion", "Affects your chance to dodge;incoming attacks", 0),
+        EVASION_BONUS(Color.green, "", "", 0),
 
-        ATTACK_RANGE(1),
-        ATTACK_RANGE_BONUS(0)
+        ATTACK_RANGE(Color.white, "Attack Range", "Affects how far your attacks will reach", 1),
+        ATTACK_RANGE_BONUS(Color.green, "", "", 0)
         ;
 
 		private int defaultValue;
+        private Color color;
+        private String name;
+        private String description;
 
-
-		Stat(int standard) {
+		Stat(Color col, String attrName, String description, int standard) {
+            this.color = col;
 			this.defaultValue = standard;
+            this.name =  attrName;
+            this.description = description;
 		}
 
 		public int getDefaultValue() {
 			return defaultValue;
 		}
 
+        public String getName() {
+            return name;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public Color getColor() {
+            return color;
+        }
     }
 
     public enum Faction {

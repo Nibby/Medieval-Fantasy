@@ -39,6 +39,7 @@ public class GComponent$Minimap extends GComponent implements GComponentListener
 	public GComponent$Minimap(Vector2f pos, GMapSupplier supplier, int numOfButton) {
 		super(pos);
 		minimap = Textures.UI.MINIMAP_BASE;
+        setRequireFocus(false);
 		this.width = minimap.getWidth();
 		this.height = minimap.getHeight();
 

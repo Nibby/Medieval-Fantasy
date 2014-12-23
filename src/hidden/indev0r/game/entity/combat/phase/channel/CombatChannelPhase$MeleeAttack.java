@@ -132,6 +132,8 @@ public class CombatChannelPhase$MeleeAttack extends AbstractCombatChannelPhase {
                 hitTickTime = System.currentTimeMillis();
             }
         }
+
+        if(actInitiator.isDead()) expired = true;
     }
 
     @Override

@@ -1,6 +1,7 @@
-<monster faction="UNDEAD"  name="Skeleton" width="1" height="1"
+<monster faction="UNDEAD"  name="Bone Minion" width="1" height="1"
          resource="res/textures/sprites/static/mon00.png" sprite="0,6"
-         deathType="crumble" attackType="melee_0" soundSet="mon_0" approachRange="8">
+         deathType="crumble" attackType="melee_0" attackTypeParam="1"
+         soundSet="mon_0" approachRange="8">
     <stats>
         <stat type="HEALTH" value="20" />
         <stat type="HEALTH_MAX" value="20" />

@@ -1,4 +1,4 @@
-package hidden.indev0r.game.gui.component.hud;
+package hidden.indev0r.game.gui.component;
 
 import hidden.indev0r.game.BitFont;
 import hidden.indev0r.game.Camera;
@@ -30,6 +30,7 @@ public class GComponent$SpeechBubble extends GComponent {
         this.text = text;
         this.color = color;
         this.jitter = jitter;
+        setRequireFocus(false);
         setSize(BitFont.widthOf(text, 16), 28);
     }
 

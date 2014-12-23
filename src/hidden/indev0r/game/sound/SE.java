@@ -32,6 +32,17 @@ public enum SE {
     HURT_0(References.SE_PATH.resolve("hurt").resolve("hurt0.wav")),
     HURT_1(References.SE_PATH.resolve("hurt").resolve("hurt1.wav")),
 
+    CAST_HURT_0(References.SE_PATH.resolve("hurt").resolve("cast_hurt0.wav")),
+    CAST_HURT_1(References.SE_PATH.resolve("hurt").resolve("cast_hurt1.wav")),
+    CAST_HURT_2(References.SE_PATH.resolve("hurt").resolve("cast_hurt2.wav")),
+    CAST_HURT_3(References.SE_PATH.resolve("hurt").resolve("cast_hurt3.wav")),
+    CAST_HURT_4(References.SE_PATH.resolve("hurt").resolve("cast_hurt4.wav")),
+    CAST_HURT_5(References.SE_PATH.resolve("hurt").resolve("cast_hurt5.wav")),
+    CAST_HURT_6(References.SE_PATH.resolve("hurt").resolve("cast_hurt6.wav")),
+    CAST_HURT_7(References.SE_PATH.resolve("hurt").resolve("cast_hurt7.wav")),
+    CAST_HURT_8(References.SE_PATH.resolve("hurt").resolve("cast_hurt8.wav")),
+    CAST_HURT_9(References.SE_PATH.resolve("hurt").resolve("cast_hurt9.wav")),
+
     PARRY_0(References.SE_PATH.resolve("parry").resolve("parry0.wav"))
     ;
 

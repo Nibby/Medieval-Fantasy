@@ -54,7 +54,7 @@ public class GComponent$CircularMap extends GComponent {
 		this.mapSupplier = supplier;
 		entities = mapSupplier.getEntitiesOnMap();
         centerActor = mapSupplier.getCenterEntity();
-
+        setRequireFocus(false);
         mapTileWidth = width / MAP_PIXEL_SIZE;
         mapTileHeight = height / MAP_PIXEL_SIZE;
 	}

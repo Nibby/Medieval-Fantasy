@@ -132,23 +132,6 @@ public class Cursor {
 
             BitFont.render(g, renderText, (mx + 24 - BitFont.widthOf(renderText, 16) / 2), my + 42, (!isEnemy) ? actor.getNameColor() : Color.red);
         }
-
-        if(INTERACT_INSTANCE instanceof Actor) {
-            Actor actor = (Actor) INTERACT_INSTANCE;
-            if(actor.combatHurt) {
-                int barLength = actor.getWidth();
-                int barHeight = 4;
-
-                g.setColor(Color.black);
-                g.fillRect(actor.getRenderX() - 2, actor.getRenderY() - 14, barLength + 4, barHeight + 4);
-
-                g.setColor(actor.combatHPLaceColor);
-                g.fillRect(actor.getRenderX(), actor.getRenderY() - 12, actor.combatHPLaceLength, barHeight);
-
-                g.setColor(actor.combatHPColor);
-                g.fillRect(actor.getRenderX(), actor.getRenderY() - 12, actor.combatHPBarLength, barHeight);
-            }
-        }
     }
 
     public static void releaseInteractInstance(Object obj) {

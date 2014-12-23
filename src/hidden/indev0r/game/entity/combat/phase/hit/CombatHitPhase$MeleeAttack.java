@@ -26,9 +26,7 @@ public class CombatHitPhase$MeleeAttack extends AbstractCombatHitPhase {
     private float fx = 16, fy = -16, fw = 32, fh = 32;
     private float fxTicks = 0;
     private Color fxColor = new Color(1f, 1f, 1f, 0f);
-    private Color textColor = new Color(1f, 0f, 0f, 1f);
     private int currentHit = 0;
-    private long hitTick;
     private Image critBulge;
     private long bulgeTickTime;
     private float bulgeAlpha;
@@ -44,8 +42,9 @@ public class CombatHitPhase$MeleeAttack extends AbstractCombatHitPhase {
     public void tick(GameContainer gc) {
         super.tick(gc);
 
-        if(hurtTint.a >= 1f && hurtTint.r >= 1f && hurtTint.g >= 1f && hurtTint.b >= 1f
-                && textColor.a <= 0f || actTarget.isDead()) {
+        if(actTarget.isDead()) expired = true;
+
+        if(hurtTint.a >= 1f && hurtTint.r >= 1f && hurtTint.g >= 1f && hurtTint.b >= 1f) {
             expired = true;
         }
 
@@ -61,7 +60,6 @@ public class CombatHitPhase$MeleeAttack extends AbstractCombatHitPhase {
         if(System.currentTimeMillis() - fxTick > 2) {
             fx -= 0.6f * fxTicks;
             fy += 0.6f * fxTicks;
-            textColor.a -= 0.035f;
             fxTicks++;
             float tickX = fxTicks / 15f;
             fxColor.a = -tickX * (tickX - 1);
@@ -70,12 +68,6 @@ public class CombatHitPhase$MeleeAttack extends AbstractCombatHitPhase {
     }
 
     private void updateHitInfo() {
-        textColor = new Color(1f, 0f, 0f, 1f);
-        if(getDamageModel().getDamage(currentHit) == 0)
-            textColor = new Color(1f, 1f, 1f, 1f);
-        if(getDamageModel().isCritical(currentHit))
-            textColor = new Color(1f, 0.5f, 0f, 1f);
-
         if(getDamageModel().isCritical(currentHit)) {
             critBulge = actTarget.getCurrentImage();
             bulgeAlpha = 0.5f;
@@ -110,7 +102,6 @@ public class CombatHitPhase$MeleeAttack extends AbstractCombatHitPhase {
     protected void init() {
         textureTintTick = System.currentTimeMillis();
         fxTick = System.currentTimeMillis();
-        hitTick = System.currentTimeMillis();
         bulgeTickTime = System.currentTimeMillis();
 
         hurtTarget();
@@ -119,7 +110,6 @@ public class CombatHitPhase$MeleeAttack extends AbstractCombatHitPhase {
 
         if(actualDamage <= 0) {
             hurtTint = new Color(1f, 1f, 1f, 1f);
-            textColor = new Color(1f, 1f, 1f, 1f);
         } else {
             Color c = getDamageModel().getDamageType(currentHit).getColor();
             hurtTint = new Color(c.r, c.g, c.b, 0.5f);
@@ -156,10 +146,6 @@ public class CombatHitPhase$MeleeAttack extends AbstractCombatHitPhase {
                 bulgeTickTime = System.currentTimeMillis();
             }
         }
-
-        String text = (actualDamage > 0) ? "-" + actualDamage : "PARRY";
-        BitFont.render(g, text, (int) (target.getPosition().x + target.getWidth() / 2 - BitFont.widthOf(text, 16) / 2 + camera.getOffsetX()),
-                (int) (target.getPosition().y + camera.getOffsetY() - 28 - fxTicks), textColor, 16);
     }
 
     @Override

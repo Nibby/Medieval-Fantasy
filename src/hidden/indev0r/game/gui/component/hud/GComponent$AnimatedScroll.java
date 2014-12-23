@@ -34,6 +34,9 @@ public class GComponent$AnimatedScroll extends GComponent {
         super(new Vector2f(215, 15));
         this.text = text;
         this.duration = duration;
+
+        setRequireFocus(false);
+        setSize(20, 20); //Not needed
     }
 
     @Override
