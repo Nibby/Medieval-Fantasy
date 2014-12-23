@@ -3,20 +3,21 @@ package hidden.indev0r.game.entity.npc.script;
 import hidden.indev0r.game.reference.References;
 import hidden.indev0r.game.util.CipherEngine;
 import hidden.indev0r.game.util.XMLParser;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
-import javax.crypto.Cipher;
-import javax.crypto.CipherInputStream;
-import javax.swing.*;
 import java.io.DataInputStream;
-import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.crypto.Cipher;
+import javax.crypto.CipherInputStream;
+import javax.swing.JOptionPane;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * Created by MrDeathJockey on 14/12/15.

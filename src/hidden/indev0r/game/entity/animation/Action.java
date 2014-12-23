@@ -1,14 +1,12 @@
 package hidden.indev0r.game.entity.animation;
 
 import hidden.indev0r.game.entity.Entity;
-import hidden.indev0r.game.map.MapDirection;
-import org.lwjgl.util.vector.Vector2f;
+
+import java.util.ArrayList;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by MrDeathJockey on 14/12/4.

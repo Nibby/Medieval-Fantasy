@@ -96,8 +96,9 @@ public class CombatHitPhase$MeleeAttack extends AbstractCombatHitPhase {
                 );
                 ParticleManager.get().addParticle(p);
             }
-        } else
+        } else {
             actTarget.playSound(SoundType.parry);
+        }
     }
 
     private void parseFx() {

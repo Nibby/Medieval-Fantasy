@@ -13,10 +13,11 @@ public class ParticleManager {
 
     private List<Particle> particles = new ArrayList<>();
 
-    public void render(Graphics g) {
+    public void render(Graphics g, int type) {
         for(int i = 0; i < particles.size(); i++) {
             Particle particle = particles.get(i);
-            particle.render(g);
+            if(particle.getRenderType() == type)
+                particle.render(g);
         }
     }
 

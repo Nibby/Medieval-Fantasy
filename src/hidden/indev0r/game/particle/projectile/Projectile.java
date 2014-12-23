@@ -1,12 +1,10 @@
 package hidden.indev0r.game.particle.projectile;
 
-import hidden.indev0r.game.Camera;
-import hidden.indev0r.game.MedievalLauncher;
 import hidden.indev0r.game.entity.Actor;
 import hidden.indev0r.game.entity.combat.AttackType;
 import hidden.indev0r.game.entity.combat.DamageModel;
-import hidden.indev0r.game.map.Tile;
 import hidden.indev0r.game.particle.Particle;
+import hidden.indev0r.game.sound.SE;
 import hidden.indev0r.game.texture.Textures;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
@@ -19,143 +17,105 @@ import org.newdawn.slick.Image;
  */
 public abstract class Projectile extends Particle {
 
-    private Image image;
-    private Actor target;
-    private Actor origin;
-    private int interval, duration;
-    private double angle, oldAngle, defaultAngle;
-    private double vx, vy;
-    private DamageModel damageModel;
-    private AttackType attacKType;
-    private long moveTime = System.currentTimeMillis();
+    protected Actor actorOrigin, actorTarget;
+    protected AttackType attackType;
+    protected DamageModel damageModel;
+    protected Type type;
+    protected int travelTime;
+    protected int hitIndex;
+    protected boolean didHitTarget;
 
-    private boolean destinationReached = false;
-    private long destinationTick;
     public Projectile(Actor origin, Actor target, AttackType type, DamageModel model, Type texture, double time, int hitIndex) {
-        super(origin.getPosition(), false, new Color(0f, 0f, 0f, 0f), texture.getTexture().getWidth(), texture.getTexture().getHeight());
-        if(origin == null || target == null) {
-            decayed = true;
-            return;
-        }
-        this.image = texture.getTexture();
-        this.target = target;
-        this.origin = origin;
-        this.damageModel = model;
-        this.attacKType = type;
-        this.interval = (int) time / 50;
-        this.duration = (int) time;
-        this.defaultAngle = texture.defaultAngle;
-        if(interval <= 0) decayed = true;
+        super(new Vector2f(origin.getPosition().x, origin.getPosition().y), false, new Color(0f, 0f, 0f, 0f), texture.getTexture().getWidth(), texture.getTexture().getHeight());
 
-        setPosition(new Vector2f(this.origin.getRenderX() + this.origin.getWidth() / 2 - image.getWidth() / 2,
-                this.origin.getRenderY() + this.origin.getHeight() / 2 - image.getHeight() / 2));
+        this.actorOrigin = origin;
+        this.actorTarget = target;
+        this.attackType = type;
+        this.damageModel = model;
+        this.type = texture;
+        this.travelTime = (int) time;
+        this.hitIndex = hitIndex;
+        didHitTarget = false;
     }
 
     @Override
-    protected void randomize() {
+    public void randomize() {
 
     }
 
     @Override
     public void tick(GameContainer gc) {
-        if(origin == null || target == null) {
-            decayed = true;
-            return;
-        }
-        if(System.currentTimeMillis() - moveTime > 6) {
-
-            double xDiff = Math.abs(origin.getX() * Tile.TILE_SIZE - target.getX() * Tile.TILE_SIZE);
-            double yDiff = Math.abs(origin.getY() * Tile.TILE_SIZE - target.getY() * Tile.TILE_SIZE);
-
-            double angularBonus = 0d;
-            double tx = target.getPosition().x;
-            double ty = target.getPosition().y;
-            double ox = origin.getPosition().x;
-            double oy = origin.getPosition().y;
-
-            if (interval <= 0) interval = 1;
-
-            //Projectile travel velocities
-            if (ox - tx == 0) vx = 0;
-            else vx = -(ox - tx) / (interval);
-
-            if (oy - ty == 0) vy = 0;
-            else vy = -(oy - ty) / (interval);
-
-            //Projectile texture rotation angle
-            if ((tx > ox && ty < oy) || (tx == ox && ty < oy)) angularBonus = 0d;
-            if ((tx < ox && ty > oy) || (tx == ox && ty > oy)) angularBonus = 180d;
-            if ((tx < ox && ty < oy) || (tx < ox && ty == oy)) angularBonus = 270d;
-            if ((tx > ox && ty > oy) || (tx > ox && ty == oy)) angularBonus = 90d;
-
-            if(yDiff == 0 || xDiff == 0) angle = angularBonus;
-            else angle = Math.toDegrees(Math.tan(xDiff / yDiff)) + angularBonus;
-            oldAngle = 0d;
-
-            position.x += vx;
-            position.y += vy;
-
-            Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
-
-            int xx = (int) (position.x - camera.getOffsetX()) / Tile.TILE_SIZE;
-            int yy = (int) (position.y - camera.getOffsetY()) / Tile.TILE_SIZE;
-
-            if(!destinationReached &&
-                    xx >= (int) target.getX() - 1 && yy >= (int) target.getY() - 1 &&
-                    xx <= (int) target.getX() + 1 && yy <= (int) target.getY() + 1) {
-                destinationReached = true;
-                destinationTick = System.currentTimeMillis();
-            }
-
-            if(destinationReached) {
-                if(System.currentTimeMillis() - destinationTick > 100)
-                    decayed = true;
-            }
-
-            if(System.currentTimeMillis() - tickTime > duration) decayed = true;
-
-            moveTime = System.currentTimeMillis();
-        }
     }
 
     @Override
     public void render(Graphics g) {
-        if(oldAngle != angle) {
-            image.setCenterOfRotation(image.getWidth() / 2, image.getHeight() / 2);
-            image.setRotation((float) ((float) angle + defaultAngle));
-            oldAngle = angle;
-        }
+    }
 
-        g.drawImage(image, origin.getRenderX() + (position.x - origin.getRenderX()),
-                origin.getRenderY() + (position.y - origin.getRenderY()));
+    protected void hitTarget() {
+        didHitTarget = true;
+        decayed = true;
+    }
+
+    public boolean didHitTarget() {
+        return didHitTarget;
     }
 
     public enum Type {
 
-        none(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(0, 0), 0),
-        bolt_blue_0(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(2, 0), 45),
-        bolt_blue_1(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(3, 0), 0),
-        bolt_green_0(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(4, 0), 45),
-        bolt_green_1(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(5, 0), 0),
-        bolt_pink_0(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(6, 0), 45),
-        bolt_pnk_0(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(7, 0), 0),
-        bolt_orange_0(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(0, 1), 45),
-        bolt_orange_1(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(1, 1), 0),
-        bolt_angelic_0(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(2, 1), 45),
-        bolt_angelic_1(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(3, 1), 0),
-        bolt_red_0(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(4, 1), 45),
-        bolt_red_1(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(5, 1), 0),
+        bolt_white_0(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(0, 0), SE.CHANNEL_3, 45),
+        bolt_attuned_star(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(0, 1), SE.CHANNEL_8, 0),
+        bolt_mero_mero_0(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(0, 2), SE.CHANNEL_9, 45),
+
+        bolt_red_0(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(1, 0), SE.CHANNEL_2, 45),
+        bolt_red_1(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(1, 1), SE.CHANNEL_4, 45),
+        bolt_red_2(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(1, 2), SE.CHANNEL_5, 45),
+        bolt_red_3(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(1, 3), SE.CHANNEL_1, 45),
+        bolt_red_4(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(1, 4), SE.CHANNEL_1, 45),
+        bolt_red_5(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(1, 5), SE.CHANNEL_1, 0),
+
+        bolt_blue_0(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(2, 0), SE.CHANNEL_2, 45),
+        bolt_blue_1(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(2, 1), SE.CHANNEL_4, 45),
+        bolt_blue_4(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(2, 4), SE.CHANNEL_1, 45),
+        bolt_blue_5(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(2, 5), SE.CHANNEL_1, 0),
+
+        bolt_green_0(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(3, 0), SE.CHANNEL_2, 45),
+        bolt_green_1(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(3, 1), SE.CHANNEL_4, 45),
+        bolt_green_4(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(3, 4), SE.CHANNEL_1, 45),
+        bolt_green_5(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(3, 5), SE.CHANNEL_1, 0),
+
+        bolt_pink_0(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(4, 0), SE.CHANNEL_2, 45),
+        bolt_pink_1(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(4, 1), SE.CHANNEL_4, 45),
+        bolt_pink_4(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(4, 4), SE.CHANNEL_1, 45),
+        bolt_pink_5(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(4, 5), SE.CHANNEL_1, 0),
+
+        bolt_shadow_0(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(5, 0), SE.CHANNEL_7, 45),
+        bolt_shadow_1(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(5, 1), SE.CHANNEL_7, 45),
+
+        bolt_angelic_0(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(5, 2), SE.CHANNEL_0, 45),
+        bolt_angelic_1(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(6, 2), SE.CHANNEL_0, 0),
+
         ;
 
         private Image texture;
         private int defaultAngle;
-        Type(Image texture, int defaultAngle) {
+        private SE sound;
+
+        Type(Image texture, SE sound, int defaultAngle) {
             this.texture = texture;
             this.defaultAngle = defaultAngle;
+            this.sound = sound;
         }
 
         public Image getTexture() {
             return texture;
+        }
+
+        public int getDefaultAngle() {
+            return defaultAngle;
+        }
+
+        public SE getSound() {
+            return sound;
         }
     }
 }

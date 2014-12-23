@@ -3,10 +3,9 @@ package hidden.indev0r.game.gui.component.hud;
 import hidden.indev0r.game.BitFont;
 import hidden.indev0r.game.Camera;
 import hidden.indev0r.game.MedievalLauncher;
-import hidden.indev0r.game.entity.Entity;
 import hidden.indev0r.game.gui.component.base.GComponent;
-import hidden.indev0r.game.gui.component.base.GComponent$Label;
 import hidden.indev0r.game.texture.Textures;
+
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;

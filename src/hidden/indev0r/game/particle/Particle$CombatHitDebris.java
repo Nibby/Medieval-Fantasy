@@ -20,7 +20,7 @@ public class Particle$CombatHitDebris extends Particle {
     }
 
     @Override
-    protected void randomize() {
+    public void randomize() {
         int randomX = (int) (Math.random() * sprite.getWidth());
         int randomY = (int) (Math.random() * sprite.getHeight());
         Color color = sprite.getColor(randomX, randomY);

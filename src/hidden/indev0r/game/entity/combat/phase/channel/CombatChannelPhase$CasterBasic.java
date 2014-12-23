@@ -8,11 +8,11 @@ import hidden.indev0r.game.entity.combat.DamageModel;
 import hidden.indev0r.game.particle.ParticleManager;
 import hidden.indev0r.game.particle.projectile.CasterAttackProjectile;
 import hidden.indev0r.game.particle.projectile.Projectile;
-import hidden.indev0r.game.sound.SoundType;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
 
 import java.util.Map;
+
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 
 /**
  * Created by MrDeathJockey on 14/12/21.
@@ -90,12 +90,11 @@ public class CombatChannelPhase$CasterBasic extends AbstractCombatChannelPhase {
     private void doChannel() {
         if(mode == MODE_ACTION_SET) {
             actInitiator.forceActAction(actionToPlay);
-            actInitiator.playSound(SoundType.attack_normal_cast);
-
         }
         //TODO projectile type adapts with initiator equipment
-        projectileType = Projectile.Type.bolt_angelic_0;
-        projectile = new CasterAttackProjectile(actInitiator, actTarget, attackType, damageModel, projectileType, currentHit);
+        projectileType = Projectile.Type.bolt_white_0;
+        projectile = new CasterAttackProjectile(actInitiator, actTarget, attackType, damageModel, projectileType, currentHit, 0.4f);
+        actInitiator.playSound(projectileType.getSound());
         ParticleManager.get().addParticle(projectile);
     }
 

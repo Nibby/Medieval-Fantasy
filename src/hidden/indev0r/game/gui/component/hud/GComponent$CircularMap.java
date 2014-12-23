@@ -1,18 +1,23 @@
 package hidden.indev0r.game.gui.component.hud;
 
-import hidden.indev0r.game.entity.*;
+import hidden.indev0r.game.entity.Actor;
+import hidden.indev0r.game.entity.Entity;
+import hidden.indev0r.game.entity.FactionUtil;
+import hidden.indev0r.game.entity.Monster;
+import hidden.indev0r.game.entity.NPC;
 import hidden.indev0r.game.gui.component.base.GComponent;
 import hidden.indev0r.game.gui.component.interfaces.GMapSupplier;
 import hidden.indev0r.game.map.Tile;
 import hidden.indev0r.game.texture.Textures;
+
+import java.util.List;
+
 import org.lwjgl.util.vector.Vector2f;
-import org.newdawn.slick.*;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-
-import java.awt.*;
-import java.util.List;
+import org.newdawn.slick.SlickException;
 
 public class GComponent$CircularMap extends GComponent {
 

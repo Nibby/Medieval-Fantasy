@@ -4,7 +4,7 @@
 
     <location>
         <map>dev_quarters_lobby</map>
-        <pos>11,12</pos>
+        <pos>14,12</pos>
     </location>
 
     <ai type="NPC_MOVE_RANDOM" intervalMin="5000" intervalMax="10000" />

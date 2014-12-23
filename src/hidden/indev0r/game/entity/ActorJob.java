@@ -291,7 +291,7 @@ public enum ActorJob {
 
         @Override
         public SoundSet getSoundSet() {
-            return null;
+            return SoundSet.player_warrior;
         }
 
         @Override

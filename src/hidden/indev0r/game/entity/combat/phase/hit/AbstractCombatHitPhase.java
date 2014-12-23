@@ -29,6 +29,8 @@ public abstract class AbstractCombatHitPhase implements CombatHitPhase {
         actInitiator = initiator;
         actTarget = target;
         actTarget.addCombatPhase(this);
+
+        actualDamage = damageModel.getDamage(currentHit);
     }
 
     @Override

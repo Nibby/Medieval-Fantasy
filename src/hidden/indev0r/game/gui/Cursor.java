@@ -3,12 +3,22 @@ package hidden.indev0r.game.gui;
 import hidden.indev0r.game.BitFont;
 import hidden.indev0r.game.Camera;
 import hidden.indev0r.game.MedievalLauncher;
-import hidden.indev0r.game.entity.*;
+import hidden.indev0r.game.entity.Actor;
+import hidden.indev0r.game.entity.Door;
+import hidden.indev0r.game.entity.FactionUtil;
+import hidden.indev0r.game.entity.Monster;
+import hidden.indev0r.game.entity.NPC;
+import hidden.indev0r.game.entity.Player;
 import hidden.indev0r.game.entity.npc.script.Script;
 import hidden.indev0r.game.gui.component.base.GComponent;
-import hidden.indev0r.game.map.Tile;
 import hidden.indev0r.game.texture.Textures;
-import org.newdawn.slick.*;
+
+import org.newdawn.slick.Animation;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 
 /**
  * Created by MrDeathJockey on 14/12/8.

@@ -2,7 +2,12 @@ package hidden.indev0r.game.state;
 
 
 import hidden.indev0r.game.Camera;
-import hidden.indev0r.game.entity.*;
+import hidden.indev0r.game.entity.Actor;
+import hidden.indev0r.game.entity.ActorJob;
+import hidden.indev0r.game.entity.Entity;
+import hidden.indev0r.game.entity.Monster;
+import hidden.indev0r.game.entity.MonsterDatabase;
+import hidden.indev0r.game.entity.Player;
 import hidden.indev0r.game.entity.combat.phase.CombatPhaseManager;
 import hidden.indev0r.game.gui.component.interfaces.GMapSupplier;
 import hidden.indev0r.game.gui.menu.GGameOverlayMenu;
@@ -12,10 +17,15 @@ import hidden.indev0r.game.map.Tile;
 import hidden.indev0r.game.map.TileMap;
 import hidden.indev0r.game.map.TileMapDatabase;
 import hidden.indev0r.game.map.WarpType;
+import hidden.indev0r.game.particle.Particle;
 import hidden.indev0r.game.particle.ParticleManager;
 import hidden.indev0r.game.reference.References;
-import hidden.indev0r.game.sound.SE;
 import hidden.indev0r.game.sound.SoundPlayer;
+
+import java.util.List;
+
+import javax.swing.JOptionPane;
+
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -23,9 +33,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-
-import javax.swing.*;
-import java.util.List;
 
 public class MainGameState extends BasicGameState implements GMapSupplier {
 
@@ -61,11 +68,11 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
         soundPlayer = new SoundPlayer();
 
 		camera = new Camera(0, 0);
-		player = new Player(Actor.Faction.GLYSIA, ActorJob.MAGE, 11, 13);
+		player = new Player(Actor.Faction.GLYSIA, ActorJob.MAGE, 11, 18);
 		player.setLevel(1);
 		camera.setTrackObject(player);
 
-		map = TileMapDatabase.getTileMap("battle_arena");
+		map = TileMapDatabase.getTileMap("dev_quarters_lobby");
 		map.addEntity(player);
 
 		menuMgr = new GMenuManager();
@@ -73,23 +80,23 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
 		menuMgr.addMenu((menuOverlay = new GGameOverlayMenu(this, player, this)));
 		menuMgr.setTickTopMenuOnly(false);
 
-        for(int i = 0; i < 100; i++) {
+        for(int i = 0; i < 6; i++) {
             int spawnX, spawnY;
             do {
-                spawnX = (int) (Math.random() * 48);
-                spawnY = (int) (Math.random() * 48);
-            } while(map.isBlocked(null, spawnX, spawnY));
+                spawnX = (int) (Math.random() * 17) + 17;
+                spawnY = (int) (Math.random() * 13) + 13;
+            } while(TileMapDatabase.getTileMap("infested_stage").isBlocked(null, spawnX, spawnY));
 
             if(i == 5) {
                 Monster mon2 = MonsterDatabase.get("skeleton_1");
                 mon2.setPosition(spawnX, spawnY);
-                mon2.setPosition(16, 16);
-                map.addEntity(mon2);
+                mon2.setPosition(33, 18);
+                TileMapDatabase.getTileMap("infested_stage").addEntity(mon2);
                 continue;
             }
             Monster mon = MonsterDatabase.get("skeleton");
             mon.setPosition(spawnX, spawnY);
-            map.addEntity(mon);
+            TileMapDatabase.getTileMap("infested_stage").addEntity(mon);
 
         }
 
@@ -102,7 +109,7 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
 		map.render(g, camera);
 
         CombatPhaseManager.get().render(g);
-        ParticleManager.get().render(g);
+        ParticleManager.get().render(g, Particle.TYPE_FOREGROUND);
 
         g.setColor(fadeHue);
         g.fillRect(0, 0, References.GAME_WIDTH, References.GAME_HEIGHT);

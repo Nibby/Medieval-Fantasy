@@ -64,7 +64,7 @@ public class GComponent$BGMTrackInfo extends GComponent {
                         ticks--;
                     }
                     else {
-                        animTick = System.currentTimeMillis() + 1500 + title.split(" ").length * 500;
+                        animTick = System.currentTimeMillis() + 2000 + title.split(" ").length * 500;
                         phase++;
                         break;
                     }

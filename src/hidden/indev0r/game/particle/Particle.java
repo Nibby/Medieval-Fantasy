@@ -12,6 +12,9 @@ import org.newdawn.slick.Graphics;
  */
 public abstract class Particle {
 
+    public static final int TYPE_FOREGROUND = 0, TYPE_BACKGROUND = 1;
+    protected int renderType = TYPE_FOREGROUND;
+
     protected Vector2f position;
     protected float width, height;
     protected Color color;
@@ -35,7 +38,7 @@ public abstract class Particle {
 
     }
 
-    protected abstract void randomize();
+    public abstract void randomize();
 
     public void render(Graphics g) {
         g.setColor(color);
@@ -140,5 +143,13 @@ public abstract class Particle {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public int getRenderType() {
+        return renderType;
+    }
+
+    public void setRenderType(int renderType) {
+        this.renderType = renderType;
     }
 }

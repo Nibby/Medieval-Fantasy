@@ -2,17 +2,17 @@ package hidden.indev0r.game.gui.component.base;
 
 import hidden.indev0r.game.gui.component.interfaces.GDialogListener;
 import hidden.indev0r.game.gui.menu.GMenu;
-import hidden.indev0r.game.map.Tile;
 import hidden.indev0r.game.reference.References;
 import hidden.indev0r.game.texture.Textures;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class GComponent$Frame extends GComponent {
 

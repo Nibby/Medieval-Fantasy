@@ -57,8 +57,9 @@ public class CombatDeathPhase$Crumble extends AbstractCombatDeathPhase{
                                 position.x += crumbleX;
                                 position.y += crumbleY;
                             } else {
+                                setRenderType(TYPE_BACKGROUND);
                                 if(System.currentTimeMillis() - tickTime > 10) {
-                                    if(color.a > 0f) color.a -= 0.05f;
+                                    if(color.a > 0f) color.a -= 0.005f;
                                     else decayed = true;
                                 }
                             }

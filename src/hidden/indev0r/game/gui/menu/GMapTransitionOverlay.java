@@ -2,12 +2,12 @@ package hidden.indev0r.game.gui.menu;
 
 import hidden.indev0r.game.BitFont;
 import hidden.indev0r.game.MedievalLauncher;
-import hidden.indev0r.game.entity.Entity;
 import hidden.indev0r.game.entity.Player;
 import hidden.indev0r.game.gui.component.base.GComponent;
 import hidden.indev0r.game.map.TileMap;
 import hidden.indev0r.game.map.WarpType;
 import hidden.indev0r.game.reference.References;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;

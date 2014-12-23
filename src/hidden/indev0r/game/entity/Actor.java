@@ -221,9 +221,8 @@ public abstract class Actor extends Entity implements Mover {
 
     public void combatChannelStart(AttackType type) {
         DamageModel model = new DamageModel();
-
         //2 is how many attacks actor will deal
-        for(int i = 0; i < 2; i++) {
+        for(int i = 0; i < 1; i++) {
             //PLACEHOLDER
             DamageType damageType = DamageType.normal;
 
@@ -232,14 +231,14 @@ public abstract class Actor extends Entity implements Mover {
                     + getStat(Stat.STRENGTH_BONUS)
                     + (int) (Math.random() * (getStat(Stat.STRENGTH) / 2) + getStat(Stat.STRENGTH) / 2);
 
+            if(damageType.equals(DamageType.normal))
+                damage -= combatTarget.getDefense();
+            else
+                damage -= combatTarget.getMagicDefense();
+            if(damage < 0) damage = 0;
+
             if(combatTarget != null) {
                 damage = damageType.processDamage(damage, combatTarget, this);
-
-                if (type.equals(DamageType.normal)) {
-                    damage -= combatTarget.getDefense();
-                } else {
-                    damage -= combatTarget.getMagicDefense();
-                }
             }
 
             boolean critical = (int) (Math.random() * 100) < getStat(Stat.LUCK) / 4
@@ -266,7 +265,9 @@ public abstract class Actor extends Entity implements Mover {
 
     public void combatHurt(Actor dmgDealer, int currentHit, DamageModel model, int damage) {
         if(dmgDealer == null) return;
+
         if(damage > 0) {
+
             combatHurt = true;
             combatHurtTick = System.currentTimeMillis();
 
@@ -426,6 +427,11 @@ public abstract class Actor extends Entity implements Mover {
 
     public void setSoundSet(SoundSet soundSet) {
         this.soundSet = soundSet;
+    }
+
+    public void playSound(SE sound) {
+        if(sound != null)
+            sound.play(this);
     }
 
     public boolean isDead() {

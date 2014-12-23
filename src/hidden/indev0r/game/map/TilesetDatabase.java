@@ -40,6 +40,7 @@ public class TilesetDatabase {
 		DataInputStream input = new DataInputStream(new CipherInputStream(Files.newInputStream(tilesetPath), cipher));
 		byte[] bytes = new byte[input.readInt()];
 		input.readFully(bytes);
+		input.close();
 
 		//Parse decrypted content and dissect XML string
 		String data = new String(bytes, Charset.forName("UTF-8"));

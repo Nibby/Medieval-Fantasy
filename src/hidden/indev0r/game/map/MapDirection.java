@@ -1,7 +1,6 @@
 package hidden.indev0r.game.map;
 
 import hidden.indev0r.game.entity.Entity;
-import hidden.indev0r.game.entity.Player;
 
 /**
  * Created by James on 12/4/2014.

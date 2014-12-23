@@ -3,7 +3,6 @@ package hidden.indev0r.game;
 import hidden.indev0r.game.debug.DataPublisher;
 import hidden.indev0r.game.entity.MonsterDatabase;
 import hidden.indev0r.game.entity.NPCDatabase;
-import hidden.indev0r.game.entity.ai.AI;
 import hidden.indev0r.game.entity.animation.ActionSetDatabase;
 import hidden.indev0r.game.entity.npc.script.ScriptDatabase;
 import hidden.indev0r.game.gui.Cursor;
@@ -14,12 +13,13 @@ import hidden.indev0r.game.state.GameStateID;
 import hidden.indev0r.game.state.MainGameState;
 import hidden.indev0r.game.state.MainMenuState;
 import hidden.indev0r.game.texture.Textures;
+
+import java.nio.file.Paths;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
-
-import java.nio.file.Paths;
 
 public class MedievalLauncher extends StateBasedGame {
 
@@ -107,7 +107,7 @@ public class MedievalLauncher extends StateBasedGame {
 			app.setDisplayMode(References.GAME_WIDTH, References.GAME_HEIGHT, false);
 			app.setAlwaysRender(false);
 			app.setUpdateOnlyWhenVisible(true);
-			app.setShowFPS(true);
+			app.setShowFPS(false);
 			app.setTargetFrameRate(60);
             app.setVerbose(false);
 			app.start();

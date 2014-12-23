@@ -10,15 +10,15 @@ import hidden.indev0r.game.map.MapDirection;
 import hidden.indev0r.game.map.Tile;
 import hidden.indev0r.game.map.TileMap;
 import hidden.indev0r.game.reference.References;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Stack;
 
 public abstract class Entity {
 

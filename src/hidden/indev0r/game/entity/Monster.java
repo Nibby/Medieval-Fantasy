@@ -72,7 +72,7 @@ public class Monster extends Actor {
                     }
                 }
 
-                if (withinRange(player, interactRange)) {
+                if (withinRange(player, player.getAttackRange())) {
                     if (Cursor.INTERACT_INSTANCE == null) {
                         Cursor.setInteractInstance(this);
                         wasMouseFocused = true;

@@ -1,18 +1,18 @@
 package hidden.indev0r.game.entity.ai;
 
 import hidden.indev0r.game.entity.Actor;
-import hidden.indev0r.game.entity.Entity;
 import hidden.indev0r.game.entity.FactionUtil;
 import hidden.indev0r.game.entity.combat.DamageModel;
 import hidden.indev0r.game.entity.npc.script.Script;
 import hidden.indev0r.game.map.MapDirection;
 import hidden.indev0r.game.map.TileMap;
+
+import java.util.List;
+
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.util.pathfinding.AStarPathFinder;
 import org.newdawn.slick.util.pathfinding.Path;
 import org.w3c.dom.Element;
-
-import java.util.List;
 
 /**
  * Created by MrDeathJockey on 14/12/19.

@@ -1,6 +1,5 @@
 package hidden.indev0r.game.entity;
 
-import hidden.indev0r.game.BitFont;
 import hidden.indev0r.game.Camera;
 import hidden.indev0r.game.MedievalLauncher;
 import hidden.indev0r.game.entity.animation.ActionType;
@@ -9,10 +8,13 @@ import hidden.indev0r.game.gui.component.interfaces.GStatsSupplier;
 import hidden.indev0r.game.map.MapDirection;
 import hidden.indev0r.game.map.Tile;
 import hidden.indev0r.game.sound.SoundSet;
-import org.lwjgl.util.vector.Vector2f;
-import org.newdawn.slick.*;
 
-import java.util.List;
+import org.lwjgl.util.vector.Vector2f;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 
 public class Player extends Actor implements GStatsSupplier {
 
@@ -36,12 +38,12 @@ public class Player extends Actor implements GStatsSupplier {
 		super.render(g);
 
         //Debug
-        BitFont.render(g, (int) getX() + ", " + (int) getY(), 10, 140);
-        int i =0;
-        for(Stat stat : propertyMap.keySet()) {
-            BitFont.render(g, stat.name() + ": " + getStat(stat), 10, 160 + i * 10, Color.white, 8);
-            i++;
-        }
+//        BitFont.render(g, (int) getX() + ", " + (int) getY(), 10, 140);
+//        int i =0;
+//        for(Stat stat : propertyMap.keySet()) {
+//            BitFont.render(g, stat.name() + ": " + getStat(stat), 10, 160 + i * 10, Color.white, 8);
+//            i++;
+//        }
     }
 
 	@Override

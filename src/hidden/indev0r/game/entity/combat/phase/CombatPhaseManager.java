@@ -1,14 +1,12 @@
 package hidden.indev0r.game.entity.combat.phase;
 
 import hidden.indev0r.game.entity.Actor;
-import hidden.indev0r.game.entity.combat.phase.channel.AbstractCombatChannelPhase;
-import hidden.indev0r.game.entity.combat.phase.channel.CombatChannelPhase;
-import hidden.indev0r.game.entity.combat.phase.hit.CombatHitPhase;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 
 /**
  * Created by MrDeathJockey on 14/12/18.

@@ -2,18 +2,26 @@ package hidden.indev0r.game.map;
 
 import hidden.indev0r.game.Camera;
 import hidden.indev0r.game.MedievalLauncher;
-import hidden.indev0r.game.entity.*;
+import hidden.indev0r.game.entity.Actor;
+import hidden.indev0r.game.entity.Entity;
+import hidden.indev0r.game.entity.FactionUtil;
+import hidden.indev0r.game.entity.Player;
 import hidden.indev0r.game.entity.npc.script.Script;
+import hidden.indev0r.game.particle.Particle;
+import hidden.indev0r.game.particle.ParticleManager;
 import hidden.indev0r.game.reference.References;
+
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.JOptionPane;
+
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.util.pathfinding.*;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.*;
-import java.util.List;
 
 /**
  * A TileMap is a map on which actors and other instances are able to move and interact with.
@@ -107,6 +115,7 @@ public class TileMap {
 
 			//Second layer are where entities are rendered
 			if (layer == 1) {
+                ParticleManager.get().render(g, Particle.TYPE_BACKGROUND);
 				for (Entity e : entities) {
                     if(e.isVisibleOnScreen() && !(e instanceof Player)) {
                         //Depth sorting needed
@@ -230,6 +239,13 @@ public class TileMap {
                         ((Actor) e).executeScript(Script.Type.approach);
                     ((Actor) e).onApproach((Actor) entity);
                     ((Actor) entity).onApproach((Actor) e);
+                }
+
+                Actor combatTarget = ((Actor) e).getCombatTarget();
+                if(combatTarget != null) {
+                    if(!((Actor) e).withinRange(combatTarget, ((Actor) e).getAttackRange() + 1)) {
+                        ((Actor) e).setCombatTarget(null);
+                    }
                 }
             }
         }
@@ -425,24 +441,23 @@ public class TileMap {
             if(!actors.isEmpty()) {
                 for(Actor a : actors) {
                     int d = getActorDistance(actor, a);
-                    if(d < distance) candidate = actor;
+                    if(d < distance) candidate = a;
 
                     if(a.isMoving()
                             //Check if the other actor candidate is facing this actor
                             && MapDirection.getOppositeOf(a.getCurrentDirection()).equals(actor.getCurrentDirection())
-                            && FactionUtil.isEnemy(actor.getFaction(), a.getFaction())) {
+                            && FactionUtil.isEnemy(actor.getFaction(), a.getFaction())
+                            && !a.equals(actor)) {
                         candidate = a;
                     }
                 }
 
             }
-
             if(sx < x) sx++;
             if(sx > x) sx--;
             if(sy < y) sy++;
             if(sy > y) sy--;
         }
-
         return candidate;
     }
 }
