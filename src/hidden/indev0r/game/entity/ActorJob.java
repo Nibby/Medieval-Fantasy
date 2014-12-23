@@ -102,7 +102,7 @@ public enum ActorJob {
 
         @Override
         public String getDefaultAttackTypeParam() {
-            return "bolt_attuned_star";
+            return "bolt_pink_4";
         }
 
         @Override

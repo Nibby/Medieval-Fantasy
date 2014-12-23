@@ -49,7 +49,7 @@ public class GComponent$StatusVerbose extends GComponent {
         super.render(g);
 
         BitFont.render(g, text, (int) actor.getRenderX() + actor.getWidth() / 2 - width / 2,
-                (int) actor.getRenderY() - ticks, color, 16, alpha);
+                (int) actor.getRenderY() - 22 - ticks, color, 16, alpha);
     }
 
     @Override

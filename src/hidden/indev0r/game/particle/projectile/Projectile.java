@@ -92,8 +92,8 @@ public abstract class Projectile extends Particle {
         bolt_shadow_0(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(5, 0), SE.CHANNEL_8, SE.CAST_HURT_2, 45),
         bolt_shadow_1(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(5, 1), SE.CHANNEL_7, SE.CAST_HURT_2, 45),
 
-        bolt_angelic_0(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(5, 2), SE.CHANNEL_0,  SE.CAST_HURT_1, 45),
-        bolt_angelic_1(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(6, 2), SE.CHANNEL_0, SE.CAST_HURT_1, 0),
+        bolt_angelic_0(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(5, 2), SE.CHANNEL_0,  SE.CAST_HURT_9, 45),
+        bolt_angelic_1(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(6, 2), SE.CHANNEL_0, SE.CAST_HURT_9, 0),
 
         ;
 

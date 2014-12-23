@@ -136,7 +136,11 @@ public class Player extends Actor implements GStatsSupplier {
     public void setLevel(int level) {
         if(level < 1) return;
 
-        setStat(Stat.LEVEL, level);
+        if(level - getLevel() == 1)
+            addStat(Stat.LEVEL, 1);
+        else
+            setStat(Stat.LEVEL, level);
+
         //Calculate stats
         setStat(Stat.HEALTH_MAX, job.getMaxHPAtLevel(level));
         setStat(Stat.HEALTH, getStat(Stat.HEALTH_MAX));

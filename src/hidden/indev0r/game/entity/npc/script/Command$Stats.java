@@ -31,10 +31,10 @@ public class Command$Stats extends Command {
                 getActor().setStat(stat, statValue);
                 break;
             case "ADD":
-                getActor().setStat(stat, getActor().getStat(stat) + statValue);
+                getActor().addStat(stat, statValue);
                 break;
             case "DEDUCT":
-                getActor().setStat(stat, getActor().getStat(stat) - statValue);
+                getActor().deductStat(stat, statValue);
                 break;
         }
 

@@ -91,7 +91,7 @@ public class CombatChannelPhase$RangedBasic extends AbstractCombatChannelPhase {
             }
         }
 
-        if(actInitiator.isDead()) expired = true;
+        if(actInitiator.isDead() || actTarget.isDead()) expired = true;
     }
 
     @Override

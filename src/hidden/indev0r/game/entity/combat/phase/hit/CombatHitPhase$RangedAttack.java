@@ -121,6 +121,8 @@ public class CombatHitPhase$RangedAttack extends AbstractCombatHitPhase {
     public void tick(GameContainer gc) {
         super.tick(gc);
 
+        if(actInitiator.isDead() || actTarget.isDead()) expired = true;
+
         if(System.currentTimeMillis() - textureTintTick > 2) {
             if(hurtTint.a < 1f) hurtTint.a += 0.05f;
             if(hurtTint.r < 1f) hurtTint.r += 0.05f;

@@ -68,7 +68,7 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
         soundPlayer = new SoundPlayer();
 
 		camera = new Camera(0, 0);
-		player = new Player(Actor.Faction.GLYSIA, ActorJob.WARRIOR, 11, 18);
+		player = new Player(Actor.Faction.GLYSIA, ActorJob.MAGE, 11, 18);
 		player.setLevel(1);
 		camera.setTrackObject(player);
 

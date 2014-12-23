@@ -42,7 +42,7 @@ public class CombatHitPhase$MeleeAttack extends AbstractCombatHitPhase {
     public void tick(GameContainer gc) {
         super.tick(gc);
 
-        if(actTarget.isDead()) expired = true;
+        if(actTarget.isDead() || actInitiator.isDead()) expired = true;
 
         if(hurtTint.a >= 1f && hurtTint.r >= 1f && hurtTint.g >= 1f && hurtTint.b >= 1f) {
             expired = true;
