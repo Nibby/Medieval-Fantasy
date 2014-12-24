@@ -33,7 +33,7 @@ public class Command$ShowTip extends Command {
     @Override
     public void exec(Actor actor, CommandBlock block) {
         super.exec(actor, block);
-        MedievalLauncher.getInstance().getGameState().getMenuOverlay().showHint(text, duration, color.getColor(), type);
+        MedievalLauncher.getInstance().getGameState().getMenuOverlay().showHintVerbose(text, duration, color.getColor(), type);
         block.executeNext(actor);
     }
 }

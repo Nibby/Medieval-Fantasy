@@ -1,18 +1,18 @@
 package hidden.indev0r.game.entity.ai;
 
 import hidden.indev0r.game.entity.Actor;
-import hidden.indev0r.game.entity.Entity;
 import hidden.indev0r.game.entity.FactionUtil;
 import hidden.indev0r.game.entity.combat.DamageModel;
 import hidden.indev0r.game.entity.npc.script.Script;
 import hidden.indev0r.game.map.MapDirection;
 import hidden.indev0r.game.map.TileMap;
+
+import java.util.List;
+
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.util.pathfinding.AStarPathFinder;
 import org.newdawn.slick.util.pathfinding.Path;
 import org.w3c.dom.Element;
-
-import java.util.List;
 
 /**
  * Created by MrDeathJockey on 14/12/19.
@@ -30,13 +30,12 @@ public class AI$MON$MeleeBasic extends AI {
 
     private Element aiElement;
     private int wanderInterval;
+    private boolean wander = true;
 
-    private TileMap map;
     private Actor target;
     private Path movePath;
 
     private AStarPathFinder pathFinder;
-    private int tx, ty;
 
     public AI$MON$MeleeBasic(Actor host) {
         super(host);
@@ -45,7 +44,12 @@ public class AI$MON$MeleeBasic extends AI {
     @Override
     public void make(Element aiElement) {
         this.aiElement = aiElement;
-        wanderInterval = Integer.parseInt(Script.translate(aiElement.getAttribute("wanderInterval"), aiElement.getAttribute("randomParams")).toString());
+        if(aiElement.hasAttribute("wander")) {
+            wander = Boolean.parseBoolean("wander");
+            if(wander) {
+                wanderInterval = Integer.parseInt(Script.translate(aiElement.getAttribute("wanderInterval"), aiElement.getAttribute("randomParams")).toString());
+            }
+        }
     }
 
     /*
@@ -60,7 +64,6 @@ public class AI$MON$MeleeBasic extends AI {
      */
     @Override
     public void tick(TileMap map) {
-        this.map = map;
         if(pathFinder == null)
             pathFinder = new AStarPathFinder(map.getPathMap(), actHost.getApproachRange() * 2, false);
 
@@ -91,10 +94,6 @@ public class AI$MON$MeleeBasic extends AI {
 
             //Check and cancel current target if it is already dead
             if(target.isDead()) {
-                tx = -1;
-                ty = -1;
-                target = null;
-                movePath = null;
                 return;
             } else {
                 //If target is not dead, and is in attack range, initiate attack
@@ -103,43 +102,45 @@ public class AI$MON$MeleeBasic extends AI {
                 }
             }
         } else {
-            //If we don't have a target, begin wondering around and find one
-            //In the mean time, search for nearby entities to attack
-            if(System.currentTimeMillis() - aiTickTimer > wanderInterval) {
-                MapDirection direction = MapDirection.values()[(int) (Math.random() * MapDirection.values().length)];
-                switch(direction) {
-                    case UP:
-                        actHost.setMoveDestination(actHost.getX(), actHost.getY() - 1);
-                        break;
-                    case DOWN:
-                        actHost.setMoveDestination(actHost.getX(), actHost.getY() + 1);
-                        break;
-                    case LEFT:
-                        actHost.setMoveDestination(actHost.getX() - 1, actHost.getY());
-                        break;
-                    case RIGHT:
-                        actHost.setMoveDestination(actHost.getX() + 1, actHost.getY());
-                        break;
-                }
+            if(wander) {
+                //If we don't have a target, begin wondering around and find one
+                //In the mean time, search for nearby entities to attack
+                if (System.currentTimeMillis() - aiTickTimer > wanderInterval) {
+                    MapDirection direction = MapDirection.values()[(int) (Math.random() * MapDirection.values().length)];
+                    switch (direction) {
+                        case UP:
+                            actHost.setMoveDestination(actHost.getX(), actHost.getY() - 1);
+                            break;
+                        case DOWN:
+                            actHost.setMoveDestination(actHost.getX(), actHost.getY() + 1);
+                            break;
+                        case LEFT:
+                            actHost.setMoveDestination(actHost.getX() - 1, actHost.getY());
+                            break;
+                        case RIGHT:
+                            actHost.setMoveDestination(actHost.getX() + 1, actHost.getY());
+                            break;
+                    }
 
-                List<Actor> nearbyActors = map.getActorsNear(actHost, actHost.getApproachRange());
-                int lowDistance = 9999;
-                Actor targetCandidate = null;
-                for(Actor actor : nearbyActors) {
-                    boolean enemy = FactionUtil.isEnemy(actHost.getFaction(), actor.getFaction());
-                    if(enemy) {
-                        int distance = map.getActorDistance(actHost, actor);
-                        if(distance < lowDistance) {
-                            lowDistance = distance;
-                            targetCandidate = actor;
+                    List<Actor> nearbyActors = map.getActorsNear(actHost, actHost.getApproachRange());
+                    int lowDistance = 9999;
+                    Actor targetCandidate = null;
+                    for (Actor actor : nearbyActors) {
+                        boolean enemy = FactionUtil.isEnemy(actHost.getFaction(), actor.getFaction());
+                        if (enemy) {
+                            int distance = map.getActorDistance(actHost, actor);
+                            if (distance < lowDistance) {
+                                lowDistance = distance;
+                                targetCandidate = actor;
+                            }
                         }
                     }
-                }
 
-                if(targetCandidate != null) {
-                    target = targetCandidate;
+                    if (targetCandidate != null) {
+                        target = targetCandidate;
+                    }
+                    aiTickTimer = System.currentTimeMillis();
                 }
-                aiTickTimer = System.currentTimeMillis();
             }
         }
     }

@@ -1,12 +1,11 @@
-package hidden.indev0r.game.gui.component.hud;
+package hidden.indev0r.game.gui.component;
 
 import hidden.indev0r.game.BitFont;
 import hidden.indev0r.game.Camera;
 import hidden.indev0r.game.MedievalLauncher;
-import hidden.indev0r.game.entity.Entity;
 import hidden.indev0r.game.gui.component.base.GComponent;
-import hidden.indev0r.game.gui.component.base.GComponent$Label;
 import hidden.indev0r.game.texture.Textures;
+
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -31,6 +30,7 @@ public class GComponent$SpeechBubble extends GComponent {
         this.text = text;
         this.color = color;
         this.jitter = jitter;
+        setRequireFocus(false);
         setSize(BitFont.widthOf(text, 16), 28);
     }
 

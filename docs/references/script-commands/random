@@ -4,7 +4,7 @@ USAGE
         < ... commands>
     </random>
 
-    $INTERVAL           - The delay in ms between next time it is executed. By default it is 0 ms.
+    $INTERVAL           - The delta in ms between next time it is executed. By default it is 0 ms.
 
     This block can be nested:
 

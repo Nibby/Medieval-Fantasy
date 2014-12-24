@@ -39,6 +39,7 @@ public class GComponent$Minimap extends GComponent implements GComponentListener
 	public GComponent$Minimap(Vector2f pos, GMapSupplier supplier, int numOfButton) {
 		super(pos);
 		minimap = Textures.UI.MINIMAP_BASE;
+        setRequireFocus(false);
 		this.width = minimap.getWidth();
 		this.height = minimap.getHeight();
 
@@ -98,13 +99,18 @@ public class GComponent$Minimap extends GComponent implements GComponentListener
 		this.sideButtons.get(3).setIcon(Textures.Icons.BOOK_BIG, Textures.Icons.BOOK_BIG);
 		this.sideButtons.get(4).setIcon(Textures.Icons.MENU_BIG, Textures.Icons.MENU_BIG);
 
+        Vector2f init = new Vector2f(0f, 0f);
+        dialogStatus = new GDialog$PlayerStatus(init);
+        dialogStatus.setPosition(GComponent$Frame.alignToCenter(dialogStatus.getWidth(), dialogStatus.getHeight()));
 
+        dialogInventory = new GDialog$PlayerInventory(init);
+        dialogInventory.setPosition(GComponent$Frame.alignToCenter(dialogInventory.getWidth(), dialogInventory.getHeight()));
 
-		Vector2f dialogPos = new Vector2f(200, 200);
-		dialogStatus = new GDialog$PlayerStatus(dialogPos);
-		dialogInventory = new GDialog$PlayerInventory(dialogPos);
-		dialogSkill = new GDialog$PlayerSkill(dialogPos);
-		dialogJournal = new GDialog$PlayerJournal(dialogPos);
+        dialogSkill = new GDialog$PlayerSkill(init);
+        dialogSkill.setPosition(GComponent$Frame.alignToCenter(dialogSkill.getWidth(), dialogSkill.getHeight()));
+
+        dialogJournal = new GDialog$PlayerJournal(init);
+        dialogJournal.setPosition(GComponent$Frame.alignToCenter(dialogJournal.getWidth(), dialogJournal.getHeight()));
 
 		dialogStatus.addDialogListener(this);
 		dialogInventory.addDialogListener(this);
@@ -198,8 +204,6 @@ public class GComponent$Minimap extends GComponent implements GComponentListener
 		if (c.equals(bigMapButton)) {
 
 		}
-
-
 	}
 
 	@Override

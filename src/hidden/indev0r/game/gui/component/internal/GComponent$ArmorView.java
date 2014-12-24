@@ -24,7 +24,7 @@ public class GComponent$ArmorView extends GComponent {
         super(position);
         slot = Textures.UI.INVENTORY_SLOT;
         player = MedievalLauncher.getInstance().getGameState().getPlayer();
-        //playerClass = player.getJob();
+        playerClass = player.getJob();
     }
 
 

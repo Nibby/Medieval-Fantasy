@@ -10,15 +10,15 @@ import hidden.indev0r.game.map.MapDirection;
 import hidden.indev0r.game.map.Tile;
 import hidden.indev0r.game.map.TileMap;
 import hidden.indev0r.game.reference.References;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Stack;
 
 public abstract class Entity {
 
@@ -46,6 +46,7 @@ public abstract class Entity {
 	protected static final Color shadowColor = new Color(0f, 0f, 0f, 0.6f);
     protected Color textureColor = new Color(1f, 1f, 1f, 1f);
     private boolean sunken;
+    protected int renderShiftX = 0, renderShiftY = 0;
 
     protected Vector2f moveDestination = new Vector2f(0, 0);
 
@@ -72,6 +73,8 @@ public abstract class Entity {
         this.textureColor = new Color(e.textureColor);
         this.sunken = e.sunken;
         this.moveDestination = new Vector2f(e.moveDestination);
+        this.renderShiftX = e.renderShiftX;
+        this.renderShiftY = e.renderShiftY;
     }
 
     public Entity() {
@@ -141,14 +144,19 @@ public abstract class Entity {
 		Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
         float y = position.y + camera.getOffsetY();
         if(sunken) y += height / 4;
-		return y;
+		return y + renderShiftY;
 	}
 
 	public float getRenderX() {
 		Camera camera = MedievalLauncher.getInstance().getGameState().getCamera();
         float x = position.x + camera.getOffsetX();
-		return x;
+		return x + renderShiftX;
 	}
+
+    public void setRenderShift(int x, int y) {
+        this.renderShiftX = x;
+        this.renderShiftY = y;
+    }
 
 	private void renderShadow(Graphics g) {
 
@@ -174,9 +182,6 @@ public abstract class Entity {
                 setFacingDirection(MapDirection.RIGHT);
                 action = ActionType.WALK_RIGHT;
             }
-
-            if(e != null && e.equals(this))
-                camera.tick();
 		}
 		if (position.y != moveY) {
 
@@ -191,14 +196,14 @@ public abstract class Entity {
                 setFacingDirection(MapDirection.DOWN);
                 action = ActionType.WALK_DOWN;
             }
-
-            if(e != null && e.equals(this))
-                camera.tick();
 		}
 
 
-            if (Math.abs(moveX - position.x) < targetMoveSpeed) position.x = moveX;
+        if (Math.abs(moveX - position.x) < targetMoveSpeed) position.x = moveX;
 		if (Math.abs(moveY - position.y) < targetMoveSpeed) position.y = moveY;
+        if(e != null && e.equals(this))
+            camera.tick();
+
 		if (position.y == moveY && position.x == moveX) {
             if(!moving && actionMap != null && getX() == moveDestination.x && getY() == moveDestination.y) {
                 if (currentDirection.equals(MapDirection.LEFT)) action = ActionType.STATIC_LEFT;

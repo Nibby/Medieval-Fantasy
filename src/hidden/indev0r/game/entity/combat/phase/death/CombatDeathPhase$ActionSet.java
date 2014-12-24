@@ -3,7 +3,9 @@ package hidden.indev0r.game.entity.combat.phase.death;
 import hidden.indev0r.game.entity.Actor;
 import hidden.indev0r.game.entity.animation.Action;
 import hidden.indev0r.game.entity.animation.ActionType;
+import hidden.indev0r.game.entity.combat.DamageModel;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
 /**
@@ -13,20 +15,20 @@ public class CombatDeathPhase$ActionSet extends AbstractCombatDeathPhase {
 
     private Action action;
 
-    public CombatDeathPhase$ActionSet(Actor actor) {
-        super(actor);
+    public CombatDeathPhase$ActionSet(DamageModel model, Actor initiator, Actor target) {
+        super(model, initiator, target);
 
-        action = actor.getActionMap().get(ActionType.DEATH);
+        action = initiator.getActionMap().get(ActionType.DEATH);
+    }
+
+    @Override
+    public void tick(GameContainer gc) {
+        super.tick(gc);
+        if(System.currentTimeMillis() - startTime > action.getPlayTime()) expired = true;
     }
 
     @Override
     protected void init() {
-
-    }
-
-    @Override
-    public int getDuration() {
-        return action.getPlayTime();
     }
 
     @Override

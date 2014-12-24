@@ -1,4 +1,4 @@
-package hidden.indev0r.game.gui.component.hud;
+package hidden.indev0r.game.gui.component;
 
 import hidden.indev0r.game.BitFont;
 import hidden.indev0r.game.Colors;

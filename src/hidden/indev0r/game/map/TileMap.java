@@ -4,17 +4,30 @@ import hidden.indev0r.game.Camera;
 import hidden.indev0r.game.MedievalLauncher;
 import hidden.indev0r.game.entity.Actor;
 import hidden.indev0r.game.entity.Entity;
+
 import hidden.indev0r.game.entity.player.Player;
+
+import hidden.indev0r.game.entity.FactionUtil;
+
 import hidden.indev0r.game.entity.npc.script.Script;
+import hidden.indev0r.game.particle.Particle;
+import hidden.indev0r.game.particle.ParticleManager;
 import hidden.indev0r.game.reference.References;
+
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.JOptionPane;
+
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
-import javax.swing.*;
-import java.awt.*;
-import java.util.*;
-import java.util.List;
+import org.newdawn.slick.util.pathfinding.AStarPathFinder;
+import org.newdawn.slick.util.pathfinding.Path;
 
 /**
  * A TileMap is a map on which actors and other instances are able to move and interact with. It provides a graphic 'stage'.
@@ -105,15 +118,21 @@ public class TileMap {
                 }
             }
 
+
             //Second layer are where entities are rendered
-            if (layer == 1) {
+            if (layer == 1)
+
+            {
+                ParticleManager.get().render(g, Particle.TYPE_BACKGROUND);
                 for (Entity e : entities) {
                     if (e.isVisibleOnScreen() && !(e instanceof Player)) {
                         //Depth sorting needed
                         e.render(g);
                     }
                 }
-                if (player != null) player.render(g);
+
+                if (player != null)
+                    player.render(g);
             }
         }
     }
@@ -140,11 +159,7 @@ public class TileMap {
     protected boolean entityBlocked(Entity reference, int x, int y) {
         if (x < 0 || x > tileData[0].length - 1 || y < 0 || y > tileData[0][0].length - 1) return true;
         for (Entity e : entities) {
-            if (e.equals(reference)
-                    && x >= e.getX()
-                    && x < e.getX() + e.getWidth() / Tile.TILE_SIZE
-                    && y >= e.getY()
-                    && y < e.getY() + e.getHeight() / Tile.TILE_SIZE) {
+            if (e.equals(reference) && (e.getWidth() / Tile.TILE_SIZE > 1 || e.getHeight() / Tile.TILE_SIZE > 1)) {
                 return false;
             }
 
@@ -234,6 +249,13 @@ public class TileMap {
                     ((Actor) e).onApproach((Actor) entity);
                     ((Actor) entity).onApproach((Actor) e);
                 }
+
+                Actor combatTarget = ((Actor) e).getCombatTarget();
+                if (combatTarget != null) {
+                    if (!((Actor) e).withinRange(combatTarget, ((Actor) e).getAttackRange() + 1)) {
+                        ((Actor) e).setCombatTarget(null);
+                    }
+                }
             }
         }
 
@@ -308,6 +330,7 @@ public class TileMap {
         return entities;
     }
 
+
     public Tile getTile(int layer, Vector2f position) {
         if (layer < 0 || layer > tileData.length - 1) return null;
         if (position.x < 0 || position.x > tileData[0].length - 1 || position.y < 0 || position.y > tileData[0][0].length - 1)
@@ -334,36 +357,53 @@ public class TileMap {
     }
 
     public Vector2f getVacantAdjacentTile(Actor actor, Actor self, boolean allowLiquid) {
-        int sx = -1, sy = -1;
-        int sd = 9999;
+        int sd = 9999, md = 0;
 
-        for (int i = (int) actor.getX() - (self.getWidth() / Tile.TILE_SIZE); i < actor.getX() + (self.getWidth() / Tile.TILE_SIZE) + 1; i += 1) {
+        int ii = (int) actor.getX() - (self.getWidth() / Tile.TILE_SIZE);
+        int ww = (int) actor.getX() + (self.getWidth() / Tile.TILE_SIZE) + 1;
+        int jj = (int) actor.getY() - (self.getHeight() / Tile.TILE_SIZE);
+        int hh = (int) actor.getY() + (self.getHeight() / Tile.TILE_SIZE) + 1;
+
+        Map<Integer, Vector2f> distanceMap = new HashMap<>();
+
+        for (int i = ii; i < ww; i += 1) {
             if (i < 0 || i > tileData[0].length - 1) continue;
-            for (int j = (int) actor.getY() - (self.getHeight() / Tile.TILE_SIZE); j < actor.getY() + (self.getHeight() / Tile.TILE_SIZE) + 1; j += 1) {
+            for (int j = jj; j < hh; j += 1) {
                 if (j < 0 || j > tileData[0][0].length - 1) continue;
 
                 int d = getActorDistance(self, actor);
                 if (d < sd) {
-                    boolean isSolid = isBlocked(self, i, j);
-                    if (!isSolid && !allowLiquid) {
-                        for (int l = 0; l < tileData.length; l++) {
-                            Tile tile = Tile.getTile(tileData[l][i][j]);
-                            if (tile != null && tile.propertyExists("liquid")) continue;
-                        }
-                    } else if (!isSolid && allowLiquid) {
-                        sd = d;
-                        sx = i;
-                        sy = j;
-                    }
+                    sd = d;
                 }
+                distanceMap.put(d, new Vector2f(i, j));
+                if (d > md) md = d;
+
             }
         }
 
-        if (sx < 0 || sy < 0) {
-            return null;
-        } else {
-            return new Vector2f(sx, sy);
+        System.out.println();
+
+        TileMap am = actor.getMap();
+        stepSearch:
+        for (int step = sd; step <= md; step++) {
+            Vector2f vf = distanceMap.get(step);
+
+            boolean blocked = am.isBlocked(self, (int) vf.x, (int) vf.y);
+            if (blocked) continue;
+
+            if (!allowLiquid) {
+                for (int l = 0; l < am.getTileData().length; l++) {
+                    Tile tile = am.getTile(l, vf);
+                    if (tile != null) {
+                        if (tile.isLiquid()) continue stepSearch;
+                    }
+                }
+            }
+
+            return vf;
         }
+
+        return null;
     }
 
     public List<Actor> getActorsNear(Actor center, int range) {
@@ -374,5 +414,79 @@ public class TileMap {
             }
         }
         return result;
+    }
+
+    public List<Actor> getActorsOnTile(Actor reference, int tx, int ty) {
+        List<Actor> result = new ArrayList<>();
+        for (Entity e : entities) {
+            if (e instanceof Actor) {
+                if (tx >= e.getX() && tx < e.getX() + e.getWidth() / Tile.TILE_SIZE &&
+                        ty >= e.getY() && ty < e.getY() + e.getHeight() / Tile.TILE_SIZE) {
+                    if (!e.equals(reference))
+                        result.add((Actor) e);
+                }
+            }
+        }
+        return result;
+    }
+
+    public Actor getPotentialCombatActor(Actor actor, int x, int y) {
+        //Function not available to actor with  range 2 or higher
+        int attackRange = actor.getAttackRange();
+
+        if (attackRange > 1) {
+            return null;
+        }
+        List<Actor> actorNear = getActorsOnTile(actor, x, y);
+        if (!actorNear.isEmpty()) {
+            return actorNear.get(0);
+        }
+
+        //Far search
+        MapDirection direction = actor.getCurrentDirection();
+        int sx = x, sy = y;
+        switch (direction) {
+            case UP:
+                sx = x;
+                sy = y - attackRange;
+                break;
+            case DOWN:
+                sx = x;
+                sy = y + attackRange;
+                break;
+            case LEFT:
+                sx = x - attackRange;
+                sy = y;
+                break;
+            case RIGHT:
+                sx = x + attackRange;
+                sy = y;
+                break;
+        }
+        int distance = 9999;
+        Actor candidate = null;
+        while (sx != x || sy != y) {
+            List<Actor> actors = getActorsOnTile(actor, sx, sy);
+            if (!actors.isEmpty()) {
+                for (Actor a : actors) {
+                    int d = getActorDistance(actor, a);
+                    if (d < distance) candidate = a;
+
+                    if (a.isMoving()
+                            //Check if the other actor candidate is facing this actor
+                            && MapDirection.getOppositeOf(a.getCurrentDirection()).equals(actor.getCurrentDirection())
+                            && FactionUtil.isEnemy(actor.getFaction(), a.getFaction())
+                            && !a.equals(actor)) {
+                        candidate = a;
+                    }
+                }
+
+            }
+            if (sx < x) sx++;
+            if (sx > x) sx--;
+            if (sy < y) sy++;
+            if (sy > y) sy--;
+        }
+        return candidate;
     }
 }

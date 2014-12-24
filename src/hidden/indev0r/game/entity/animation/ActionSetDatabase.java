@@ -36,7 +36,8 @@ public class ActionSetDatabase {
 		DataInputStream input = new DataInputStream(new CipherInputStream(Files.newInputStream(dbPath), cipher));
 		byte[] bytes = new byte[input.readInt()];
 		input.readFully(bytes);
-
+		input.close();
+		
 		String data = new String(bytes, Charset.forName("UTF-8"));
 		XMLParser parser = new XMLParser(data);
 

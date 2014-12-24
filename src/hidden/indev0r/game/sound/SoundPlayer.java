@@ -133,6 +133,10 @@ public class SoundPlayer {
         listenerPosition.y = y;
     }
 
+    public void setListenerAngle(float angle) {
+        sys.setListenerAngle(angle);
+    }
+
     public void playSound(SE sound) {
         playSound(sound, listenerPosition.x, listenerPosition.y);
     }

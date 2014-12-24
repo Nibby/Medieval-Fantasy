@@ -7,7 +7,6 @@ import javax.crypto.spec.DESKeySpec;
 
 /**
  * Created by MrDeathJockey on 14/12/3.
- * <p/>
  * Ported from TinyTiles~
  */
 public class CipherEngine {

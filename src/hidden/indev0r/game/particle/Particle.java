@@ -2,15 +2,18 @@ package hidden.indev0r.game.particle;
 
 import hidden.indev0r.game.Camera;
 import hidden.indev0r.game.MedievalLauncher;
+import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.geom.Vector2f;
 
 /**
  * Created by MrDeathJockey on 14/12/18.
  */
 public abstract class Particle {
+
+    public static final int TYPE_FOREGROUND = 0, TYPE_BACKGROUND = 1;
+    protected int renderType = TYPE_FOREGROUND;
 
     protected Vector2f position;
     protected float width, height;
@@ -35,7 +38,7 @@ public abstract class Particle {
 
     }
 
-    protected abstract void randomize();
+    public abstract void randomize();
 
     public void render(Graphics g) {
         g.setColor(color);
@@ -140,5 +143,13 @@ public abstract class Particle {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public int getRenderType() {
+        return renderType;
+    }
+
+    public void setRenderType(int renderType) {
+        this.renderType = renderType;
     }
 }

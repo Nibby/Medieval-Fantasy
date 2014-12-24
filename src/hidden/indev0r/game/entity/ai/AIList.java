@@ -14,6 +14,7 @@ public enum AIList {
         }
     },
 
+    //NPC
     NPC_LOOK_RANDOM {
         @Override
         public AI getInstance(Actor actor) {
@@ -35,10 +36,18 @@ public enum AIList {
         }
     },
 
+    //Monster
     MONSTER_MELEE_BASIC {
         @Override
         public AI getInstance(Actor actor) {
             return new AI$MON$MeleeBasic(actor);
+        }
+    },
+
+    MONSTER_RANGED_BASIC {
+        @Override
+        public AI getInstance(Actor actor) {
+            return new AI$MON$RangedBasic(actor);
         }
     }
 

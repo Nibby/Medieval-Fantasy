@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="dep/lib/lwjgl_util.jar"/>
+	<classpathentry kind="lib" path="dep/lib/lwjgl.jar"/>
+	<classpathentry kind="lib" path="dep/lib/slick-util.jar"/>
+	<classpathentry kind="lib" path="dep/lib/slick.jar"/>
+	<classpathentry kind="lib" path="dep/lib/sound/CodecJOrbis.jar"/>
+	<classpathentry kind="lib" path="dep/lib/sound/CodecWav.jar"/>
+	<classpathentry kind="lib" path="dep/lib/sound/LibraryJavaSound.jar"/>
+	<classpathentry kind="lib" path="dep/lib/sound/LibraryLWJGLOpenAL.jar"/>
+	<classpathentry kind="lib" path="dep/lib/sound/SoundSystem.jar"/>
+	<classpathentry kind="lib" path="dep/lib/tween-engine-api.jar"/>
+	<classpathentry kind="lib" path="tinyTools/lib/commons-codec-1.9.jar"/>
+	<classpathentry kind="lib" path="tinyTools/lib/weblaf-1.28.jar"/>
+	<classpathentry kind="lib" path="tinyTools/tinyCipher.jar"/>
+	<classpathentry kind="lib" path="tinyTools/tinyTiles.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="out/production/Medival Game"/>
+</classpath>

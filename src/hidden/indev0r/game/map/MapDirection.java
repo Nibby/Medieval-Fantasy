@@ -27,8 +27,10 @@ public enum MapDirection {
     }
 
     public static MapDirection turnToFace(Entity self, Entity facing) {
-        int fx = (int) facing.getX();
-        int fy = (int) facing.getY();
+        return turnToFace(self, (int) facing.getX(), (int) facing.getY());
+    }
+
+    public static MapDirection turnToFace(Entity self, int fx, int fy) {
         int sx = (int) self.getX();
         int sy = (int) self.getY();
 

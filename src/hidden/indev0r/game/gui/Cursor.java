@@ -3,7 +3,10 @@ package hidden.indev0r.game.gui;
 import hidden.indev0r.game.BitFont;
 import hidden.indev0r.game.Camera;
 import hidden.indev0r.game.MedievalLauncher;
-import hidden.indev0r.game.entity.*;
+import hidden.indev0r.game.entity.Door;
+import hidden.indev0r.game.entity.FactionUtil;
+import hidden.indev0r.game.entity.Monster;
+import hidden.indev0r.game.entity.NPC;
 import hidden.indev0r.game.entity.npc.script.Script;
 import hidden.indev0r.game.entity.player.Player;
 import hidden.indev0r.game.gui.component.base.GComponent;
@@ -121,23 +124,6 @@ public class Cursor {
             g.fillRoundRect(mx + 16 - BitFont.widthOf(renderText, 16) / 2,  my + 38, (BitFont.widthOf(renderText, 16)) + 16, 24, 5);
 
             BitFont.render(g, renderText, (mx + 24 - BitFont.widthOf(renderText, 16) / 2), my + 42, (!isEnemy) ? actor.getNameColor() : Color.red);
-        }
-
-        if(INTERACT_INSTANCE instanceof Actor) {
-            Actor actor = (Actor) INTERACT_INSTANCE;
-            if(actor.combatHurt) {
-                int barLength = actor.getWidth();
-                int barHeight = 4;
-
-                g.setColor(Color.black);
-                g.fillRect(actor.getRenderX() - 2, actor.getRenderY() - 14, barLength + 4, barHeight + 4);
-
-                g.setColor(actor.combatHPLaceColor);
-                g.fillRect(actor.getRenderX(), actor.getRenderY() - 12, actor.combatHPLaceLength, barHeight);
-
-                g.setColor(actor.combatHPColor);
-                g.fillRect(actor.getRenderX(), actor.getRenderY() - 12, actor.combatHPBarLength, barHeight);
-            }
         }
     }
 

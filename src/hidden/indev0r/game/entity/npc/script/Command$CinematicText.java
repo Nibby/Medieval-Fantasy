@@ -2,7 +2,7 @@ package hidden.indev0r.game.entity.npc.script;
 
 import hidden.indev0r.game.MedievalLauncher;
 import hidden.indev0r.game.entity.Actor;
-import hidden.indev0r.game.gui.component.hud.GComponent$CinematicText;
+import hidden.indev0r.game.gui.component.GComponent$CinematicText;
 import org.w3c.dom.Element;
 
 /**

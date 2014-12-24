@@ -51,6 +51,7 @@ public abstract class GComponent {
     protected boolean visible;// = true;
     protected GStates currentState;
     protected boolean removed = false;
+    protected boolean requireFocus = true;
 
 	//Listeners
 	protected ArrayList<GComponentListener> componentListeners;
@@ -156,6 +157,14 @@ public abstract class GComponent {
 
     public void setRemoved(boolean removed) {
         this.removed = removed;
+    }
+
+    public boolean doesRequireFocus() {
+        return requireFocus;
+    }
+
+    public void setRequireFocus(boolean requireFocus) {
+        this.requireFocus = requireFocus;
     }
 }
 

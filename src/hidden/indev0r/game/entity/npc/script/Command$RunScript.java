@@ -1,9 +1,8 @@
 package hidden.indev0r.game.entity.npc.script;
 
 import hidden.indev0r.game.entity.Actor;
-import org.w3c.dom.Element;
 
-import java.util.List;
+import org.w3c.dom.Element;
 
 /**
  * Created by MrDeathJockey on 14/12/15.

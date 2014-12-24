@@ -7,6 +7,7 @@ import hidden.indev0r.game.gui.component.base.GComponent;
 import hidden.indev0r.game.map.TileMap;
 import hidden.indev0r.game.map.WarpType;
 import hidden.indev0r.game.reference.References;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -57,18 +58,18 @@ public class GMapTransitionOverlay extends GMenu {
     }
 
     public void tick(GameContainer gc) {
-        switch(phase) {
+        switch (phase) {
             case PHASE_FADE_IN:
-                if(System.currentTimeMillis() - phaseTick > 10) {
-                    if(menuAlpha < 1f) menuAlpha += 0.05f;
+                if (System.currentTimeMillis() - phaseTick > 10) {
+                    if (menuAlpha < 1f) menuAlpha += 0.05f;
                     else phase++;
 
                     phaseTick = System.currentTimeMillis();
                 }
                 break;
             case PHASE_TEXT_FADE_IN:
-                if(System.currentTimeMillis() - phaseTick > 10) {
-                    if(textAlpha < 1f) textAlpha += 0.05f;
+                if (System.currentTimeMillis() - phaseTick > 10) {
+                    if (textAlpha < 1f) textAlpha += 0.05f;
                     else {
                         phase++;
                         phaseTick = System.currentTimeMillis() + ((!mapName.isEmpty()) ? mapName.split(" ").length * 500 : 0);
@@ -83,8 +84,8 @@ public class GMapTransitionOverlay extends GMenu {
                 }
                 break;
             case PHASE_TEXT_FADE_OUT:
-                if(System.currentTimeMillis() - phaseTick > 10) {
-                    if(textAlpha > 0f) textAlpha -= 0.05f;
+                if (System.currentTimeMillis() - phaseTick > 10) {
+                    if (textAlpha > 0f) textAlpha -= 0.05f;
                     else {
                         phaseTick = System.currentTimeMillis() + 250;
                         phase++;
@@ -95,8 +96,8 @@ public class GMapTransitionOverlay extends GMenu {
                 }
                 break;
             case PHASE_FADE_OUT:
-                if(System.currentTimeMillis() - phaseTick > 10) {
-                    if(menuAlpha > 0f) menuAlpha -= 0.05f;
+                if (System.currentTimeMillis() - phaseTick > 10) {
+                    if (menuAlpha > 0f) menuAlpha -= 0.05f;
                     else {
                         manager.setDisplayTopMenuOnly(false);
                         manager.setTickTopMenuOnly(false);

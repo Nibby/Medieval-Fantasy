@@ -1,9 +1,9 @@
 package hidden.indev0r.game.particle;
 
+import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Vector2f;
 
 /**
  * Created by MrDeathJockey on 14/12/18.
@@ -20,7 +20,7 @@ public class Particle$CombatHitDebris extends Particle {
     }
 
     @Override
-    protected void randomize() {
+    public void randomize() {
         int randomX = (int) (Math.random() * sprite.getWidth());
         int randomY = (int) (Math.random() * sprite.getHeight());
         Color color = sprite.getColor(randomX, randomY);

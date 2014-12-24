@@ -1,20 +1,21 @@
 package hidden.indev0r.game.gui.menu;
 
 import hidden.indev0r.game.BitFont;
-import hidden.indev0r.game.Colors;
 import hidden.indev0r.game.entity.Actor;
+import hidden.indev0r.game.gui.component.*;
 import hidden.indev0r.game.gui.component.base.GComponent;
-import hidden.indev0r.game.gui.component.base.GComponent$BarDialog;
-import hidden.indev0r.game.gui.component.base.GComponent$Frame;
 import hidden.indev0r.game.gui.component.hud.*;
 import hidden.indev0r.game.gui.component.interfaces.GMapSupplier;
 import hidden.indev0r.game.gui.component.interfaces.GStatsSupplier;
 import hidden.indev0r.game.reference.References;
 import hidden.indev0r.game.sound.BGM;
 import hidden.indev0r.game.state.MainGameState;
-import hidden.indev0r.game.texture.Textures;
+
 import org.lwjgl.util.vector.Vector2f;
-import org.newdawn.slick.*;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 
 public class GGameOverlayMenu extends GMenu {
 
@@ -74,32 +75,43 @@ public class GGameOverlayMenu extends GMenu {
         addComponent(bubble);
     }
 
-	public void showHint(String text, int duration, Color color, int type) {
-		GComponent$Hint hint = new GComponent$Hint(text, color, duration, type);
+	public void showHintVerbose(String text, int duration, Color color, int type) {
+		GComponent$HintVerbose hint = new GComponent$HintVerbose(text, color, duration, type);
 		addComponent(hint);
 	}
+
+    public void showStatusVerbose(Actor actor, Color color, String text, int duration) {
+        GComponent$StatusVerbose verbose = new GComponent$StatusVerbose(actor, color, text, duration);
+        addComponent(verbose);
+    }
 
     public void showBGMTrackInfo(BGM bgm) {
         GComponent$BGMTrackInfo trackInfo = new GComponent$BGMTrackInfo(bgm.getTitle(), bgm.getComposer());
         addComponent(trackInfo);
     }
 
+    public void showActorHPGauge(Actor actor) {
+        if(actor.showingCombatHPGauge) return;
+        GComponent$ActorHealthGauge gauge = new GComponent$ActorHealthGauge(actor);
+        addComponent(gauge);
+    }
+
 	@Override
 	public void componentClicked(GComponent c) {
-		System.out.println("CLICKED");
+
 	}
 
 	@Override
 	public void componentHovered(GComponent c) {
-		System.out.println("HOVERED");
+
 	}
 
 	public boolean isComponentEmpty() {
 		for (GComponent c : components) {
-			if (!(c == minimap || c == gauge || c == scrollComponent || c instanceof GComponent$SpeechBubble
-					|| c instanceof GComponent$Hint || c instanceof GComponent$BGMTrackInfo)) {
-				return false;
-			}
+			if(c.doesRequireFocus()) {
+
+                return false;
+            }
 		}
 		return true;
 	}

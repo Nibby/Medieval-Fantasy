@@ -7,6 +7,9 @@ import java.util.Map;
 
 /**
  * Created by MrDeathJockey on 14/12/19.
+ *
+ * Keeps track of most of the sounds effects related to an actor.
+ * Note that projectile sound effects are stored in Projectile.Type enum instead
  */
 public enum SoundSet {
 
@@ -22,10 +25,22 @@ public enum SoundSet {
         }
     },
 
+    player_caster {
+        @Override
+        protected void initSoundBank() {
+            addSound(SoundType.attack_magic_swing, SE.CHANNEL_1);
+
+            addSound(SoundType.parry, SE.PARRY_0);
+
+            addSound(SoundType.attack_normal_hurt, SE.HURT_1);
+        }
+    },
+
 
     mon_0 {
         @Override
         protected void initSoundBank() {
+
             addSound(SoundType.death_crumble, SE.CRUMBLE_0);
             addSound(SoundType.death_crumble, SE.CRUMBLE_1);
 

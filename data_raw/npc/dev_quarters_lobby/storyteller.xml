@@ -31,9 +31,9 @@
                 <say duration="2000">... Elysia 970AD...</say>
                 <wait for="3500" />
                 <runScript script="storyteller" />
+                <wait for="1000" />
+                <say duration="2000">Good luck!</say>
             </option>
-
-            <option text="Not Really" type="0"></option>
         </dialog>
     </script>
 </npc>

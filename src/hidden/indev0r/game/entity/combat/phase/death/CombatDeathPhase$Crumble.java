@@ -1,24 +1,25 @@
 package hidden.indev0r.game.entity.combat.phase.death;
 
 import hidden.indev0r.game.entity.Actor;
+import hidden.indev0r.game.entity.combat.DamageModel;
 import hidden.indev0r.game.map.Tile;
 import hidden.indev0r.game.particle.Particle$TexturePiece;
 import hidden.indev0r.game.particle.ParticleManager;
+import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Vector2f;
 
 /**
  * Created by MrDeathJockey on 14/12/19.
  */
-public class CombatDeathPhase$Crumble extends AbstractCombatDeathPhase{
+public class CombatDeathPhase$Crumble extends AbstractCombatDeathPhase {
 
     private Particle$TexturePiece[] texturePieces;
     private int partSize = 4;
 
-    public CombatDeathPhase$Crumble(Actor actor) {
-        super(actor);
+    public CombatDeathPhase$Crumble(DamageModel model, final Actor actor, Actor target) {
+        super(model, actor, target);
 
         Image texture = actor.getCurrentImage();
         partSize = 4 * (actor.getWidth() / 32);
@@ -42,7 +43,8 @@ public class CombatDeathPhase$Crumble extends AbstractCombatDeathPhase{
                         super.randomize();
 
                         rotationDelta = 0;
-                        baseline = (int) position.y + (int) (Math.random() * (Tile.TILE_SIZE / 3)) + Tile.TILE_SIZE / 2;
+                        baseline = (int) position.y + (int) (Math.random() * (Tile.TILE_SIZE / 3))
+                                + (Tile.TILE_SIZE * (actor.getWidth() / Tile.TILE_SIZE)) / 3 * 2;
                         crumbleX = (float) (Math.random() * 0.06f) - 0.03f;
                         crumbleY = (float) (Math.random() * 0.75f) + 0.25f;
                         tickTime = System.currentTimeMillis();
@@ -56,8 +58,9 @@ public class CombatDeathPhase$Crumble extends AbstractCombatDeathPhase{
                                 position.x += crumbleX;
                                 position.y += crumbleY;
                             } else {
+                                setRenderType(TYPE_BACKGROUND);
                                 if(System.currentTimeMillis() - tickTime > 10) {
-                                    if(color.a > 0f) color.a -= 0.05f;
+                                    if(color.a > 0f) color.a -= 0.005f;
                                     else decayed = true;
                                 }
                             }
@@ -76,13 +79,14 @@ public class CombatDeathPhase$Crumble extends AbstractCombatDeathPhase{
     }
 
     @Override
-    protected void init() {
-
+    public void tick(GameContainer gc) {
+        super.tick(gc);
+        if(System.currentTimeMillis() - startTime > 1500) expired = true;
     }
 
     @Override
-    public int getDuration() {
-        return 1500;
+    protected void init() {
+
     }
 
     @Override

@@ -4,6 +4,7 @@ import hidden.indev0r.game.Colors;
 import hidden.indev0r.game.entity.ai.AI;
 import hidden.indev0r.game.entity.animation.ActionSet;
 import hidden.indev0r.game.entity.animation.ActionSetDatabase;
+import hidden.indev0r.game.entity.combat.AttackType;
 import hidden.indev0r.game.entity.combat.phase.death.DeathType;
 import hidden.indev0r.game.entity.npc.script.Script;
 import hidden.indev0r.game.entity.npc.script.ScriptParser;
@@ -122,6 +123,11 @@ public class MonsterDatabase  {
 
         if(root.hasAttribute("soundSet")) {
             monster.setSoundSet(SoundSet.valueOf(root.getAttribute("soundSet")));
+        }
+
+        if(root.hasAttribute("attackType")) {
+            monster.setAttackType(AttackType.valueOf(root.getAttribute("attackType")),
+                                  root.getAttribute("attackTypeParam"));
         }
 
         monster.setSize(Integer.parseInt(root.getAttribute("width")) * Tile.TILE_SIZE,

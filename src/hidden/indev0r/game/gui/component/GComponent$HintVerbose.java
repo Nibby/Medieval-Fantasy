@@ -1,4 +1,4 @@
-package hidden.indev0r.game.gui.component.hud;
+package hidden.indev0r.game.gui.component;
 
 import hidden.indev0r.game.BitFont;
 import hidden.indev0r.game.gui.component.base.GComponent;
@@ -12,7 +12,7 @@ import org.newdawn.slick.Graphics;
 /**
  * Created by MrDeathJockey on 14/12/12.
  */
-public class GComponent$Hint extends GComponent {
+public class GComponent$HintVerbose extends GComponent {
 
 
     private long tickTime;
@@ -23,13 +23,15 @@ public class GComponent$Hint extends GComponent {
     private int type = 0;
     private int ticks = 0;
 
-    public GComponent$Hint(String text, Color color, int duration, int type) {
+    public GComponent$HintVerbose(String text, Color color, int duration, int type) {
         super(new Vector2f(References.GAME_WIDTH / 2 - BitFont.widthOf(text, 16) / 2, References.GAME_HEIGHT / 3 - 10));
         setSize(BitFont.widthOf(text, 16), 20);
         this.duration = duration;
         this.text = text;
         this.color = color;
         this.type = type;
+
+        setRequireFocus(false);
     }
 
     @Override

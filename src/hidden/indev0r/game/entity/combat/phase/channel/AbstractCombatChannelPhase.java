@@ -2,6 +2,7 @@ package hidden.indev0r.game.entity.combat.phase.channel;
 
 import hidden.indev0r.game.entity.Actor;
 import hidden.indev0r.game.entity.combat.AttackType;
+import hidden.indev0r.game.entity.combat.DamageModel;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
@@ -11,16 +12,20 @@ import org.newdawn.slick.Graphics;
 public abstract class AbstractCombatChannelPhase implements CombatChannelPhase {
 
     protected Actor actInitiator;
+    protected Actor actTarget;
 
+    protected int currentHit = 0;
     protected long startTime;
     protected boolean started = false, expired = false;
 
     protected AttackType attackType;
+    protected DamageModel damageModel;
 
-    public AbstractCombatChannelPhase(AttackType type, Actor actor) {
-        actor.addCombatPhase(this);
-
-        this.actInitiator = actor;
+    public AbstractCombatChannelPhase(DamageModel model, AttackType type, Actor initiator, Actor target) {
+        initiator.addCombatPhase(this);
+        this.damageModel = model;
+        this.actInitiator = initiator;
+        this.actTarget = target;
         this.attackType = type;
     }
 
@@ -37,12 +42,6 @@ public abstract class AbstractCombatChannelPhase implements CombatChannelPhase {
             init();
             started = true;
         }
-
-        if(started && !expired && System.currentTimeMillis() - startTime > getDuration()) {
-            expired = true;
-            actInitiator.removeCombatPhase(this);
-            actInitiator.combatChannelEnd(attackType);
-        }
     }
 
     protected abstract void init();
@@ -55,5 +54,15 @@ public abstract class AbstractCombatChannelPhase implements CombatChannelPhase {
     @Override
     public boolean isExpired() {
         return expired;
+    }
+
+    @Override
+    public Actor getInitiator() {
+        return actInitiator;
+    }
+
+    @Override
+    public Actor getTarget() {
+        return actTarget;
     }
 }

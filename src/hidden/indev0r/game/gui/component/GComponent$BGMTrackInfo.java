@@ -1,4 +1,4 @@
-package hidden.indev0r.game.gui.component.hud;
+package hidden.indev0r.game.gui.component;
 
 import hidden.indev0r.game.BitFont;
 import hidden.indev0r.game.gui.component.base.GComponent;
@@ -32,6 +32,7 @@ public class GComponent$BGMTrackInfo extends GComponent {
         this.title = title;
         this.author = author;
 
+        setRequireFocus(false);
         setSize(BitFont.widthOf((title.length() > author.length()) ? title : author, 16) + 56, BitFont.heightOf(new String[] { title, author }) + 12);
     }
 
@@ -64,7 +65,7 @@ public class GComponent$BGMTrackInfo extends GComponent {
                         ticks--;
                     }
                     else {
-                        animTick = System.currentTimeMillis() + 1500 + title.split(" ").length * 500;
+                        animTick = System.currentTimeMillis() + 2000 + title.split(" ").length * 500;
                         phase++;
                         break;
                     }
