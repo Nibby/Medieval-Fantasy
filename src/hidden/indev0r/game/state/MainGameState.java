@@ -80,7 +80,7 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
 		menuMgr.addMenu((menuOverlay = new GGameOverlayMenu(this, player, this)));
 		menuMgr.setTickTopMenuOnly(false);
 
-        for(int i = 0; i < 6; i++) {
+        for(int i = 0; i < 1; i++) {
             int spawnX, spawnY;
             do {
                 spawnX = (int) (Math.random() * 17) + 17;
@@ -94,7 +94,7 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
                 TileMapDatabase.getTileMap("infested_stage").addEntity(mon2);
                 continue;
             }
-            Monster mon = MonsterDatabase.get("bone_caster");
+            Monster mon = MonsterDatabase.get("bone");
             mon.setPosition(spawnX, spawnY);
             TileMapDatabase.getTileMap("infested_stage").addEntity(mon);
 

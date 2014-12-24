@@ -62,7 +62,26 @@ public abstract class Projectile extends Particle {
     }
 
     public enum Type {
+        //Ranged projectiles
+        arrow_wood_0(Textures.SpriteSheets.HIT_EFFECT_RANGER.getSprite(0, 0), SE.CHANNEL_10, SE.RANGE_HURT_0, 0),
+        arrow_wood_1(Textures.SpriteSheets.HIT_EFFECT_RANGER.getSprite(1, 0), SE.CHANNEL_10, SE.RANGE_HURT_0, 0),
+        arrow_wood_2(Textures.SpriteSheets.HIT_EFFECT_RANGER.getSprite(2, 0), SE.CHANNEL_12, SE.RANGE_HURT_0, 0),
 
+        arrow_iron_0(Textures.SpriteSheets.HIT_EFFECT_RANGER.getSprite(3, 0), SE.CHANNEL_10, SE.RANGE_HURT_0, 0),
+        arrow_iron_1(Textures.SpriteSheets.HIT_EFFECT_RANGER.getSprite(4, 0), SE.CHANNEL_10, SE.RANGE_HURT_1, 0),
+        arrow_iron_2(Textures.SpriteSheets.HIT_EFFECT_RANGER.getSprite(5 , 0), SE.CHANNEL_12, SE.RANGE_HURT_2, 0),
+
+        arrow_green_0(Textures.SpriteSheets.HIT_EFFECT_RANGER.getSprite(6, 0), SE.CHANNEL_12, SE.RANGE_HURT_3, 0),
+        arrow_green_1(Textures.SpriteSheets.HIT_EFFECT_RANGER.getSprite(7, 0), SE.CHANNEL_12, SE.RANGE_HURT_3, 0),
+        arrow_green_2(Textures.SpriteSheets.HIT_EFFECT_RANGER.getSprite(0, 1), SE.CHANNEL_11,  SE.RANGE_HURT_2, 0),
+        arrow_green_3(Textures.SpriteSheets.HIT_EFFECT_RANGER.getSprite(1, 1), SE.CHANNEL_14,  SE.RANGE_HURT_2, 0),
+
+        arrow_red_0(Textures.SpriteSheets.HIT_EFFECT_RANGER.getSprite(2, 1), SE.CHANNEL_14,  SE.RANGE_HURT_2, 0),
+
+        arrow_white_0(Textures.SpriteSheets.HIT_EFFECT_RANGER.getSprite(2, 1), SE.CHANNEL_13,  SE.RANGE_HURT_2, 0),
+        arrow_shadow_0(Textures.SpriteSheets.HIT_EFFECT_RANGER.getSprite(2, 1), SE.CHANNEL_13,  SE.RANGE_HURT_2, 0),
+
+        //Magic bolts
         bolt_white_0(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(0, 0), SE.CHANNEL_3, SE.CAST_HURT_3, 45),
         bolt_attuned_star(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(0, 1), SE.CHANNEL_8, SE.CAST_HURT_1, 0),
         bolt_mero_mero_0(Textures.SpriteSheets.HIT_EFFECT_CASTER.getSprite(0, 2), SE.CHANNEL_9, SE.CAST_HURT_6, 45),

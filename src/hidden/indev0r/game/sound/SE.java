@@ -21,6 +21,11 @@ public enum SE {
     CHANNEL_7(References.SE_PATH.resolve("channel").resolve("channel7.wav")),
     CHANNEL_8(References.SE_PATH.resolve("channel").resolve("channel8.wav")),
     CHANNEL_9(References.SE_PATH.resolve("channel").resolve("channel9.wav")),
+    CHANNEL_10(References.SE_PATH.resolve("channel").resolve("channel10.wav")),
+    CHANNEL_11(References.SE_PATH.resolve("channel").resolve("channel11.wav")),
+    CHANNEL_12(References.SE_PATH.resolve("channel").resolve("channel12.wav")),
+    CHANNEL_13(References.SE_PATH.resolve("channel").resolve("channel13.wav")),
+    CHANNEL_14(References.SE_PATH.resolve("channel").resolve("channel14.wav")),
 
     HIT_0(References.SE_PATH.resolve("hit").resolve("hit0.wav")),
     HIT_1(References.SE_PATH.resolve("hit").resolve("hit1.wav")),
@@ -42,8 +47,13 @@ public enum SE {
     CAST_HURT_7(References.SE_PATH.resolve("hurt").resolve("cast_hurt7.wav")),
     CAST_HURT_8(References.SE_PATH.resolve("hurt").resolve("cast_hurt8.wav")),
     CAST_HURT_9(References.SE_PATH.resolve("hurt").resolve("cast_hurt9.wav")),
+    RANGE_HURT_0(References.SE_PATH.resolve("hurt").resolve("range_hurt0.wav")),
+    RANGE_HURT_1(References.SE_PATH.resolve("hurt").resolve("range_hurt1.wav")),
+    RANGE_HURT_2(References.SE_PATH.resolve("hurt").resolve("range_hurt2.wav")),
+    RANGE_HURT_3(References.SE_PATH.resolve("hurt").resolve("range_hurt3.wav")),
 
-    PARRY_0(References.SE_PATH.resolve("parry").resolve("parry0.wav"))
+    PARRY_0(References.SE_PATH.resolve("parry").resolve("parry0.wav")),
+    PARRY_1(References.SE_PATH.resolve("parry").resolve("parry1.wav"))
     ;
 
     private Path resource;

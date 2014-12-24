@@ -85,6 +85,8 @@ public class Tile {
 
     }
 
+    public boolean isLiquid() { return propertyExists("liquid"); }
+
     private void setProperty(String key, String value) {
         properties.put(key, value);
     }

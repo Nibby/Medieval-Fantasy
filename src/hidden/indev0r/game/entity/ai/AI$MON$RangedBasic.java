@@ -6,25 +6,17 @@ import hidden.indev0r.game.entity.combat.DamageModel;
 import hidden.indev0r.game.entity.npc.script.Script;
 import hidden.indev0r.game.map.MapDirection;
 import hidden.indev0r.game.map.TileMap;
-
-import java.util.List;
-
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.util.pathfinding.AStarPathFinder;
 import org.newdawn.slick.util.pathfinding.Path;
 import org.w3c.dom.Element;
 
+import java.util.List;
+
 /**
- * Created by MrDeathJockey on 14/12/19.
- *
- * Wonders freely in a given area (unless confined) until
- * a target is found. A target is defined as any other actor
- * not in the same faction as itself.
- *
- * Once target is found, it will use A* algorithm to approach
- * and engage in combat.
+ * Created by MrDeathJockey on 14/12/24.
  */
-public class AI$MON$MeleeBasic extends AI {
+public class AI$MON$RangedBasic extends AI {
 
     private long aiTickTimer = 0;
 
@@ -37,7 +29,7 @@ public class AI$MON$MeleeBasic extends AI {
 
     private AStarPathFinder pathFinder;
 
-    public AI$MON$MeleeBasic(Actor host) {
+    public AI$MON$RangedBasic(Actor host) {
         super(host);
     }
 
@@ -55,12 +47,10 @@ public class AI$MON$MeleeBasic extends AI {
     /*
         Goal of this AI:
 
-            Wander the area aimlessly if it does not have a target
-
-            Upon having a target, find an adjacent square to it using A*,
-            upon entering attack range, begin combat.
-
-            If target dies, drop focus and begin wandering.
+        Wander around aimlessly to search for a target.
+        Upon locking target, walk towards target in a range that it is just able
+        to hit the target (since ranged targets are squishier than melee, maintaining
+        distance is the key).
      */
     @Override
     public void tick(TileMap map) {
@@ -91,6 +81,8 @@ public class AI$MON$MeleeBasic extends AI {
                     movePath = null;
                 }
             }
+
+            //Check target vs. actor distance, try to keep the attack range distance
 
             //Check and cancel current target if it is already dead
             if(target.isDead()) {

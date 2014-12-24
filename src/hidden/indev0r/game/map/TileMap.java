@@ -22,6 +22,8 @@ import javax.swing.JOptionPane;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.util.pathfinding.AStarPathFinder;
+import org.newdawn.slick.util.pathfinding.Path;
 
 /**
  * A TileMap is a map on which actors and other instances are able to move and interact with.
@@ -348,33 +350,53 @@ public class TileMap {
     }
 
     public Vector2f getVacantAdjacentTile(Actor actor, Actor self, boolean allowLiquid) {
-        int sx = -1, sy = -1;
-        int sd = 9999;
+        int sd = 9999, md = 0;
 
-        for(int i = (int) actor.getX() - (self.getWidth() / Tile.TILE_SIZE); i < actor.getX() + (self.getWidth() / Tile.TILE_SIZE) + 1; i+= 1) {
+        int ii = (int) actor.getX() - (self.getWidth() / Tile.TILE_SIZE);
+        int ww = (int) actor.getX() + (self.getWidth() / Tile.TILE_SIZE) + 1;
+        int jj = (int) actor.getY() - (self.getHeight() / Tile.TILE_SIZE);
+        int hh = (int) actor.getY() + (self.getHeight() / Tile.TILE_SIZE) + 1;
+
+        Map<Integer, Vector2f> distanceMap = new HashMap<>();
+
+        for(int i = ii; i < ww; i+= 1) {
             if(i < 0 || i > tileData[0].length - 1) continue;
-            for(int j = (int) actor.getY() - (self.getHeight() / Tile.TILE_SIZE); j < actor.getY() + (self.getHeight() / Tile.TILE_SIZE) + 1; j+= 1) {
+            for(int j = jj; j < hh ; j+= 1) {
                 if(j < 0 || j > tileData[0][0].length - 1) continue;
 
                 int d = getActorDistance(self, actor);
                 if(d < sd) {
-                    boolean isSolid = isBlocked(self, i, j);
-                    if(!isSolid && !allowLiquid) {
-                        for(int l = 0; l < tileData.length; l++) {
-                            Tile tile = Tile.getTile(tileData[l][i][j]);
-                            if(tile != null && tile.propertyExists("liquid")) continue;
-                        }
-                    } else if(!isSolid && allowLiquid) {
-                        sd = d;
-                        sx = i;
-                        sy = j;
-                    }
+                    sd = d;
                 }
+                distanceMap.put(d, new Vector2f(i, j));
+                if(d > md) md = d;
+
             }
         }
 
-        if(sx < 0 || sy < 0) return null;
-        else return new Vector2f(sx, sy);
+        System.out.println();
+
+        TileMap am = actor.getMap();
+        stepSearch:
+        for(int step = sd; step <= md; step++) {
+            Vector2f vf = distanceMap.get(step);
+
+            boolean blocked = am.isBlocked(self, (int) vf.x, (int) vf.y);
+            if(blocked) continue;
+
+            if(!allowLiquid) {
+                for (int l = 0; l < am.getTileData().length; l++) {
+                    Tile tile = am.getTile(l, vf);
+                    if (tile != null) {
+                        if(tile.isLiquid()) continue stepSearch;
+                    }
+                }
+            }
+
+            return vf;
+        }
+
+        return null;
     }
 
     public List<Actor> getActorsNear(Actor center, int range) {
