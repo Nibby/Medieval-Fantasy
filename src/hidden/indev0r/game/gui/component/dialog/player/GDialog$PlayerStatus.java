@@ -2,6 +2,7 @@ package hidden.indev0r.game.gui.component.dialog.player;
 
 import hidden.indev0r.game.BitFont;
 import hidden.indev0r.game.MedievalLauncher;
+import hidden.indev0r.game.entity.Actor;
 import hidden.indev0r.game.entity.ActorJob;
 import hidden.indev0r.game.entity.player.Player;
 import hidden.indev0r.game.entity.animation.ActionType;
@@ -49,6 +50,39 @@ public class GDialog$PlayerStatus extends GComponent$Dialog {
         Image playerImg = player.getActionMap().get(ActionType.ATTACK_RIGHT).getFrame((player.getJob().equals(ActorJob.MAGE) ? 0 : 1));
         playerImg.draw(position.x + 20, position.y + 40);
         //-----
+
+        //HP
+        int playerHP = player.getHealth();
+        int playerHPMax = player.getHealthMax();
+        int playerHPBonus = player.getStat(Actor.Stat.HEALTH_MAX_BONUS);
+        String playerHPText = playerHP + "/" + playerHPMax;
+        String playerHPBonusText = " (+" + playerHPBonus + ")";
+        int playerHPWidth = BitFont.widthOf(playerHPText, 16);
+        BitFont.render(g, "HP:", (int) position.x + 20, (int) position.y + 80, Actor.Stat.HEALTH.getColor(), 16);
+        BitFont.render(g, playerHPText, (int) position.x + 20 + BitFont.widthOf("HP: ", 16), (int) position.y + 80);
+        BitFont.render(g, playerHPBonusText, (int) position.x + getWidth() - 20 - BitFont.widthOf(playerHPBonusText, 16), (int) position.y + 80, Color.green);
+
+
+        //MP
+        int playerMP = player.getMana();
+        int playerMPMax = player.getManaMax();
+        int playerMPBonus = player.getStat(Actor.Stat.MANA_MAX_BONUS);
+        String playerMPText = playerMP + "/" + playerMPMax;
+        String playerMPBonusText = " (+" + playerMPBonus + ")";
+        int playerMPWidth = BitFont.widthOf(playerMPText, 16);
+        BitFont.render(g, "MP:", (int) position.x + 20, (int) position.y + 100, Actor.Stat.MANA.getColor(), 16);
+        BitFont.render(g, playerMPText, (int) position.x + 20 + BitFont.widthOf("MP: ", 16), (int) position.y + 100);
+        BitFont.render(g, playerMPBonusText, (int) position.x + getWidth() - 20 - BitFont.widthOf(playerMPBonusText, 16), (int) position.y + 100, Color.green);
+
+        //EXP
+        int playerEXP = player.getExperience();
+        int playerEXPMax = player.getExperienceMax();
+        String playerEXPText = playerEXP + "";
+        int playerEXPWidth = BitFont.widthOf(playerEXPText, 16);
+        BitFont.render(g, "EXP:", (int) position.x + 20, (int) position.y + 120, Actor.Stat.EXPERIENCE.getColor(), 16);
+        BitFont.render(g, playerEXPText, (int) position.x + 20 + BitFont.widthOf("EXP:", 16) + 3, (int) position.y + 120);
+        BitFont.render(g, "NEXT LEVEL: " + (playerEXPMax - playerEXP), (int) position.x + 20 + BitFont.widthOf("EXP:", 16) + 3,
+                (int) position.y + 136, Color.white, 8);
 
         //Stats section
 //        g.setColor(TRANSPARENCY);

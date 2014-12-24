@@ -256,7 +256,6 @@ public abstract class Actor extends Entity implements Mover {
 
         }
 
-
         AbstractCombatChannelPhase channelPhase = type.getChannelPhase(model, this, combatTarget);
         CombatPhaseManager.get().addCombatPhase(channelPhase);
     }

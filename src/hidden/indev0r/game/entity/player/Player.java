@@ -94,7 +94,7 @@ public class Player extends Actor implements GStatsSupplier {
 		this.job = job;
 
 		setActionSet(job.actionSet);
-
+        setAttackType(job.getDefaultAttackType(), job.getDefaultAttackTypeParam());
 		setStat(Stat.ATTACK_RANGE, job.getAttackRange());
 	}
 
