@@ -1,10 +1,7 @@
 package hidden.indev0r.game.entity.combat.phase.hit;
 
 import hidden.indev0r.game.entity.Actor;
-import hidden.indev0r.game.entity.NPC;
-import hidden.indev0r.game.entity.Player;
 import hidden.indev0r.game.entity.combat.DamageModel;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 

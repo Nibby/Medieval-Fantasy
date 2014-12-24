@@ -114,5 +114,6 @@ public class MedievalLauncher extends StateBasedGame {
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
+
 	}
 }

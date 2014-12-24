@@ -1,12 +1,9 @@
 package hidden.indev0r.game.gui.menu;
 
-import hidden.indev0r.game.entity.Player;
 import hidden.indev0r.game.gui.component.base.GComponent;
 import hidden.indev0r.game.gui.component.base.GComponent$BarDialog;
-import hidden.indev0r.game.gui.component.base.GComponent$Dialog;
 import hidden.indev0r.game.gui.component.base.GComponent$Frame;
 import hidden.indev0r.game.gui.component.interfaces.GComponentListener;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 

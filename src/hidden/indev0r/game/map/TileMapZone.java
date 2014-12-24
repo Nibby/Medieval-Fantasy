@@ -2,7 +2,7 @@ package hidden.indev0r.game.map;
 
 import hidden.indev0r.game.MedievalLauncher;
 import hidden.indev0r.game.entity.Entity;
-import hidden.indev0r.game.entity.Player;
+import hidden.indev0r.game.entity.player.Player;
 import org.newdawn.slick.geom.Rectangle;
 
 import java.util.ArrayList;

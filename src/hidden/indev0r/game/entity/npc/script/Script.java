@@ -5,7 +5,7 @@ import hidden.indev0r.game.data.ScriptDataManager;
 import hidden.indev0r.game.entity.Actor;
 import hidden.indev0r.game.entity.NPC;
 import hidden.indev0r.game.entity.NPCDatabase;
-import hidden.indev0r.game.entity.Player;
+import hidden.indev0r.game.entity.player.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;

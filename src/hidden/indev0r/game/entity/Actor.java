@@ -1,7 +1,5 @@
 package hidden.indev0r.game.entity;
 
-import hidden.indev0r.game.Camera;
-import hidden.indev0r.game.MedievalLauncher;
 import hidden.indev0r.game.entity.ai.AI;
 import hidden.indev0r.game.entity.ai.AIList;
 import hidden.indev0r.game.entity.animation.ActionType;
@@ -15,6 +13,7 @@ import hidden.indev0r.game.entity.combat.phase.death.DeathType;
 import hidden.indev0r.game.entity.combat.phase.hit.AbstractCombatHitPhase;
 import hidden.indev0r.game.entity.combat.phase.hit.CombatHitPhase;
 import hidden.indev0r.game.entity.npc.script.Script;
+import hidden.indev0r.game.entity.player.Player;
 import hidden.indev0r.game.gui.Cursor;
 import hidden.indev0r.game.map.MapDirection;
 import hidden.indev0r.game.map.Tile;

@@ -4,6 +4,7 @@ package hidden.indev0r.game.state;
 import hidden.indev0r.game.Camera;
 import hidden.indev0r.game.entity.*;
 import hidden.indev0r.game.entity.combat.phase.CombatPhaseManager;
+import hidden.indev0r.game.entity.player.Player;
 import hidden.indev0r.game.gui.component.interfaces.GMapSupplier;
 import hidden.indev0r.game.gui.menu.GGameOverlayMenu;
 import hidden.indev0r.game.gui.menu.GMapTransitionOverlay;
@@ -14,7 +15,6 @@ import hidden.indev0r.game.map.TileMapDatabase;
 import hidden.indev0r.game.map.WarpType;
 import hidden.indev0r.game.particle.ParticleManager;
 import hidden.indev0r.game.reference.References;
-import hidden.indev0r.game.sound.SE;
 import hidden.indev0r.game.sound.SoundPlayer;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
@@ -42,14 +42,14 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
 	private GMenuManager     menuMgr;
 	private GGameOverlayMenu menuOverlay;
 
-    private SoundPlayer soundPlayer;
+	private SoundPlayer soundPlayer;
 
-    private long fadeTick = 0;
-    private Color fadeHue = new Color(0f, 0f, 0f, 0f);
-    private float fadeTickAlpha = 0f, fadeTickInterval = 0f;
-    public static final int FADE_IN = 0, FADE_OUT = 1;
-    private int fadeType;
-    private boolean fading = false;
+	private long  fadeTick      = 0;
+	private Color fadeHue       = new Color(0f, 0f, 0f, 0f);
+	private float fadeTickAlpha = 0f, fadeTickInterval = 0f;
+	public static final int FADE_IN = 0, FADE_OUT = 1;
+	private int fadeType;
+	private boolean fading = false;
 
 	@Override
 	public int getID() {
@@ -58,14 +58,15 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-        soundPlayer = new SoundPlayer();
+		soundPlayer = new SoundPlayer();
 
 		camera = new Camera(0, 0);
-		player = new Player(Actor.Faction.GLYSIA, ActorJob.WARRIOR, 11, 13);
+		player = new Player(Actor.Faction.GLYSIA, ActorJob.WARRIOR, 27, 27);
 		player.setLevel(1);
 		camera.setTrackObject(player);
 
-		map = TileMapDatabase.getTileMap("battle_arena");
+		map = TileMapDatabase.getTileMap("dev_quarters");
+//		map = TileMapDatabase.getTileMap("battle_arena");
 		map.addEntity(player);
 
 		menuMgr = new GMenuManager();
@@ -73,28 +74,27 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
 		menuMgr.addMenu((menuOverlay = new GGameOverlayMenu(this, player, this)));
 		menuMgr.setTickTopMenuOnly(false);
 
-        for(int i = 0; i < 100; i++) {
-            int spawnX, spawnY;
-            do {
-                spawnX = (int) (Math.random() * 48);
-                spawnY = (int) (Math.random() * 48);
-            } while(map.isBlocked(null, spawnX, spawnY));
 
-//            if(i == 5) {
-//                Monster mon2 = MonsterDatabase.get("skeleton_1");
-//                mon2.setPosition(spawnX, spawnY);
-//                mon2.setPosition(16, 16);
-//                map.addEntity(mon2);
-//                continue;
-//            }
-            Monster mon = MonsterDatabase.get("skeleton");
-            mon.setPosition(spawnX, spawnY);
-            map.addEntity(mon);
+//		for(int i = 0; i < 100; i++) {
+//			int spawnX, spawnY;
+//			do {
+//				spawnX = (int) (Math.random() * 48);
+//				spawnY = (int) (Math.random() * 48);
+//			} while(map.isBlocked(null, spawnX, spawnY));
+//
+//			if(i == 5) {
+//				Monster mon2 = MonsterDatabase.get("skeleton_1");
+//				mon2.setPosition(spawnX, spawnY);
+//				mon2.setPosition(16, 16);
+//				map.addEntity(mon2);
+//				continue;
+//			}
+//			Monster mon = MonsterDatabase.get("skeleton");
+//			mon.setPosition(spawnX, spawnY);
+//			map.addEntity(mon);
+//		}
 
-        }
 
-		announceName(map.getName());
-        getMenuOverlay().showHint("W,A,S,D to move, left click to attack!", 3500, Color.white, 0);
     }
 
 	@Override

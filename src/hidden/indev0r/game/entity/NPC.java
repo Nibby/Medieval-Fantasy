@@ -3,6 +3,7 @@ package hidden.indev0r.game.entity;
 import hidden.indev0r.game.Camera;
 import hidden.indev0r.game.MedievalLauncher;
 import hidden.indev0r.game.entity.npc.script.Script;
+import hidden.indev0r.game.entity.player.Player;
 import hidden.indev0r.game.gui.Cursor;
 import hidden.indev0r.game.map.MapDirection;
 import org.lwjgl.util.vector.Vector2f;

@@ -11,6 +11,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -31,8 +32,20 @@ public class GComponent$Frame extends GComponent {
 	protected Image TOP_RIGHT_FRAME;
 	protected Image TOP_MIDDLE_FRAME;
 	protected Image TOP_LEFT_FRAME;
+
 	protected int   topHeight;
 	protected int   topRightHeight;
+
+	//Middle row image data
+	protected Image MIDDLE_RIGHT_FRAME;
+	protected Image MIDDLE_FRAME;
+	protected Image MIDDLE_LEFT_FRAME;
+
+	//Bottom row image data
+	protected Image BOTTOM_RIGHT_FRAME;
+	protected Image BOTTOM_MIDDLE_FRAME;
+	protected Image BOTTOM_LEFT_FRAME;
+
 
 	//Components to render on frame;
 	protected ArrayList<GComponent> internalComponents;
@@ -58,6 +71,12 @@ public class GComponent$Frame extends GComponent {
 			this.TOP_RIGHT_FRAME = Textures.UI.FRAME_TOP_RIGHT;
 			this.TOP_MIDDLE_FRAME = Textures.UI.FRAME_TOP_MIDDLE;
 			this.TOP_LEFT_FRAME = Textures.UI.FRAME_TOP_LEFT;
+			this.MIDDLE_RIGHT_FRAME = Textures.UI.FRAME_MIDDLE_RIGHT;
+			this.MIDDLE_FRAME = Textures.UI.FRAME_MIDDLE;
+			this.MIDDLE_LEFT_FRAME = Textures.UI.FRAME_MIDDLE_LEFT;
+			this.BOTTOM_RIGHT_FRAME = Textures.UI.FRAME_BOTTOM_RIGHT;
+			this.BOTTOM_MIDDLE_FRAME = Textures.UI.FRAME_BOTTOM_MIDDLE;
+			this.BOTTOM_LEFT_FRAME = Textures.UI.FRAME_BOTTOM_LEFT;
 			fillFrames();
 		}
 
@@ -68,21 +87,22 @@ public class GComponent$Frame extends GComponent {
 	}
 
 	protected void fillFrames() {
+
 		this.frames = new Image[tileWidth * tileHeight];
-		Arrays.fill(frames, Textures.UI.FRAME_MIDDLE);
+		Arrays.fill(frames, this.MIDDLE_FRAME);
 		for (int x = 0; x < tileWidth; x++) {
 			for (int y = 0; y < tileHeight; y++) {
 				if (y == 0) frames[x + y * tileWidth] = this.TOP_MIDDLE_FRAME;//Textures.UI.FRAME_TOP_MIDDLE;
-				if (y == (tileHeight - 1)) frames[x + y * tileWidth] = Textures.UI.FRAME_BOTTOM_MIDDLE;
-				if (x == 0) frames[x + y * tileWidth] = Textures.UI.FRAME_MIDDLE_LEFT;
-				if (x == (tileWidth - 1)) frames[x + y * tileWidth] = Textures.UI.FRAME_MIDDLE_RIGHT;
+				if (y == (tileHeight - 1)) frames[x + y * tileWidth] = this.BOTTOM_MIDDLE_FRAME;//Textures.UI.FRAME_BOTTOM_MIDDLE;
+				if (x == 0) frames[x + y * tileWidth] = this.MIDDLE_LEFT_FRAME;//Textures.UI.FRAME_MIDDLE_LEFT;
+				if (x == (tileWidth - 1)) frames[x + y * tileWidth] = this.MIDDLE_RIGHT_FRAME;//Textures.UI.FRAME_MIDDLE_RIGHT;
 
 			}//END OF Y LOOP
 		}//END OF X LOOP
 		frames[0] = this.TOP_LEFT_FRAME;//Textures.UI.FRAME_TOP_LEFT;
 		frames[tileWidth - 1] = this.TOP_RIGHT_FRAME;//Textures.UI.FRAME_TOP_RIGHT;
-		frames[tileWidth * (tileHeight - 1)] = Textures.UI.FRAME_BOTTOM_LEFT;
-		frames[frames.length - 1] = Textures.UI.FRAME_BOTTOM_RIGHT;
+		frames[tileWidth * (tileHeight - 1)] = this.BOTTOM_LEFT_FRAME;//Textures.UI.FRAME_BOTTOM_LEFT;
+		frames[frames.length - 1] = this.BOTTOM_RIGHT_FRAME;//Textures.UI.FRAME_BOTTOM_RIGHT;
 	}
 
 	@Override

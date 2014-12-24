@@ -1,7 +1,7 @@
 package hidden.indev0r.game.map;
 
 import hidden.indev0r.game.entity.Entity;
-import hidden.indev0r.game.entity.Player;
+import hidden.indev0r.game.entity.player.Player;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;

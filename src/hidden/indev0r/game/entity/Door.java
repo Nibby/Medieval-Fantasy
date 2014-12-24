@@ -2,6 +2,7 @@ package hidden.indev0r.game.entity;
 
 import hidden.indev0r.game.Camera;
 import hidden.indev0r.game.MedievalLauncher;
+import hidden.indev0r.game.entity.player.Player;
 import hidden.indev0r.game.gui.Cursor;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Animation;
