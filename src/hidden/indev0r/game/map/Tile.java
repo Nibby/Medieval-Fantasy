@@ -35,8 +35,9 @@ public class Tile {
 
 	//Tile animation timers
 	private static final int frameTickDelay = 750; //ms
+    private Image basePlatformTexture;
 
-	/**
+    /**
 	 * This creates a generic tile instance.
 	 *
 	 * @param id         The ID of the tile, must be unique.
@@ -50,9 +51,9 @@ public class Tile {
 		for (int i = 0; i < tileFrames.length; i++) {
 			Point p = tileFrames[i];
 			frames[i] = tileset.getTexture(p.x, p.y);
-
 		}
 		texture = new Animation(frames, frameTickDelay);
+        basePlatformTexture = texture.getImage(0).getSubImage(0, TILE_SIZE / 4 * 3, TILE_SIZE, TILE_SIZE / 4);
 
 		//Decodes the properties string and registers properties into a map
 		String[] propertySegments = properties.split(";");
@@ -120,4 +121,8 @@ public class Tile {
 	public static Tile getTile(int id) {
 		return tiles.get(id);
 	}
+
+    public Image getBasePlatformTexture() {
+        return basePlatformTexture;
+    }
 }

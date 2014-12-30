@@ -7,7 +7,6 @@ public class InventoryPlayer implements IInventory {
 
 	public Item[] mainInventory = new Item[15];
 
-
 	@Override
 	public int GetInventorySize() {
 		return 0;

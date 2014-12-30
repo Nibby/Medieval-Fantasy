@@ -20,18 +20,18 @@ public class TileMapZone {
     private List<Entity> zoneEntities = new ArrayList<>();
 	private TileMap map;
 	private String  zoneID;
-	private int     x, y, w, h;
+	private int     x, y, width, height;
 
-	public TileMapZone(TileMap map, String zoneID, String property, int x, int y, int w, int h) {
+	public TileMapZone(TileMap map, String zoneID, String property, int x, int y, int width, int height) {
 		this.map = map;
 		this.zoneID = zoneID;
 		this.x = x;
 		this.y = y;
-		this.w = w - 1;
-		this.h = h - 1;
+		this.width = width - 1;
+		this.height = height - 1;
 
-        if(this.w < 0) this.w = 0;
-        if(this.h < 0) this.h = 0;
+        if(this.width < 0) this.width = 0;
+        if(this.height < 0) this.height = 0;
 
 		//Assigning properties
 		String[] propertySegments = property.split(";");
@@ -62,7 +62,7 @@ public class TileMapZone {
     }
 
     public boolean inBounds(int cx, int cy, int cw, int ch) {
-        return new Rectangle(cx, cy, cw, ch).intersects(new Rectangle(x, y, w, h));
+        return new Rectangle(cx, cy, cw, ch).intersects(new Rectangle(x, y, width, height));
     }
 
     public boolean isEntityInZone(Entity e) {
@@ -92,11 +92,11 @@ public class TileMapZone {
 		return y;
 	}
 
-	public int getW() {
-		return w;
+	public int getWidth() {
+		return width;
 	}
 
-	public int getH() {
-		return h;
+	public int getHeight() {
+		return height;
 	}
 }

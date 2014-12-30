@@ -177,7 +177,7 @@ public class TileMapDatabase {
 			int ox = Integer.parseInt(eWarp.getAttribute("fromX"));
 			int oy = Integer.parseInt(eWarp.getAttribute("fromY"));
 
-			MapWarpPoint warp = new MapWarpPoint(target, new Point(ox, oy), new Point(tx, ty));
+			WarpPoint warp = new WarpPoint(target, new Point(ox, oy), new Point(tx, ty));
 			map.addWarpPoint(warp);
 		}
 

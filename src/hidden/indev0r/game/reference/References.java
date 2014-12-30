@@ -9,8 +9,8 @@ public final class References {
 	public static final String   GAME_VERSION = "v0.0.1";
 	public static final String[] GAME_AUTHORS = {"James Roberts", "Kevin Yang"};
 
-	public static final int GAME_WIDTH  = 1280;
-	public static final int GAME_HEIGHT = 768;
+	public static final int GAME_WIDTH  = 800;
+	public static final int GAME_HEIGHT = 600;
 	public static final int DRAW_SCALE  = 1;
 
 	public static final Path ROOT_PATH = Paths.get(System.getProperty("user.dir"));
@@ -30,4 +30,5 @@ public final class References {
 	public static final String CIPHER_KEY_2 = "pyFaTGFo";
 
     public static final Path MONSTER_PATH = DATA_PATH.resolve("mon");
+    public static final Path MONSTER_SPAWN_PATH = DATA_PATH.resolve("mon_spawn");
 }

@@ -1,0 +1,21 @@
+<spawnList>
+    <spawnZone id="monSpawn1" limit="4">
+        <spawn mon="bone" offScreenOnly="false" interval="$RANDOM_NUMBER" randomParams="120000-180000" />
+        <spawn mon="bone" offScreenOnly="false" interval="$RANDOM_NUMBER" randomParams="120000-180000" />
+        <spawn mon="bone" offScreenOnly="false" interval="$RANDOM_NUMBER" randomParams="120000-180000" />
+        <spawn mon="bone" offScreenOnly="false" interval="$RANDOM_NUMBER" randomParams="120000-180000" />
+    </spawnZone>
+
+    <spawnZone id="monSpawn2" limit="10">
+        <spawn mon="bone" offScreenOnly="false" interval="$RANDOM_NUMBER" randomParams="120000-180000" />
+        <spawn mon="bone" offScreenOnly="false" interval="$RANDOM_NUMBER" randomParams="120000-180000" />
+        <spawn mon="bone" offScreenOnly="false" interval="$RANDOM_NUMBER" randomParams="120000-180000" />
+
+        <spawn mon="bone_caster" offScreenOnly="false" interval="$RANDOM_NUMBER" randomParams="120000-180000" />
+        <spawn mon="bone_caster" offScreenOnly="false" interval="$RANDOM_NUMBER" randomParams="240000-480000" />
+    </spawnZone>
+
+    <spawnZone id="monSpawnBOSS" limit="1">
+        <spawn mon="bone_lich" offScreenOnly="false" interval="720000" />
+    </spawnZone>
+</spawnList>

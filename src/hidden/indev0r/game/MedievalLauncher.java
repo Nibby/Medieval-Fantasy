@@ -6,6 +6,7 @@ import hidden.indev0r.game.entity.NPCDatabase;
 import hidden.indev0r.game.entity.animation.ActionSetDatabase;
 import hidden.indev0r.game.entity.npc.script.ScriptDatabase;
 import hidden.indev0r.game.gui.Cursor;
+import hidden.indev0r.game.map.MonsterSpawnerDatabase;
 import hidden.indev0r.game.map.TileMapDatabase;
 import hidden.indev0r.game.map.TilesetDatabase;
 import hidden.indev0r.game.reference.References;
@@ -54,6 +55,7 @@ public class MedievalLauncher extends StateBasedGame {
 			TileMapDatabase.getDatabase().loadMaps();
 			ActionSetDatabase.getDatabase().loadActionSets();
             MonsterDatabase.getDatabase().loadMonsters();
+            MonsterSpawnerDatabase.getDatabase().loadMonsterSpawners();
             ScriptDatabase.getDatabase().loadScripts();
             NPCDatabase.getDatabase().loadNPCs();
 		} catch (Exception e) {

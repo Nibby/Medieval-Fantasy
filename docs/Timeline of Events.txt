@@ -1,0 +1,10 @@
+CONTINENT:
+
+0   - Holy prophet Raymond was born
+21  - Raymond to tour the upper continent
+120 - First Raymond Church established
+133 - Church of Purification established
+421 - The first holy crusade against the Church of Purification
+447 - The second holy crusade against the Church of Purification
+488 - The third holy crusade against the Church of Purification
+763 - Kingdom of Elysia established after establishing military rule over 4 smaller kingdoms

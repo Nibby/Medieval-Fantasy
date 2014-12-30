@@ -44,8 +44,7 @@ public class Player extends Actor implements GStatsSupplier {
 	}
 
 	@Override
-	public void tick
-			(GameContainer gc) {
+	public void tick (GameContainer gc) {
 		super.tick(gc);
 
 		if (getStat(Stat.EXPERIENCE) >= getStat(Stat.EXPERIENCE_MAX)) {
@@ -75,19 +74,26 @@ public class Player extends Actor implements GStatsSupplier {
 	protected void calculateStats() {
 		super.calculateStats();
 
-		if (getStat(Stat.SPEED) > job.getSpeedMax()) {
-			setStat(Stat.SPEED, job.getSpeedMax());
-		}
-		if (getStat(Stat.STRENGTH) > job.getSpeedMax()) {
-			setStat(Stat.STRENGTH, job.getSpeedMax());
-		}
-		if (getStat(Stat.DEXTERITY) > job.getSpeedMax()) {
-			setStat(Stat.DEXTERITY, job.getSpeedMax());
-		}
-		if (getStat(Stat.INTELLIGENCE) > job.getSpeedMax()) {
-			setStat(Stat.INTELLIGENCE, job.getSpeedMax());
-		}
+        if(getStat(Stat.SPEED) > job.getSpeedMax())
+            setStat(Stat.SPEED, job.getSpeedMax());
 
+        if(getStat(Stat.STRENGTH) > job.getStrengthMax())
+            setStat(Stat.STRENGTH, job.getStrengthMax());
+
+        if(getStat(Stat.DEXTERITY) > job.getDexterityMax())
+            setStat(Stat.DEXTERITY, job.getDexterityMax());
+
+        if(getStat(Stat.INTELLIGENCE) > job.getIntelligenceMax())
+            setStat(Stat.INTELLIGENCE, job.getIntelligenceMax());
+
+        if(getStat(Stat.ATTACK_DAMAGE) > job.getAttackDamageMax())
+            setStat(Stat.ATTACK_DAMAGE, job.getAttackDamageMax());
+
+        if(getStat(Stat.DEFENSE) > job.getDefenseMax())
+            setStat(Stat.DEFENSE, job.getDefenseMax());
+
+        if(getStat(Stat.MAGIC_DEFENSE) > job.getMagicDefenseMax())
+            setStat(Stat.MAGIC_DEFENSE, job.getMagicDefenseMax());
 	}
 
 	public void setJob(ActorJob job) {
@@ -102,25 +108,32 @@ public class Player extends Actor implements GStatsSupplier {
 		return job;
 	}
 
-	public void setLevel(int level) {
-		if (level < 1) return;
+    public void setLevel(int level) {
+        if(level < 1) return;
 
-		setStat(Stat.LEVEL, level);
-		//Calculate stats
-		setStat(Stat.HEALTH_MAX, job.getMaxHPAtLevel(level));
-		setStat(Stat.HEALTH, getStat(Stat.HEALTH_MAX));
+        if(level - getLevel() == 1)
+            addStat(Stat.LEVEL, 1);
+        else
+            setStat(Stat.LEVEL, level);
 
-		setStat(Stat.MANA_MAX, job.getMaxMPAtLevel(level));
-		setStat(Stat.MANA, getStat(Stat.MANA_MAX));
+        //Calculate stats
+        setStat(Stat.HEALTH_MAX, job.getMaxHPAtLevel(level));
+        setStat(Stat.HEALTH, getStat(Stat.HEALTH_MAX));
 
-		setStat(Stat.EXPERIENCE, 0);
-		setStat(Stat.EXPERIENCE_MAX, ActorJob.getRequiredEXPAtLevel(level));
+        setStat(Stat.MANA_MAX, job.getMaxMPAtLevel(level));
+        setStat(Stat.MANA, getStat(Stat.MANA_MAX));
 
-		setStat(Stat.STRENGTH, job.getStrengthAtLevel(level));
-		setStat(Stat.DEXTERITY, job.getDexterityAtLevel(level));
-		setStat(Stat.INTELLIGENCE, job.getIntelligenceAtLevel(level));
-		setStat(Stat.SPEED, job.getSpeedAtLevel(level));
-	}
+        setStat(Stat.EXPERIENCE, 0);
+        setStat(Stat.EXPERIENCE_MAX, ActorJob.getRequiredEXPAtLevel(level));
+
+        setStat(Stat.STRENGTH, job.getStrengthAtLevel(level));
+        setStat(Stat.DEXTERITY, job.getDexterityAtLevel(level));
+        setStat(Stat.INTELLIGENCE, job.getIntelligenceAtLevel(level));
+        setStat(Stat.SPEED, job.getSpeedAtLevel(level));
+        setStat(Stat.ATTACK_DAMAGE, job.getAttackDamageAtLevel(level));
+        setStat(Stat.DEFENSE, job.getDefenseAtLevel(level));
+        setStat(Stat.MAGIC_DEFENSE, job.getMagicDefenseAtLevel(level));
+    }
 
 	@Override
 	public void move(int x, int y) {

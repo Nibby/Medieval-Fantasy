@@ -22,6 +22,7 @@ public class DataPublisher {
 
     private static final Path NPC_DATA = Paths.get("data_raw").resolve("npc");
     private static final Path MON_DATA = Paths.get("data_raw").resolve("mon");
+    private static final Path MON_SPAWN_DATA = Paths.get("data_raw").resolve("mon_spawn");
     private static final Path SCRIPT_DATA = Paths.get("data_raw").resolve("scripts");
 
     /*
@@ -30,6 +31,7 @@ public class DataPublisher {
     public static void publishContents() throws Exception {
         publish(NPC_DATA, References.NPC_PATH);
         publish(MON_DATA, References.MONSTER_PATH);
+        publish(MON_SPAWN_DATA, References.MONSTER_SPAWN_PATH);
         publish(SCRIPT_DATA, References.SCRIPT_PATH);
     }
 
