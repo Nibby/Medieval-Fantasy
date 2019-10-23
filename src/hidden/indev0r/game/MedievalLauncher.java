@@ -97,7 +97,7 @@ public class MedievalLauncher extends StateBasedGame {
 	}
 
 	public static void main(String[] args) {
-		System.setProperty("org.lwjgl.librarypath", Paths.get("dep").resolve("natives").toAbsolutePath().toString());
+//		System.setProperty("org.lwjgl.librarypath", Paths.get("dep").resolve("natives").toAbsolutePath().toString());
 		System.out.printf("Game \"%s\" %s, Written by: %s\n", References.GAME_TITLE, References.GAME_VERSION, References.GAME_AUTHORS[0] + " and " + References.GAME_AUTHORS[1]);
 
 		try {
