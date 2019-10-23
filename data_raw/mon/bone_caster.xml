@@ -3,10 +3,10 @@
          deathType="crumble" attackType="caster_0" attackTypeParam="bolt_red_4"
          soundSet="mon_0" approachRange="8">
     <stats>
-        <stat type="HEALTH" value="10" />
-        <stat type="HEALTH_MAX" value="10" />
+        <stat type="HEALTH" value="5" />
+        <stat type="HEALTH_MAX" value="5" />
         <stat type="ATTACK_DAMAGE" value="2" />
-        <stat type="DEFENSE" value="1" />
+        <stat type="DEFENSE" value="0" />
         <stat type="MAGIC_DEFENSE" value="1" />
         
         <stat type="ATTACK_RANGE" value="4" />

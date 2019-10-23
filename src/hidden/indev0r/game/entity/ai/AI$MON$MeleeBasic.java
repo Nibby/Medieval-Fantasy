@@ -83,12 +83,34 @@ public class AI$MON$MeleeBasic extends AI {
                 }
             }
 
+            if(target.isDead()) actHost.setCombatTarget(null);
+
             //If the monster does have an actor to attack
             if(movePath != null) {
                 if(movePath.getLength() > 0 && !actHost.isMoving()) {
                     Path.Step step = movePath.getStep(1);
                     actHost.setMoveDestination(step.getX(), step.getY());
                     movePath = null;
+                }
+            } else if(!target.isMoving()) {
+                int mx = (int) actHost.getX();
+                int my = (int) actHost.getY();
+                int tx = (int) target.getX();
+                int ty = (int) target.getY();
+
+                int dx = 0, dy = 0;
+
+                if(mx < tx) dx = 1;
+                else if(mx > tx) dx = -1;
+
+                if(dx != 0 && !map.tileBlocked(mx + dx, my)) {
+                    actHost.setMoveDestination(mx + dx, my);
+                } else {
+                    if(my < ty) dy = 1;
+                    else if(my > ty) dy = -1;
+                    if(dy != 0 && !map.tileBlocked(mx, my + dy)) {
+                        actHost.setMoveDestination(mx, my + dy);
+                    }
                 }
             }
 

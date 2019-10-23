@@ -6,6 +6,8 @@ import hidden.indev0r.game.entity.Actor;
 import hidden.indev0r.game.entity.combat.AttackType;
 import hidden.indev0r.game.entity.combat.DamageModel;
 import hidden.indev0r.game.map.MapDirection;
+import hidden.indev0r.game.map.Tile;
+import hidden.indev0r.game.map.TileMap;
 import hidden.indev0r.game.particle.Particle;
 import hidden.indev0r.game.particle.ParticleManager;
 import org.lwjgl.util.vector.Vector2f;
@@ -48,7 +50,7 @@ public class LinearRangedProjectile extends Projectile {
         double opposite = -Math.abs(op.y + origin.getHeight() / 2 - tp.y - target.getHeight() / 2);
         double hypotenuse = Math.sqrt(Math.pow(adjacent, 2)) + Math.sqrt(Math.pow(opposite, 2));
         //v = d/t -> t = d/v
-        duration = hypotenuse / speed;
+        duration = (hypotenuse / speed) * 1.2f;
 
         double ab = 0d;
 
@@ -68,9 +70,13 @@ public class LinearRangedProjectile extends Projectile {
 
         if(opposite == 0) {
             if(actorOrigin.getCurrentDirection().equals(MapDirection.LEFT))
-                textureAngle = ab - texture.getDefaultAngle();
+                textureAngle = 270 + texture.getDefaultAngle();
             else
                 textureAngle = ab + texture.getDefaultAngle();
+        }
+        else if(adjacent == 0) {
+            if(ty < oy) textureAngle = 0 + texture.getDefaultAngle();
+            else if(ty > oy) textureAngle = 180 + texture.getDefaultAngle();
         }
         else textureAngle = Math.toDegrees(Math.atan(opposite / adjacent))
                 + texture.getDefaultAngle() + ab;
@@ -111,6 +117,16 @@ public class LinearRangedProjectile extends Projectile {
             Rectangle bounds = new Rectangle(position.x, position.y, texture.getWidth(), texture.getHeight());
             if(bounds.intersects(new Rectangle(actorTarget.getPosition().x, actorTarget.getPosition().y, actorTarget.getWidth(), actorTarget.getHeight()))) {
                 hitTarget();
+            }
+
+            //Check for solid tile collisions
+            int tx = (int) position.x / Tile.TILE_SIZE;
+            int ty = (int) position.y / Tile.TILE_SIZE;
+            TileMap map = actorOrigin.getMap();
+            if(map.tileBlocked(tx, ty)) {
+                if(new Rectangle(tx * Tile.TILE_SIZE, ty * Tile.TILE_SIZE, Tile.TILE_SIZE, Tile.TILE_SIZE)
+                        .intersects(new Rectangle(position.x, position.y, width, height)))
+                    decayed = true;
             }
 
             if(System.currentTimeMillis() - trailTick > PROJECTILE_TRAIL_INTERVAL) {

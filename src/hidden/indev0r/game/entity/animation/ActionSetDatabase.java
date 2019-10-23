@@ -23,7 +23,7 @@ import java.util.Map;
 public class ActionSetDatabase {
 
 	//Keeping a record of all registered sets with unique IDs
-	//In case if we want XML genereated NPC's to inherit some of these sets
+	//In case if we want XML generated NPCs to inherit some of these sets
 	private static final Map<Integer, ActionSet> setMap = new HashMap<>();
 
 	/**

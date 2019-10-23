@@ -30,4 +30,5 @@ public final class References {
 	public static final String CIPHER_KEY_2 = "pyFaTGFo";
 
     public static final Path MONSTER_PATH = DATA_PATH.resolve("mon");
+    public static final Path MONSTER_SPAWN_PATH = DATA_PATH.resolve("mon_spawn");
 }

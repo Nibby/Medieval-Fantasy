@@ -44,7 +44,7 @@ public class CombatDeathPhase$Crumble extends AbstractCombatDeathPhase {
 
                         rotationDelta = 0;
                         baseline = (int) position.y + (int) (Math.random() * (Tile.TILE_SIZE / 3))
-                                + (Tile.TILE_SIZE * (actor.getWidth() / Tile.TILE_SIZE)) / 3 * 2;
+                                + (Tile.TILE_SIZE * (actor.getWidth() / Tile.TILE_SIZE - 1)) / 3 * 2;
                         crumbleX = (float) (Math.random() * 0.06f) - 0.03f;
                         crumbleY = (float) (Math.random() * 0.75f) + 0.25f;
                         tickTime = System.currentTimeMillis();

@@ -5,6 +5,7 @@ import hidden.indev0r.game.Camera;
 import hidden.indev0r.game.entity.*;
 import hidden.indev0r.game.entity.combat.phase.CombatPhaseManager;
 import hidden.indev0r.game.entity.player.Player;
+import hidden.indev0r.game.gui.Cursor;
 import hidden.indev0r.game.gui.component.interfaces.GMapSupplier;
 import hidden.indev0r.game.gui.menu.GGameOverlayMenu;
 import hidden.indev0r.game.gui.menu.GMapTransitionOverlay;
@@ -17,11 +18,9 @@ import hidden.indev0r.game.particle.Particle;
 import hidden.indev0r.game.particle.ParticleManager;
 import hidden.indev0r.game.reference.References;
 import hidden.indev0r.game.sound.SoundPlayer;
+import hidden.indev0r.game.texture.Textures;
 import org.lwjgl.util.vector.Vector2f;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
+import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -42,8 +41,9 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
     //2D Elements
     private GMenuManager menuMgr;
     private GGameOverlayMenu menuOverlay;
-
     private SoundPlayer soundPlayer;
+
+    private Image mapLayerImg;
 
     private long fadeTick = 0;
     private Color fadeHue = new Color(0f, 0f, 0f, 0f);
@@ -62,11 +62,11 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
         soundPlayer = new SoundPlayer();
 
         camera = new Camera(0, 0);
-        player = new Player(Actor.Faction.GLYSIA, ActorJob.WARRIOR, 11, 18);
-        player.setLevel(200);
+        player = new Player(Actor.Faction.GLYSIA, ActorJob.WARRIOR , 18, 9);
+        player.setLevel(1);
         camera.setTrackObject(player);
 
-        map = TileMapDatabase.getTileMap("dev_quarters_lobby");
+        map = TileMapDatabase.getTileMap("t_dq_lobby");
         map.addEntity(player);
 
         menuMgr = new GMenuManager();
@@ -74,25 +74,9 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
         menuMgr.addMenu((menuOverlay = new GGameOverlayMenu(this, player, this)));
         menuMgr.setTickTopMenuOnly(false);
 
-        for(int i = 0; i < 6; i++) {
-            int spawnX, spawnY;
-            do {
-                spawnX = (int) (Math.random() * 17) + 17;
-                spawnY = (int) (Math.random() * 13) + 13;
-            } while(TileMapDatabase.getTileMap("infested_stage").isBlocked(null, spawnX, spawnY));
-
-            if(i == 5) {
-                Monster mon2 = MonsterDatabase.get("bone_lich");
-                mon2.setPosition(spawnX, spawnY);
-                mon2.setPosition(33, 18);
-                TileMapDatabase.getTileMap("infested_stage").addEntity(mon2);
-                continue;
-            }
-            Monster mon = MonsterDatabase.get("bone_caster");
-            mon.setPosition(spawnX, spawnY);
-            TileMapDatabase.getTileMap("infested_stage").addEntity(mon);
-
-        }
+        mapLayerImg = Textures.Images.EMPTY;
+        mapLayerImg.setFilter(Image.FILTER_NEAREST);
+        mapLayerImg = mapLayerImg.getScaledCopy(References.GAME_WIDTH, References.GAME_HEIGHT);
 
         announceName(map.getName());
         getMenuOverlay().showHintVerbose("W,A,S,D to move, left click to attack!", 3500, Color.white, 0);
@@ -172,6 +156,8 @@ public class MainGameState extends BasicGameState implements GMapSupplier {
         entity.setPosition(x, y);
         this.map = targetMap;
         targetMap.addEntity(entity);
+
+        Cursor.setInteractInstance(null);
     }
 
     public void fadeIn(Color color, int duration) {

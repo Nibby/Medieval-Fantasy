@@ -23,25 +23,28 @@ import java.util.Map;
 import javax.swing.JOptionPane;
 
 import org.lwjgl.util.vector.Vector2f;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
-import org.newdawn.slick.util.pathfinding.AStarPathFinder;
-import org.newdawn.slick.util.pathfinding.Path;
+import org.newdawn.slick.Image;
 
 /**
  * A TileMap is a map on which actors and other instances are able to move and interact with. It provides a graphic 'stage'.
  * <p/>
  * Created by MrDeathJockey on 14/12/3.
+ *
  */
 public class TileMap {
+
+    private static final Color PLATFORM_BASE = new Color(0f, 0f, 0f, 0.5f);
 
     //Each map houses a series of 'zones' or 'regions' denoted with a special ID
     private Map<String, TileMapZone> mapZones = new HashMap<>();
     //Map properties
     private Map<String, String> properties = new HashMap<>();
     //Map warp points
-    private List<MapWarpPoint> warpPointList = new ArrayList<>();
+    private List<WarpPoint> warpPointList = new ArrayList<>();
 
     //
     private List<Entity> entities = new ArrayList<>();
@@ -51,6 +54,7 @@ public class TileMap {
     private int width, height, layers;
     private int[][][] tileData;
     private PathFindingMap pathMap;
+    private MonsterSpawner monsterSpawner;
 
     /**
      * Each tiled map instance is a playable map
@@ -112,12 +116,19 @@ public class TileMap {
 
                     Tile tile = Tile.getTile(tileData[layer][x][y]);
                     if (tile != null) {
-                        tile.render(g,
-                                x * Tile.TILE_SIZE + camera.getOffsetX(), y * Tile.TILE_SIZE + camera.getOffsetY());
+                        tile.render(g, x * Tile.TILE_SIZE + camera.getOffsetX(), y * Tile.TILE_SIZE + camera.getOffsetY());
+                        if(layer == 0 && (y + 1 > tileData[0][0].length - 1 || isNullTile(x, y + 1))) {
+                            Image img = tile.getBasePlatformTexture();
+                            g.drawImage(img, (x * Tile.TILE_SIZE + camera.getOffsetX()),
+                                    (y + 1) * Tile.TILE_SIZE + camera.getOffsetY());
+                            g.setColor(PLATFORM_BASE);
+                            g.fillRect((x * Tile.TILE_SIZE + camera.getOffsetX()),
+                                    (y + 1) * Tile.TILE_SIZE + camera.getOffsetY(),
+                                    Tile.TILE_SIZE, Tile.TILE_SIZE / 4);
+                        }
                     }
                 }
             }
-
 
             //Second layer are where entities are rendered
             if (layer == 1)
@@ -143,10 +154,20 @@ public class TileMap {
         e.setCurrentMap(this);
 
         stepOn(e, (int) e.getX(), (int) e.getY(), (int) e.getX(), (int) e.getY());
-
         if (e instanceof Player) {
             this.player = (Player) e;
+            spawnMonsters();
         }
+    }
+
+    private void spawnMonsters() {
+        if(monsterSpawner != null) {
+            monsterSpawner.spawnMonsters();
+        }
+    }
+
+    public void setMonsterSpawner(MonsterSpawner monsterSpawner) {
+        this.monsterSpawner = monsterSpawner;
     }
 
     public boolean isBlocked(Entity reference, int x, int y) {
@@ -214,6 +235,9 @@ public class TileMap {
         if (x < 0 || x > tileData[0].length - 1 || y < 0 || y > tileData[0][0].length - 1) return;
         if (oldX < 0 || oldX > tileData[0].length - 1 || oldY < 0 || oldY > tileData[0][0].length - 1) return;
 
+        if(entity instanceof Player)
+            spawnMonsters();
+
         for (int layer = tileData.length - 1; layer > -1; layer--) {
             Tile tileOld = Tile.getTile(tileData[layer][oldX][oldY]);
             if (tileOld != null) {
@@ -228,7 +252,7 @@ public class TileMap {
 
         //Warp
         if (entity instanceof Player) {
-            for (MapWarpPoint warp : warpPointList) {
+            for (WarpPoint warp : warpPointList) {
                 Point origin = warp.getOrigin();
                 if (player == null) return;
                 if (origin.x == player.getX() && origin.getY() == player.getY()) {
@@ -318,18 +342,18 @@ public class TileMap {
         mapZones.put(zone.getZoneID(), zone);
     }
 
-    public void addWarpPoint(MapWarpPoint warp) {
+    public void addWarpPoint(WarpPoint warp) {
         warpPointList.add(warp);
     }
 
-    public List<MapWarpPoint> getWarpPointList() {
+    public List<WarpPoint> getWarpPointList() {
         return warpPointList;
     }
+
 
     public List<Entity> getEntities() {
         return entities;
     }
-
 
     public Tile getTile(int layer, Vector2f position) {
         if (layer < 0 || layer > tileData.length - 1) return null;
@@ -364,7 +388,7 @@ public class TileMap {
         int jj = (int) actor.getY() - (self.getHeight() / Tile.TILE_SIZE);
         int hh = (int) actor.getY() + (self.getHeight() / Tile.TILE_SIZE) + 1;
 
-        Map<Integer, Vector2f> distanceMap = new HashMap<>();
+        Map<Integer, List<Vector2f>> distanceMap = new HashMap<>();
 
         for (int i = ii; i < ww; i += 1) {
             if (i < 0 || i > tileData[0].length - 1) continue;
@@ -375,32 +399,37 @@ public class TileMap {
                 if (d < sd) {
                     sd = d;
                 }
-                distanceMap.put(d, new Vector2f(i, j));
+
+                List<Vector2f> pl = distanceMap.get(d);
+                if(pl == null)
+                    pl = new ArrayList<>();
+                pl.add(new Vector2f(i, j));
+                distanceMap.put(d, pl);
                 if (d > md) md = d;
 
             }
         }
 
-        System.out.println();
-
         TileMap am = actor.getMap();
         stepSearch:
         for (int step = sd; step <= md; step++) {
-            Vector2f vf = distanceMap.get(step);
+            List<Vector2f> pl = distanceMap.get(step);
 
-            boolean blocked = am.isBlocked(self, (int) vf.x, (int) vf.y);
-            if (blocked) continue;
+            for(Vector2f vf : pl) {
+                boolean blocked = am.isBlocked(self, (int) vf.x, (int) vf.y);
+                if (blocked) continue;
 
-            if (!allowLiquid) {
-                for (int l = 0; l < am.getTileData().length; l++) {
-                    Tile tile = am.getTile(l, vf);
-                    if (tile != null) {
-                        if (tile.isLiquid()) continue stepSearch;
+                if (!allowLiquid) {
+                    for (int l = 0; l < am.getTileData().length; l++) {
+                        Tile tile = am.getTile(l, vf);
+                        if (tile != null) {
+                            if (tile.isLiquid()) continue stepSearch;
+                        }
                     }
                 }
-            }
 
-            return vf;
+                return vf;
+            }
         }
 
         return null;
@@ -488,5 +517,16 @@ public class TileMap {
             if (sy > y) sy--;
         }
         return candidate;
+    }
+
+    public List<Entity> getEntitiesInRegion(int x, int y, int width, int height) {
+        List<Entity> result = new ArrayList<>();
+        for(Entity e : entities) {
+            if(e.getX() + e.getWidth() / Tile.TILE_SIZE > x &&
+               e.getY() + e.getHeight() / Tile.TILE_SIZE > y &&
+               e.getX() <= x + width && e.getY() <= y + height) result.add(e);
+        }
+
+        return result;
     }
 }
